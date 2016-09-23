@@ -1,0 +1,20 @@
+version: '2'
+services:
+  db:
+    image: postgres
+  web:
+    build: .
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    volumes:
+      - .:/usr/src/app
+    volumes_from:
+      - bundle
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+  bundle:
+    # You may need to run `docker-compose build web` before this works.
+    image: api_web
+    volumes:
+      - /bundle
