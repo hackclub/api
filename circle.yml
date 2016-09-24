@@ -1,0 +1,33 @@
+machine:
+  pre:
+    # Use CircleCI's beta of Docker 1.10
+    #
+    # See https://discuss.circleci.com/t/circle-ci-and-docker-compose-version-2-yaml-syntax/4708/4
+    - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
+  services:
+    - docker
+
+dependencies:
+  pre:
+    # Install the latest Docker Compose so we can use the v2 docker-compose.yml
+    # syntax
+    #
+    # See https://discuss.circleci.com/t/circle-ci-and-docker-compose-version-2-yaml-syntax/4708/4
+    - sudo pip install docker-compose
+  override:
+    # Print info about the current Docker setup to make debugging easier
+    - docker info
+
+    # Build the images
+    - PWD=$HOME/code docker-compose build
+
+    # Install dependencies into the bundle image
+    - PWD=$HOME/code docker-compose run web bundle install
+
+database:
+  override:
+    - PWD=$HOME/code docker-compose run web rails db:create db:migrate --trace
+
+test:
+  override:
+    - PWD=$HOME/code docker-compose run web bundle exec rspec --color --require spec_helper spec --format progress
