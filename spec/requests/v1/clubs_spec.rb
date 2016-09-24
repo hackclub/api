@@ -7,7 +7,7 @@ RSpec.describe "V1::Clubs", type: :request do
 
       expect(response).to have_http_status(200)
       expect(response.content_type).to eq("application/json")
-      expect(JSON.parse(response.body)).to eq([])
+      expect(json).to eq([])
     end
 
     context "when multiple clubs exist" do
@@ -20,7 +20,7 @@ RSpec.describe "V1::Clubs", type: :request do
 
         expect(response).to have_http_status(200)
         expect(response.content_type).to eq("application/json")
-        expect(JSON.parse(response.body).length).to eq(5)
+        expect(json.length).to eq(5)
       end
     end
   end
@@ -36,13 +36,11 @@ RSpec.describe "V1::Clubs", type: :request do
 
         # Check to make sure every attribute we provided is set
         location_attrs.each do |k, v|
-          expect(JSON.parse(response.body)[k.to_s]).to eq(v)
+          expect(json[k.to_s]).to eq(v)
         end
       end
 
       it "geocodes the address" do
-        json = JSON.parse(response.body)
-
         expect(json["latitude"]).to be_a Float
         expect(json["longitude"]).to be_a Float
       end
@@ -52,7 +50,7 @@ RSpec.describe "V1::Clubs", type: :request do
       post "/v1/clubs", params: location_attrs.except(:name)
 
       expect(response.status).to eq(422)
-      expect(JSON.parse(response.body)["errors"]["name"]).to eq(["can't be blank"])
+      expect(json["errors"]["name"]).to eq(["can't be blank"])
     end
   end
 
@@ -67,16 +65,16 @@ RSpec.describe "V1::Clubs", type: :request do
       # We need to serialize the club to JSON and then parse that JSON to make
       # the attributes match what the API will return since JSON doesn't support
       # floating point numbers to the precision that Rails does.
-      let(:club_attrs) { JSON.parse(club.to_json) }
+      let(:club_attrs) do
+        JSON.parse(club.to_json).except("latitude", "longitude")
+      end
 
       it 'retrieves the club successfully' do
-        club_attrs = JSON.parse(club.to_json).except("latitude", "longitude")
-
         expect(response).to have_http_status(200)
 
         # Make sure all attributes match
         club_attrs.each do |k, v|
-          expect(JSON.parse(response.body)[k]).to eq(v)
+          expect(json[k]).to eq(v)
         end
       end
     end
@@ -86,7 +84,7 @@ RSpec.describe "V1::Clubs", type: :request do
 
       it 'receives a 404' do
         expect(response).to have_http_status(404)
-        expect(JSON.parse(response.body)["error"]).to eq("Club not found")
+        expect(json["error"]).to eq("Club not found")
       end
     end
   end
@@ -102,7 +100,7 @@ RSpec.describe "V1::Clubs", type: :request do
 
       it "successfully updates the club" do
         expect(response).to have_http_status(200)
-        expect(JSON.parse(response.body)["name"]).to eq("Foo bar")
+        expect(json["name"]).to eq("Foo bar")
       end
     end
 
@@ -111,7 +109,7 @@ RSpec.describe "V1::Clubs", type: :request do
 
       it "fails" do
         expect(response).to have_http_status(422)
-        expect(JSON.parse(response.body)["errors"]["name"]).to eq(["can't be blank"])
+        expect(json["errors"]["name"]).to eq(["can't be blank"])
       end
     end
 
@@ -120,7 +118,7 @@ RSpec.describe "V1::Clubs", type: :request do
 
       it 'receives a 404' do
         expect(response).to have_http_status(404)
-        expect(JSON.parse(response.body)["error"]).to eq("Club not found")
+        expect(json["error"]).to eq("Club not found")
       end
     end
   end
@@ -132,14 +130,14 @@ RSpec.describe "V1::Clubs", type: :request do
       expect { delete "/v1/clubs/#{club.id}" }.to change { Club.count }.by(-1)
 
       expect(response).to have_http_status(200)
-      expect(JSON.parse(response.body)["status"]).to eq("success")
+      expect(json["status"]).to eq("success")
     end
 
     it "throws a 404 and fails to delete with invalid id" do
       expect { delete "/v1/clubs/#{club.id + 1}" }.to_not change { Club.count }
 
       expect(response).to have_http_status(404)
-      expect(JSON.parse(response.body)["error"]).to eq("Club not found")
+      expect(json["error"]).to eq("Club not found")
     end
   end
 end
