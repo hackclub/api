@@ -15,6 +15,7 @@ services:
       - db
   bundle:
     # You may need to run `docker-compose build web` before this works.
-    image: api_web
+    image: alpine
+    command: echo "I'm a little data volume, short and stout"
     volumes:
       - /bundle
