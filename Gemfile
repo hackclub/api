@@ -1,5 +1,5 @@
 # You *must* specify versions for each dependency (this is a Hack Club
-# convention, not an actua technical requirement)
+# convention, not an actual technical requirement)
 source 'https://rubygems.org'
 
 gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
