@@ -1,4 +1,4 @@
-# README [![Code Climate](https://codeclimate.com/github/hackclub/code/badges/gpa.svg)](https://codeclimate.com/github/hackclub/code)
+# README [![CircleCI](https://circleci.com/gh/hackclub/code.svg?style=shield)](https://circleci.com/gh/hackclub/code) [![Code Climate](https://codeclimate.com/github/hackclub/code/badges/gpa.svg)](https://codeclimate.com/github/hackclub/code)
 
 This README would normally document whatever steps are necessary to get the
 application up and running.
