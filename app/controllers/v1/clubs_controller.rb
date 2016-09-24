@@ -1,10 +1,13 @@
 class V1::ClubsController < ApplicationController
+  before_action :find_club, only: [ :show, :update, :destroy ]
+
   def index
     render json: Club.all
   end
 
   def create
     club = Club.new(club_params)
+
     if club.save
       render json: club, status: 201
     else
@@ -13,34 +16,28 @@ class V1::ClubsController < ApplicationController
   end
 
   def show
-    club = Club.find_by_id(params[:id])
-
-    if club
-      render json: club
-    else
-      render json: { error: "Club not found" }, status: 404
+    if @club.nil?
+      render json: { error: "Club not found" }, status: 404 and return
     end
+
+    render json: @club
   end
 
   def update
-    club = Club.find_by_id(params[:id])
+    if @club.nil?
+      render json: { error: "Club not found" }, status: 404 and return
+    end
 
-    if club
-      if club.update_attributes(club_params)
-        render json: club, status: 200
-      else
-        render json: { errors: club.errors }, status: 422
-      end
+    if @club.update_attributes(club_params)
+      render json: @club, status: 200
     else
-      render json: { error: "Club not found" }, status: 404
+      render json: { errors: @club.errors }, status: 422
     end
   end
 
   def destroy
-    club = Club.find_by_id(params[:id])
-
-    if club
-      club.destroy
+    if @club
+      @club.destroy
 
       render json: { status: "success" }, status: 200
     else
@@ -52,5 +49,9 @@ class V1::ClubsController < ApplicationController
 
   def club_params
     params.permit(:name, :address, :source, :notes)
+  end
+
+  def find_club
+    @club = Club.find_by_id(params[:id])
   end
 end
