@@ -23,7 +23,7 @@ RSpec.describe Club, type: :model do
     attrs = attributes_for(:club).except(:latitude, :longitude)
     club = Club.create(attrs)
 
-    expect(club.latitude).to be_a Float
-    expect(club.longitude).to be_a Float
+    expect(club.latitude).to be_a BigDecimal
+    expect(club.longitude).to be_a BigDecimal
   end
 end

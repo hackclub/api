@@ -41,8 +41,10 @@ RSpec.describe "V1::Clubs", type: :request do
       end
 
       it "geocodes the address" do
-        expect(json["latitude"]).to be_a Float
-        expect(json["longitude"]).to be_a Float
+        # These are really decimals, but encoded are as strings in JSON to
+        # preserve accuracy.
+        expect(json["latitude"]).to be_a String
+        expect(json["longitude"]).to be_a String
       end
     end
 
