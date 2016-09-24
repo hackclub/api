@@ -38,4 +38,9 @@ RAILS_ENV
 # URL of Postgres instance to connect to. Rails will automatically connect to
 # Docker Compose's instance of Postgres if this isn't set.
 DATABASE_URL
+
+# API key for Google Maps geocoding API.
+#
+# Get a key from https://console.developers.google.com/flows/enableapi?apiid=geocoding_backend&keyType=SERVER_SIDE
+GOOGLE_MAPS_API_KEY
 ```
