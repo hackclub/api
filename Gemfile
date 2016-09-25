@@ -11,17 +11,21 @@ gem 'faker', '~> 1.6'
 gem 'geocoder', '~> 1.4'
 
 group :development, :test do
+  gem 'listen', '~> 3.0.5'
+
+  gem 'spring'
+  gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'spring-commands-rspec', '~> 1.0'
+
   gem 'dotenv-rails', '~> 2.1'
   gem 'byebug', platform: :mri
   gem 'rspec-rails', '~> 3.5'
   gem 'factory_girl_rails', '~> 4.7'
-  gem 'shoulda', '~> 3.5'
-end
 
-group :development do
-  gem 'listen', '~> 3.0.5'
-  gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'shoulda-matchers', '~> 3.1'
+
+  # Use Guard for a great test workflow
+  gem 'guard-rspec', '~> 4.7', require: false
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
