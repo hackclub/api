@@ -19,6 +19,8 @@ RSpec.describe Club, type: :model do
   it { should validate_presence_of :name }
   it { should validate_presence_of :address }
 
+  it { should have_and_belong_to_many :leaders }
+
   it 'should geocode the address' do
     attrs = attributes_for(:club).except(:latitude, :longitude)
     club = Club.create(attrs)
