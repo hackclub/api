@@ -35,7 +35,7 @@ RSpec.describe "V1::Clubs", type: :request do
         expect(response.status).to eq(201)
 
         # Check to make sure every attribute we provided is set
-        location_attrs.each do |k, v|
+        location_attrs.except(:streak_key).each do |k, v|
           expect(json[k.to_s]).to eq(v)
         end
       end

@@ -1,0 +1,2 @@
+class AuthenticationError < StreakError
+end

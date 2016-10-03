@@ -4,6 +4,7 @@ RSpec.describe Leader, type: :model do
   subject { build(:leader) }
 
   it { should have_db_column :name }
+  it { should have_db_column :streak_key }
   it { should have_db_column :gender }
   it { should have_db_column :year }
   it { should have_db_column :email }

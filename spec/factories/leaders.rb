@@ -1,6 +1,13 @@
 FactoryGirl.define do
   factory :leader do
     name { Faker::Name.name }
+
+    # Random 91 character alphanumeric string
+    streak_key {
+      range = [*'0'..'9',*'A'..'Z',*'a'..'z']
+      Array.new(91){ range.sample }.join
+    }
+
     gender { [ "Male", "Female", "Other" ].sample }
     year { [ "2016", "2017", "Graduated", "Unknown" ].sample }
     email { Faker::Internet.email }

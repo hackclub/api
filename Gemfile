@@ -9,6 +9,7 @@ gem 'puma', '~> 3.0'
 gem 'rack-cors', require: 'rack/cors'
 gem 'faker', '~> 1.6'
 gem 'geocoder', '~> 1.4'
+gem 'rest-client', '~> 2.0'
 
 group :development, :test do
   gem 'listen', '~> 3.0.5'
@@ -21,6 +22,10 @@ group :development, :test do
   gem 'byebug', platform: :mri
   gem 'rspec-rails', '~> 3.5'
   gem 'factory_girl_rails', '~> 4.7'
+  gem 'webmock', '~> 2.1'
+  gem 'vcr', '~> 3.0'
+  gem 'database_cleaner', '~> 1.5', '>= 1.5.3'
+  gem 'climate_control', '~> 0.0.3'
 
   gem 'shoulda-matchers', '~> 3.1'
 
