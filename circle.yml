@@ -19,15 +19,15 @@ dependencies:
     - docker info
 
     # Build the images
-    - PWD=$HOME/code docker-compose build
+    - PWD=$HOME/api docker-compose build
 
     # Install dependencies into the bundle image
-    - PWD=$HOME/code docker-compose run web bundle install
+    - PWD=$HOME/api docker-compose run web bundle install
 
 database:
   override:
-    - PWD=$HOME/code docker-compose run web rails db:create db:migrate --trace
+    - PWD=$HOME/api docker-compose run web rails db:create db:migrate --trace
 
 test:
   override:
-    - PWD=$HOME/code docker-compose run -e RAILS_ENV=test -e CODECLIMATE_REPO_TOKEN=$CODECLIMATE_REPO_TOKEN web bundle exec rspec -r rspec_junit_formatter --format RspecJunitFormatter -o $CIRCLE_TEST_REPORTS/rspec/junit.xml
+    - PWD=$HOME/api docker-compose run -e RAILS_ENV=test -e CODECLIMATE_REPO_TOKEN=$CODECLIMATE_REPO_TOKEN web bundle exec rspec -r rspec_junit_formatter --format RspecJunitFormatter -o $CIRCLE_TEST_REPORTS/rspec/junit.xml
