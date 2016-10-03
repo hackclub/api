@@ -4,8 +4,7 @@ class UpdateFromStreakJob < ApplicationJob
   CLUB_PIPELINE = Rails.application.secrets.streak_club_pipeline_key
   LEADER_PIPELINE = Rails.application.secrets.streak_leader_pipeline_key
 
-  def perform(*args)
-    club_pipeline = StreakClient::Pipeline.find(CLUB_PIPELINE)
+  def perform(*)
     leader_pipeline = StreakClient::Pipeline.find(LEADER_PIPELINE)
 
     club_boxes = StreakClient::Box.all_in_pipeline(CLUB_PIPELINE)
@@ -100,7 +99,7 @@ class UpdateFromStreakJob < ApplicationJob
     field_spec = pipeline[:fields].find { |f| f[:key] == field_key }
     dropdown_items = field_spec[:dropdown_settings][:items]
 
-    item = dropdown_items.find { |item| item[:key] == dropdown_value_key }
+    item = dropdown_items.find { |i| i[:key] == dropdown_value_key }
 
     item[:name]
   end
