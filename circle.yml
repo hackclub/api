@@ -30,4 +30,4 @@ database:
 
 test:
   override:
-    - PWD=$HOME/api docker-compose run -e RAILS_ENV=test -e CODECLIMATE_REPO_TOKEN=$CODECLIMATE_REPO_TOKEN web bundle exec rspec -r rspec_junit_formatter --format RspecJunitFormatter -o $CIRCLE_TEST_REPORTS/rspec/junit.xml
+    - PWD=$HOME/api docker-compose run -e RAILS_ENV=test -e CODECLIMATE_REPO_TOKEN=$CODECLIMATE_REPO_TOKEN -v $CIRCLE_TEST_REPORTS:$CIRCLE_TEST_REPORTS web bundle exec rspec -r rspec_junit_formatter --format RspecJunitFormatter -o $CIRCLE_TEST_REPORTS/rspec/junit.xml
