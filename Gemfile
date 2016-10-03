@@ -10,6 +10,7 @@ gem 'rack-cors', require: 'rack/cors'
 gem 'faker', '~> 1.6'
 gem 'geocoder', '~> 1.4'
 gem 'rest-client', '~> 2.0'
+gem 'delayed_job_active_record', '~> 4.1', '>= 4.1.1'
 
 group :development, :test do
   gem 'listen', '~> 3.0.5'

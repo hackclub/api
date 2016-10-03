@@ -30,6 +30,9 @@ module Api
     # Automatically load files from the lib directory
     config.autoload_paths << Rails.root.join('lib')
 
+    # Used DelayedJob as our ActiveJob backend
+    config.active_job.queue_adapter = :delayed_job
+
     # Properly configure generators to use RSpec and factory_girl
     config.generators do |g|
       g.test_framework :rspec, fixture: true
