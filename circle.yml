@@ -36,4 +36,4 @@ test:
     - PWD=$HOME/api perl -p -e "s/volumes:/volumnes:\n      - $(echo $CIRCLE_TEST_REPORTS | sed 's/\//\\\//g'):\/tmp\/test_reports/" docker-compose.yml
 
     # Run the tests!
-    - PWD=$HOME/api docker-compose run -e RAILS_ENV=test -e CODECLIMATE_REPO_TOKEN=$CODECLIMATE_REPO_TOKEN -v $CIRCLE_TEST_REPORTS:$CIRCLE_TEST_REPORTS web bundle exec rspec -r rspec_junit_formatter --format RspecJunitFormatter -o $CIRCLE_TEST_REPORTS/rspec/junit.xml
+    - PWD=$HOME/api docker-compose run -e RAILS_ENV=test -e CODECLIMATE_REPO_TOKEN=$CODECLIMATE_REPO_TOKEN -v $CIRCLE_TEST_REPORTS:$CIRCLE_TEST_REPORTS web bundle exec rspec -r rspec_junit_formatter --format RspecJunitFormatter -o /tmp/test_reports/rspec/junit.xml
