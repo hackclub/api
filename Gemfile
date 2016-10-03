@@ -30,6 +30,9 @@ group :development, :test do
 
   # Use Guard for a great test workflow
   gem 'guard-rspec', '~> 4.7', require: false
+
+  # For creating code coverage reports with Code Climate
+  gem 'codeclimate-test-reporter', '~> 0.6.0'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
