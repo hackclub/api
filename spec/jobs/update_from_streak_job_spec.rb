@@ -1,13 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe UpdateFromStreakJob, type: :job do
-  around do |example|
-    ClimateControl.modify STREAK_CLUB_PIPELINE_KEY: "clubs",
-                          STREAK_LEADER_PIPELINE_KEY: "leaders" do
-      example.run
-    end
-  end
-
   context "with no clubs or clubs leaders saved locally" do
     let(:clubs) { 5.times.map { build(:club) } }
     let(:leaders) do

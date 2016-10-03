@@ -65,7 +65,6 @@ RSpec.configure do |config|
   config.filter_run focus: true
   config.run_all_when_everything_filtered = true
 
-  # Configure database_cleaner
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)
@@ -73,7 +72,10 @@ RSpec.configure do |config|
 
   config.around(:each) do |example|
     DatabaseCleaner.cleaning do
-      example.run
+      # TEST_ENV is configured in support/env.rb
+      ClimateControl.modify TEST_ENV do
+        example.run
+      end
     end
   end
 end
