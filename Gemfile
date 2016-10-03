@@ -25,7 +25,6 @@ group :development, :test do
   gem 'webmock', '~> 2.1'
   gem 'vcr', '~> 3.0'
   gem 'database_cleaner', '~> 1.5', '>= 1.5.3'
-  gem 'climate_control', '~> 0.0.3'
 
   gem 'shoulda-matchers', '~> 3.1'
 

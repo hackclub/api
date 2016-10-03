@@ -42,8 +42,6 @@ GEM
     arel (7.1.2)
     builder (3.2.2)
     byebug (9.0.5)
-    climate_control (0.0.3)
-      activesupport (>= 3.0)
     coderay (1.1.1)
     concurrent-ruby (1.0.2)
     crack (0.4.3)
@@ -212,7 +210,6 @@ PLATFORMS
 
 DEPENDENCIES
   byebug
-  climate_control (~> 0.0.3)
   database_cleaner (~> 1.5, >= 1.5.3)
   dotenv-rails (~> 2.1)
   factory_girl_rails (~> 4.7)

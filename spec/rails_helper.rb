@@ -72,10 +72,7 @@ RSpec.configure do |config|
 
   config.around(:each) do |example|
     DatabaseCleaner.cleaning do
-      # TEST_ENV is configured in support/env.rb
-      ClimateControl.modify TEST_ENV do
-        example.run
-      end
+      example.run
     end
   end
 end
