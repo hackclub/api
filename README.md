@@ -1,4 +1,4 @@
-# Hack Club's Code [![CircleCI](https://circleci.com/gh/hackclub/code.svg?style=shield)](https://circleci.com/gh/hackclub/code) [![Code Climate](https://codeclimate.com/github/hackclub/code/badges/gpa.svg)](https://codeclimate.com/github/hackclub/code)
+# Hack Club's Code [![CircleCI](https://circleci.com/gh/hackclub/api.svg?style=shield)](https://circleci.com/gh/hackclub/api) [![Code Climate](https://codeclimate.com/github/hackclub/api/badges/gpa.svg)](https://codeclimate.com/github/hackclub/api)
 
 **Work in progress**
 
