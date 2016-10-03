@@ -33,6 +33,10 @@ group :development, :test do
 
   # For creating code coverage reports with Code Climate
   gem 'codeclimate-test-reporter', '~> 0.6.0'
+
+  # Allow formatting rspec test results in junit's format, giving CircleCI
+  # better insight into tests
+  gem 'rspec_junit_formatter', '~> 0.2.3'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
