@@ -50,4 +50,7 @@ STREAK_API_KEY
 # Keys for club and leader pipelines in Streak
 STREAK_CLUB_PIPELINE_KEY
 STREAK_LEADER_PIPELINE_KEY
+
+# DSN for Sentry (https://sentry.io) (only needed for production)
+SENTRY_DSN
 ```
