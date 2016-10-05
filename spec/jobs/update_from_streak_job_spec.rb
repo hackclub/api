@@ -85,7 +85,7 @@ RSpec.describe UpdateFromStreakJob, type: :job do
       club_boxes_resp.last[:fields][field_maps[:address]] = "NEW ADDRESS"
       club_boxes_resp.last[:fields][field_maps[:latitude]] = 13.37
       club_boxes_resp.last[:fields][field_maps[:longitude]] = -13.37
-      club_boxes_resp.last[:fields][field_maps[:source]] =
+      club_boxes_resp.last[:fields][field_maps[:source][:key]] =
         field_maps[:source][:options]["Press"]
       club_boxes_resp.last[:notes] = "NEW NOTES"
 
