@@ -11,7 +11,7 @@ FactoryGirl.define do
     address HCFaker::Address.full_address
     latitude Faker::Address.latitude
     longitude Faker::Address.longitude
-    source ["Word of mouth", "Searching online", "Press"].sample
+    source ["Word of Mouth", "Searching online", "Press"].sample
     notes Faker::Lorem.sentence
 
     factory :club_with_leaders do
