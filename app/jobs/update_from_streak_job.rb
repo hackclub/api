@@ -61,14 +61,14 @@ class UpdateFromStreakJob < ApplicationJob
           field_maps[:year][:key],
           box[:fields][field_maps[:year][:key].to_sym]
         ),
-        email: box[:fields][field_maps[:email]],
-        phone_number: box[:fields][field_maps[:phone_number]],
-        slack_username: box[:fields][field_maps[:slack_username]],
-        github_username: box[:fields][field_maps[:github_username]],
-        twitter_username: box[:fields][field_maps[:twitter_username]],
-        address: box[:fields][field_maps[:address]],
-        latitude: box[:fields][field_maps[:latitude]],
-        longitude: box[:fields][field_maps[:longitude]],
+        email: box[:fields][field_maps[:email].to_sym],
+        phone_number: box[:fields][field_maps[:phone_number].to_sym],
+        slack_username: box[:fields][field_maps[:slack_username].to_sym],
+        github_username: box[:fields][field_maps[:github_username].to_sym],
+        twitter_username: box[:fields][field_maps[:twitter_username].to_sym],
+        address: box[:fields][field_maps[:address].to_sym],
+        latitude: box[:fields][field_maps[:latitude].to_sym],
+        longitude: box[:fields][field_maps[:longitude].to_sym],
         notes: box[:notes]
       )
 

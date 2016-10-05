@@ -101,15 +101,13 @@ RSpec.describe UpdateFromStreakJob, type: :job do
     end
 
     it "doesn't update club latitudes" do
-      expect {
-        UpdateFromStreakJob.perform_now
-      }.to_not change{clubs.last.reload.latitude}
+      UpdateFromStreakJob.perform_now
+      expect(clubs.last.reload.latitude).to_not eq(13.37)
     end
 
     it "doesn't update club longitudes" do
-      expect {
-        UpdateFromStreakJob.perform_now
-      }.to_not change{clubs.last.reload.longitude}
+      UpdateFromStreakJob.perform_now
+      expect(clubs.last.reload.longitude).to_not eq(-13.37)
     end
 
     it "update club notes" do
@@ -123,11 +121,21 @@ RSpec.describe UpdateFromStreakJob, type: :job do
     before do
       field_maps = Leader::STREAK_FIELD_MAPPINGS
 
-      leaders.last.update_attributes!(gender: "Male")
+      leaders.last.update_attributes!(gender: "Male", year: "Unknown")
 
       leader_boxes_resp.last[:name] = "NEW NAME"
+      leader_boxes_resp.last[:fields][field_maps[:email]] = "new@email.com"
       leader_boxes_resp.last[:fields][field_maps[:gender][:key]] =
         field_maps[:gender][:options]["Female"]
+      leader_boxes_resp.last[:fields][field_maps[:year][:key]] =
+        field_maps[:year][:options]["2016"]
+      leader_boxes_resp.last[:fields][field_maps[:phone_number]] = "424-242-4242"
+      leader_boxes_resp.last[:fields][field_maps[:slack_username]] = "new_slack_username"
+      leader_boxes_resp.last[:fields][field_maps[:github_username]] = "new_github_username"
+      leader_boxes_resp.last[:fields][field_maps[:twitter_username]] = "new_twitter_username"
+      leader_boxes_resp.last[:fields][field_maps[:address]] = "NEW ADDRESS"
+      leader_boxes_resp.last[:fields][field_maps[:latitude]] = 13.37
+      leader_boxes_resp.last[:fields][field_maps[:longitude]] = -13.37
       leader_boxes_resp.last[:notes] = "NEW NOTES"
       stub_streak_reqs!
     end
@@ -138,10 +146,62 @@ RSpec.describe UpdateFromStreakJob, type: :job do
       }.to change{leaders.last.reload.name}.to("NEW NAME")
     end
 
+    it "updates leader email" do
+      expect {
+        UpdateFromStreakJob.perform_now
+      }.to change{leaders.last.reload.email}.to("new@email.com")
+    end
+
     it "updates leader gender" do
       expect {
         UpdateFromStreakJob.perform_now
       }.to change{leaders.last.reload.gender}.to("Female")
+    end
+
+    it "updates leader year" do
+      expect {
+        UpdateFromStreakJob.perform_now
+      }.to change{leaders.last.reload.year}.to("2016")
+    end
+
+    it "updates leader phone number" do
+      expect {
+        UpdateFromStreakJob.perform_now
+      }.to change{leaders.last.reload.phone_number}.to("424-242-4242")
+    end
+
+    it "updates Slack username" do
+      expect {
+        UpdateFromStreakJob.perform_now
+      }.to change{leaders.last.reload.slack_username}.to("new_slack_username")
+    end
+
+    it "updates GitHub username" do
+      expect {
+        UpdateFromStreakJob.perform_now
+      }.to change{leaders.last.reload.github_username}.to("new_github_username")
+    end
+
+    it "updates Twitter username" do
+      expect {
+        UpdateFromStreakJob.perform_now
+      }.to change{leaders.last.reload.twitter_username}.to("new_twitter_username")
+    end
+
+    it "updates address" do
+      expect {
+        UpdateFromStreakJob.perform_now
+      }.to change{leaders.last.reload.address}.to("NEW ADDRESS")
+    end
+
+    it "doesn't update latitude" do
+      UpdateFromStreakJob.perform_now
+      expect(leaders.last.reload.latitude).to_not eq(13.37)
+    end
+
+    it "doesn't update longitude" do
+      UpdateFromStreakJob.perform_now
+      expect(leaders.last.reload.longitude).to_not eq(-13.37)
     end
 
     it "updates leader notes" do
