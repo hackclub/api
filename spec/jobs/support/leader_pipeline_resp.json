@@ -1,0 +1,140 @@
+{
+  "name": "Club Leaders",
+  "fields": [
+    {
+      "name": "Gender",
+      "key": "1001",
+      "type": "DROPDOWN",
+      "lastUpdatedTimestamp": 1470817716205,
+      "dropdownSettings": {
+        "items": [
+          {
+            "key": "9001",
+            "name": "Male"
+          },
+          {
+            "key": "9002",
+            "name": "Female"
+          },
+          {
+            "key": "9003",
+            "name": "Other"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Year",
+      "key": "1002",
+      "type": "DROPDOWN",
+      "lastUpdatedTimestamp": 1473210161699,
+      "dropdownSettings": {
+        "items": [
+          {
+            "key": "9009",
+            "name": "2022"
+          },
+          {
+            "key": "9006",
+            "name": "2021"
+          },
+          {
+            "key": "9001",
+            "name": "2020"
+          },
+          {
+            "key": "9002",
+            "name": "2019"
+          },
+          {
+            "key": "9003",
+            "name": "2018"
+          },
+          {
+            "key": "9004",
+            "name": "2017"
+          },
+          {
+            "key": "9010",
+            "name": "2016"
+          },
+          {
+            "key": "9005",
+            "name": "Graduated"
+          },
+          {
+            "key": "9008",
+            "name": "Teacher"
+          },
+          {
+            "key": "9007",
+            "name": "Unknown"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Email",
+      "key": "1003",
+      "type": "TEXT_INPUT",
+      "lastUpdatedTimestamp": 1470817806500
+    },
+    {
+      "name": "Slack",
+      "key": "1006",
+      "type": "TEXT_INPUT",
+      "lastUpdatedTimestamp": 1470819082058
+    },
+    {
+      "name": "Twitter",
+      "key": "1008",
+      "type": "TEXT_INPUT",
+      "lastUpdatedTimestamp": 1470819096472
+    },
+    {
+      "name": "GitHub",
+      "key": "1009",
+      "type": "TEXT_INPUT",
+      "lastUpdatedTimestamp": 1470819090390
+    },
+    {
+      "name": "Phone",
+      "key": "1010",
+      "type": "TEXT_INPUT",
+      "lastUpdatedTimestamp": 1470819103548
+    },
+    {
+      "name": "Address",
+      "key": "1011",
+      "type": "TEXT_INPUT",
+      "lastUpdatedTimestamp": 1470817900028
+    },
+    {
+      "name": "Do Howdy check-in?",
+      "key": "1016",
+      "type": "DROPDOWN",
+      "lastUpdatedTimestamp": 1472680933687,
+      "dropdownSettings": {
+        "items": [
+          {
+            "key": "9001",
+            "name": "TRUE"
+          }
+        ]
+      }
+    },
+    {
+      "name": "!Latitude",
+      "key": "1018",
+      "type": "TEXT_INPUT",
+      "lastUpdatedTimestamp": 1474047977511
+    },
+    {
+      "name": "!Longitude",
+      "key": "1019",
+      "type": "TEXT_INPUT",
+      "lastUpdatedTimestamp": 1474047987572
+    }
+  ],
+  "key": "agxzfm1haWxmb29nYWVyNAsSDE9yZ2FuaXphdGlvbiINemFjaGxhdHRhLmNvbQwLEghXb3JrZmxvdxiAgICAqoeSCgw"
+}
