@@ -78,6 +78,9 @@ RSpec.describe UpdateFromStreakJob, type: :job do
   context "with clubs that need to be updated" do
     before do
       club_boxes_resp.last[:name] = "NEW NAME"
+      club_boxes_resp.last[:fields][:"1006"] = "NEW ADDRESS"
+      club_boxes_resp.last[:fields][:"1007"] = 13.37
+      club_boxes_resp.last[:fields][:"1008"] = -13.37
       stub_streak_reqs!
     end
 
@@ -85,6 +88,24 @@ RSpec.describe UpdateFromStreakJob, type: :job do
       expect {
         UpdateFromStreakJob.perform_now
       }.to change{clubs.last.reload.name}.to("NEW NAME")
+    end
+
+    it "updates club addresses" do
+      expect {
+        UpdateFromStreakJob.perform_now
+      }.to change{clubs.last.reload.address}.to("NEW ADDRESS")
+    end
+
+    it "doesn't update club latitudes" do
+      expect {
+        UpdateFromStreakJob.perform_now
+      }.to_not change{clubs.last.reload.latitude}
+    end
+
+    it "doesn't update club longitudes" do
+      expect {
+        UpdateFromStreakJob.perform_now
+      }.to_not change{clubs.last.reload.longitude}
     end
   end
 
