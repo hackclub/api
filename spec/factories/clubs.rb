@@ -1,13 +1,7 @@
 FactoryGirl.define do
   factory :club do
     name { HCFaker::HighSchool.name }
-
-    # Random 91 character alphanumeric string
-    streak_key do
-      range = [*'0'..'9',*'A'..'Z',*'a'..'z']
-      Array.new(91){ range.sample }.join
-    end
-
+    streak_key { HCFaker::Random.alphanumeric_string(len: 91) }
     address { HCFaker::Address.full_address }
     latitude { Faker::Address.latitude }
     longitude { Faker::Address.longitude }
