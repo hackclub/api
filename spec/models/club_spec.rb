@@ -33,6 +33,14 @@ RSpec.describe Club, type: :model do
       expect(club.longitude).to be_a BigDecimal
     end
 
+    it "creates a new box on Streak" do
+      client = class_double(StreakClient::Box)
+
+      expect(client).to receive(:create_in_pipeline)
+
+      StreakClient::Box.create_in_pipeline("asdf", "adsf")
+    end
+
     it 'sets streak_key' do
       expect(club.streak_key).to be_a String
     end

@@ -103,6 +103,8 @@ class UpdateFromStreakJob < ApplicationJob
   private
 
   def dropdown_value(pipeline, field_key, dropdown_value_key)
+    return nil if dropdown_value_key.nil?
+
     field_spec = pipeline[:fields].find { |f| f[:key] == field_key }
     dropdown_items = field_spec[:dropdown_settings][:items]
 

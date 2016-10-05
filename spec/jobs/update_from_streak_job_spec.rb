@@ -125,6 +125,22 @@ RSpec.describe UpdateFromStreakJob, type: :job do
         UpdateFromStreakJob.perform_now
       }.to change{clubs.last.reload.notes}.to("NEW NOTES")
     end
+
+    context "that have empty dropdown fields" do
+      before do
+        field_maps = Club::STREAK_FIELD_MAPPINGS
+
+        club_boxes_resp.last[:fields][field_maps[:source][:key]] = nil
+
+        stub_streak_reqs!
+      end
+
+      it "sets source to nil" do
+        expect {
+          UpdateFromStreakJob.perform_now
+        }.to change{clubs.last.reload.source}.to(nil)
+      end
+    end
   end
 
   context "with leaders that need to be updated" do
@@ -147,6 +163,7 @@ RSpec.describe UpdateFromStreakJob, type: :job do
       leader_boxes_resp.last[:fields][field_maps[:latitude]] = 13.37
       leader_boxes_resp.last[:fields][field_maps[:longitude]] = -13.37
       leader_boxes_resp.last[:notes] = "NEW NOTES"
+
       stub_streak_reqs!
     end
 
@@ -218,6 +235,29 @@ RSpec.describe UpdateFromStreakJob, type: :job do
       expect {
         UpdateFromStreakJob.perform_now
       }.to change{leaders.last.reload.notes}.to("NEW NOTES")
+    end
+
+    context "that have empty dropdown fields" do
+      before do
+        field_maps = Leader::STREAK_FIELD_MAPPINGS
+
+        leader_boxes_resp.last[:fields][field_maps[:gender][:key]] = nil
+        leader_boxes_resp.last[:fields][field_maps[:year][:key]] = nil
+
+        stub_streak_reqs!
+      end
+
+      it "sets gender to nil" do
+        expect {
+          UpdateFromStreakJob.perform_now
+        }.to change{leaders.last.reload.gender}.to(nil)
+      end
+
+      it "sets year to nil" do
+        expect {
+          UpdateFromStreakJob.perform_now
+        }.to change{leaders.last.reload.year}.to(nil)
+      end
     end
   end
 
