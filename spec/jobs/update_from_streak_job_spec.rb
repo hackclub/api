@@ -23,7 +23,7 @@ RSpec.describe UpdateFromStreakJob, type: :job do
     )
   end
 
-  before(:each) do
+  def stub_streak_reqs!
     clubs_key = Rails.application.secrets.streak_club_pipeline_key
     leaders_key = Rails.application.secrets.streak_leader_pipeline_key
 
@@ -37,6 +37,8 @@ RSpec.describe UpdateFromStreakJob, type: :job do
     stub_request(:get, "https://www.streak.com/api/v1/pipelines/#{leaders_key}/boxes")
       .to_return(status: 200, body: leader_boxes_resp.to_json)
   end
+
+  before(:each) { stub_streak_reqs! }
 
   context "with no clubs or clubs leaders saved locally" do
     let(:clubs) { 5.times.map { build(:club) } }
@@ -74,10 +76,9 @@ RSpec.describe UpdateFromStreakJob, type: :job do
   end
 
   context "with clubs that need to be updated" do
-    let(:club_boxes_resp) do
-      club_boxes_resp = clubs.map { |c| club_to_box(c) }
+    before do
       club_boxes_resp.last[:name] = "NEW NAME"
-      club_boxes_resp
+      stub_streak_reqs!
     end
 
     it "updates club names" do
@@ -88,10 +89,9 @@ RSpec.describe UpdateFromStreakJob, type: :job do
   end
 
   context "with leaders that need to be updated" do
-    let(:leader_boxes_resp) do
-      leader_boxes_resp = leaders.map { |l| leader_to_box(l) }
+    before do
       leader_boxes_resp.last[:name] = "NEW NAME"
-      leader_boxes_resp
+      stub_streak_reqs!
     end
 
     it "updates leader names" do
@@ -124,26 +124,22 @@ RSpec.describe UpdateFromStreakJob, type: :job do
   end
 
   context "with club <> leader relationships that need to be deleted" do
-    let(:club) { create(:club_with_leaders, leader_count: 3) }
+    let(:clubs) { [ create(:club_with_leaders, leader_count: 3) ] }
 
-    let(:club_boxes_resp) do
-      box = club_to_box(club)
-      box[:linked_box_keys].pop # Remove last leader from relationship
+    before do
+      # Remove last leader from club
+      club_boxes_resp.last[:linked_box_keys].pop
 
-      [ box ]
-    end
+      # And remove the club from the last leader
+      leader_boxes_resp.last[:linked_box_keys].pop
 
-    let(:leader_boxes_resp) do
-      boxes = club.leaders.map { |l| leader_to_box(l) }
-      boxes.last[:linked_box_keys].pop # Remove club from last leader
-
-      boxes
+      stub_streak_reqs!
     end
 
     it "deletes the last club <> leader relationship" do
       expect {
         UpdateFromStreakJob.perform_now
-      }.to change{club.leaders.count}.to(2)
+      }.to change{clubs.last.leaders.count}.to(2)
     end
   end
 
