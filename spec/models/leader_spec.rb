@@ -20,14 +20,23 @@ RSpec.describe Leader, type: :model do
 
   it { should have_and_belong_to_many :clubs }
 
-  it "should geocode the address" do
-    attrs = attributes_for(:leader_with_address).except(
-      :latitude,
-      :longitude
-    )
-    leader = Leader.create(attrs)
+  context "creation" do
+    subject(:leader) do
+      attrs = attributes_for(:leader_with_address).except(
+        :streak_key,
+        :latitude,
+        :longitude
+      )
+      Leader.create(attrs)
+    end
 
-    expect(leader.latitude).to be_a BigDecimal
-    expect(leader.longitude).to be_a BigDecimal
+    it "geocodes the address" do
+      expect(leader.latitude).to be_a BigDecimal
+      expect(leader.longitude).to be_a BigDecimal
+    end
+
+    it "sets streak_key" do
+      expect(leader.streak_key).to be_a String
+    end
   end
 end

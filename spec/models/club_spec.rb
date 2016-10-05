@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Club, type: :model do
-  subject { build(:club) }
+  subject(:club) { build(:club) }
 
   it { should have_db_column :name }
   it { should have_db_column :streak_key }
@@ -22,11 +22,19 @@ RSpec.describe Club, type: :model do
 
   it { should have_and_belong_to_many :leaders }
 
-  it 'should geocode the address' do
-    attrs = attributes_for(:club).except(:latitude, :longitude)
-    club = Club.create(attrs)
+  context 'creation' do
+    subject(:club) do
+      attrs = attributes_for(:club).except(:streak_key, :latitude, :longitude)
+      Club.create(attrs)
+    end
 
-    expect(club.latitude).to be_a BigDecimal
-    expect(club.longitude).to be_a BigDecimal
+    it 'geocodes the address' do
+      expect(club.latitude).to be_a BigDecimal
+      expect(club.longitude).to be_a BigDecimal
+    end
+
+    it 'sets streak_key' do
+      expect(club.streak_key).to be_a String
+    end
   end
 end

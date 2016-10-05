@@ -31,6 +31,8 @@ module StreakClient
     when :post
       headers['Content-Type'] = 'application/json'
       payload = params.to_json
+    when :put
+      headers[:params] = params
     when :get
       headers[:params] = params
     end
@@ -44,7 +46,7 @@ module StreakClient
   private
 
   def self.construct_http_auth_header(username, password)
-    "Basic #{Base64.encode64(username + ':' + password)}"
+    "Basic #{Base64.strict_encode64(username + ':' + password)}"
   end
 
   def self.parse(response)

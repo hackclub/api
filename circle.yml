@@ -6,6 +6,10 @@ machine:
     - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
   services:
     - docker
+  environment:
+    STREAK_CLUB_PIPELINE_KEY: clubs
+    STREAK_LEADER_PIPELINE_KEY: leaders
+    STREAK_API_KEY: test_api_key
 
 dependencies:
   pre:
