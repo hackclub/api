@@ -3,7 +3,23 @@ class Club < ApplicationRecord
   STREAK_FIELD_MAPPINGS = {
     address: "1006",
     latitude: "1007",
-    longitude: "1008"
+    longitude: "1008",
+    source: {
+      key: "1004",
+      type: "DROPDOWN",
+      options: {
+        "Word of Mouth" => "9001",
+        "Unknown" => "9002",
+        "Free Code Camp" => "9003",
+        "GitHub" => "9004",
+        "Press" => "9005",
+        "Searching online" => "9006",
+        "Hackathon" => "9007",
+        "Website" => "9008",
+        "Social media" => "9009",
+        "Hack Camp" => "9010"
+      }
+    }
   }
 
   geocoded_by :address # This geocodes :address into :latitude and :longitude

@@ -79,10 +79,14 @@ RSpec.describe UpdateFromStreakJob, type: :job do
     before do
       field_maps = Club::STREAK_FIELD_MAPPINGS
 
+      clubs.last.update_attributes!(source: "Word of Mouth")
+
       club_boxes_resp.last[:name] = "NEW NAME"
       club_boxes_resp.last[:fields][field_maps[:address]] = "NEW ADDRESS"
       club_boxes_resp.last[:fields][field_maps[:latitude]] = 13.37
       club_boxes_resp.last[:fields][field_maps[:longitude]] = -13.37
+      club_boxes_resp.last[:fields][field_maps[:source]] =
+        field_maps[:source][:options]["Press"]
       club_boxes_resp.last[:notes] = "NEW NOTES"
 
       stub_streak_reqs!
@@ -108,6 +112,12 @@ RSpec.describe UpdateFromStreakJob, type: :job do
     it "doesn't update club longitudes" do
       UpdateFromStreakJob.perform_now
       expect(clubs.last.reload.longitude).to_not eq(-13.37)
+    end
+
+    it "updates club source" do
+      expect {
+        UpdateFromStreakJob.perform_now
+      }.to change{clubs.last.reload.source}.to("Press")
     end
 
     it "updates club notes" do
@@ -263,7 +273,8 @@ RSpec.describe UpdateFromStreakJob, type: :job do
       fields: {
         field_maps[:address] => club.address,
         field_maps[:latitude] => club.latitude,
-        field_maps[:longitude] => club.longitude
+        field_maps[:longitude] => club.longitude,
+        field_maps[:source][:key] => field_maps[:source][:options][club.source]
       }
     }
   end

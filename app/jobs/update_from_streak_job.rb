@@ -5,6 +5,7 @@ class UpdateFromStreakJob < ApplicationJob
   LEADER_PIPELINE = Rails.application.secrets.streak_leader_pipeline_key
 
   def perform(*)
+    club_pipeline = StreakClient::Pipeline.find(CLUB_PIPELINE)
     leader_pipeline = StreakClient::Pipeline.find(LEADER_PIPELINE)
 
     club_boxes = StreakClient::Box.all_in_pipeline(CLUB_PIPELINE)
@@ -20,6 +21,11 @@ class UpdateFromStreakJob < ApplicationJob
         address: box[:fields][field_maps[:address].to_sym],
         latitude: box[:fields][field_maps[:latitude].to_sym],
         longitude: box[:fields][field_maps[:longitude].to_sym],
+        source: dropdown_value(
+          club_pipeline,
+          field_maps[:source][:key],
+          box[:fields][field_maps[:source][:key].to_sym]
+        ),
         notes: box[:notes]
       )
 
