@@ -12,57 +12,57 @@ module StreakClient
 
   class << self
     attr_accessor :api_key, :api_base
-  end
 
-  def self.api_url(url='')
-    @api_base + url
-  end
-
-  def self.request(method, path, params={}, headers={})
-    payload = nil
-
-    unless @api_key
-      raise AuthenticationError.new("No API key provided")
+    def api_url(url='')
+      @api_base + url
     end
 
-    headers["Authorization"] = construct_http_auth_header(@api_key, "")
+    def request(method, path, params={}, headers={})
+      payload = nil
 
-    case method
-    when :post
-      headers['Content-Type'] = 'application/json'
-      payload = params.to_json
-    when :put
-      headers[:params] = params
-    when :get
-      headers[:params] = params
+      unless @api_key
+        raise AuthenticationError.new("No API key provided")
+      end
+
+      headers["Authorization"] = construct_http_auth_header(@api_key, "")
+
+      case method
+      when :post
+        headers['Content-Type'] = 'application/json'
+        payload = params.to_json
+      when :put
+        headers[:params] = params
+      when :get
+        headers[:params] = params
+      end
+
+      resp = RestClient::Request.execute(method: method, url: api_url(path),
+                                         headers: headers, payload: payload)
+
+      parse(resp)
     end
 
-    resp = RestClient::Request.execute(method: method, url: api_url(path),
-                                       headers: headers, payload: payload)
+    private
 
-    parse(resp)
-  end
+    def construct_http_auth_header(username, password)
+      "Basic #{Base64.strict_encode64(username + ':' + password)}"
+    end
 
-  private
+    def parse(response)
+      parsed = JSON.parse(response, symbolize_names: true)
 
-  def self.construct_http_auth_header(username, password)
-    "Basic #{Base64.strict_encode64(username + ':' + password)}"
-  end
+      snake_case_transform = ->(hash) {
+        hash
+          .deep_transform_keys(&:to_s)
+          .deep_transform_keys(&:underscore)
+          .deep_transform_keys(&:to_sym)
+      }
 
-  def self.parse(response)
-    parsed = JSON.parse(response, symbolize_names: true)
-
-    snake_case_transform = ->(hash) {
-      hash
-        .deep_transform_keys(&:to_s)
-        .deep_transform_keys(&:underscore)
-        .deep_transform_keys(&:to_sym)
-    }
-
-    if parsed.class == Array
-      parsed.map(&snake_case_transform)
-    else
-      snake_case_transform.(parsed)
+      if parsed.class == Array
+        parsed.map(&snake_case_transform)
+      else
+        snake_case_transform.(parsed)
+      end
     end
   end
 end
