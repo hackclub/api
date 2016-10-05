@@ -40,7 +40,17 @@ test:
     - PWD=$HOME/api perl -pi -e "s/volumes:/volumes:\n      - $(echo $CIRCLE_TEST_REPORTS | sed 's/\//\\\//g'):\/tmp\/test_reports/" docker-compose.yml
 
     # Run the tests!
-    - PWD=$HOME/api docker-compose run -e RAILS_ENV=test -e CODECLIMATE_REPO_TOKEN=$CODECLIMATE_REPO_TOKEN web bundle exec rspec -r rspec_junit_formatter --format RspecJunitFormatter -o /tmp/test_reports/rspec/junit.xml
+    - PWD=$HOME/api docker-compose run \
+          -e RAILS_ENV=test \
+          -e CODECLIMATE_REPO_TOKEN=$CODECLIMATE_REPO_TOKEN \
+          -e STREAK_CLUB_PIPELINE_KEY=$STREAK_CLUB_PIPELINE_KEY \
+          -e STREAK_LEADER_PIPELINE_KEY=$STREAK_LEADER_PIPELINE_KEY \
+          -e STREAK_API_KEY=$STREAK_API_KEY \
+        web \
+        bundle exec rspec \
+          -r rspec_junit_formatter \
+          --format RspecJunitFormatter \
+          -o /tmp/test_reports/rspec/junit.xml
 
 deployment:
   production:
