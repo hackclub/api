@@ -110,7 +110,7 @@ RSpec.describe UpdateFromStreakJob, type: :job do
       expect(clubs.last.reload.longitude).to_not eq(-13.37)
     end
 
-    it "update club notes" do
+    it "updates club notes" do
       expect {
         UpdateFromStreakJob.perform_now
       }.to change{clubs.last.reload.notes}.to("NEW NOTES")
