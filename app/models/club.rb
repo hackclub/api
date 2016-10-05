@@ -1,5 +1,10 @@
 class Club < ApplicationRecord
   STREAK_PIPELINE = Rails.application.secrets.streak_club_pipeline_key
+  STREAK_FIELD_MAPPINGS = {
+    address: "1006",
+    latitude: "1007",
+    longitude: "1008"
+  }
 
   geocoded_by :address # This geocodes :address into :latitude and :longitude
   before_validation :geocode

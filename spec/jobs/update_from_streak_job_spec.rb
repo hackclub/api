@@ -77,10 +77,13 @@ RSpec.describe UpdateFromStreakJob, type: :job do
 
   context "with clubs that need to be updated" do
     before do
+      field_maps = Club::STREAK_FIELD_MAPPINGS
+
       club_boxes_resp.last[:name] = "NEW NAME"
-      club_boxes_resp.last[:fields][:"1006"] = "NEW ADDRESS"
-      club_boxes_resp.last[:fields][:"1007"] = 13.37
-      club_boxes_resp.last[:fields][:"1008"] = -13.37
+      club_boxes_resp.last[:fields][field_maps[:address]] = "NEW ADDRESS"
+      club_boxes_resp.last[:fields][field_maps[:latitude]] = 13.37
+      club_boxes_resp.last[:fields][field_maps[:longitude]] = -13.37
+
       stub_streak_reqs!
     end
 
@@ -165,14 +168,16 @@ RSpec.describe UpdateFromStreakJob, type: :job do
   end
 
   def club_to_box(club)
+    field_maps = Club::STREAK_FIELD_MAPPINGS
+
     {
       key: club.streak_key,
       name: club.name,
       linked_box_keys: club.leaders.map { |l| l.streak_key },
       fields: {
-        "1007" => club.latitude,
-        "1008" => club.longitude,
-        "1006" => club.address
+        field_maps[:address] => club.address,
+        field_maps[:latitude] => club.latitude,
+        field_maps[:longitude] => club.longitude
       }
     }
   end

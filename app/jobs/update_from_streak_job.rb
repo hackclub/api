@@ -12,13 +12,14 @@ class UpdateFromStreakJob < ApplicationJob
 
     # Create and update clubs
     club_boxes.each do |box|
+      field_maps = Club::STREAK_FIELD_MAPPINGS
       club = Club.find_or_initialize_by(streak_key: box[:key])
 
       club.update_attributes(
         name: box[:name],
-        address: box[:fields][:"1006"],
-        latitude: box[:fields][:"1007"],
-        longitude: box[:fields][:"1008"]
+        address: box[:fields][field_maps[:address].to_sym],
+        latitude: box[:fields][field_maps[:latitude].to_sym],
+        longitude: box[:fields][field_maps[:longitude].to_sym]
       )
 
       # Delete old relationships
