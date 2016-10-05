@@ -1,5 +1,5 @@
 class Leader < ApplicationRecord
-  LEADER_PIPELINE = Rails.application.secrets.streak_leader_pipeline_key
+  STREAK_PIPELINE = Rails.application.secrets.streak_leader_pipeline_key
 
   geocoded_by :address # This geocodes :address into :latitude and :longitude
   before_validation :geocode
@@ -13,7 +13,7 @@ class Leader < ApplicationRecord
 
   def create_leader_box
     unless self.streak_key
-      resp = StreakClient::Box.create_in_pipeline(LEADER_PIPELINE, self.name)
+      resp = StreakClient::Box.create_in_pipeline(STREAK_PIPELINE, self.name)
       self.streak_key = resp[:key]
     end
   end

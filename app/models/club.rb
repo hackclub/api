@@ -1,5 +1,5 @@
 class Club < ApplicationRecord
-  CLUB_PIPELINE = Rails.application.secrets.streak_club_pipeline_key
+  STREAK_PIPELINE = Rails.application.secrets.streak_club_pipeline_key
 
   geocoded_by :address # This geocodes :address into :latitude and :longitude
   before_validation :geocode
@@ -13,7 +13,7 @@ class Club < ApplicationRecord
 
   def create_streak_box
     unless self.streak_key
-      resp = StreakClient::Box.create_in_pipeline(CLUB_PIPELINE, self.name)
+      resp = StreakClient::Box.create_in_pipeline(STREAK_PIPELINE, self.name)
       self.streak_key = resp[:key]
     end
   end
