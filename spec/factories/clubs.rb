@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :club do
-    name HCFaker::HighSchool.name
+    name { HCFaker::HighSchool.name }
 
     # Random 91 character alphanumeric string
     streak_key do
@@ -8,11 +8,11 @@ FactoryGirl.define do
       Array.new(91){ range.sample }.join
     end
 
-    address HCFaker::Address.full_address
-    latitude Faker::Address.latitude
-    longitude Faker::Address.longitude
-    source ["Word of Mouth", "Searching online", "Press"].sample
-    notes Faker::Lorem.sentence
+    address { HCFaker::Address.full_address }
+    latitude { Faker::Address.latitude }
+    longitude { Faker::Address.longitude }
+    source { ["Word of Mouth", "Searching online", "Press"].sample }
+    notes { Faker::Lorem.sentence }
 
     factory :club_with_leaders do
       transient do
