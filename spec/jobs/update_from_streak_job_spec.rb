@@ -114,7 +114,13 @@ RSpec.describe UpdateFromStreakJob, type: :job do
 
   context "with leaders that need to be updated" do
     before do
+      field_maps = Leader::STREAK_FIELD_MAPPINGS
+
+      leaders.last.update_attributes!(gender: "Male")
+
       leader_boxes_resp.last[:name] = "NEW NAME"
+      leader_boxes_resp.last[:fields][field_maps[:gender][:key]] =
+        field_maps[:gender][:options]["Female"]
       stub_streak_reqs!
     end
 
@@ -122,6 +128,12 @@ RSpec.describe UpdateFromStreakJob, type: :job do
       expect {
         UpdateFromStreakJob.perform_now
       }.to change{leaders.last.reload.name}.to("NEW NAME")
+    end
+
+    it "updates leader gender" do
+      expect {
+        UpdateFromStreakJob.perform_now
+      }.to change{leaders.last.reload.gender}.to("Female")
     end
   end
 
@@ -183,40 +195,23 @@ RSpec.describe UpdateFromStreakJob, type: :job do
   end
 
   def leader_to_box(leader)
-    gender_mapping = {
-      "Male" => "9001",
-      "Female" => "9002",
-      "Other" => "9003"
-    }
-
-    year_mapping = {
-      "2022" => "9009",
-      "2021" => "9006",
-      "2020" => "9001",
-      "2019" => "9002",
-      "2018" => "9003",
-      "2017" => "9004",
-      "2016" => "9010",
-      "Graduated" => "9005",
-      "Teacher" => "9008",
-      "Unknown" => "9007"
-    }
+    field_maps = Leader::STREAK_FIELD_MAPPINGS
 
     {
       key: leader.streak_key,
       name: leader.name,
       linked_box_keys: leader.clubs.map { |c| c.streak_key },
       fields: {
-        "1003" => leader.email,
-        "1001" => gender_mapping[leader.gender],
-        "1002" => year_mapping[leader.year],
-        "1010" => leader.phone_number,
-        "1006" => leader.slack_username,
-        "1009" => leader.github_username,
-        "1008" => leader.twitter_username,
-        "1011" => leader.address,
-        "1018" => leader.latitude,
-        "1019" => leader.longitude
+        field_maps[:email] => leader.email,
+        field_maps[:gender][:key] => field_maps[:gender][:options][leader.gender],
+        field_maps[:year][:key] => field_maps[:year][:options][leader.year],
+        field_maps[:phone_number] => leader.phone_number,
+        field_maps[:slack_username] => leader.slack_username,
+        field_maps[:github_username] => leader.github_username,
+        field_maps[:twitter_username] => leader.twitter_username,
+        field_maps[:address] => leader.address,
+        field_maps[:latitude] => leader.latitude,
+        field_maps[:longitude] => leader.longitude
       }
     }
   end

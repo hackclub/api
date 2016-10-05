@@ -44,32 +44,30 @@ class UpdateFromStreakJob < ApplicationJob
     end
 
     leader_boxes.each do |box|
-      gender_field_key = "1001"
-      year_field_key = "1002"
+      field_maps = Leader::STREAK_FIELD_MAPPINGS
 
       leader = Leader.find_or_initialize_by(streak_key: box[:key])
 
       leader.update_attributes(
         name: box[:name],
-        streak_key: box[:key],
         gender: dropdown_value(
           leader_pipeline,
-          gender_field_key,
-          box[:fields][gender_field_key.to_sym]
+          field_maps[:gender][:key],
+          box[:fields][field_maps[:gender][:key].to_sym]
         ),
         year: dropdown_value(
           leader_pipeline,
-          year_field_key,
-          box[:fields][year_field_key.to_sym]
+          field_maps[:year][:key],
+          box[:fields][field_maps[:year][:key].to_sym]
         ),
-        email: box[:fields][:"1003"],
-        phone_number: box[:fields][:"1010"],
-        slack_username: box[:fields][:"1006"],
-        github_username: box[:fields][:"1009"],
-        twitter_username: box[:fields][:"1008"],
-        address: box[:fields][:"1011"],
-        latitude: box[:fields][:"1018"],
-        longitude: box[:fields][:"1019"]
+        email: box[:fields][field_maps[:email]],
+        phone_number: box[:fields][field_maps[:phone_number]],
+        slack_username: box[:fields][field_maps[:slack_username]],
+        github_username: box[:fields][field_maps[:github_username]],
+        twitter_username: box[:fields][field_maps[:twitter_username]],
+        address: box[:fields][field_maps[:address]],
+        latitude: box[:fields][field_maps[:latitude]],
+        longitude: box[:fields][field_maps[:longitude]]
       )
 
       box[:linked_box_keys].each do |linked_box_key|
