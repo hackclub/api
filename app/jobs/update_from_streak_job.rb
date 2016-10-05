@@ -19,7 +19,8 @@ class UpdateFromStreakJob < ApplicationJob
         name: box[:name],
         address: box[:fields][field_maps[:address].to_sym],
         latitude: box[:fields][field_maps[:latitude].to_sym],
-        longitude: box[:fields][field_maps[:longitude].to_sym]
+        longitude: box[:fields][field_maps[:longitude].to_sym],
+        notes: box[:notes]
       )
 
       # Delete old relationships
@@ -67,7 +68,8 @@ class UpdateFromStreakJob < ApplicationJob
         twitter_username: box[:fields][field_maps[:twitter_username]],
         address: box[:fields][field_maps[:address]],
         latitude: box[:fields][field_maps[:latitude]],
-        longitude: box[:fields][field_maps[:longitude]]
+        longitude: box[:fields][field_maps[:longitude]],
+        notes: box[:notes]
       )
 
       box[:linked_box_keys].each do |linked_box_key|

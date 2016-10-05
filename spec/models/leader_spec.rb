@@ -15,6 +15,7 @@ RSpec.describe Leader, type: :model do
   it { should have_db_column :address }
   it { should have_db_column :latitude }
   it { should have_db_column :longitude }
+  it { should have_db_column :notes }
 
   it { should validate_presence_of :name }
 
