@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 describe "CORS", type: :request do
   it "returns the response CORS headers" do

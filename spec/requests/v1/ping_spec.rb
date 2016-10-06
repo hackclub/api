@@ -1,9 +1,9 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "V1::Pings", type: :request do
   describe "GET /v1/ping" do
     it "returns pong" do
-      get '/v1/ping'
+      get "/v1/ping"
 
       json = JSON.parse(response.body)
 

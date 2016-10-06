@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Leader, type: :model do
   subject { build(:leader) }

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Club, type: :model do
   subject(:club) { build(:club) }
@@ -11,7 +11,7 @@ RSpec.describe Club, type: :model do
   it { should have_db_column :source }
   it { should have_db_column :notes }
 
-  # Note: latitude and longitude aren't included here because they're
+  # Note: latitude and longitude aren"t included here because they"re
   # automatically set when geocoding, which breaks shoulda's test for
   # validates_presence_of.
   #
@@ -22,11 +22,11 @@ RSpec.describe Club, type: :model do
 
   it { should have_and_belong_to_many :leaders }
 
-  context 'creation' do
+  context "creation" do
     let(:attrs) { attributes_for(:club).except(:streak_key, :latitude, :longitude) }
     subject(:club) { Club.create(attrs) }
 
-    it 'geocodes the address' do
+    it "geocodes the address" do
       expect(club.latitude).to be_a BigDecimal
       expect(club.longitude).to be_a BigDecimal
     end
@@ -80,7 +80,7 @@ RSpec.describe Club, type: :model do
       c.save
     end
 
-    it 'sets streak_key' do
+    it "sets streak_key" do
       expect(club.streak_key).to be_a String
     end
   end

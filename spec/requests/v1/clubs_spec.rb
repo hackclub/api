@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "V1::Clubs", type: :request do
   describe "GET /v1/clubs" do
@@ -61,7 +61,7 @@ RSpec.describe "V1::Clubs", type: :request do
 
     let(:club) { create(:club) }
 
-    context 'with valid id' do
+    context "with valid id" do
       let(:id) { club.id }
 
       # We need to serialize the club to JSON and then parse that JSON to make
@@ -71,7 +71,7 @@ RSpec.describe "V1::Clubs", type: :request do
         JSON.parse(club.to_json).except("latitude", "longitude")
       end
 
-      it 'retrieves the club successfully' do
+      it "retrieves the club successfully" do
         expect(response).to have_http_status(200)
 
         # Make sure all attributes match
@@ -81,10 +81,10 @@ RSpec.describe "V1::Clubs", type: :request do
       end
     end
 
-    context 'with invalid id' do
+    context "with invalid id" do
       let(:id) { club.id + 1 }
 
-      it 'receives a 404' do
+      it "receives a 404" do
         expect(response).to have_http_status(404)
         expect(json["error"]).to eq("Club not found")
       end
@@ -118,7 +118,7 @@ RSpec.describe "V1::Clubs", type: :request do
     context "with invalid id" do
       let(:id) { club.id + 1 }
 
-      it 'receives a 404' do
+      it "receives a 404" do
         expect(response).to have_http_status(404)
         expect(json["error"]).to eq("Club not found")
       end

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe UpdateFromStreakJob, type: :job do
   let(:clubs) { 5.times.map { create(:club_with_leaders) } }
