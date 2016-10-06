@@ -24,7 +24,9 @@ class Club < ApplicationRecord
 
   geocoded_by :address # This geocodes :address into :latitude and :longitude
   before_validation :geocode
+
   before_create :create_streak_box
+  before_update :update_streak_box
 
   has_and_belongs_to_many :leaders
 
@@ -67,5 +69,37 @@ class Club < ApplicationRecord
         STREAK_FIELD_MAPPINGS[:source][:options][self.source]
       )
     end
+  end
+
+  def update_streak_box
+    StreakClient::Box.update(
+      self.streak_key,
+      notes: self.notes,
+      linkedBoxKeys: self.leaders.map(&:streak_key)
+    )
+
+    StreakClient::Box.edit_field(
+      self.streak_key,
+      STREAK_FIELD_MAPPINGS[:address],
+      self.address
+    )
+
+    StreakClient::Box.edit_field(
+      self.streak_key,
+      STREAK_FIELD_MAPPINGS[:latitude],
+      self.latitude
+    )
+
+    StreakClient::Box.edit_field(
+      self.streak_key,
+      STREAK_FIELD_MAPPINGS[:longitude],
+      self.longitude
+    )
+
+    StreakClient::Box.edit_field(
+      self.streak_key,
+      STREAK_FIELD_MAPPINGS[:source][:key],
+      STREAK_FIELD_MAPPINGS[:source][:options][self.source]
+    )
   end
 end

@@ -32,7 +32,7 @@ class UpdateFromStreakJob < ApplicationJob
       # Delete old relationships
       club.leaders.each do |leader|
         unless box[:linked_box_keys].include? leader.streak_key
-          leader.destroy!
+          club.leaders.delete(leader)
         end
       end
     end
