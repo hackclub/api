@@ -24,4 +24,12 @@ module HCFaker
       end
     end
   end
+
+  class Streak
+    class << self
+      def key
+        HCFaker::Random.alphanumeric_string(len: 91)
+      end
+    end
+  end
 end

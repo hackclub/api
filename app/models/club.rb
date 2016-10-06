@@ -36,6 +36,36 @@ class Club < ApplicationRecord
     unless self.streak_key
       resp = StreakClient::Box.create_in_pipeline(STREAK_PIPELINE, self.name)
       self.streak_key = resp[:key]
+
+      StreakClient::Box.update(
+        self.streak_key,
+        notes: self.notes,
+        linkedBoxKeys: self.leaders.map(&:streak_key)
+      )
+
+      StreakClient::Box.edit_field(
+        self.streak_key,
+        STREAK_FIELD_MAPPINGS[:address],
+        self.address
+      )
+
+      StreakClient::Box.edit_field(
+        self.streak_key,
+        STREAK_FIELD_MAPPINGS[:latitude],
+        self.latitude
+      )
+
+      StreakClient::Box.edit_field(
+        self.streak_key,
+        STREAK_FIELD_MAPPINGS[:longitude],
+        self.longitude
+      )
+
+      StreakClient::Box.edit_field(
+        self.streak_key,
+        STREAK_FIELD_MAPPINGS[:source][:key],
+        STREAK_FIELD_MAPPINGS[:source][:options][self.source]
+      )
     end
   end
 end

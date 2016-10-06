@@ -16,5 +16,16 @@ module StreakClient
         name: name
       }
     end
+
+    # TODO: Return the full "updated" box here
+    def self.update(box_key, params)
+    end
+
+    def self.edit_field(box_key, field_key, value)
+      {
+        key: field_key,
+        value: value
+      }
+    end
   end
 end

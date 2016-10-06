@@ -23,22 +23,61 @@ RSpec.describe Club, type: :model do
   it { should have_and_belong_to_many :leaders }
 
   context 'creation' do
-    subject(:club) do
-      attrs = attributes_for(:club).except(:streak_key, :latitude, :longitude)
-      Club.create(attrs)
-    end
+    let(:attrs) { attributes_for(:club).except(:streak_key, :latitude, :longitude) }
+    subject(:club) { Club.create(attrs) }
 
     it 'geocodes the address' do
       expect(club.latitude).to be_a BigDecimal
       expect(club.longitude).to be_a BigDecimal
     end
 
-    it "creates a new box on Streak" do
-      client = class_double(StreakClient::Box)
+    it "creates a new box on Streak with all attributes" do
+      c = Club.new(attrs)
+      c.leaders << build(:leader)
+      c.leaders << build(:leader)
+
+      client = class_double(StreakClient::Box).as_stubbed_const
+      key_to_return = HCFaker::Streak.key
+      field_maps = Club::STREAK_FIELD_MAPPINGS
 
       expect(client).to receive(:create_in_pipeline)
+                          .with(
+                            Rails.application.secrets.streak_club_pipeline_key,
+                            attrs[:name]
+                          )
+                          .and_return({ key: key_to_return })
+      expect(client).to receive(:update)
+                          .with(
+                            key_to_return,
+                            notes: attrs[:notes],
+                            linkedBoxKeys: c.leaders.map(&:streak_key)
+                          )
+      expect(client).to receive(:edit_field)
+                          .with(
+                            key_to_return,
+                            field_maps[:address],
+                            attrs[:address]
+                          )
+      expect(client).to receive(:edit_field)
+                          .with(
+                            key_to_return,
+                            field_maps[:latitude],
+                            anything
+                          )
+      expect(client).to receive(:edit_field)
+                          .with(
+                            key_to_return,
+                            field_maps[:longitude],
+                            anything
+                          )
+      expect(client).to receive(:edit_field)
+                          .with(
+                            key_to_return,
+                            field_maps[:source][:key],
+                            field_maps[:source][:options][attrs[:source]]
+                          )
 
-      StreakClient::Box.create_in_pipeline("asdf", "adsf")
+      c.save
     end
 
     it 'sets streak_key' do
