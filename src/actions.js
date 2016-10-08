@@ -1,25 +1,33 @@
 import 'isomorphic-fetch'
 
-export const SUBMIT_LEADER = 'SUBMIT_LEADER'
-export const RECEIVE_LEADER = 'RECEIVE_LEADER'
+export const CREATE_LEADER_REQUEST_BEGIN = 'CREATE_LEADER_REQUEST_BEGIN'
+export const CREATE_LEADER_REQUEST_SUCCEED = 'CREATE_LEADER_REQUEST_SUCCEED'
+export const CREATE_LEADER_REQUEST_FAIL = 'CREATE_LEADER_REQUEST_FAIL'
 
-function submitLeader(leader) {
+function createLeaderRequestBegin(leader) {
   return {
-    type: SUBMIT_LEADER,
+    type: CREATE_LEADER_REQUEST_BEGIN,
     leader
   }
 }
 
-function receiveLeader(json) {
+function createLeaderRequestSucceed(json) {
   return {
-    type: RECEIVE_LEADER,
+    type: CREATE_LEADER_REQUEST_SUCCEED,
     leader: json
+  }
+}
+
+function createLeaderRequestFail(err) {
+  return {
+    type: CREATE_LEADER_REQUEST_FAIL,
+    error: err
   }
 }
 
 export function createLeader(leader) {
   return dispatch => {
-    dispatch(submitLeader(leader))
+    dispatch(createLeaderRequestBegin(leader))
     return fetch('https://api.hackclub.com/v1/leaders/intake', {
       method: 'POST',
       headers: new Headers({
@@ -27,7 +35,14 @@ export function createLeader(leader) {
       }),
       body: JSON.stringify(leader)
     })
-      .then(resp => resp.json())
-      .then(json => dispatch(receiveLeader(json)))
+      .then(resp => {
+        if (!resp.ok) {
+          throw Error(resp.statusText)
+        }
+
+        return resp.json()
+      })
+      .then(json => dispatch(createLeaderRequestSucceed(json)))
+      .catch(err => dispatch(createLeaderRequestFail(err)))
   }
 }

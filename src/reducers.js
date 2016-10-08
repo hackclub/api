@@ -1,22 +1,30 @@
 import { combineReducers } from 'redux'
 import { reducer as formReducer } from 'redux-form'
 import {
-  SUBMIT_LEADER, RECEIVE_LEADER
+  CREATE_LEADER_REQUEST_BEGIN, CREATE_LEADER_REQUEST_SUCCEED,
+  CREATE_LEADER_REQUEST_FAIL
 } from './actions'
 
 function leader(state = {
   isSubmitting: false,
-  createdLeader: null
+  submissionError: null,
+  didSucceed: null
 }, action) {
   switch (action.type) {
-  case SUBMIT_LEADER:
+  case CREATE_LEADER_REQUEST_BEGIN:
     return Object.assign({}, state, {
       isSubmitting: true
     })
-  case RECEIVE_LEADER:
+  case CREATE_LEADER_REQUEST_SUCCEED:
     return Object.assign({}, state, {
       isSubmitting: false,
-      createdLeader: action.leader
+      didSucceed: true
+    })
+  case CREATE_LEADER_REQUEST_FAIL:
+    return Object.assign({}, state, {
+      isSubmitting: false,
+      didSucceed: false,
+      submissionError: action.error.message
     })
   default:
     return state

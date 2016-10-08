@@ -65,3 +65,11 @@
   height: 50px;
   cursor: pointer;
 }
+
+.IntakeForm button:disabled {
+  cursor: default;
+}
+
+.IntakeForm-spinner > div {
+  background-color: #ffffff;
+}

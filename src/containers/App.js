@@ -17,37 +17,40 @@ class App extends Component {
   }
 
   render() {
-    const { createdLeader } = this.props
+    const { isSubmitting, didSucceed, submissionError } = this.props
     return (
       <div className="App">
         <div className="App-header">
           <a href="https://hackclub.com" target="_blank">
             <img src={logo} className="App-logo" alt="logo" />
           </a>
-          <h1 className="App-party-popper">
-            {
-              createdLeader === null
-                ? <span>🤗</span>
-                : <span>🎉</span>
-            }
-          </h1>
-          <h2>Welcome to Hack Club!</h2>
+          <h1 className="App-party-popper">🎉</h1>
+          <h2>Welcome to Hack Club! All fields are required.</h2>
         </div>
-        <IntakeForm onSubmit={this.handleIntakeSubmit}/>
+        <IntakeForm
+          onSubmit={this.handleIntakeSubmit}
+          isSubmitting={isSubmitting}
+          submissionError={submissionError}
+          didSucceed={didSucceed}
+          />
       </div>
     )
   }
 }
 
 App.propTypes = {
-  createdLeader: PropTypes.object,
+  isSubmitting: PropTypes.bool.isRequired,
+  submissionError: PropTypes.string,
+  didSucceed: PropTypes.bool,
   dispatch: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
-  const { createdLeader } = state.leader
+  const { isSubmitting, submissionError, didSucceed } = state.leader
   return {
-    createdLeader
+    isSubmitting,
+    submissionError,
+    didSucceed
   }
 }
 

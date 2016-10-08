@@ -1,10 +1,26 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { Field, reduxForm } from 'redux-form'
+import Spinner from 'react-spinkit'
 import './IntakeForm.css'
 
 class IntakeForm extends Component {
   render() {
-    const { handleSubmit } = this.props;
+    const { isSubmitting, submissionError, didSucceed, handleSubmit } = this.props
+
+    let submitButtonContents = null
+
+    if (isSubmitting) {
+      submitButtonContents = <Spinner spinnerName="three-bounce"
+      className="IntakeForm-spinner"
+      noFadeIn />
+    } else if (didSucceed) {
+      submitButtonContents = <span>👍</span>
+    } else if (submissionError) {
+      submitButtonContents = <span>👎</span>
+    } else {
+      submitButtonContents = <span>Submit →</span>
+    }
+
     return (
       <form className="IntakeForm" onSubmit={handleSubmit}>
         <div className="form-group">
@@ -56,21 +72,30 @@ class IntakeForm extends Component {
                  placeholder="zbeeblebrox" />
         </div>
         <div className="form-group">
-          <label htmlFor="twitter_username">Twitter username</label>
+          <label htmlFor="twitter_username">Twitter username (if you have one)</label>
           <Field name="twitter_username" component="input" type="text"
                  placeholder="bigzaphod" />
         </div>
         <div className="form-group">
-          <label htmlFor="address">Address</label>
-          <Field name="address" component="input" type="text"
+          <label htmlFor="address">Full address (include state and zip code)</label>
+          <Field name="address" component="textarea"
                  placeholder="4301 Beeblebrox Way, Galaxy City, CA 90210" />
         </div>
         <div className="form-group">
-          <button type="submit">Submit →</button>
+          <button type="submit" disabled={isSubmitting || didSucceed}>
+            {submitButtonContents}
+          </button>
         </div>
       </form>
     )
   }
+}
+
+IntakeForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+  isSubmitting: PropTypes.bool.isRequired,
+  submissionError: PropTypes.string,
+  didSucceed: PropTypes.bool
 }
 
 IntakeForm = reduxForm({
