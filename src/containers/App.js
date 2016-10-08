@@ -17,13 +17,20 @@ class App extends Component {
   }
 
   render() {
+    const { createdLeader } = this.props
     return (
       <div className="App">
         <div className="App-header">
           <a href="https://hackclub.com" target="_blank">
             <img src={logo} className="App-logo" alt="logo" />
           </a>
-          <h1 className="App-party-popper">🎉</h1>
+          <h1 className="App-party-popper">
+            {
+              createdLeader === null
+                ? <span>🤗</span>
+                : <span>🎉</span>
+            }
+          </h1>
           <h2>Welcome to Hack Club!</h2>
         </div>
         <IntakeForm onSubmit={this.handleIntakeSubmit}/>
@@ -33,11 +40,15 @@ class App extends Component {
 }
 
 App.propTypes = {
+  createdLeader: PropTypes.object,
   dispatch: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
-  return {}
+  const { createdLeader } = state.leader
+  return {
+    createdLeader
+  }
 }
 
 export default connect(mapStateToProps)(App)

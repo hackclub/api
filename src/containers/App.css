@@ -1,9 +1,5 @@
 .App {
-  height: 100%;
   font-family: 'Open Sans', sans-serif;
-
-  background-image: url(./pattern.png);
-  background-size: 450px;
 
   color: #222222;
 }
