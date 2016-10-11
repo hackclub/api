@@ -16,4 +16,7 @@ const brandPreferences = {
   userInput: colors.darkGray
 }
 
-export default Object.assign({}, colors, brandPreferences)
+export default {
+  ...colors,
+  ...brandPreferences
+}
