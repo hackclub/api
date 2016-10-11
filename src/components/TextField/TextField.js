@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Field as ReduxFormField } from 'redux-form'
+import { Field } from 'redux-form'
 import colors from '../../colors'
 
 const styles = {
@@ -38,14 +38,14 @@ const renderField = ({ input, label, type, meta: { touched, error } }) => (
   </div>
 )
 
-class Field extends Component {
+class TextField extends Component {
   render() {
     const { name, type, label } = this.props
 
     return (
-      <ReduxFormField name={name} type={type} component={renderField} label={label} />
+      <Field name={name} type={type} component={renderField} label={label} />
     )
   }
 }
 
-export default Field
+export default TextField
