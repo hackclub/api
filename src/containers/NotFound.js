@@ -22,7 +22,7 @@ const styles = {
   }
 }
 
-class NoMatch extends Component {
+class NotFound extends Component {
   render() {
     return (
       <div style={styles.wrapper}>
@@ -46,4 +46,4 @@ class NoMatch extends Component {
   }
 }
 
-export default Radium(NoMatch)
+export default Radium(NotFound)
