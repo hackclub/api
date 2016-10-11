@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
-import colors from '../colors'
+import { ThreeBounce } from 'better-react-spinkit'
+import colors from '../../colors'
 
 const styles = {
   base: {
@@ -29,6 +30,9 @@ const styles = {
   link: {
     textAlign: 'center',
     textDecoration: 'none'
+  },
+  disabled: {
+    backgroundColor: colors.fadedPrimary
   }
 }
 
@@ -36,8 +40,12 @@ class Button extends Component {
   render() {
     const type = this.props.type
     const disabled = this.props.disabled
+    const loading = this.props.loading
 
     let button = null
+    let buttonContents = loading ?
+                           <ThreeBounce size={15} color={colors.bg} /> :
+                           this.props.children
 
     switch(type) {
     case 'form':
@@ -46,10 +54,11 @@ class Button extends Component {
                 style={[
                   styles.base,
                   styles.form,
+                  disabled ? styles.disabled : null,
                   this.props.style
                 ]}
                 disabled={disabled}>
-          {this.props.children}
+          {buttonContents}
         </button>
         break
     case 'link':
@@ -58,9 +67,10 @@ class Button extends Component {
            style={[
              styles.base,
              styles.link,
+             disabled ? styles.disabled : null,
              this.props.style
            ]}>
-          {this.props.children}
+          {buttonContents}
         </a>
         break
     default:

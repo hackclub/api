@@ -1,3 +1,5 @@
+import color from 'color'
+
 const colors = {
   red: '#e42d40',
   white: '#ffffff',
@@ -9,6 +11,7 @@ const colors = {
 
 const brandPreferences = {
   primary: colors.red,
+  fadedPrimary: color(colors.red).darken(0.5),
   bg: colors.white,
 
   outline: colors.lightGray,

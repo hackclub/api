@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
 import Helmet from 'react-helmet'
-import Card from '../../components/Card'
-import Button from '../../components/Button'
-import Header from '../../components/Header'
-import Text from '../../components/Text'
+import {
+  Button,
+  Card,
+  Header,
+  Text
+} from '../../components'
 import dinosaur from './dinosaur.png'
 
 const styles = {

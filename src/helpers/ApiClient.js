@@ -1,12 +1,13 @@
 import superagent from 'superagent';
 
+const baseUrl = 'https://api.hackclub.com'
 const methods = ['get', 'post', 'put', 'patch', 'del'];
 
 export default class ApiClient {
   constructor(req) {
     methods.forEach(method =>
       this[method] = (path, { params, data } = {}) => new Promise((resolve, reject) => {
-        const request = superagent[method](path);
+        const request = superagent[method](baseUrl + path);
 
         if (params) {
           request.query(params);
