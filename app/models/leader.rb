@@ -38,7 +38,9 @@ class Leader < ApplicationRecord
 
   geocoded_by :address # This geocodes :address into :latitude and :longitude
   before_validation :geocode
+
   before_create :create_leader_box
+  before_update :update_leader_box
 
   has_and_belongs_to_many :clubs
 
@@ -108,5 +110,64 @@ class Leader < ApplicationRecord
         self.longitude
       )
     end
+  end
+
+  def update_leader_box
+      StreakClient::Box.update(
+        self.streak_key,
+        notes: self.notes,
+        linkedBoxKeys: self.clubs.map(&:streak_key)
+      )
+
+      StreakClient::Box.edit_field(
+        self.streak_key,
+        STREAK_FIELD_MAPPINGS[:email],
+        self.email
+      )
+      StreakClient::Box.edit_field(
+        self.streak_key,
+        STREAK_FIELD_MAPPINGS[:gender][:key],
+        STREAK_FIELD_MAPPINGS[:gender][:options][self.gender]
+      )
+      StreakClient::Box.edit_field(
+        self.streak_key,
+        STREAK_FIELD_MAPPINGS[:year][:key],
+        STREAK_FIELD_MAPPINGS[:year][:options][self.year]
+      )
+      StreakClient::Box.edit_field(
+        self.streak_key,
+        STREAK_FIELD_MAPPINGS[:phone_number],
+        self.phone_number
+      )
+      StreakClient::Box.edit_field(
+        self.streak_key,
+        STREAK_FIELD_MAPPINGS[:slack_username],
+        self.slack_username
+      )
+      StreakClient::Box.edit_field(
+        self.streak_key,
+        STREAK_FIELD_MAPPINGS[:github_username],
+        self.github_username
+      )
+      StreakClient::Box.edit_field(
+        self.streak_key,
+        STREAK_FIELD_MAPPINGS[:twitter_username],
+        self.twitter_username
+      )
+      StreakClient::Box.edit_field(
+        self.streak_key,
+        STREAK_FIELD_MAPPINGS[:address],
+        self.address
+      )
+      StreakClient::Box.edit_field(
+        self.streak_key,
+        STREAK_FIELD_MAPPINGS[:latitude],
+        self.latitude
+      )
+      StreakClient::Box.edit_field(
+        self.streak_key,
+        STREAK_FIELD_MAPPINGS[:longitude],
+        self.longitude
+      )
   end
 end
