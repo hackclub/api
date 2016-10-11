@@ -25,6 +25,11 @@ const styles = {
     paddingBottom: '6px',
     borderRadius: '3px',
     border: `1px solid ${colors.outline}`
+  },
+  error: {
+    fontSize: '14px',
+    marginTop: '5px',
+    fontStyle: 'italic'
   }
 }
 
@@ -33,7 +38,7 @@ const renderField = ({ input, label, type, meta: { touched, error } }) => (
     <label style={styles.label}>{label}</label>
     <div>
       <input {...input} placeholder={label} type={type} style={styles.input} />
-      { touched && error && <span>{error}</span>}
+      { touched && error && <div style={styles.error}>{error}</div>}
     </div>
   </div>
 )
