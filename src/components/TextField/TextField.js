@@ -48,4 +48,8 @@ class TextField extends Component {
   }
 }
 
+TextField.defaultProps = {
+  type: 'text'
+}
+
 export default TextField
