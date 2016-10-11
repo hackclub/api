@@ -1,9 +1,36 @@
 import React, { Component, PropTypes } from 'react'
+import Radium from 'radium'
 import { connect } from 'react-redux'
 import { createLeader } from '../actions'
 import IntakeForm from './IntakeForm'
 import logo from './logo.svg'
-import './App.css'
+
+const styles = {
+  base: {
+    fontFamily: 'Open Sans, sans-serif',
+    color: '#222222'
+  },
+  logo: {
+    height: '40px',
+    position: 'absolute',
+    top: '15px',
+    right: '12.5px'
+  },
+  partyPopper: {
+    fontSize: '60px',
+    lineHeight: '20px'
+  },
+  header: {
+    textAlign: 'center',
+    backgroundColor: '#e42d40',
+    height: '150px',
+    padding: '20px',
+    color: 'white'
+  },
+  intro: {
+    fontSize: 'large'
+  }
+}
 
 class App extends Component {
   constructor(props) {
@@ -19,12 +46,12 @@ class App extends Component {
   render() {
     const { isSubmitting, didSucceed, submissionError } = this.props
     return (
-      <div className="App">
-        <div className="App-header">
+      <div style={styles.base}>
+        <div style={styles.header}>
           <a href="https://hackclub.com" target="_blank">
-            <img src={logo} className="App-logo" alt="logo" />
+            <img src={logo} style={styles.logo} alt="logo" />
           </a>
-          <h1 className="App-party-popper">🎉</h1>
+          <h1 style={styles.partyPopper}>🎉</h1>
           <h2>Welcome to Hack Club! All fields are required.</h2>
         </div>
         <IntakeForm
@@ -54,4 +81,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(App)
+export default connect(mapStateToProps)(Radium(App))
