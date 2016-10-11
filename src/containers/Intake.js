@@ -6,10 +6,6 @@ import IntakeForm from './IntakeForm'
 import logo from './logo.svg'
 
 const styles = {
-  base: {
-    fontFamily: 'Open Sans, sans-serif',
-    color: '#222222'
-  },
   logo: {
     height: '40px',
     position: 'absolute',
@@ -32,7 +28,7 @@ const styles = {
   }
 }
 
-class App extends Component {
+class Intake extends Component {
   constructor(props) {
     super(props)
     this.handleIntakeSubmit = this.handleIntakeSubmit.bind(this)
@@ -46,7 +42,7 @@ class App extends Component {
   render() {
     const { isSubmitting, didSucceed, submissionError } = this.props
     return (
-      <div style={styles.base}>
+      <div>
         <div style={styles.header}>
           <a href="https://hackclub.com" target="_blank">
             <img src={logo} style={styles.logo} alt="logo" />
@@ -58,14 +54,13 @@ class App extends Component {
           onSubmit={this.handleIntakeSubmit}
           isSubmitting={isSubmitting}
           submissionError={submissionError}
-          didSucceed={didSucceed}
-          />
+          didSucceed={didSucceed} />
       </div>
     )
   }
 }
 
-App.propTypes = {
+Intake.propTypes = {
   isSubmitting: PropTypes.bool.isRequired,
   submissionError: PropTypes.string,
   didSucceed: PropTypes.bool,
@@ -81,4 +76,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(Radium(App))
+export default connect(mapStateToProps)(Radium(Intake))

@@ -1,4 +1,4 @@
-html, body {
+html, body, #root {
   height: 100%;
 }
 
@@ -8,4 +8,7 @@ body {
 
   background-image: url(./pattern.png);
   background-size: 450px;
+
+  font-family: 'Open Sans', sans-serif;
+  color: '#222222';
 }

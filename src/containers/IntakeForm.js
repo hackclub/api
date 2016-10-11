@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import Radium from 'radium'
 import { Field, reduxForm } from 'redux-form'
 import { ThreeBounce } from 'better-react-spinkit'
+import Button from '../components/Button'
 
 const styles = {
   base: {
@@ -184,9 +185,9 @@ class IntakeForm extends Component {
                  placeholder="4301 Beeblebrox Way, Galaxy City, CA 90210" />
         </div>
         <div style={styles.formGroup}>
-          <button style={styles.button} type="submit" disabled={isSubmitting || didSucceed}>
+          <Button type="form" disabled={isSubmitting || didSucceed}>
             {submitButtonContents}
-          </button>
+          </Button>
         </div>
       </form>
     )
