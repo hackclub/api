@@ -3,6 +3,8 @@ import Radium from 'radium'
 import { Field, reduxForm } from 'redux-form'
 import { ThreeBounce } from 'better-react-spinkit'
 import Button from '../components/Button'
+import Header from '../components/Header'
+import Text from '../components/Text'
 
 const styles = {
   base: {

@@ -2,6 +2,9 @@ import React, { Component, PropTypes } from 'react'
 import Radium from 'radium'
 import { connect } from 'react-redux'
 import { createLeader } from '../actions'
+
+import Header from '../components/Header'
+import Text from '../components/Text'
 import IntakeForm from './IntakeForm'
 import logo from './logo.svg'
 
@@ -14,12 +17,14 @@ const styles = {
   },
   partyPopper: {
     fontSize: '60px',
-    lineHeight: '20px'
+    marginBottom: '25px'
+  },
+  headerText: {
+    fontSize: '22px'
   },
   header: {
     textAlign: 'center',
     backgroundColor: '#e42d40',
-    height: '150px',
     padding: '20px',
     color: 'white'
   },
@@ -47,8 +52,10 @@ class Intake extends Component {
           <a href="https://hackclub.com" target="_blank">
             <img src={logo} style={styles.logo} alt="logo" />
           </a>
-          <h1 style={styles.partyPopper}>🎉</h1>
-          <h2>Welcome to Hack Club! All fields are required.</h2>
+          <Header style={styles.partyPopper}>🎉</Header>
+          <Header style={styles.headerText}>
+            Welcome to Hack Club! All fields are required.
+          </Header>
         </div>
         <IntakeForm
           onSubmit={this.handleIntakeSubmit}

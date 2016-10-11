@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import Radium from 'radium'
 import Card from '../components/Card'
 import Button from '../components/Button'
+import Header from '../components/Header'
+import Text from '../components/Text'
 import dinosaur from './dinosaur.png'
 
 const styles = {
@@ -25,11 +27,11 @@ class NoMatch extends Component {
     return (
       <div style={styles.wrapper}>
         <Card>
-          <h1>Oh snap!</h1>
-          <p>
+          <Header>Oh snap!</Header>
+          <Text>
             Looks like you're trying to reach a page that doesn't exist. Here's
             a dinosaur instead:
-          </p>
+          </Text>
           <img style={styles.img}
                src={dinosaur}
                alt="Dinosaur" />
