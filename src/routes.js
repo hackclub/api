@@ -1,0 +1,16 @@
+import React from 'react'
+import { Route } from 'react-router'
+import {
+  NotFound
+} from './containers'
+
+import './cssReset.css'
+import './index.css'
+
+export default (store) => {
+  return (
+    <Route path="/">
+      <Route path="*" component={NotFound} status={404} />
+    </Route>
+  )
+}

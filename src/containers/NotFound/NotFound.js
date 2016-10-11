@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
-import Card from '../components/Card'
-import Button from '../components/Button'
-import Header from '../components/Header'
-import Text from '../components/Text'
+import Card from '../../components/Card'
+import Button from '../../components/Button'
+import Header from '../../components/Header'
+import Text from '../../components/Text'
 import dinosaur from './dinosaur.png'
 
 const styles = {
