@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
+import Helmet from 'react-helmet'
 import Card from '../../components/Card'
 import Button from '../../components/Button'
 import Header from '../../components/Header'
@@ -26,6 +27,7 @@ class NotFound extends Component {
   render() {
     return (
       <div style={styles.wrapper}>
+        <Helmet title="¯\_(ツ)_/¯" />
         <Card>
           <Header>Oh snap!</Header>
           <Text>
