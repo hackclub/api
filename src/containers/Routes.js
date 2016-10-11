@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Router, Route, Link, browserHistory } from 'react-router'
+import { Router, Route, browserHistory } from 'react-router'
 import Intake from './Intake'
 import NotFound from './NotFound'
 

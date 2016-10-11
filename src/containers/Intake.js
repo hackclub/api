@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { createLeader } from '../actions'
 
 import Header from '../components/Header'
-import Text from '../components/Text'
 import IntakeForm from './IntakeForm'
 import colors from '../colors'
 import logo from './logo.svg'

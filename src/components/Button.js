@@ -64,7 +64,7 @@ class Button extends Component {
         </a>
         break
     default:
-      throw 'Invalid type'
+      throw new Error('Invalid type')
     }
 
     return button
