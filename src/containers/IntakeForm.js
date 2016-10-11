@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import Radium from 'radium'
 import { Field, reduxForm } from 'redux-form'
-import Spinner from 'react-spinkit'
+import { ThreeBounce } from 'better-react-spinkit'
 
 const styles = {
   base: {
@@ -113,7 +113,8 @@ class IntakeForm extends Component {
     let submitButtonContents = null
 
     if (isSubmitting) {
-      submitButtonContents = <Spinner spinnerName="three-bounce" style={styles.spinner} noFadeIn />
+      submitButtonContents =
+        <ThreeBounce color="white" size="15" />
     } else if (didSucceed) {
       submitButtonContents = <span>👍</span>
     } else if (submissionError) {
