@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
+import colors from '../colors'
 
 const styles = {
   base: {
-    backgroundColor: '#e42d40',
+    backgroundColor: colors.primary,
 
     fontFamily: 'inherit',
     fontSize: '20px',
     fontWeight: 'bold',
-    color: '#ffffff',
+    color: colors.bg,
 
     width: '100%',
     boxSizing: 'border-box',

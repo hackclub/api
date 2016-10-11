@@ -5,6 +5,7 @@ import { ThreeBounce } from 'better-react-spinkit'
 import Button from '../components/Button'
 import Header from '../components/Header'
 import Text from '../components/Text'
+import colors from '../colors'
 
 const styles = {
   base: {
@@ -14,12 +15,12 @@ const styles = {
     marginLeft: 'auto',
     marginRight: 'auto',
 
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.bg,
     width: '350px',
     padding: '17.5px',
     paddingBottom: '5px',
-    border: '1px solid #cccccc',
-    boxShadow: '0px 1px 50px -15px #888888',
+    border: `1px solid ${colors.outline}`,
+    boxShadow: `0px 1px 50px -15px ${colors.gray}`,
     borderRadius: '3px'
   },
   formGroup: {
@@ -35,7 +36,7 @@ const styles = {
   field: {
     fontFamily: 'inherit',
     fontSize: '16px',
-    color: '#575757',
+    color: colors.userInput,
 
     width: '100%',
     boxSizing: 'border-box',
@@ -47,17 +48,17 @@ const styles = {
     paddingBottom: '6px',
 
     borderRadius: '3px',
-    border: '1px solid #cccccc',
+    border: `1px solid ${colors.outline}`,
 
     ':placeholder': {
       fontStyle: 'italic',
-      color: '#b3b3b3'
+      color: colors.placeholder
     }
   },
   select: {
     fontFamily: 'inherit',
     fontSize: '16px',
-    color: '#575757',
+    color: colors.userInput,
 
     width: '100%',
     boxSizing: 'border-box',
@@ -69,43 +70,12 @@ const styles = {
     paddingBottom: '6px',
 
     borderRadius: '3px',
-    border: '1px solid #cccccc',
+    border: `1px solid ${colors.outline}`,
 
     background: 'none'
   },
-  button: {
-    fontFamily: 'inherit',
-    fontSize: '16px',
-    color: '#575757',
-
-    width: '100%',
-    boxSizing: 'border-box',
-    display: 'block',
-
-    paddingTop: '7px',
-    paddingLeft: '6px',
-    paddingRight: '6px',
-    paddingBottom: '6px',
-
-    borderRadius: '3px',
-    border: '1px solid #cccccc',
-
-    backgroundColor: '#e42d40',
-
-    fontSize: '20px',
-    fontWeight: 'bold',
-    color: '#ffffff',
-
-    border: 'none',
-    height: '50px',
-    cursor: 'pointer',
-
-    ':disabled': {
-      cursor: 'default'
-    }
-  },
   spinner: {
-    backgroundColor: '#ffffff'
+    backgroundColor: colors.bg
   }
 }
 

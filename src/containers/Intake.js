@@ -6,6 +6,7 @@ import { createLeader } from '../actions'
 import Header from '../components/Header'
 import Text from '../components/Text'
 import IntakeForm from './IntakeForm'
+import colors from '../colors'
 import logo from './logo.svg'
 
 const styles = {
@@ -17,16 +18,17 @@ const styles = {
   },
   partyPopper: {
     fontSize: '60px',
+    marginTop: '15px',
     marginBottom: '25px'
   },
   headerText: {
-    fontSize: '22px'
+    fontSize: '22px',
+    color: colors.bg
   },
   header: {
     textAlign: 'center',
-    backgroundColor: '#e42d40',
-    padding: '20px',
-    color: 'white'
+    backgroundColor: colors.primary,
+    padding: '20px'
   },
   intro: {
     fontSize: 'large'
