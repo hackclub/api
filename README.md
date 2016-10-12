@@ -54,4 +54,9 @@ STREAK_LEADER_PIPELINE_KEY
 
 # DSN for Sentry (https://sentry.io) (only needed for production)
 SENTRY_DSN
+
+# Name of team to put members of Hack Club into on Cloud9 & an access token for
+# an account with access to that team.
+CLOUD9_ACCESS_TOKEN
+CLOUD9_TEAM_NAME
 ```

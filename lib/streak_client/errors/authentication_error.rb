@@ -1,2 +1,0 @@
-class AuthenticationError < StreakError
-end

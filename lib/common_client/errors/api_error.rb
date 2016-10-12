@@ -1,4 +1,4 @@
-class StreakError < StandardError
+class ApiError < StandardError
   attr_reader :message
   attr_reader :http_status
   attr_reader :http_body

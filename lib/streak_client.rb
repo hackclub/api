@@ -3,8 +3,8 @@ require "streak_client/pipeline"
 require "streak_client/box"
 
 # Errors
-require "streak_client/errors/streak_error"
-require "streak_client/errors/authentication_error"
+require "common_client/errors/api_error"
+require "common_client/errors/authentication_error"
 
 # API client to Streak
 module StreakClient
