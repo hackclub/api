@@ -48,6 +48,7 @@ test:
           -e STREAK_CLUB_PIPELINE_KEY=$STREAK_CLUB_PIPELINE_KEY \
           -e STREAK_LEADER_PIPELINE_KEY=$STREAK_LEADER_PIPELINE_KEY \
           -e STREAK_API_KEY=$STREAK_API_KEY \
+          -e CLOUD9_ACCESS_TOKEN=$CLOUD9_ACCESS_TOKEN \
         web \
         bundle exec rspec \
           -r rspec_junit_formatter \
