@@ -16,8 +16,8 @@ module Cloud9Client
       Cloud9Client.request(:delete, "/user/org/#{team_name}/member/#{username}")
     end
 
-    def self.send_invite(team_name, email)
-      Cloud9Client.request(:post, "/user/org/#{invite}/invite", {
+    def self.invite_member(team_name, email)
+      Cloud9Client.request(:post, "/user/org/#{team_name}/invite", {
                              email: email
                            })
     end

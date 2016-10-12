@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     get 'ping', to: 'ping#ping'
 
     post 'leaders/intake'
+    post 'cloud9/send_invite'
 
     resources :clubs
   end

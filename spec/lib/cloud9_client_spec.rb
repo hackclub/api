@@ -5,7 +5,7 @@ RSpec.describe Cloud9Client, vcr: true do
 
   context "without access token" do
     before { Cloud9Client.access_token = nil }
-    after { Cloud9Client.access_token = Rails.application.secrets.cloud9_acess_token }
+    after { Cloud9Client.access_token = Rails.application.secrets.cloud9_access_token }
 
     it "throws an AuthenticationError" do
       expect {

@@ -1,0 +1,64 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.c9.io/user/org/ENV[cloud9_team_name]/invite?access_token=ENV[cloud9_access_token]
+    body:
+      encoding: UTF-8
+      string: '{"email":"asdf"}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate, br
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/53.0.2785.143 Safari/537.36
+      Pragma:
+      - no-cache
+      Origin:
+      - https://c9.io
+      Accept-Language:
+      - en-US,en;q=0.8
+      Cache-Control:
+      - no-cache
+      Dnt:
+      - '1'
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '16'
+      Host:
+      - api.c9.io
+  response:
+    status:
+      code: 500
+      message: Internal Server Error
+    headers:
+      Content-Type:
+      - application/json
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, OPTIONS, PUT, POST, DELETE, HEAD, PROPFIND, PATCH
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, x-request-metadata
+      Access-Control-Expose-Headers:
+      - x-content-length, x-metadata-length
+      Access-Control-Max-Age:
+      - '8640000'
+      Date:
+      - Wed, 12 Oct 2016 20:59:32 GMT
+      Transfer-Encoding:
+      - chunked
+      X-Backend:
+      - api
+      Strict-Transport-Security:
+      - max-age=31536000
+    body:
+      encoding: UTF-8
+      string: '{"error":{"code":500,"hostname":"newclient-gce-usw-153-prod","scope":"api","message":"There
+        was an error sending the invite. Please try again."}}'
+    http_version: 
+  recorded_at: Wed, 12 Oct 2016 20:59:32 GMT
+recorded_with: VCR 3.0.3
