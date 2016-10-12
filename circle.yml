@@ -10,6 +10,7 @@ machine:
     STREAK_CLUB_PIPELINE_KEY: clubs
     STREAK_LEADER_PIPELINE_KEY: leaders
     STREAK_API_KEY: test_api_key
+    CLOUD9_ACCESS_TOKEN: test_access_token
 
 dependencies:
   pre:
