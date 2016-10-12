@@ -11,6 +11,7 @@ machine:
     STREAK_LEADER_PIPELINE_KEY: leaders
     STREAK_API_KEY: test_api_key
     CLOUD9_ACCESS_TOKEN: test_access_token
+    CLOUD9_TEAM_NAME: fake_team_name
 
 dependencies:
   pre:
@@ -49,6 +50,7 @@ test:
           -e STREAK_LEADER_PIPELINE_KEY=$STREAK_LEADER_PIPELINE_KEY \
           -e STREAK_API_KEY=$STREAK_API_KEY \
           -e CLOUD9_ACCESS_TOKEN=$CLOUD9_ACCESS_TOKEN \
+          -e CLOUD9_TEAM_NAME=$CLOUD9_TEAM_NAME \
         web \
         bundle exec rspec \
           -r rspec_junit_formatter \
