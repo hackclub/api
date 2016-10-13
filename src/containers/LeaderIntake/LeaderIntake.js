@@ -44,8 +44,7 @@ const styles = {
 
 class LeaderIntake extends Component {
   static propTypes = {
-    error: PropTypes.string,
-    loading: PropTypes.bool
+    error: PropTypes.string
   }
 
   render() {
@@ -68,8 +67,7 @@ class LeaderIntake extends Component {
 }
 
 const mapStateToProps = state => ({
-  error: state.leaderIntake.error,
-  loading: state.leaderIntake.loading
+  error: state.leaderIntake.error
 })
 
 export default connect(
