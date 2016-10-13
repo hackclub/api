@@ -44,7 +44,13 @@ class Cloud9Setup extends Component {
       <div>
         <Helmet title="Cloud9 Setup" />
         <Header>
-          <Heading style={styles.cloud}>☁️</Heading>
+          <Heading style={styles.cloud}>
+            {
+              status === "success" ?
+                "🌤" :
+                "☁️"
+            }
+          </Heading>
           <Heading>Welcome to Hack Club! Let's get you on Cloud9.</Heading>
           <Text style={styles.instructions}>
             Just fill out the form below and check your email.
