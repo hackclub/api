@@ -1,4 +1,4 @@
-import { createStore as _createStore, applyMiddleware } from 'redux'
+import { createStore as _createStore, applyMiddleware, compose } from 'redux'
 import createMiddleware from './middleware/clientMiddleware'
 import { routerMiddleware } from 'react-router-redux'
 import reducer from './modules/reducer'
@@ -9,7 +9,11 @@ export default function createStore(history, client, data) {
 
   const middleware = [createMiddleware(client), reduxRouterMiddleware]
 
-  let finalCreateStore = applyMiddleware(...middleware)(_createStore)
+  // Allow usage of the Chrome Redux devtools
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  const store = _createStore(reducer, data, composeEnhancers(
+    applyMiddleware(...middleware)
+  ))
 
-  return finalCreateStore(reducer, data)
+  return store
 }

@@ -3,7 +3,6 @@ const SUBMIT_SUCCESS = 'hackclub/cloud9Setup/SUBMIT_SUCCESS'
 const SUBMIT_FAIL = 'hackclub/cloud9Setup/SUBMIT_FAIL'
 
 const initialState = {
-  errors: {},
   status: null
 }
 
@@ -14,13 +13,11 @@ export default function reducer(state=initialState, action={}) {
   case SUBMIT_SUCCESS:
     return {
       ...state,
-      errors: {},
       status: "success"
     }
   case SUBMIT_FAIL:
     return {
       ...state,
-      errors: action.errors,
       status: "error"
     }
   default:

@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import Radium from 'radium'
 import Helmet from 'react-helmet'
 import { connect } from 'react-redux'
+import { SubmissionError } from 'redux-form'
 import { Card, Cloud9SetupForm, Header, Heading, Text } from '../../components'
 import * as cloud9SetupActions from '../../redux/modules/cloud9Setup'
 
@@ -27,8 +28,17 @@ class Cloud9Setup extends Component {
     submit: PropTypes.func.isRequired
   }
 
+  handleSubmit(values) {
+    const { submit } = this.props
+
+    return submit(values.email)
+      .catch(error => {
+        throw new SubmissionError(error.errors)
+      })
+  }
+
   render() {
-    const { errors, submit, status } = this.props
+    const { status } = this.props
 
     return (
       <div>
@@ -43,8 +53,7 @@ class Cloud9Setup extends Component {
         <Card style={styles.card}>
           <Cloud9SetupForm
              status={status}
-             errors={errors}
-             onSubmit={values => submit(values.email)}
+             onSubmit={values => this.handleSubmit(values)}
             />
         </Card>
       </div>
@@ -53,7 +62,6 @@ class Cloud9Setup extends Component {
 }
 
 const mapStateToProps = state => ({
-  errors: state.cloud9Setup.errors,
   status: state.cloud9Setup.status
 })
 

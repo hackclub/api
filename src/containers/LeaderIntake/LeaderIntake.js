@@ -37,12 +37,11 @@ const styles = {
 
 class LeaderIntake extends Component {
   static propTypes = {
-    errors: PropTypes.object,
     status: PropTypes.string
   }
 
   render() {
-    const { submit, status, errors } = this.props
+    const { submit, status } = this.props
 
     return (
       <div>
@@ -56,7 +55,6 @@ class LeaderIntake extends Component {
           <LeaderIntakeForm
              onSubmit={values => submit(values)}
              status={status}
-             errors={errors}
             />
         </Card>
       </div>
@@ -65,7 +63,6 @@ class LeaderIntake extends Component {
 }
 
 const mapStateToProps = state => ({
-  errors: state.leaderIntake.errors,
   status: state.leaderIntake.status
 })
 
