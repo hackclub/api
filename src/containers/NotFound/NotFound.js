@@ -4,7 +4,7 @@ import Helmet from 'react-helmet'
 import {
   Button,
   Card,
-  Header,
+  Heading,
   Text
 } from '../../components'
 import dinosaur from './dinosaur.png'
@@ -31,7 +31,7 @@ class NotFound extends Component {
       <div style={styles.wrapper}>
         <Helmet title="¯\_(ツ)_/¯" />
         <Card>
-          <Header>Oh snap!</Header>
+          <Heading>Oh snap!</Heading>
           <Text>
             Looks like you're trying to reach a page that doesn't exist. Here's
             a dinosaur instead:

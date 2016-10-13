@@ -7,7 +7,7 @@ const styles = {
   marginBottom: '15px'
 }
 
-class Header extends Component {
+class Heading extends Component {
   render() {
     return (
       <h1 style={[styles,this.props.style]}>
@@ -17,4 +17,4 @@ class Header extends Component {
   }
 }
 
-export default Radium(Header)
+export default Radium(Heading)

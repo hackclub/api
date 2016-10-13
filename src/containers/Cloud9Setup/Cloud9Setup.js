@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import Radium from 'radium'
 import Helmet from 'react-helmet'
 import { connect } from 'react-redux'
-import { Card, Cloud9SetupForm, Header, Text } from '../../components'
+import { Card, Cloud9SetupForm, Heading, Text } from '../../components'
 import * as cloud9SetupActions from '../../redux/modules/cloud9Setup'
 
 const styles={
@@ -29,7 +29,7 @@ class Cloud9Setup extends Component {
       <div>
         <Helmet title="Cloud9 Setup" />
         <Card style={styles.card}>
-          <Header>Cloud9 Setup</Header>
+          <Heading>Cloud9 Setup</Heading>
           <Text>
             You'll need an invite to use Cloud9 at Hack Club. Fill out the below
             form and check your inbox to get one.
