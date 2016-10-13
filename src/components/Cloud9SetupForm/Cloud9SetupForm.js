@@ -33,9 +33,9 @@ class Cloud9SetupForm extends Component {
     case "error":
       return (<span style={styles.emoji}>🤔</span>)
     case "success":
-      return (<span>Invite Sent! <span style={styles.emoji}>👊</span></span>)
+      return (<span>Invite Sent! Check your email <span style={styles.emoji}>👊</span></span>)
     default:
-      return "Get An Invite"
+      return "Get Your Cloud9 Invite"
     }
   }
 

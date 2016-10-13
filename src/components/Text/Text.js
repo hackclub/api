@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Radium from 'radium'
 
 const styles = {
-  marginBottom: '5px',
+  marginBottom: '10px',
   fontSize: '16px',
   lineHeight: '18px'
 }

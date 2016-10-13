@@ -2,18 +2,23 @@ import React, { Component, PropTypes } from 'react'
 import Radium from 'radium'
 import Helmet from 'react-helmet'
 import { connect } from 'react-redux'
-import { Card, Cloud9SetupForm, Heading, Text } from '../../components'
+import { Card, Cloud9SetupForm, Header, Heading, Text } from '../../components'
 import * as cloud9SetupActions from '../../redux/modules/cloud9Setup'
 
-const styles={
+const styles = {
+  cloud: {
+    fontSize: '96px',
+    lineHeight: '75%'
+  },
+  instructions: {
+    fontSize: '22px',
+    marginTop: '20px'
+  },
   card: {
     marginLeft: 'auto',
     marginRight: 'auto',
     marginTop: '40px',
     marginBottom: '40px'
-  },
-  form: {
-    marginTop: '15px'
   }
 }
 
@@ -28,14 +33,15 @@ class Cloud9Setup extends Component {
     return (
       <div>
         <Helmet title="Cloud9 Setup" />
-        <Card style={styles.card}>
-          <Heading>Cloud9 Setup</Heading>
-          <Text>
-            You'll need an invite to use Cloud9 at Hack Club. Fill out the below
-            form and check your inbox to get one.
+        <Header>
+          <Heading style={styles.cloud}>☁️</Heading>
+          <Heading>Welcome to Hack Club! Let's get you on Cloud9.</Heading>
+          <Text style={styles.instructions}>
+            Just fill out the form below and check your email.
           </Text>
+        </Header>
+        <Card style={styles.card}>
           <Cloud9SetupForm
-             style={styles.form}
              status={status}
              errors={errors}
              onSubmit={values => submit(values.email)}

@@ -3,17 +3,10 @@ import Radium from 'radium'
 import Helmet from 'react-helmet'
 import { connect } from 'react-redux'
 import * as intakeActions from '../../redux/modules/leaderIntake'
-import { Card, Heading, LeaderIntakeForm, Link } from '../../components'
+import { Card, Header, Heading, LeaderIntakeForm, Link } from '../../components'
 import colors from '../../colors'
 
 const styles = {
-  header: {
-    backgroundColor: colors.primary,
-    color: colors.bg,
-
-    textAlign: 'center',
-    padding: '40px'
-  },
   headerLink: {
     color: colors.bg,
     position: 'absolute',
@@ -53,11 +46,11 @@ class LeaderIntake extends Component {
 
     return (
       <div>
-        <div style={styles.header}>
+        <Header>
           <Link style={[styles.headerLink]} to="/">← Back to Home Page</Link>
           <Heading style={styles.headerEmoji}>🎉</Heading>
           <Heading style={styles.headerText}>Welcome to Hack Club! Let's get you set up.</Heading>
-        </div>
+        </Header>
         <Helmet title="Leader Intake" />
         <Card style={styles.card}>
           <LeaderIntakeForm
