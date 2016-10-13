@@ -4,8 +4,31 @@ import { Button, TextField } from '../../components'
 import leaderIntakeValidation from './leaderIntakeValidation'
 
 class LeaderIntakeForm extends Component {
+  buttonState() {
+    const { submitting, invalid, status } = this.props
+
+    if (invalid) {
+      return "disabled"
+    } else if (submitting) {
+      return "loading"
+    } else {
+      return status
+    }
+  }
+
+  buttonText(status) {
+    switch(status) {
+    case "error":
+      return "Shucks :-/"
+    case "success":
+      return "You're all set!"
+    default:
+      return "Submit"
+    }
+  }
+
   render() {
-    const { handleSubmit, invalid, submitting } = this.props
+    const { handleSubmit, status } = this.props
 
     return (
       <form onSubmit={handleSubmit}>
@@ -17,8 +40,7 @@ class LeaderIntakeForm extends Component {
         <TextField name="twitter_username" label="Twitter username (if you have one)" />
         <TextField name="address" label="Full address (include state and zip code)" />
         <Button type="form"
-                loading={submitting}
-                disabled={invalid}>Submit</Button>
+                state={this.buttonState()}>{this.buttonText(status)}</Button>
       </form>
     )
   }

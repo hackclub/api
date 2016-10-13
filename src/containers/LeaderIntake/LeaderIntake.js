@@ -44,11 +44,12 @@ const styles = {
 
 class LeaderIntake extends Component {
   static propTypes = {
-    error: PropTypes.string
+    errors: PropTypes.object,
+    status: PropTypes.string
   }
 
   render() {
-    const { submit } = this.props
+    const { submit, status, errors } = this.props
 
     return (
       <div>
@@ -59,7 +60,11 @@ class LeaderIntake extends Component {
         </div>
         <Helmet title="Leader Intake" />
         <Card style={styles.card}>
-          <LeaderIntakeForm onSubmit={values => submit(values)}/>
+          <LeaderIntakeForm
+             onSubmit={values => submit(values)}
+             status={status}
+             errors={errors}
+            />
         </Card>
       </div>
     )
@@ -67,7 +72,8 @@ class LeaderIntake extends Component {
 }
 
 const mapStateToProps = state => ({
-  error: state.leaderIntake.error
+  errors: state.leaderIntake.errors,
+  status: state.leaderIntake.status
 })
 
 export default connect(

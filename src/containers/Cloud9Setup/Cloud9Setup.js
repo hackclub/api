@@ -23,7 +23,7 @@ class Cloud9Setup extends Component {
   }
 
   render() {
-    const { errors, submit, showFailure } = this.props
+    const { errors, submit, status } = this.props
 
     return (
       <div>
@@ -36,8 +36,8 @@ class Cloud9Setup extends Component {
           </Text>
           <Cloud9SetupForm
              style={styles.form}
+             status={status}
              errors={errors}
-             showFailure={showFailure}
              onSubmit={values => submit(values.email)}
             />
         </Card>
@@ -48,7 +48,7 @@ class Cloud9Setup extends Component {
 
 const mapStateToProps = state => ({
   errors: state.cloud9Setup.errors,
-  showFailure: state.cloud9Setup.showFailure
+  status: state.cloud9Setup.status
 })
 
 export default connect(

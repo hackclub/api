@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import Radium from 'radium'
 import { ThreeBounce } from 'better-react-spinkit'
 import colors from '../../colors'
@@ -20,6 +20,8 @@ const styles = {
     border: 'none',
     borderRadius: '3px',
 
+    transition: 'all .5s',
+
     cursor: 'pointer'
   },
   form: {
@@ -31,19 +33,35 @@ const styles = {
     textAlign: 'center',
     textDecoration: 'none'
   },
-  disabled: {
-    backgroundColor: colors.fadedPrimary
+  state: {
+    disabled: {
+      backgroundColor: colors.fadedPrimary
+    },
+    error: {
+      backgroundColor: colors.warning
+    },
+    success: {
+      backgroundColor: colors.success
+    }
   }
 }
 
 class Button extends Component {
+  static propTypes = {
+    type: PropTypes.string.isRequired,
+    state: PropTypes.string, // Can be disabled, error, loading, or success
+    href: PropTypes.string,
+    style: PropTypes.object
+  }
+
   render() {
     const type = this.props.type
-    const disabled = this.props.disabled
-    const loading = this.props.loading
+    const state = this.props.state
+    const givenStyle = this.props.style
+    const href = this.props.href
 
     let button = null
-    let buttonContents = loading ?
+    let buttonContents = state === "loading" ?
                            <ThreeBounce size={15} color={colors.bg} /> :
                            this.props.children
 
@@ -54,21 +72,21 @@ class Button extends Component {
                 style={[
                   styles.base,
                   styles.form,
-                  disabled ? styles.disabled : null,
-                  this.props.style
+                  styles.state[state],
+                  givenStyle
                 ]}
-                disabled={disabled}>
+                disabled={state === "disabled"}>
           {buttonContents}
         </button>
         break
     case 'link':
       button =
-        <a href={this.props.href}
+        <a href={href}
            style={[
              styles.base,
              styles.link,
-             disabled ? styles.disabled : null,
-             this.props.style
+             styles.state[state],
+             givenStyle
            ]}>
           {buttonContents}
         </a>

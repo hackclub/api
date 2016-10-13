@@ -5,32 +5,48 @@ import cloud9SetupValidation from './cloud9SetupValidation'
 
 const styles = {
   emoji: {
-    fontSize: '22px',
+    fontSize: '24px',
+    verticalAlign: '-3px',
     lineHeight: 0
   }
 }
 
 class Cloud9SetupForm extends Component {
-  render() {
+  buttonState() {
     const {
-      handleSubmit,
+      submitting,
       invalid,
-      showFailure,
-      style,
-      submitting
+      status
     } = this.props
+
+    if (invalid) {
+      return "disabled"
+    } else if (submitting) {
+      return "loading"
+    } else {
+      return status
+    }
+  }
+
+  buttonText(status) {
+    switch (status) {
+    case "error":
+      return (<span style={styles.emoji}>🤔</span>)
+    case "success":
+      return (<span>Invite Sent! <span style={styles.emoji}>👊</span></span>)
+    default:
+      return "Get An Invite"
+    }
+  }
+
+  render() {
+    const { handleSubmit, style, status } = this.props
 
     return (
       <form style={style} onSubmit={handleSubmit}>
         <TextField name="email" label="Email" />
-        <Button type="form"
-                loading={submitting}
-                disabled={invalid}>
-          {
-            showFailure ?
-              <span style={styles.emoji}>🤔</span> :
-              "Get An Invite"
-          }
+        <Button type="form" state={this.buttonState()}>
+          {this.buttonText(status)}
         </Button>
       </form>
     )

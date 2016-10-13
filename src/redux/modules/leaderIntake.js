@@ -3,7 +3,8 @@ const SUBMIT_SUCCESS = 'hackclub/leader_intake/SUBMIT_SUCCESS'
 const SUBMIT_FAIL = 'hackclub/leader_intake/SUBMIT_FAIL'
 
 const initialState = {
-  submitError: {}
+  errors: {},
+  status: null
 }
 
 export default function reducer(state=initialState, action={}) {
@@ -11,11 +12,17 @@ export default function reducer(state=initialState, action={}) {
   case SUBMIT:
     return state // 'saving' flag handled by redux-form
   case SUBMIT_SUCCESS:
-    // TODO
-    return state
+    return {
+      ...state,
+      errors: {},
+      status: "success"
+    }
   case SUBMIT_FAIL:
-    // TODO
-    return state
+    return {
+      ...state,
+      errors: action.errors,
+      status: "error"
+    }
   default:
     return state
   }
