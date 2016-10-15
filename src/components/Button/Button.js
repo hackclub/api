@@ -25,6 +25,8 @@ const styles = {
     cursor: 'pointer'
   },
   form: {
+    outline: 'none',
+
     ':disabled': {
       cursor: 'default'
     }
