@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { reduxForm } from 'redux-form'
-import { Button, TextField } from '../../components'
+import { reduxForm, Field } from 'redux-form'
+import { Button, TextField, SelectField } from '../../components'
 import leaderIntakeValidation from './leaderIntakeValidation'
 
 class LeaderIntakeForm extends Component {
@@ -32,13 +32,29 @@ class LeaderIntakeForm extends Component {
 
     return (
       <form onSubmit={handleSubmit}>
-        <TextField name="name" label="First and last name" />
-        <TextField name="email" type="email" label="Preferred email" />
-        <TextField name="phone_number" label="Phone number" />
-        <TextField name="slack_username" label="Slack username" />
-        <TextField name="github_username" label="GitHub username" />
-        <TextField name="twitter_username" label="Twitter username (if you have one)" />
-        <TextField name="address" label="Full address (include state and zip code)" />
+        <Field name="name" label="First and last name" component={TextField} />
+        <Field name="email" type="email" label="Preferred email" component={TextField} />
+        <Field name="gender" label="Gender" component={SelectField}>
+          <option></option>
+          <option value="Female">Female</option>
+          <option value="Male">Male</option>
+          <option value="Other">Other</option>
+        </Field>
+        <Field name="year" label="Year" component={SelectField}>
+          <option></option>
+          <option value="2022">2022</option>
+          <option value="2021">2021</option>
+          <option value="2020">2020</option>
+          <option value="2019">2019</option>
+          <option value="2018">2018</option>
+          <option value="2017">2017</option>
+          <option value="2016">2016</option>
+        </Field>
+        <Field name="phone_number" label="Phone number" component={TextField} />
+        <Field name="slack_username" label="Slack username" component={TextField} />
+        <Field name="github_username" label="GitHub username" component={TextField} />
+        <Field name="twitter_username" label="Twitter username (if you have one)" component={TextField} />
+        <Field name="address" label="Full address (include state and zip code)" component={TextField} />
         <Button type="form"
                 state={this.buttonState()}>{this.buttonText(status)}</Button>
       </form>

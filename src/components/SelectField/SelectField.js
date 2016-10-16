@@ -6,25 +6,29 @@ const styles = {
   fontFamily: 'inherit',
   fontSize: '16px',
   color: colors.userInput,
+
   width: '100%',
   boxSizing: 'border-box',
   display: 'block',
-  paddingTop: '7px',
-  paddingLeft: '6px',
-  paddingRight: '6px',
-  paddingBottom: '6px',
+
+  height: '35px',
+
   borderRadius: '3px',
-  border: `1px solid ${colors.outline}`
+  border: `1px solid ${colors.outline}`,
+
+  background: 'none'
 }
 
-class TextField extends Field {
+class SelectField extends Field {
   renderInput() {
-    const { input, label, type } = this.props
+    const { input } = this.props
 
     return (
-      <input {...input} placeholder={label} type={type} style={styles} />
+      <select {...input} style={styles}>
+        {this.props.children}
+      </select>
     )
   }
 }
 
-export default TextField
+export default SelectField

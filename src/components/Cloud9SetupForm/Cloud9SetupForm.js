@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { reduxForm } from 'redux-form'
+import { reduxForm, Field } from 'redux-form'
 import { Button, TextField } from '../../components'
 import cloud9SetupValidation from './cloud9SetupValidation'
 
@@ -44,7 +44,7 @@ class Cloud9SetupForm extends Component {
 
     return (
       <form style={style} onSubmit={handleSubmit}>
-        <TextField name="email" label="Email" />
+        <Field name="email" label="Email" component={TextField} />
         <Button type="form" state={this.buttonState()}>
           {this.buttonText(status)}
         </Button>
