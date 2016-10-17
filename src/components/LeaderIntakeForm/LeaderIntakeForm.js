@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { reduxForm, Field } from 'redux-form'
-import { Button, TextField, SelectField } from '../../components'
+import { Button, TextField, TextAreaField, SelectField } from '../../components'
 import leaderIntakeValidation from './leaderIntakeValidation'
 
 class LeaderIntakeForm extends Component {
@@ -54,7 +54,7 @@ class LeaderIntakeForm extends Component {
         <Field name="slack_username" label="Slack username" component={TextField} />
         <Field name="github_username" label="GitHub username" component={TextField} />
         <Field name="twitter_username" label="Twitter username (if you have one)" component={TextField} />
-        <Field name="address" label="Full address (include state and zip code)" component={TextField} />
+        <Field name="address" label="Full address (include state and zip code)" component={TextAreaField} />
         <Button type="form"
                 state={this.buttonState()}>{this.buttonText(status)}</Button>
       </form>

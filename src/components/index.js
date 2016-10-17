@@ -8,4 +8,5 @@ export { default as LeaderIntakeForm } from './LeaderIntakeForm/LeaderIntakeForm
 export { default as Link } from './Link/Link'
 export { default as SelectField } from './SelectField/SelectField'
 export { default as Text } from './Text/Text'
+export { default as TextAreaField } from './TextAreaField/TextAreaField'
 export { default as TextField} from './TextField/TextField'
