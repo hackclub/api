@@ -163,80 +163,80 @@ RSpec.describe Leader, type: :model do
       end
     end
 
-    context "without clubs" do
-      it "updates the Streak box's attributes" do
-        client = class_double(StreakClient::Box).as_stubbed_const
-        field_maps = Leader::STREAK_FIELD_MAPPINGS
+    # TODO: This should also check for the case where the leader has clubs. Not
+    # sure the best way to implement a test for this.
+    it "updates the Streak box's attributes" do
+      client = class_double(StreakClient::Box).as_stubbed_const
+      field_maps = Leader::STREAK_FIELD_MAPPINGS
 
-        expect(client).to receive(:update)
-                           .with(
-                             leader.streak_key,
-                             notes: "NEW NOTES",
-                             linkedBoxKeys: []
-                           )
-        expect(client).to receive(:edit_field)
-                           .with(
-                             leader.streak_key,
-                             field_maps[:email],
-                             'new@email.com'
-                           )
-        expect(client).to receive(:edit_field)
-                           .with(
-                             leader.streak_key,
-                             field_maps[:gender][:key],
-                             field_maps[:gender][:options]['Male']
-                           )
-        expect(client).to receive(:edit_field)
-                           .with(
-                             leader.streak_key,
-                             field_maps[:year][:key],
-                             field_maps[:year][:options]['2017']
-                           )
-        expect(client).to receive(:edit_field)
-                           .with(
-                             leader.streak_key,
-                             field_maps[:phone_number],
-                             '1-444-444-4444'
-                           )
-        expect(client).to receive(:edit_field)
-                           .with(
-                             leader.streak_key,
-                             field_maps[:slack_username],
-                             'new_slack_username'
-                           )
-        expect(client).to receive(:edit_field)
-                           .with(
-                             leader.streak_key,
-                             field_maps[:github_username],
-                             'new_github_username'
-                           )
-        expect(client).to receive(:edit_field)
-                           .with(
-                             leader.streak_key,
-                             field_maps[:twitter_username],
-                             'new_twitter_username'
-                           )
-        expect(client).to receive(:edit_field)
-                           .with(
-                             leader.streak_key,
-                             field_maps[:address],
-                             'NEW ADDRESS'
-                           )
-        expect(client).to receive(:edit_field)
-                           .with(
-                             leader.streak_key,
-                             field_maps[:latitude],
-                             anything
-                           )
-        expect(client).to receive(:edit_field)
-                           .with(
-                             leader.streak_key,
-                             field_maps[:longitude],
-                             anything
-                           )
+      expect(client).to receive(:update)
+                         .with(
+                           leader.streak_key,
+                           notes: "NEW NOTES",
+                           linkedBoxKeys: leader.clubs.map(&:streak_key)
+                         )
+      expect(client).to receive(:edit_field)
+                         .with(
+                           leader.streak_key,
+                           field_maps[:email],
+                           'new@email.com'
+                         )
+      expect(client).to receive(:edit_field)
+                         .with(
+                           leader.streak_key,
+                           field_maps[:gender][:key],
+                           field_maps[:gender][:options]['Male']
+                         )
+      expect(client).to receive(:edit_field)
+                         .with(
+                           leader.streak_key,
+                           field_maps[:year][:key],
+                           field_maps[:year][:options]['2017']
+                         )
+      expect(client).to receive(:edit_field)
+                         .with(
+                           leader.streak_key,
+                           field_maps[:phone_number],
+                           '1-444-444-4444'
+                         )
+      expect(client).to receive(:edit_field)
+                         .with(
+                           leader.streak_key,
+                           field_maps[:slack_username],
+                           'new_slack_username'
+                         )
+      expect(client).to receive(:edit_field)
+                         .with(
+                           leader.streak_key,
+                           field_maps[:github_username],
+                           'new_github_username'
+                         )
+      expect(client).to receive(:edit_field)
+                         .with(
+                           leader.streak_key,
+                           field_maps[:twitter_username],
+                           'new_twitter_username'
+                         )
+      expect(client).to receive(:edit_field)
+                         .with(
+                           leader.streak_key,
+                           field_maps[:address],
+                           'NEW ADDRESS'
+                         )
+      expect(client).to receive(:edit_field)
+                         .with(
+                           leader.streak_key,
+                           field_maps[:latitude],
+                           anything
+                         )
+      expect(client).to receive(:edit_field)
+                         .with(
+                           leader.streak_key,
+                           field_maps[:longitude],
+                           anything
+                         )
 
-        leader.save
-      end
+      leader.save
     end
   end
 

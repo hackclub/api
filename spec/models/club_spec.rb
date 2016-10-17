@@ -121,44 +121,44 @@ RSpec.describe Club, type: :model do
       end
     end
 
-    context "without leaders" do
-      it "updates the Streak box's attributes" do
-        client = class_double(StreakClient::Box).as_stubbed_const
-        field_maps = Club::STREAK_FIELD_MAPPINGS
+    # TODO: This should also check for the case where the club has leaders. Not
+    # sure the best way to implement a test for this.
+    it "updates the Streak box's attributes" do
+      client = class_double(StreakClient::Box).as_stubbed_const
+      field_maps = Club::STREAK_FIELD_MAPPINGS
 
-        expect(client).to receive(:update)
-                            .with(
-                              club.streak_key,
-                              notes: "NEW NOTES",
-                              linkedBoxKeys: []
-                            )
-        expect(client).to receive(:edit_field)
-                            .with(
-                              club.streak_key,
-                              field_maps[:address],
-                              "NEW ADDRESS"
-                            )
-        expect(client).to receive(:edit_field)
-                            .with(
-                              club.streak_key,
-                              field_maps[:latitude],
-                              anything
-                            )
-        expect(client).to receive(:edit_field)
-                            .with(
-                              club.streak_key,
-                              field_maps[:longitude],
-                              anything
-                            )
-        expect(client).to receive(:edit_field)
-                            .with(
-                              club.streak_key,
-                              field_maps[:source][:key],
-                              field_maps[:source][:options]["Word of Mouth"]
-                            )
+      expect(client).to receive(:update)
+                         .with(
+                           club.streak_key,
+                           notes: "NEW NOTES",
+                           linkedBoxKeys: club.leaders.map(&:streak_key)
+                         )
+      expect(client).to receive(:edit_field)
+                         .with(
+                           club.streak_key,
+                           field_maps[:address],
+                           "NEW ADDRESS"
+                         )
+      expect(client).to receive(:edit_field)
+                         .with(
+                           club.streak_key,
+                           field_maps[:latitude],
+                           anything
+                         )
+      expect(client).to receive(:edit_field)
+                         .with(
+                           club.streak_key,
+                           field_maps[:longitude],
+                           anything
+                         )
+      expect(client).to receive(:edit_field)
+                         .with(
+                           club.streak_key,
+                           field_maps[:source][:key],
+                           field_maps[:source][:options]["Word of Mouth"]
+                         )
 
-        club.save
-      end
+      club.save
     end
   end
 
