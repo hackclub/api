@@ -47,7 +47,7 @@ class UpdateFromStreakJob < ApplicationJob
         end
       end
 
-      c.destroy! unless exists_in_streak
+      c.destroy_without_streak! unless exists_in_streak
     end
 
     leader_boxes.each do |box|
@@ -96,7 +96,7 @@ class UpdateFromStreakJob < ApplicationJob
         end
       end
 
-      l.destroy! unless exists_in_streak
+      l.destroy_without_streak! unless exists_in_streak
     end
   end
 

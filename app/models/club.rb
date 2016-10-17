@@ -27,14 +27,22 @@ class Club < ApplicationRecord
 
   before_create :create_streak_box
   before_update :update_streak_box
+  before_destroy :destroy_streak_box
 
   has_and_belongs_to_many :leaders
 
   validates_presence_of :name, :address, :latitude, :longitude
 
+  def destroy_without_streak!
+    self.class.skip_callback(:destroy, :before, :destroy_streak_box)
+    self.destroy!
+    self.class.set_callback(:destroy, :before, :destroy_streak_box)
+  end
+
   private
 
   def create_streak_box
+    byebug if $f
     unless self.streak_key
       resp = StreakClient::Box.create_in_pipeline(STREAK_PIPELINE, self.name)
       self.streak_key = resp[:key]
@@ -101,5 +109,9 @@ class Club < ApplicationRecord
       STREAK_FIELD_MAPPINGS[:source][:key],
       STREAK_FIELD_MAPPINGS[:source][:options][self.source]
     )
+  end
+
+  def destroy_streak_box
+    StreakClient::Box.delete(self.streak_key)
   end
 end

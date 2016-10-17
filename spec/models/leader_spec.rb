@@ -239,4 +239,19 @@ RSpec.describe Leader, type: :model do
       end
     end
   end
+
+  context "deletion" do
+    subject(:leader) { create(:leader) }
+
+    it "deletes the leader on Streak" do
+      client = class_double(StreakClient::Box).as_stubbed_const
+
+      expect(client).to receive(:delete)
+                         .with(
+                           leader.streak_key
+                         )
+
+      leader.destroy!
+    end
+  end
 end

@@ -161,4 +161,19 @@ RSpec.describe Club, type: :model do
       end
     end
   end
+
+  context "deletion" do
+    subject(:club) { create(:club) }
+
+    it "deletes the club on Streak" do
+      client = class_double(StreakClient::Box).as_stubbed_const
+
+      expect(client).to receive(:delete)
+                         .with(
+                           club.streak_key
+                         )
+
+      club.destroy!
+    end
+  end
 end

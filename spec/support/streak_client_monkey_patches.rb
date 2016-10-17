@@ -27,5 +27,11 @@ module StreakClient
         value: value
       }
     end
+
+    def self.delete(box_key)
+      {
+        success: true
+      }
+    end
   end
 end

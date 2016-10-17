@@ -41,10 +41,17 @@ class Leader < ApplicationRecord
 
   before_create :create_leader_box
   before_update :update_leader_box
+  before_destroy :destroy_leader_box
 
   has_and_belongs_to_many :clubs
 
   validates_presence_of :name
+
+  def destroy_without_streak!
+    self.class.skip_callback(:destroy, :before, :destroy_leader_box)
+    self.destroy!
+    self.class.set_callback(:destroy, :before, :destroy_leader_box)
+  end
 
   private
 
@@ -169,5 +176,9 @@ class Leader < ApplicationRecord
         STREAK_FIELD_MAPPINGS[:longitude],
         self.longitude
       )
+  end
+
+  def destroy_leader_box
+    StreakClient::Box.delete(self.streak_key)
   end
 end

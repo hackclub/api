@@ -31,5 +31,13 @@ module StreakClient
         }
       )
     end
+
+    # https://www.streak.com/api/#deletebox
+    def self.delete(box_key)
+      StreakClient.request(
+        :delete,
+        "/v1/boxes/#{box_key}"
+      )
+    end
   end
 end
