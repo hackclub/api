@@ -3,6 +3,7 @@ import Radium from 'radium'
 
 const styles = {
   fontSize: '28px',
+  lineHeight: '32px',
   fontWeight: 'bold',
   marginBottom: '15px'
 }

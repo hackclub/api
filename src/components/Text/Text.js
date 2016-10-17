@@ -3,8 +3,7 @@ import Radium from 'radium'
 
 const styles = {
   marginBottom: '10px',
-  fontSize: '16px',
-  lineHeight: '18px'
+  fontSize: '16px'
 }
 
 class Text extends Component {

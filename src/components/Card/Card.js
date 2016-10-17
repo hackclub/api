@@ -4,7 +4,7 @@ import colors from '../../colors'
 
 const styles = {
   backgroundColor: colors.bg,
-  width: '350px',
+  maxWidth: '350px',
   padding: '17.5px',
   border: `1px solid ${colors.outline}`,
   boxShadow: `0px 1px 50px -15px ${colors.gray}`,
