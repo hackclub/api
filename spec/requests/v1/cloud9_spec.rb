@@ -6,7 +6,7 @@ RSpec.describe "V1::Cloud9", type: :request, vcr: true do
     before { post "/v1/cloud9/send_invite", params: { email: email }}
 
     context "with a valid email" do
-      let(:email) { "example@example.com" }
+      let(:email) { "valid_email@example.com" }
 
       it "succeeds" do
         expect(response.status).to eq(200)

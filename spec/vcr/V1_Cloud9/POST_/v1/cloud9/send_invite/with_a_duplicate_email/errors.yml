@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.c9.io/user/org/ENV[cloud9_team_name]/invite?access_token=ENV[cloud9_access_token]
+    uri: https://api.c9.io/user/org/ENV-cloud9_team_name/invite?access_token=<CLOUD9_ACCESS_TOKEN>
     body:
       encoding: UTF-8
       string: '{"email":"duplicate@example.com"}'
@@ -10,87 +10,9 @@ http_interactions:
       Accept:
       - application/json
       Accept-Encoding:
-      - gzip, deflate, br
+      - gzip, deflate
       User-Agent:
-      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML,
-        like Gecko) Chrome/53.0.2785.143 Safari/537.36
-      Pragma:
-      - no-cache
-      Origin:
-      - https://c9.io
-      Accept-Language:
-      - en-US,en;q=0.8
-      Cache-Control:
-      - no-cache
-      Dnt:
-      - '1'
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '33'
-      Host:
-      - api.c9.io
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Content-Type:
-      - application/json
-      Access-Control-Allow-Origin:
-      - "*"
-      Access-Control-Allow-Methods:
-      - GET, OPTIONS, PUT, POST, DELETE, HEAD, PROPFIND, PATCH
-      Access-Control-Allow-Headers:
-      - Content-Type, X-Requested-With, x-request-metadata
-      Access-Control-Expose-Headers:
-      - x-content-length, x-metadata-length
-      Access-Control-Max-Age:
-      - '8640000'
-      Date:
-      - Wed, 12 Oct 2016 20:59:33 GMT
-      Transfer-Encoding:
-      - chunked
-      Content-Encoding:
-      - gzip
-      X-Backend:
-      - api
-      Strict-Transport-Security:
-      - max-age=31536000
-    body:
-      encoding: ASCII-8BIT
-      string: !binary |-
-        H4sIAAAAAAAEAzWOyw6CMBBF/2XWxFD7gLoyJIYYXbs1Q6doQ3kEAVHjv1tJ
-        2N5zZ879AOFgr0gEOyYSxWOpE864iKDtb7D7gAsEmEiV1DFE0GBtQ3BHUxk/
-        FvCNYGgr24RMGyyyPD9lZC7n5zQe3wcVLmyNzgdMY+edCba9nbHuvN2Ytv7z
-        uXP9a9GnqU5W/eLVTG7Xig1DSvQPG8GtxwkH7MPXWHIhSyx5zEsqlEgECcmV
-        YUIT25KC7w8wUBYE4wAAAA==
-    http_version: 
-  recorded_at: Wed, 12 Oct 2016 20:59:33 GMT
-- request:
-    method: post
-    uri: https://api.c9.io/user/org/ENV[cloud9_team_name]/invite?access_token=ENV[cloud9_access_token]
-    body:
-      encoding: UTF-8
-      string: '{"email":"duplicate@example.com"}'
-    headers:
-      Accept:
-      - application/json
-      Accept-Encoding:
-      - gzip, deflate, br
-      User-Agent:
-      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML,
-        like Gecko) Chrome/53.0.2785.143 Safari/537.36
-      Pragma:
-      - no-cache
-      Origin:
-      - https://c9.io
-      Accept-Language:
-      - en-US,en;q=0.8
-      Cache-Control:
-      - no-cache
-      Dnt:
-      - '1'
+      - rest-client/2.0.0 (linux-gnu x86_64) ruby/2.3.1p112
       Content-Type:
       - application/json
       Content-Length:
@@ -115,7 +37,7 @@ http_interactions:
       Access-Control-Max-Age:
       - '8640000'
       Date:
-      - Wed, 12 Oct 2016 20:59:33 GMT
+      - Wed, 19 Oct 2016 11:52:59 GMT
       Transfer-Encoding:
       - chunked
       X-Backend:
@@ -124,8 +46,58 @@ http_interactions:
       - max-age=31536000
     body:
       encoding: UTF-8
-      string: '{"error":{"code":409,"hostname":"newclient-gce-usw-121-prod","scope":"api","message":"Invite
+      string: '{"error":{"code":409,"hostname":"newclient-gce-usw-144-prod","scope":"api","message":"Invite
         already exists for e-mail address."}}'
     http_version: 
-  recorded_at: Wed, 12 Oct 2016 20:59:34 GMT
+  recorded_at: Wed, 19 Oct 2016 11:52:59 GMT
+- request:
+    method: post
+    uri: https://api.c9.io/user/org/ENV-cloud9_team_name/invite?access_token=<CLOUD9_ACCESS_TOKEN>
+    body:
+      encoding: UTF-8
+      string: '{"email":"duplicate@example.com"}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.0 (linux-gnu x86_64) ruby/2.3.1p112
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '33'
+      Host:
+      - api.c9.io
+  response:
+    status:
+      code: 409
+      message: Conflict
+    headers:
+      Content-Type:
+      - application/json
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, OPTIONS, PUT, POST, DELETE, HEAD, PROPFIND, PATCH
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, x-request-metadata
+      Access-Control-Expose-Headers:
+      - x-content-length, x-metadata-length
+      Access-Control-Max-Age:
+      - '8640000'
+      Date:
+      - Wed, 19 Oct 2016 11:53:00 GMT
+      Transfer-Encoding:
+      - chunked
+      X-Backend:
+      - api
+      Strict-Transport-Security:
+      - max-age=31536000
+    body:
+      encoding: UTF-8
+      string: '{"error":{"code":409,"hostname":"newclient-gce-usw-122-prod","scope":"api","message":"Invite
+        already exists for e-mail address."}}'
+    http_version: 
+  recorded_at: Wed, 19 Oct 2016 11:53:00 GMT
 recorded_with: VCR 3.0.3

@@ -2,32 +2,21 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.c9.io/user/org/ENV[cloud9_team_name]/invite?access_token=ENV[cloud9_access_token]
+    uri: https://api.c9.io/user/org/ENV-cloud9_team_name/invite?access_token=<CLOUD9_ACCESS_TOKEN>
     body:
       encoding: UTF-8
-      string: '{"email":"example@example.com"}'
+      string: '{"email":"valid_email@example.com"}'
     headers:
       Accept:
       - application/json
       Accept-Encoding:
-      - gzip, deflate, br
+      - gzip, deflate
       User-Agent:
-      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML,
-        like Gecko) Chrome/53.0.2785.143 Safari/537.36
-      Pragma:
-      - no-cache
-      Origin:
-      - https://c9.io
-      Accept-Language:
-      - en-US,en;q=0.8
-      Cache-Control:
-      - no-cache
-      Dnt:
-      - '1'
+      - rest-client/2.0.0 (linux-gnu x86_64) ruby/2.3.1p112
       Content-Type:
       - application/json
       Content-Length:
-      - '31'
+      - '35'
       Host:
       - api.c9.io
   response:
@@ -48,7 +37,7 @@ http_interactions:
       Access-Control-Max-Age:
       - '8640000'
       Date:
-      - Wed, 12 Oct 2016 20:59:32 GMT
+      - Wed, 19 Oct 2016 11:53:01 GMT
       Transfer-Encoding:
       - chunked
       Content-Encoding:
@@ -60,11 +49,11 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        H4sIAAAAAAAEAy2OwQ6CMAyG36XnxTDYus2TMfEBDB68mTKKEkAEQVHjuzvR
-        U5P/+9uvL8hp4APlOSylMphE2hmpUAlo+yMsX1AGAlJZ1C4CAWdqOAQn8pWv
-        xwzeAoa24nPInO/2T/Rb7Da79ZiaYrqnYYMbKuuAeaLmUvPqPxe+bb50upT9
-        Y5Zb68wsT8TP6qT+KucKhzcKqq8s4NjTjQbqw804UZhkzmUYk4mLGDlHY7zX
-        Gr1SbOH9AVpC+7zhAAAA
+        H4sIAAAAAAAEAzWOyw6CMBBF/2XWxLRQ2o4rN8bo2r2Z0kEJhRIEgjH+u1Xj
+        8j5m7nmCp4kv5D1spTLaGoNWqEJlEMcrbJ/QpASksrpEARn01HEyblS1VZgd
+        vDKYYst98rBya8S9xLCcHvE8O3s4pgvuqAkpXig0/vJVO16pGwJvqth9GuvQ
+        jI8vACqNf4DfsshR/zucWGoKd87gOtJCE43psfFF6WydS82yzEUppfOOjdDW
+        eV8jw+sNc4c5YuYAAAA=
     http_version: 
-  recorded_at: Wed, 12 Oct 2016 20:59:32 GMT
+  recorded_at: Wed, 19 Oct 2016 11:53:01 GMT
 recorded_with: VCR 3.0.3
