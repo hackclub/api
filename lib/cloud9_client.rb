@@ -1,4 +1,5 @@
 # Resources
+require "cloud9_client/auth"
 require "cloud9_client/team"
 
 # Errors
@@ -9,7 +10,7 @@ module Cloud9Client
   @api_base = "https://api.c9.io"
 
   class << self
-    attr_accessor :access_token, :api_base
+    attr_accessor :username, :password, :api_base
 
     def api_url(url='')
       @api_base + url
@@ -18,21 +19,8 @@ module Cloud9Client
     def request(method, path, params={}, headers={})
       payload = nil
 
-      unless @access_token
-        raise AuthenticationError.new("No access token provided")
-      end
-
-      headers[:params] = { access_token:  @access_token }
-
-      # Add browser headers, because we're just doing this from the browser,
-      # right? ;-)
-      headers['Pragma'] = 'no-cache'
-      headers['Origin'] = 'https://c9.io'
-      headers['Accept-Encoding'] = 'gzip, deflate, br'
-      headers['Accept-Language'] = 'en-US,en;q=0.8'
-      headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36'
-      headers['Cache-Control'] = 'no-cache'
-      headers['DNT'] = '1'
+      headers[:params] = { access_token: access_token }
+      headers.merge(default_headers)
 
       case method
       when :post
@@ -47,6 +35,42 @@ module Cloud9Client
                                          headers: headers, payload: payload)
 
       JSON.parse(resp, symbolize_names: true)
+    end
+
+    def custom_request(method, url, payload=nil, params={}, headers={},
+                       cookies={}, use_default_headers=true)
+      headers[:params] = params
+      headers.merge(default_headers) if use_default_headers
+
+      RestClient::Request.execute(method: method, url: url,
+                                  headers: headers, payload: payload,
+                                  cookies: cookies)
+    end
+
+    private
+
+    def access_token
+      if !@username or !@password
+        raise AuthenticationError.new("Username and password must be set")
+      end
+
+      Rails.cache.fetch("cloud9_access_token", expires_in: 12.hours) do
+        Cloud9Client::Auth.login(@username, @password)[:access_token]
+      end
+    end
+
+    # Add browser headers, because we're just doing this from the browser,
+    # right? ;-)
+    def default_headers
+      {
+        "Pragma" => "no-cache",
+        "Origin" => "https://c9.io",
+        "Accept-Encoding" => "gzip, deflate, br",
+        "Accept-Language" => "en-US,en;q=0.8",
+        "User-Agent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36",
+        "Cache-Control" => "no-cache",
+        "DNT" => "1"
+      }
     end
   end
 end
