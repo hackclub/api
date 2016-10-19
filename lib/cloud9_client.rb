@@ -14,38 +14,39 @@ module Cloud9Client
     def api_url(url='')
       @api_base + url
     end
-     def request(method, path, params={}, headers={})
-       payload = nil
 
-       unless @access_token
-         raise AuthenticationError.new("No access token provided")
-       end
+    def request(method, path, params={}, headers={})
+      payload = nil
 
-       headers[:params] = { access_token:  @access_token }
+      unless @access_token
+        raise AuthenticationError.new("No access token provided")
+      end
 
-       # Add browser headers, because we're just doing this from the browser,
-       # right? ;-)
-       headers['Pragma'] = 'no-cache'
-       headers['Origin'] = 'https://c9.io'
-       headers['Accept-Encoding'] = 'gzip, deflate, br'
-       headers['Accept-Language'] = 'en-US,en;q=0.8'
-       headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36'
-       headers['Cache-Control'] = 'no-cache'
-       headers['DNT'] = '1'
+      headers[:params] = { access_token:  @access_token }
 
-       case method
-       when :post
-         headers['Content-Type'] = 'application/json'
-         payload = params.to_json
-       when :get
-         headers[:params].merge params
-       end
+      # Add browser headers, because we're just doing this from the browser,
+      # right? ;-)
+      headers['Pragma'] = 'no-cache'
+      headers['Origin'] = 'https://c9.io'
+      headers['Accept-Encoding'] = 'gzip, deflate, br'
+      headers['Accept-Language'] = 'en-US,en;q=0.8'
+      headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36'
+      headers['Cache-Control'] = 'no-cache'
+      headers['DNT'] = '1'
 
-       headers['Accept'] = 'application/json'
-       resp = RestClient::Request.execute(method: method, url: api_url(path),
-                                          headers: headers, payload: payload)
+      case method
+      when :post
+        headers['Content-Type'] = 'application/json'
+        payload = params.to_json
+      when :get
+        headers[:params].merge params
+      end
 
-       JSON.parse(resp, symbolize_names: true)
-     end
+      headers['Accept'] = 'application/json'
+      resp = RestClient::Request.execute(method: method, url: api_url(path),
+                                         headers: headers, payload: payload)
+
+      JSON.parse(resp, symbolize_names: true)
+    end
   end
 end
