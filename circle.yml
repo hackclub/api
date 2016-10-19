@@ -1,11 +1,4 @@
 machine:
-  pre:
-    # Use CircleCI's beta of Docker 1.10
-    #
-    # See https://discuss.circleci.com/t/circle-ci-and-docker-compose-version-2-yaml-syntax/4708/4
-    - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
-  services:
-    - docker
   environment:
     STREAK_CLUB_PIPELINE_KEY: clubs
     STREAK_LEADER_PIPELINE_KEY: leaders
@@ -13,51 +6,6 @@ machine:
     CLOUD9_USERNAME: test_username
     CLOUD9_PASSWORD: test_password
     CLOUD9_TEAM_NAME: fake_team_name
-
-dependencies:
-  pre:
-    # Install the latest Docker Compose so we can use the v2 docker-compose.yml
-    # syntax
-    #
-    # See https://discuss.circleci.com/t/circle-ci-and-docker-compose-version-2-yaml-syntax/4708/4
-    - sudo pip install docker-compose
-  override:
-    # Print info about the current Docker setup to make debugging easier
-    - docker info
-
-    # Build the images
-    - PWD=$HOME/api docker-compose build
-
-    # Install dependencies into the bundle image
-    - PWD=$HOME/api docker-compose run web bundle install
-
-database:
-  override:
-    - PWD=$HOME/api docker-compose run web rails db:create db:migrate --trace
-
-test:
-  override:
-    # This is a horrible hack that modifies docker-compose.yml to mount
-    # $CIRCLE_TEST_REPORTS to /tmp/test_reports on all services that have any
-    # volumes.
-    - PWD=$HOME/api perl -pi -e "s/volumes:/volumes:\n      - $(echo $CIRCLE_TEST_REPORTS | sed 's/\//\\\//g'):\/tmp\/test_reports/" docker-compose.yml
-
-    # Run the tests!
-    - >
-      PWD=$HOME/api docker-compose run \
-          -e RAILS_ENV=test \
-          -e CODECLIMATE_REPO_TOKEN=$CODECLIMATE_REPO_TOKEN \
-          -e STREAK_CLUB_PIPELINE_KEY=$STREAK_CLUB_PIPELINE_KEY \
-          -e STREAK_LEADER_PIPELINE_KEY=$STREAK_LEADER_PIPELINE_KEY \
-          -e STREAK_API_KEY=$STREAK_API_KEY \
-          -e CLOUD9_USERNAME=$CLOUD9_USERNAME \
-          -e CLOUD9_PASSWORD=$CLOUD9_PASSWORD \
-          -e CLOUD9_TEAM_NAME=$CLOUD9_TEAM_NAME \
-        web \
-        bundle exec rspec \
-          -r rspec_junit_formatter \
-          --format RspecJunitFormatter \
-          -o /tmp/test_reports/rspec/junit.xml
 
 deployment:
   production:
