@@ -40,7 +40,7 @@ class LeaderIntakeForm extends Component {
           <option value="Male">Male</option>
           <option value="Other">Other</option>
         </Field>
-        <Field name="year" label="Year" component={SelectField}>
+        <Field name="year" label="Graduation Year" component={SelectField}>
           <option></option>
           <option value="2022">2022</option>
           <option value="2021">2021</option>
