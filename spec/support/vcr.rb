@@ -22,4 +22,10 @@ VCR.configure do |c|
 
     url_params["access_token"]
   end
+
+  # Don't match on the access_token URL parameter because we filter that out
+  c.default_cassette_options[:match_requests_on] = [
+    :method,
+    VCR.request_matchers.uri_without_param(:access_token)
+  ]
 end

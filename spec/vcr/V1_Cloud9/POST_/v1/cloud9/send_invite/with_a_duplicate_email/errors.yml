@@ -37,7 +37,7 @@ http_interactions:
       Access-Control-Max-Age:
       - '8640000'
       Date:
-      - Wed, 19 Oct 2016 11:52:59 GMT
+      - Tue, 25 Oct 2016 15:00:07 GMT
       Transfer-Encoding:
       - chunked
       X-Backend:
@@ -46,10 +46,10 @@ http_interactions:
       - max-age=31536000
     body:
       encoding: UTF-8
-      string: '{"error":{"code":409,"hostname":"newclient-gce-usw-144-prod","scope":"api","message":"Invite
+      string: '{"error":{"code":409,"hostname":"newclient-gce-usw-150-prod","scope":"api","message":"Invite
         already exists for e-mail address."}}'
     http_version: 
-  recorded_at: Wed, 19 Oct 2016 11:52:59 GMT
+  recorded_at: Tue, 25 Oct 2016 15:00:07 GMT
 - request:
     method: post
     uri: https://api.c9.io/user/org/ENV-cloud9_team_name/invite?access_token=<CLOUD9_ACCESS_TOKEN>
@@ -87,7 +87,7 @@ http_interactions:
       Access-Control-Max-Age:
       - '8640000'
       Date:
-      - Wed, 19 Oct 2016 11:53:00 GMT
+      - Tue, 25 Oct 2016 15:00:07 GMT
       Transfer-Encoding:
       - chunked
       X-Backend:
@@ -96,8 +96,8 @@ http_interactions:
       - max-age=31536000
     body:
       encoding: UTF-8
-      string: '{"error":{"code":409,"hostname":"newclient-gce-usw-122-prod","scope":"api","message":"Invite
+      string: '{"error":{"code":409,"hostname":"newclient-gce-usw-152-prod","scope":"api","message":"Invite
         already exists for e-mail address."}}'
     http_version: 
-  recorded_at: Wed, 19 Oct 2016 11:53:00 GMT
+  recorded_at: Tue, 25 Oct 2016 15:00:07 GMT
 recorded_with: VCR 3.0.3

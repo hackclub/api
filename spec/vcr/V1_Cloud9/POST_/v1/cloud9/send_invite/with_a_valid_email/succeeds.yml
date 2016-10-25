@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api.c9.io/user/org/ENV-cloud9_team_name/invite?access_token=<CLOUD9_ACCESS_TOKEN>
     body:
       encoding: UTF-8
-      string: '{"email":"valid_email@example.com"}'
+      string: '{"email":"super.valid@example.com"}'
     headers:
       Accept:
       - application/json
@@ -37,7 +37,7 @@ http_interactions:
       Access-Control-Max-Age:
       - '8640000'
       Date:
-      - Wed, 19 Oct 2016 11:53:01 GMT
+      - Tue, 25 Oct 2016 15:00:06 GMT
       Transfer-Encoding:
       - chunked
       Content-Encoding:
@@ -49,11 +49,11 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        H4sIAAAAAAAEAzWOyw6CMBBF/2XWxLRQ2o4rN8bo2r2Z0kEJhRIEgjH+u1Xj
-        8j5m7nmCp4kv5D1spTLaGoNWqEJlEMcrbJ/QpASksrpEARn01HEyblS1VZgd
-        vDKYYst98rBya8S9xLCcHvE8O3s4pgvuqAkpXig0/vJVO16pGwJvqth9GuvQ
-        jI8vACqNf4DfsshR/zucWGoKd87gOtJCE43psfFF6WydS82yzEUppfOOjdDW
-        eV8jw+sNc4c5YuYAAAA=
+        H4sIAAAAAAAEAzWOSwvCMBCE/8uei+TVxHgSEUEQwZNHWZOtlqYP01YU6X83
+        Ks5xZnbne4HHgU7oPSy4MkYxo5mWPM+gjRdYvKBMCXA117llkEGDNSXjiq5y
+        YTzDlMHQVtQkz7pjlKvnfr3bxKI4xH5b3NIF1ViGFPdjR3F2x1D6JT2w7gLN
+        XFt/Go+ujM8vgE36A/yWubH636HEUmDoKYNLxDsOGNNjxxm3KLTwzjgrjdBK
+        zM9eS6uY0JLB9AZj5+LV5gAAAA==
     http_version: 
-  recorded_at: Wed, 19 Oct 2016 11:53:01 GMT
+  recorded_at: Tue, 25 Oct 2016 15:00:06 GMT
 recorded_with: VCR 3.0.3

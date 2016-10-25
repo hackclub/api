@@ -42,7 +42,6 @@ class Club < ApplicationRecord
   private
 
   def create_streak_box
-    byebug if $f
     unless self.streak_key
       resp = StreakClient::Box.create_in_pipeline(STREAK_PIPELINE, self.name)
       self.streak_key = resp[:key]
