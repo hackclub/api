@@ -2,10 +2,179 @@
 http_interactions:
 - request:
     method: post
+    uri: https://c9.io/auth/login
+    body:
+      encoding: UTF-8
+      string: '{"username":"ENV-cloud9_username","password":"ENV-cloud9_password"}'
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.0 (linux-gnu x86_64) ruby/2.3.1p112
+      Origin:
+      - https://c9.io
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '85'
+      Host:
+      - c9.io
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Frame-Options:
+      - DENY
+      Set-Cookie:
+      - c9.live.proxy=<CLOUD9_LIVE_PROXY_COOKIE>; Domain=.c9.io; Path=/; Expires=Tue,
+        01 Nov 2016 15:41:18 GMT; HttpOnly
+      - c9.live.proxy=<CLOUD9_LIVE_PROXY_COOKIE_2>; Domain=.c9.io; Path=/; Expires=Tue,
+        01 Nov 2016 15:41:18 GMT; HttpOnly
+      - c9.live=<CLOUD9_LIVE_COOKIE>; Path=/; Expires=Tue, 01 Nov 2016 15:41:18 GMT;
+        HttpOnly; Secure
+      Content-Type:
+      - application/json
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, OPTIONS, PUT, POST, DELETE, HEAD, PROPFIND, PATCH
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, x-request-metadata
+      Access-Control-Expose-Headers:
+      - x-content-length, x-metadata-length
+      Access-Control-Max-Age:
+      - '8640000'
+      Date:
+      - Tue, 25 Oct 2016 15:41:18 GMT
+      Transfer-Encoding:
+      - chunked
+      Content-Encoding:
+      - gzip
+      X-Backend:
+      - oldclient
+      Strict-Transport-Security:
+      - max-age=31536000
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        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
+    http_version: 
+  recorded_at: Tue, 25 Oct 2016 15:41:18 GMT
+- request:
+    method: get
+    uri: https://c9.io/api/nc/auth?client_id=profile_direct&immediate=1&login_hint&responseType=direct
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.0 (linux-gnu x86_64) ruby/2.3.1p112
+      Cookie:
+      - c9.live=<CLOUD9_LIVE_COOKIE>; c9.live.proxy=<CLOUD9_LIVE_PROXY_COOKIE>
+      Host:
+      - c9.io
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Frame-Options:
+      - DENY
+      Set-Cookie:
+      - c9.live.proxy=<CLOUD9_LIVE_PROXY_COOKIE>; Domain=.c9.io; Path=/; Expires=Tue,
+        01 Nov 2016 15:41:19 GMT; HttpOnly
+      - c9.live=<CLOUD9_LIVE_COOKIE>; Path=/; Expires=Tue, 01 Nov 2016 15:41:18 GMT;
+        HttpOnly; Secure
+      Content-Type:
+      - text/plain
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, OPTIONS, PUT, POST, DELETE, HEAD, PROPFIND, PATCH
+      Access-Control-Allow-Headers:
+      - Content-Type, X-Requested-With, x-request-metadata
+      Access-Control-Expose-Headers:
+      - x-content-length, x-metadata-length
+      Access-Control-Max-Age:
+      - '8640000'
+      Date:
+      - Tue, 25 Oct 2016 15:41:19 GMT
+      Transfer-Encoding:
+      - chunked
+      Content-Encoding:
+      - gzip
+      X-Backend:
+      - oldclient
+      Strict-Transport-Security:
+      - max-age=31536000
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAAAAAAAEA7NMDi9PdzNJyrRwrMqvKMxJSTQJAQAebelXFAAAAA==
+    http_version: 
+  recorded_at: Tue, 25 Oct 2016 15:41:19 GMT
+- request:
+    method: post
     uri: https://api.c9.io/user/org/ENV-cloud9_team_name/invite?access_token=<CLOUD9_ACCESS_TOKEN>
     body:
       encoding: UTF-8
-      string: '{"email":"super.valid@example.com"}'
+      string: '{"email":"supervalid.and.superbad@example.com"}'
     headers:
       Accept:
       - application/json
@@ -16,7 +185,7 @@ http_interactions:
       Content-Type:
       - application/json
       Content-Length:
-      - '35'
+      - '47'
       Host:
       - api.c9.io
   response:
@@ -37,7 +206,7 @@ http_interactions:
       Access-Control-Max-Age:
       - '8640000'
       Date:
-      - Tue, 25 Oct 2016 15:00:06 GMT
+      - Tue, 25 Oct 2016 15:41:20 GMT
       Transfer-Encoding:
       - chunked
       Content-Encoding:
@@ -49,11 +218,11 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        H4sIAAAAAAAEAzWOSwvCMBCE/8uei+TVxHgSEUEQwZNHWZOtlqYP01YU6X83
-        Ks5xZnbne4HHgU7oPSy4MkYxo5mWPM+gjRdYvKBMCXA117llkEGDNSXjiq5y
-        YTzDlMHQVtQkz7pjlKvnfr3bxKI4xH5b3NIF1ViGFPdjR3F2x1D6JT2w7gLN
-        XFt/Go+ujM8vgE36A/yWubH636HEUmDoKYNLxDsOGNNjxxm3KLTwzjgrjdBK
-        zM9eS6uY0JLB9AZj5+LV5gAAAA==
+        H4sIAAAAAAAEAzWOzY7CIBSF3+Wum+ZSsRRXujQ+gEtzCxdFoTTYmk6M7z7U
+        ySzPX873BksTX8ha2AmplBSISku1qSDlK+ze4EsCQnbtViNUMFDkYtzIPEyY
+        e/hUMKUHD8XT5nhIbUj3uGj0t+k8n2JZcCQfSvycR84vCt7WNNj6K3uye14o
+        joFrk77tZfT5Z4XpELH5h/mjEJ1YGXjtcOFyFJ5cwTXTiybK5UThRlkmJ5zR
+        hltsGhZq23aWe9ko5+DzC61jEdnyAAAA
     http_version: 
-  recorded_at: Tue, 25 Oct 2016 15:00:06 GMT
+  recorded_at: Tue, 25 Oct 2016 15:41:20 GMT
 recorded_with: VCR 3.0.3

@@ -13,7 +13,7 @@ RSpec.describe "V1::Cloud9", type: :request, vcr: true do
     #
     # You'll have to play around with the values we're submitting to get it working again.
     context "with a valid email" do
-      let(:email) { "super.valid@example.com" }
+      let(:email) { "supervalid.and.superbad@example.com" }
 
       it "succeeds" do
         expect(response.status).to eq(200)

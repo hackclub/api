@@ -91,6 +91,9 @@ RSpec.configure do |config|
       ]
     )
 
+    # Clear the cache before each test
+    Rails.cache.clear
+
     DatabaseCleaner.cleaning do
       example.run
     end

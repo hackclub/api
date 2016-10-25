@@ -28,4 +28,53 @@ VCR.configure do |c|
     :method,
     VCR.request_matchers.uri_without_param(:access_token)
   ]
+
+  # Filter out Cloud9 cookies
+  c.filter_sensitive_data("<CLOUD9_LIVE_COOKIE>") do |interaction|
+    cookies = server_cookies(interaction.response)
+    next unless cookies and cookies.size > 0
+
+    ck = cookies.find { |k| k.has_key? "c9.live" }
+    ck["c9.live"]
+  end
+
+  c.filter_sensitive_data("<CLOUD9_LIVE_PROXY_COOKIE>") do |interaction|
+    cookies = server_cookies(interaction.response)
+    next unless cookies and cookies.size > 0
+
+    ck = cookies.find { |k| k.has_key? "c9.live.proxy" }
+    ck["c9.live.proxy"]
+  end
+
+  # This is kind of weird because it handles an edge case. For some requests
+  # (like logging in), Cloud9 will return two c9.live.proxy cookies. This makes
+  # sure we filter out the second cookie as well as the first.
+  c.filter_sensitive_data("<CLOUD9_LIVE_PROXY_COOKIE_2>") do |interaction|
+    cookies = server_cookies(interaction.response)
+    next unless cookies and cookies.size > 0
+
+    cks = cookies.select { |k| k.has_key? "c9.live.proxy" }
+    if cks.length > 1
+      cks.last["c9.live.proxy"]
+    end
+  end
+
+  def server_cookies(response)
+    raw_cookies = response.headers["Set-Cookie"]
+    return if raw_cookies.nil? or raw_cookies.length == 0
+
+    raw_cookies.map { |ck| parse_server_cookie(ck) }
+  end
+
+  def parse_server_cookie(raw_server_cookie)
+    parsed_cookie = {}
+
+    raw_server_cookie.split('; ').each do |pt|
+      parts = pt.split("=", 2)
+
+      parsed_cookie[parts.first] = parts.second
+    end
+
+    parsed_cookie
+  end
 end
