@@ -4,6 +4,7 @@ import Helmet from 'react-helmet'
 import {
   Button,
   Card,
+  Emoji,
   Heading,
   Text
 } from '../../components'
@@ -42,7 +43,7 @@ class NotFound extends Component {
           <Button type="link"
                   href="/"
                   style={styles.btn}>
-            ← Go to back to home page
+            <Emoji>leftwards_black_arrow</Emoji> Go to back to home page
           </Button>
         </Card>
       </div>

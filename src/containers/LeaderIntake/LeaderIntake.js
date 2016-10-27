@@ -4,7 +4,7 @@ import Helmet from 'react-helmet'
 import { connect } from 'react-redux'
 import * as intakeActions from '../../redux/modules/leaderIntake'
 import { load as loadClubs } from '../../redux/modules/clubs'
-import { Card, Header, Heading, LeaderIntakeForm, Link } from '../../components'
+import { Card, Emoji, Header, Heading, LeaderIntakeForm, Link } from '../../components'
 import colors from '../../colors'
 
 const styles = {
@@ -53,8 +53,12 @@ class LeaderIntake extends Component {
     return (
       <div>
         <Header>
-          <Link style={[styles.headerLink]} to="/">← Back to Home Page</Link>
-          <Heading style={styles.headerEmoji}>🎉</Heading>
+          <Link style={[styles.headerLink]} to="/">
+            <Emoji>leftwards_black_arrow</Emoji> Back to Home Page
+          </Link>
+          <Heading style={styles.headerEmoji}>
+            <Emoji>party_popper</Emoji>
+          </Heading>
           <Heading style={styles.headerText}>Welcome to Hack Club! Let's get you set up.</Heading>
         </Header>
         <Helmet title="Leader Intake" />

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { reduxForm, Field } from 'redux-form'
-import { Button, TextField } from '../../components'
+import { Button, Emoji, TextField } from '../../components'
 import cloud9SetupValidation from './cloud9SetupValidation'
 
 const styles = {
@@ -31,9 +31,9 @@ class Cloud9SetupForm extends Component {
   buttonText(status) {
     switch (status) {
     case "error":
-      return (<span style={styles.emoji}>🤔</span>)
+      return (<Emoji>thinking_face</Emoji>)
     case "success":
-      return (<span>Invite Sent! Check your email <span style={styles.emoji}>👊</span></span>)
+      return (<span>Invite Sent! Check your email <Emoji>fisted_hand_sign</Emoji></span>)
     default:
       return "Get Your Cloud9 Invite"
     }

@@ -5,7 +5,8 @@ const styles = {
   fontSize: '28px',
   lineHeight: '32px',
   fontWeight: 'bold',
-  marginBottom: '15px'
+  marginBottom: '15px',
+  cursor: 'text'
 }
 
 class Heading extends Component {

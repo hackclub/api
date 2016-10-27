@@ -3,7 +3,7 @@ import Radium from 'radium'
 import Helmet from 'react-helmet'
 import { connect } from 'react-redux'
 import { SubmissionError } from 'redux-form'
-import { Card, Cloud9SetupForm, Header, Heading, Text } from '../../components'
+import { Card, Cloud9SetupForm, Emoji, Header, Heading, Text } from '../../components'
 import * as cloud9SetupActions from '../../redux/modules/cloud9Setup'
 
 const styles = {
@@ -45,11 +45,13 @@ class Cloud9Setup extends Component {
         <Helmet title="Cloud9 Setup" />
         <Header>
           <Heading style={styles.cloud}>
-            {
-              status === "success" ?
-                "🌤" :
-                "☁️"
-            }
+            <Emoji>
+              {
+                  status === "success" ?
+                  "sun_behind_cloud" :
+                  "cloud"
+              }
+            </Emoji>
           </Heading>
           <Heading>Welcome to Hack Club! Let's get you on Cloud9.</Heading>
           <Text style={styles.instructions}>
