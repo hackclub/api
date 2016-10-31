@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "V1::Leaders", type: :request, focus: true do
+RSpec.describe "V1::Leaders", type: :request do
   describe "POST /v1/leaders/intake" do
     let(:club) { create(:club) }
     let(:req_body) {
