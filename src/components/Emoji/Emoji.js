@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import Radium from 'radium'
 
 const style = {
-  width: '1em',
-  height: '1em',
+  width: '1.5em',
+  height: '1.5em',
+  marginTop: '-0.25em',
   display: 'inline-block',
   backgroundSize: 'contain',
   color: 'transparent',
