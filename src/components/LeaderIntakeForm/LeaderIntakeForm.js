@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { reduxForm, Field } from 'redux-form'
 import { sortBy } from 'lodash'
-import { Button, TextField, TextAreaField, SelectField } from '../../components'
+import { Button, Emoji, TextField, TextAreaField, SelectField } from '../../components'
 import leaderIntakeValidation from './leaderIntakeValidation'
 
 class LeaderIntakeForm extends Component {
@@ -20,9 +20,9 @@ class LeaderIntakeForm extends Component {
   buttonText(status) {
     switch(status) {
     case "error":
-      return "Shucks :-/"
+      return (<span>Shucks <Emoji>face_with_open_mouth_and_cold_sweat</Emoji></span>)
     case "success":
-      return "You're all set!"
+      return (<span>You're all set! <Emoji>balloon</Emoji></span>)
     default:
       return "Submit"
     }
