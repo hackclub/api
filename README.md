@@ -5,13 +5,13 @@ Work in progress
 ## Getting Started
 
     # Install dependencies
-    $ npm install
+    $ yarn install
     
     # Start development server
-    $ npm start
+    $ yarn start
     
     # Build for deployment
-    $ npm run build
+    $ yarn build
     
     # Run tests (there currently aren't any tests)
-    $ npm test
+    $ yarn test
