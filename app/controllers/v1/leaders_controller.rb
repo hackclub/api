@@ -1,11 +1,15 @@
 class V1::LeadersController < ApplicationController
   def intake
     leader = Leader.new(leader_params)
+    club = Club.find_by(id: params[:club_id])
 
-    if leader.save
+    if leader.save && club != nil
+      leader.clubs << club
       render json: leader, status: 201
     else
-      render json: { errors: leader.errors }, status: 422
+      errors = leader.errors
+      errors.add(:club_id, "doesn't exist") if club == nil
+      render json: { errors: errors }, status: 422
     end
   end
 

@@ -12,6 +12,7 @@ gem 'geocoder', '~> 1.4'
 gem 'rest-client', '~> 2.0'
 gem 'delayed_job_active_record', '~> 4.1', '>= 4.1.1'
 gem 'sentry-raven', '~> 2.0', '>= 2.0.2'
+gem 'active_model_serializers', '~> 0.10.0'
 
 group :development, :test do
   gem 'listen', '~> 3.0.5'
