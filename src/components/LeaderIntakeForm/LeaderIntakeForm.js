@@ -41,6 +41,7 @@ class LeaderIntakeForm extends Component {
         <Field name="name" label="First and last name" component={TextField} />
         <Field name="email" type="email" label="Preferred email" component={TextField} />
         <Field name="club_id" label="School" component={SelectField}>
+          <option></option>
           {clubOptions}
         </Field>
         <Field name="gender" label="Gender" component={SelectField}>
