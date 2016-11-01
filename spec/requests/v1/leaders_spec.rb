@@ -54,13 +54,5 @@ RSpec.describe "V1::Leaders", type: :request do
       expect(response.status).to eq(422)
       expect(json["errors"]["name"]).to eq(["can't be blank"])
     end
-
-    it "doesn't create the leader with a club id that doesn't exist" do
-      req_body[:club_id] = -1
-      post "/v1/leaders/intake", params: req_body
-
-      expect(response.status).to eq(422)
-      expect(json["errors"]["club_id"]).to eq(["doesn't exist"])
-    end
   end
 end
