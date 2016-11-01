@@ -1,5 +1,9 @@
 class V1::LeadersController < ApplicationController
   def intake
+    if params[:club_id] == nil
+      return render json: { errors: { club_id: ["can't be blank"] } }, status: 422
+    end
+
     leader = Leader.new(leader_params.merge(club_ids: [ params[:club_id] ]))
 
     if leader.save

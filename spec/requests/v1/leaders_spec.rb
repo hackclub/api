@@ -54,5 +54,13 @@ RSpec.describe "V1::Leaders", type: :request do
       expect(response.status).to eq(422)
       expect(json["errors"]["name"]).to eq(["can't be blank"])
     end
+
+    it "doesn't create the leader without a club_id" do
+      req_body.delete(:club_id)
+      post "/v1/leaders/intake", params: req_body
+
+      expect(response.status).to eq(422)
+      expect(json["errors"]["club_id"]).to eq(["can't be blank"])
+    end
   end
 end
