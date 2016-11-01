@@ -3,6 +3,7 @@ import Radium from 'radium'
 import Helmet from 'react-helmet'
 import { connect } from 'react-redux'
 import * as intakeActions from '../../redux/modules/leaderIntake'
+import { load as loadClubs } from '../../redux/modules/clubs'
 import { Card, Header, Heading, LeaderIntakeForm, Link } from '../../components'
 import colors from '../../colors'
 
@@ -40,8 +41,14 @@ class LeaderIntake extends Component {
     status: PropTypes.string
   }
 
+  componentDidMount() {
+    const { loadClubs } = this.props
+
+    loadClubs()
+  }
+
   render() {
-    const { submit, status } = this.props
+    const { submit, status, clubs } = this.props
 
     return (
       <div>
@@ -53,8 +60,9 @@ class LeaderIntake extends Component {
         <Helmet title="Leader Intake" />
         <Card style={styles.card}>
           <LeaderIntakeForm
-             onSubmit={values => submit(values)}
-             status={status}
+              onSubmit={values => submit(values)}
+              status={status}
+              clubs={clubs}
             />
         </Card>
       </div>
@@ -63,10 +71,11 @@ class LeaderIntake extends Component {
 }
 
 const mapStateToProps = state => ({
-  status: state.leaderIntake.status
+  status: state.leaderIntake.status,
+  clubs: state.clubs.data
 })
 
 export default connect(
   mapStateToProps,
-  {...intakeActions}
+  {...intakeActions, loadClubs}
 )(Radium(LeaderIntake))

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { reduxForm, Field } from 'redux-form'
+import { sortBy } from 'lodash'
 import { Button, TextField, TextAreaField, SelectField } from '../../components'
 import leaderIntakeValidation from './leaderIntakeValidation'
 
@@ -28,12 +29,20 @@ class LeaderIntakeForm extends Component {
   }
 
   render() {
-    const { handleSubmit, status } = this.props
+    const { handleSubmit, status, clubs } = this.props
+
+    const clubOptions = clubs === undefined ?
+                        <option>Loading...</option> :
+                        sortBy(clubs, 'name')
+                          .map(c => <option value={c.id} key={c.id}>{c.name}</option>)
 
     return (
       <form onSubmit={handleSubmit}>
         <Field name="name" label="First and last name" component={TextField} />
         <Field name="email" type="email" label="Preferred email" component={TextField} />
+        <Field name="club_id" label="School" component={SelectField}>
+          {clubOptions}
+        </Field>
         <Field name="gender" label="Gender" component={SelectField}>
           <option></option>
           <option value="Female">Female</option>
