@@ -77,7 +77,7 @@ RSpec.describe UpdateFromStreakJob, type: :job do
 
   context "with clubs that need to be updated" do
     before do
-      field_maps = Club::STREAK_FIELD_MAPPINGS
+      field_maps = Club::field_mappings
 
       clubs.last.update_attributes!(source: "Word of Mouth")
 
@@ -128,7 +128,7 @@ RSpec.describe UpdateFromStreakJob, type: :job do
 
     context "that have empty dropdown fields" do
       before do
-        field_maps = Club::STREAK_FIELD_MAPPINGS
+        field_maps = Club.field_mappings
 
         club_boxes_resp.last[:fields][field_maps[:source][:key]] = nil
 
@@ -145,7 +145,7 @@ RSpec.describe UpdateFromStreakJob, type: :job do
 
   context "with leaders that need to be updated" do
     before do
-      field_maps = Leader::STREAK_FIELD_MAPPINGS
+      field_maps = Leader.field_mappings
 
       leaders.last.update_attributes!(gender: "Male", year: "Unknown")
 
@@ -239,7 +239,7 @@ RSpec.describe UpdateFromStreakJob, type: :job do
 
     context "that have empty dropdown fields" do
       before do
-        field_maps = Leader::STREAK_FIELD_MAPPINGS
+        field_maps = Leader.field_mappings
 
         leader_boxes_resp.last[:fields][field_maps[:gender][:key]] = nil
         leader_boxes_resp.last[:fields][field_maps[:year][:key]] = nil
@@ -304,7 +304,7 @@ RSpec.describe UpdateFromStreakJob, type: :job do
   end
 
   def club_to_box(club)
-    field_maps = Club::STREAK_FIELD_MAPPINGS
+    field_maps = Club.field_mappings
 
     {
       key: club.streak_key,
@@ -320,7 +320,7 @@ RSpec.describe UpdateFromStreakJob, type: :job do
   end
 
   def leader_to_box(leader)
-    field_maps = Leader::STREAK_FIELD_MAPPINGS
+    field_maps = Leader.field_mappings
 
     {
       key: leader.streak_key,

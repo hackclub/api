@@ -13,7 +13,7 @@ class UpdateFromStreakJob < ApplicationJob
 
     # Create and update clubs
     club_boxes.each do |box|
-      field_maps = Club::STREAK_FIELD_MAPPINGS
+      field_maps = Club.field_mappings
       club = Club.find_or_initialize_by(streak_key: box[:key])
 
       club.update_attributes(
@@ -51,7 +51,7 @@ class UpdateFromStreakJob < ApplicationJob
     end
 
     leader_boxes.each do |box|
-      field_maps = Leader::STREAK_FIELD_MAPPINGS
+      field_maps = Leader.field_mappings
 
       leader = Leader.find_or_initialize_by(streak_key: box[:key])
 

@@ -37,7 +37,7 @@ RSpec.describe Club, type: :model do
 
         client = class_double(StreakClient::Box).as_stubbed_const
         key_to_return = HCFaker::Streak.key
-        field_maps = Club::STREAK_FIELD_MAPPINGS
+        field_maps = Club.field_mappings
 
         expect(client).to receive(:create_in_pipeline)
                             .with(
@@ -125,7 +125,7 @@ RSpec.describe Club, type: :model do
     # sure the best way to implement a test for this.
     it "updates the Streak box's attributes" do
       client = class_double(StreakClient::Box).as_stubbed_const
-      field_maps = Club::STREAK_FIELD_MAPPINGS
+      field_maps = Club.field_mappings
 
       expect(client).to receive(:update)
                          .with(

@@ -36,7 +36,7 @@ RSpec.describe Leader, type: :model do
 
         client = class_double(StreakClient::Box).as_stubbed_const
         streak_key = HCFaker::Streak.key
-        field_maps = Leader::STREAK_FIELD_MAPPINGS
+        field_maps = Leader.field_mappings
 
         # Leader attributes
         expect(client).to receive(:create_in_pipeline)
@@ -167,7 +167,7 @@ RSpec.describe Leader, type: :model do
     # sure the best way to implement a test for this.
     it "updates the Streak box's attributes" do
       client = class_double(StreakClient::Box).as_stubbed_const
-      field_maps = Leader::STREAK_FIELD_MAPPINGS
+      field_maps = Leader.field_mappings
 
       expect(client).to receive(:update)
                          .with(
