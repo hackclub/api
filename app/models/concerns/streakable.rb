@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Streakable
   extend ActiveSupport::Concern
 
@@ -38,7 +39,7 @@ module Streakable
 
   def create_box
     unless get_streak_key
-      resp = StreakClient::Box.create_in_pipeline(self.class.pipeline_key, self.name)
+      resp = StreakClient::Box.create_in_pipeline(self.class.pipeline_key, name)
       set_streak_key(resp[:key])
 
       update_streak_box
@@ -67,7 +68,7 @@ module Streakable
   def update_streak_box
     StreakClient::Box.update(
       get_streak_key,
-      notes: self.notes,
+      notes: notes,
       linkedBoxKeys: linked_streak_box_keys
     )
 
