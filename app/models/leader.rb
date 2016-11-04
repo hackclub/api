@@ -3,7 +3,7 @@ class Leader < ApplicationRecord
 
   streak_pipeline_key Rails.application.secrets.streak_leader_pipeline_key
   streak_default_field_mappings key: :streak_key, name: :name, notes: :notes
-  streak_field_mappings({
+  streak_field_mappings(
     email: "1003",
     gender: {
       key: "1001",
@@ -37,7 +37,7 @@ class Leader < ApplicationRecord
     address: "1011",
     latitude: "1018",
     longitude: "1019"
-  })
+  )
 
   geocoded_by :address # This geocodes :address into :latitude and :longitude
   before_validation :geocode

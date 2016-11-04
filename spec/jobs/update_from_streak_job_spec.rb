@@ -77,7 +77,7 @@ RSpec.describe UpdateFromStreakJob, type: :job do
 
   context "with clubs that need to be updated" do
     before do
-      field_maps = Club::field_mappings
+      field_maps = Club.field_mappings
 
       clubs.last.update_attributes!(source: "Word of Mouth")
 

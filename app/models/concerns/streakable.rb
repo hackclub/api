@@ -30,7 +30,7 @@ module Streakable
 
   def destroy_without_streak!
     self.class.skip_callback(:destroy, :before, :destroy_box)
-    self.destroy!
+    destroy!
     self.class.set_callback(:destroy, :before, :destroy_box)
   end
 
@@ -59,7 +59,7 @@ module Streakable
     association_names = streakable_associations.map(&:plural_name)
 
     association_names.inject([]) do |keys, name|
-      associated_objs = self.send(name)
+      associated_objs = send(name)
       keys + associated_objs.map { |obj| obj.class.key_attribute }
     end
   end
@@ -90,13 +90,13 @@ module Streakable
 
       case mapping[:type]
       when "DROPDOWN"
-        field_value = mapping[:options][self.send(field_name)]
+        field_value = mapping[:options][send(field_name)]
       else
         raise "Unknown Streak field mapping type given"
       end
     when String
       field_key = mapping
-      field_value = self.send(field_name)
+      field_value = send(field_name)
     else
       raise "Invalid Streak field mapping type given"
     end
@@ -115,10 +115,10 @@ module Streakable
   end
 
   def get_streak_key
-    self.send(self.class.key_attribute)
+    send(self.class.key_attribute)
   end
 
   def set_streak_key(val)
-    self.send("#{self.class.key_attribute}=", val)
+    send("#{self.class.key_attribute}=", val)
   end
 end
