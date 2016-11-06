@@ -2,6 +2,8 @@
 module Streakable
   extend ActiveSupport::Concern
 
+  class InvalidFieldMappingError < StandardError; end
+
   module ClassMethods
     attr_reader :pipeline_key, :field_mappings,
                 :key_attribute, :name_attribute, :notes_attribute
@@ -33,6 +35,33 @@ module Streakable
     self.class.skip_callback(:destroy, :before, :destroy_box)
     destroy!
     self.class.set_callback(:destroy, :before, :destroy_box)
+  end
+
+  # Given a symbol attribute name, get that attribute's value, parse the model's
+  # field mappings, and return the field key and value that's appropriate for
+  # sending to Streak.
+  def streak_field_and_value_for_attribute(attribute)
+    mapping = self.class.field_mappings[attribute]
+    stored_value = send(attribute)
+
+    case mapping
+    when Hash
+      field_key = mapping[:key]
+
+      case mapping[:type]
+      when "DROPDOWN"
+        field_value = mapping[:options][stored_value]
+      else
+        raise InvalidFieldMappingError, "Unknown Streak field mapping type"
+      end
+    when String
+      field_key = mapping
+      field_value = stored_value
+    else
+      raise InvalidFieldMappingErorr, "Invalid Streak field mapping given"
+    end
+
+    { field_key: field_key, field_value: field_value }
   end
 
   private
@@ -76,37 +105,15 @@ module Streakable
   end
 
   def update_all_streak_fields
-    self.class.field_mappings.each do |field_name, mapping|
-      update_streak_field(field_name, mapping)
+    self.class.field_mappings.keys.each do |attribute|
+      for_streak = streak_field_and_value_for_attribute(attribute)
+
+      StreakClient::Box.edit_field(
+        get_streak_key,
+        for_streak[:field_key],
+        for_streak[:field_value]
+      )
     end
-  end
-
-  def update_streak_field(field_name, mapping)
-    field_key = nil
-    field_value = nil
-
-    case mapping
-    when Hash
-      field_key = mapping[:key]
-
-      case mapping[:type]
-      when "DROPDOWN"
-        field_value = mapping[:options][send(field_name)]
-      else
-        raise "Unknown Streak field mapping type given"
-      end
-    when String
-      field_key = mapping
-      field_value = send(field_name)
-    else
-      raise "Invalid Streak field mapping type given"
-    end
-
-    StreakClient::Box.edit_field(
-      get_streak_key,
-      field_key,
-      field_value
-    )
   end
 
   def streakable_associations

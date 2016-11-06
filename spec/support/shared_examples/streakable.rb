@@ -28,8 +28,8 @@ RSpec.shared_examples "Streakable" do
 
       expect_update_box_fields(
         streak_client_double: client,
+        model: model,
         streak_key: streak_key,
-        field_mappings: field_maps,
         attrs: attrs
       )
 
@@ -67,8 +67,8 @@ RSpec.shared_examples "Streakable" do
 
       expect_update_box_fields(
         streak_client_double: client,
+        model: model,
         streak_key: instance.streak_key,
-        field_mappings: model.field_mappings,
         attrs: new_attrs
       )
 
@@ -115,34 +115,20 @@ RSpec.shared_examples "Streakable" do
                                       )
   end
 
-  def expect_update_box_fields(streak_client_double:, streak_key:, field_mappings:, attrs:)
-    field_mappings.each do |attribute_name, mapping|
-      field_key = nil
-      field_value = nil
+  def expect_update_box_fields(streak_client_double:, model:, streak_key:, attrs:)
+    tmp_obj = model.new(attrs)
 
-      case mapping
-      when Hash
-        field_key = mapping[:key]
-
-        case mapping[:type]
-        when "DROPDOWN"
-          field_value = mapping[:options][attrs[attribute_name]]
-        else
-          raise "Unknown Streak field mapping type given"
-        end
-      when String
-        field_key = mapping
-        field_value = attrs[attribute_name]
-      else
-        raise "Invalid Streak field mapping type given"
-      end
+    model.field_mappings.each do |attribute_name, _|
+      field_key, field_value = tmp_obj
+                               .streak_field_and_value_for_attribute(attribute_name)
+                               .values_at(:field_key, :field_value)
 
       expect(streak_client_double).to receive(:edit_field)
-                                        .with(
-                                          streak_key,
-                                          field_key,
-                                          field_value
-                                        )
+                                       .with(
+                                         streak_key,
+                                         field_key,
+                                         field_value
+                                       )
     end
   end
 end
