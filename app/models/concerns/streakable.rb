@@ -58,7 +58,7 @@ module Streakable
       field_key = mapping
       field_value = stored_value
     else
-      raise InvalidFieldMappingErorr, "Invalid Streak field mapping given"
+      raise InvalidFieldMappingError, "Invalid Streak field mapping given"
     end
 
     { field_key: field_key, field_value: field_value }
