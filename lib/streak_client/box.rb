@@ -1,5 +1,9 @@
 module StreakClient
   module Box
+    def self.all
+      StreakClient.request(:get, "/v1/boxes")
+    end
+
     def self.all_in_pipeline(pipeline_key)
       StreakClient.request(:get, "/v1/pipelines/#{pipeline_key}/boxes")
     end

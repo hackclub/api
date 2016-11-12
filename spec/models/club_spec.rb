@@ -3,6 +3,8 @@ require "rails_helper"
 RSpec.describe Club, type: :model do
   subject(:club) { build(:club) }
 
+  it_behaves_like "Streakable"
+
   it { should have_db_column :name }
   it { should have_db_column :streak_key }
   it { should have_db_column :address }
@@ -23,82 +25,18 @@ RSpec.describe Club, type: :model do
   it { should have_and_belong_to_many :leaders }
 
   context "creation" do
-    let(:attrs) { attributes_for(:club).except(:streak_key, :latitude, :longitude) }
-    subject(:club) { Club.create(attrs) }
+    subject(:club) { create(:club) }
 
     it "geocodes the address" do
       expect(club.latitude).to be_a BigDecimal
       expect(club.longitude).to be_a BigDecimal
     end
-
-    context "without leaders" do
-      it "creates a new box on Streak with all attributes" do
-        c = Club.new(attrs)
-
-        client = class_double(StreakClient::Box).as_stubbed_const
-        key_to_return = HCFaker::Streak.key
-        field_maps = Club::STREAK_FIELD_MAPPINGS
-
-        expect(client).to receive(:create_in_pipeline)
-                            .with(
-                              Rails.application.secrets.streak_club_pipeline_key,
-                              attrs[:name]
-                            )
-                            .and_return({ key: key_to_return })
-        expect(client).to receive(:update)
-                            .with(
-                              key_to_return,
-                              notes: attrs[:notes],
-                              linkedBoxKeys: []
-                            )
-        expect(client).to receive(:edit_field)
-                            .with(
-                              key_to_return,
-                              field_maps[:address],
-                              attrs[:address]
-                            )
-        expect(client).to receive(:edit_field)
-                            .with(
-                              key_to_return,
-                              field_maps[:latitude],
-                              anything
-                            )
-        expect(client).to receive(:edit_field)
-                            .with(
-                              key_to_return,
-                              field_maps[:longitude],
-                              anything
-                            )
-        expect(client).to receive(:edit_field)
-                            .with(
-                              key_to_return,
-                              field_maps[:source][:key],
-                              field_maps[:source][:options][attrs[:source]]
-                            )
-
-        c.save
-      end
-    end
-
-    it "sets streak_key" do
-      expect(club.streak_key).to be_a String
-    end
   end
 
   context "updating" do
-    let(:attrs) { attributes_for(:club).except(:streak_key, :latitude, :longitude) }
-    subject(:club) { Club.create(attrs) }
-
-    before do
-      club.update_attributes(source: "Press")
-
-      club.name = "NEW NAME"
-      club.address = "NEW ADDRESS"
-      club.source = "Word of Mouth"
-      club.notes = "NEW NOTES"
-    end
-
     describe "geocoding" do
+      subject!(:club) { create(:club) }
+
       before do
         Geocoder::Lookup::Test.set_default_stub(
           [
@@ -108,6 +46,8 @@ RSpec.describe Club, type: :model do
             }
           ]
         )
+
+        club.address = "NEW ADDRESS"
       end
 
       after { Geocoder::Lookup::Test.reset }
@@ -119,61 +59,6 @@ RSpec.describe Club, type: :model do
       it "saves the new longitude" do
         expect { club.save }.to change{club.reload.longitude}
       end
-    end
-
-    # TODO: This should also check for the case where the club has leaders. Not
-    # sure the best way to implement a test for this.
-    it "updates the Streak box's attributes" do
-      client = class_double(StreakClient::Box).as_stubbed_const
-      field_maps = Club::STREAK_FIELD_MAPPINGS
-
-      expect(client).to receive(:update)
-                         .with(
-                           club.streak_key,
-                           notes: "NEW NOTES",
-                           linkedBoxKeys: club.leaders.map(&:streak_key)
-                         )
-      expect(client).to receive(:edit_field)
-                         .with(
-                           club.streak_key,
-                           field_maps[:address],
-                           "NEW ADDRESS"
-                         )
-      expect(client).to receive(:edit_field)
-                         .with(
-                           club.streak_key,
-                           field_maps[:latitude],
-                           anything
-                         )
-      expect(client).to receive(:edit_field)
-                         .with(
-                           club.streak_key,
-                           field_maps[:longitude],
-                           anything
-                         )
-      expect(client).to receive(:edit_field)
-                         .with(
-                           club.streak_key,
-                           field_maps[:source][:key],
-                           field_maps[:source][:options]["Word of Mouth"]
-                         )
-
-      club.save
-    end
-  end
-
-  context "deletion" do
-    subject(:club) { create(:club) }
-
-    it "deletes the club on Streak" do
-      client = class_double(StreakClient::Box).as_stubbed_const
-
-      expect(client).to receive(:delete)
-                         .with(
-                           club.streak_key
-                         )
-
-      club.destroy!
     end
   end
 end

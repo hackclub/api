@@ -1,6 +1,9 @@
 class Leader < ApplicationRecord
-  STREAK_PIPELINE = Rails.application.secrets.streak_leader_pipeline_key
-  STREAK_FIELD_MAPPINGS = {
+  include Streakable
+
+  streak_pipeline_key Rails.application.secrets.streak_leader_pipeline_key
+  streak_default_field_mappings key: :streak_key, name: :name, notes: :notes
+  streak_field_mappings(
     email: "1003",
     gender: {
       key: "1001",
@@ -34,151 +37,12 @@ class Leader < ApplicationRecord
     address: "1011",
     latitude: "1018",
     longitude: "1019"
-  }
+  )
 
   geocoded_by :address # This geocodes :address into :latitude and :longitude
   before_validation :geocode
 
-  before_create :create_leader_box
-  before_update :update_leader_box
-  before_destroy :destroy_leader_box
-
   has_and_belongs_to_many :clubs
 
   validates_presence_of :name
-
-  def destroy_without_streak!
-    self.class.skip_callback(:destroy, :before, :destroy_leader_box)
-    self.destroy!
-    self.class.set_callback(:destroy, :before, :destroy_leader_box)
-  end
-
-  private
-
-  def create_leader_box
-    unless self.streak_key
-      resp = StreakClient::Box.create_in_pipeline(STREAK_PIPELINE, self.name)
-      self.streak_key = resp[:key]
-
-      StreakClient::Box.update(
-        self.streak_key,
-        notes: self.notes,
-        linkedBoxKeys: self.clubs.map(&:streak_key)
-      )
-
-      StreakClient::Box.edit_field(
-        self.streak_key,
-        STREAK_FIELD_MAPPINGS[:email],
-        self.email
-      )
-      StreakClient::Box.edit_field(
-        self.streak_key,
-        STREAK_FIELD_MAPPINGS[:gender][:key],
-        STREAK_FIELD_MAPPINGS[:gender][:options][self.gender]
-      )
-      StreakClient::Box.edit_field(
-        self.streak_key,
-        STREAK_FIELD_MAPPINGS[:year][:key],
-        STREAK_FIELD_MAPPINGS[:year][:options][self.year]
-      )
-      StreakClient::Box.edit_field(
-        self.streak_key,
-        STREAK_FIELD_MAPPINGS[:phone_number],
-        self.phone_number
-      )
-      StreakClient::Box.edit_field(
-        self.streak_key,
-        STREAK_FIELD_MAPPINGS[:slack_username],
-        self.slack_username
-      )
-      StreakClient::Box.edit_field(
-        self.streak_key,
-        STREAK_FIELD_MAPPINGS[:github_username],
-        self.github_username
-      )
-      StreakClient::Box.edit_field(
-        self.streak_key,
-        STREAK_FIELD_MAPPINGS[:twitter_username],
-        self.twitter_username
-      )
-      StreakClient::Box.edit_field(
-        self.streak_key,
-        STREAK_FIELD_MAPPINGS[:address],
-        self.address
-      )
-      StreakClient::Box.edit_field(
-        self.streak_key,
-        STREAK_FIELD_MAPPINGS[:latitude],
-        self.latitude
-      )
-      StreakClient::Box.edit_field(
-        self.streak_key,
-        STREAK_FIELD_MAPPINGS[:longitude],
-        self.longitude
-      )
-    end
-  end
-
-  def update_leader_box
-      StreakClient::Box.update(
-        self.streak_key,
-        notes: self.notes,
-        linkedBoxKeys: self.clubs.map(&:streak_key)
-      )
-
-      StreakClient::Box.edit_field(
-        self.streak_key,
-        STREAK_FIELD_MAPPINGS[:email],
-        self.email
-      )
-      StreakClient::Box.edit_field(
-        self.streak_key,
-        STREAK_FIELD_MAPPINGS[:gender][:key],
-        STREAK_FIELD_MAPPINGS[:gender][:options][self.gender]
-      )
-      StreakClient::Box.edit_field(
-        self.streak_key,
-        STREAK_FIELD_MAPPINGS[:year][:key],
-        STREAK_FIELD_MAPPINGS[:year][:options][self.year]
-      )
-      StreakClient::Box.edit_field(
-        self.streak_key,
-        STREAK_FIELD_MAPPINGS[:phone_number],
-        self.phone_number
-      )
-      StreakClient::Box.edit_field(
-        self.streak_key,
-        STREAK_FIELD_MAPPINGS[:slack_username],
-        self.slack_username
-      )
-      StreakClient::Box.edit_field(
-        self.streak_key,
-        STREAK_FIELD_MAPPINGS[:github_username],
-        self.github_username
-      )
-      StreakClient::Box.edit_field(
-        self.streak_key,
-        STREAK_FIELD_MAPPINGS[:twitter_username],
-        self.twitter_username
-      )
-      StreakClient::Box.edit_field(
-        self.streak_key,
-        STREAK_FIELD_MAPPINGS[:address],
-        self.address
-      )
-      StreakClient::Box.edit_field(
-        self.streak_key,
-        STREAK_FIELD_MAPPINGS[:latitude],
-        self.latitude
-      )
-      StreakClient::Box.edit_field(
-        self.streak_key,
-        STREAK_FIELD_MAPPINGS[:longitude],
-        self.longitude
-      )
-  end
-
-  def destroy_leader_box
-    StreakClient::Box.delete(self.streak_key)
-  end
 end
