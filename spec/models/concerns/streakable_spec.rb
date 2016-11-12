@@ -41,11 +41,7 @@ RSpec.describe Streakable do
                 "Yellow" => "9003"
               }
             },
-            attribute_with_invalid_mapping: 42,
-            attribute_with_invalid_mapping_type: {
-              key: "1003",
-              type: "FAKE_TYPE"
-            }
+            attribute_with_invalid_mapping: 42
           }
         )
       end
@@ -66,21 +62,9 @@ RSpec.describe Streakable do
       expect_field(obj, :email, "1001", "foo@bar.com")
     end
 
-    it "properly parses dropdown mappings" do
-      obj.favorite_color = "Blue"
-
-      expect_field(obj, :favorite_color, "1002", "9002")
-    end
-
     it "throws InvalidFieldMappingError when an invalid mapping is given" do
       expect {
         obj.streak_field_and_value_for_attribute(:attribute_with_invalid_mapping)
-      }.to raise_error(Streakable::InvalidFieldMappingError)
-    end
-
-    it "throws InvalidFieldMappingError when an invalid mapping type is given" do
-      expect {
-        obj.streak_field_and_value_for_attribute(:attribute_with_invalid_mapping_type)
       }.to raise_error(Streakable::InvalidFieldMappingError)
     end
   end
