@@ -244,6 +244,7 @@ DEPENDENCIES
   active_model_serializers (~> 0.10.0)
   byebug
   codeclimate-test-reporter (~> 0.6.0)
+  concurrent-ruby
   database_cleaner (~> 1.5, >= 1.5.3)
   delayed_job_active_record (~> 4.1, >= 4.1.1)
   dotenv-rails (~> 2.1)
