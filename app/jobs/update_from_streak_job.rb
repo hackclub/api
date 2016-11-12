@@ -1,115 +1,88 @@
 class UpdateFromStreakJob < ApplicationJob
   queue_as :default
 
-  CLUB_PIPELINE = Rails.application.secrets.streak_club_pipeline_key
-  LEADER_PIPELINE = Rails.application.secrets.streak_leader_pipeline_key
-
   def perform(*)
-    club_pipeline = StreakClient::Pipeline.find(CLUB_PIPELINE)
-    leader_pipeline = StreakClient::Pipeline.find(LEADER_PIPELINE)
+    # Since we're going to be doing a ton of reflection, we need to make sure
+    # that the entire application is loaded into memory.
+    Rails.application.eager_load!
 
-    club_boxes = StreakClient::Box.all_in_pipeline(CLUB_PIPELINE)
-    leader_boxes = StreakClient::Box.all_in_pipeline(LEADER_PIPELINE)
+    streakable_models = ActiveRecord::Base.descendants.select do |model|
+      model.included_modules.include? Streakable
+    end
 
-    # Create and update clubs
-    club_boxes.each do |box|
-      field_maps = Club.field_mappings
-      club = Club.find_or_initialize_by(streak_key: box[:key])
+    boxes = StreakClient::Box.all
 
-      club.update_attributes(
-        name: box[:name],
-        address: box[:fields][field_maps[:address].to_sym],
-        latitude: box[:fields][field_maps[:latitude].to_sym],
-        longitude: box[:fields][field_maps[:longitude].to_sym],
-        source: dropdown_value(
-          club_pipeline,
-          field_maps[:source][:key],
-          box[:fields][field_maps[:source][:key].to_sym]
-        ),
-        notes: box[:notes]
-      )
+    relationships_to_create = {}
 
-      # Delete old relationships
-      club.leaders.each do |leader|
-        unless box[:linked_box_keys].include? leader.streak_key
-          club.leaders.delete(leader)
+    streakable_models.each do |model|
+      model_boxes = boxes.select { |b| b[:pipeline_key] == model.pipeline_key }
+
+      relationships_to_create[model] = {}
+
+      model_boxes.each do |box|
+        instance = model.find_or_initialize_by(model.key_attribute => box[:key])
+        attrs_to_update = {}
+
+        attrs_to_update[model.name_attribute] = box[:name]
+        attrs_to_update[model.notes_attribute] = box[:notes]
+
+        model.field_mappings.each do |attribute, _|
+          key = instance.streak_field_and_value_for_attribute(attribute)[:field_key]
+          attrs_to_update[attribute] = box[:fields][key.to_sym]
         end
+
+        instance.update_attributes_without_streak(attrs_to_update)
+
+        # Delete relationships that aren't present on Streak
+        old_linked_box_keys = instance.linked_streak_box_keys
+        new_linked_box_keys = box[:linked_box_keys]
+
+        to_del = old_linked_box_keys - new_linked_box_keys
+        to_create = new_linked_box_keys - old_linked_box_keys
+
+        model.streakable_associations.each do |association|
+          records = instance.send(association.plural_name)
+          records_to_remove = records.where(model.key_attribute => to_del)
+
+          records.destroy(records_to_remove)
+        end
+
+        relationships_to_create[model][box[:key]] = to_create
       end
     end
 
-    # Delete clubs that are no longer present
-    Club.find_each do |c|
-      exists_in_streak = false
+    # Create relationships
+    relationships_to_create.each do |model, relationships|
+      logger.debug "Updating relationships for #{model}"
 
-      club_boxes.each do |box|
-        if c.streak_key == box[:key]
-          exists_in_streak = true
-        end
-      end
+      relationships.each do |box_key, linked_box_keys|
+        instance = model.find_by(model.key_attribute => box_key)
 
-      c.destroy_without_streak! unless exists_in_streak
-    end
+        linked_box_keys.each do |linked_box_key|
+          model.streakable_associations.each do |association|
+            associated_model = association.klass
 
-    leader_boxes.each do |box|
-      field_maps = Leader.field_mappings
+            instance_to_associate = associated_model.find_by(associated_model.key_attribute => linked_box_key)
+            next if instance_to_associate.nil?
 
-      leader = Leader.find_or_initialize_by(streak_key: box[:key])
-
-      leader.update_attributes(
-        name: box[:name],
-        gender: dropdown_value(
-          leader_pipeline,
-          field_maps[:gender][:key],
-          box[:fields][field_maps[:gender][:key].to_sym]
-        ),
-        year: dropdown_value(
-          leader_pipeline,
-          field_maps[:year][:key],
-          box[:fields][field_maps[:year][:key].to_sym]
-        ),
-        email: box[:fields][field_maps[:email].to_sym],
-        phone_number: box[:fields][field_maps[:phone_number].to_sym],
-        slack_username: box[:fields][field_maps[:slack_username].to_sym],
-        github_username: box[:fields][field_maps[:github_username].to_sym],
-        twitter_username: box[:fields][field_maps[:twitter_username].to_sym],
-        address: box[:fields][field_maps[:address].to_sym],
-        latitude: box[:fields][field_maps[:latitude].to_sym],
-        longitude: box[:fields][field_maps[:longitude].to_sym],
-        notes: box[:notes]
-      )
-
-      box[:linked_box_keys].each do |linked_box_key|
-        c = Club.find_by(streak_key: linked_box_key)
-        unless c.nil? or c.leaders.include? leader
-          c.leaders << leader
+            # Heads up, this has some unexpected behavior.
+            #
+            # When adding instance_to_associate to the association, Rails is
+            # going to save instance_to_associate, triggering the update
+            # callbacks.
+            #
+            # Usually, this would trigger an API request to Streak to update
+            # instance_to_associate's box, which would be a bad thing because we
+            # haven't yet added instance_to_associate to the association (so
+            # it'd remove the relationship on Streak).
+            #
+            # This won't happen because Streakable checks to see if the instance
+            # has been .changed? before triggering the API request to Streak.
+            # Rails doesn't mark it as changed.
+            instance.send(association.plural_name) << instance_to_associate
+          end
         end
       end
     end
-
-    # Delete leaders that are no longer present
-    Leader.find_each do |l|
-      exists_in_streak = false
-
-      leader_boxes.each do |box|
-        if l.streak_key == box[:key]
-          exists_in_streak = true
-        end
-      end
-
-      l.destroy_without_streak! unless exists_in_streak
-    end
-  end
-
-  private
-
-  def dropdown_value(pipeline, field_key, dropdown_value_key)
-    return nil if dropdown_value_key.nil?
-
-    field_spec = pipeline[:fields].find { |f| f[:key] == field_key }
-    dropdown_items = field_spec[:dropdown_settings][:items]
-
-    item = dropdown_items.find { |i| i[:key] == dropdown_value_key }
-
-    item[:name]
   end
 end

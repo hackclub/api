@@ -8,6 +8,15 @@ module Streakable
     attr_reader :pipeline_key, :field_mappings,
                 :key_attribute, :name_attribute, :notes_attribute
 
+    # Returns an array of AssociationReflection objects. Each
+    # AssociationReflection represents an association with a class that also
+    # includes Streakable.
+    def streakable_associations
+      self.reflect_on_all_associations.select do |association|
+        association.klass.included_modules.include? Streakable
+      end
+    end
+
     private
 
     def streak_pipeline_key(key)
@@ -27,8 +36,14 @@ module Streakable
 
   included do
     before_create :create_box
-    before_update :update_box
+    before_update :update_box_if_changed
     before_destroy :destroy_box
+  end
+
+  def update_attributes_without_streak(attrs)
+    self.class.skip_callback(:update, :before, :update_box_if_changed)
+    update_attributes(attrs)
+    self.class.set_callback(:update, :before, :update_box_if_changed)
   end
 
   def destroy_without_streak!
@@ -47,24 +62,24 @@ module Streakable
     case mapping
     when Hash
       field_key = mapping[:key]
-
-      case mapping[:type]
-      when "DROPDOWN"
-        field_value = mapping[:options][stored_value]
-      else
-        raise InvalidFieldMappingError, "Unknown Streak field mapping type"
-      end
     when String
       field_key = mapping
-      field_value = stored_value
     else
       raise InvalidFieldMappingError, "Invalid Streak field mapping given"
     end
 
-    { field_key: field_key, field_value: field_value }
+    { field_key: field_key, field_value: stored_value }
   end
 
-  private
+  # Returns an array of box keys suitable for passing to Streak's API
+  def linked_streak_box_keys
+    association_names = self.class.streakable_associations.map(&:plural_name)
+
+    association_names.inject([]) do |keys, name|
+      associated_objs = send(name)
+      keys + associated_objs.map { |obj| obj.send(obj.class.key_attribute) }
+    end
+  end
 
   def create_box
     unless get_streak_key
@@ -83,17 +98,13 @@ module Streakable
     StreakClient::Box.delete(get_streak_key)
   end
 
-  # Helpers
+  private
 
-  def linked_streak_box_keys
-    association_names = streakable_associations.map(&:plural_name)
-
-    association_names.inject([]) do |keys, name|
-      associated_objs = send(name)
-      keys + associated_objs.map { |obj| obj.class.key_attribute }
-    end
+  def update_box_if_changed
+    update_box if self.changed?
   end
 
+  # Helpers
   def update_streak_box
     StreakClient::Box.update(
       get_streak_key,
@@ -113,12 +124,6 @@ module Streakable
         for_streak[:field_key],
         for_streak[:field_value]
       )
-    end
-  end
-
-  def streakable_associations
-    self.class.reflect_on_all_associations.select do |association|
-      association.klass.included_modules.include? Streakable
     end
   end
 
