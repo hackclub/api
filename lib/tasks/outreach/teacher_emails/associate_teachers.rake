@@ -42,4 +42,6 @@ task associate_teachers: :environment do
       )
     end
   end
+
+  pool.wait_for_termination
 end
