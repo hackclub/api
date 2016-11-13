@@ -1,6 +1,8 @@
+require "rails_helper"
+
 # Also see support/shared_examples/streakable.rb for shared specs to test
 # Streakable models.
-RSpec.describe Streakable do
+RSpec.describe Streakable, focus: true do
   before do
     class FakeModel < OpenStruct
       @_callbacks = []
