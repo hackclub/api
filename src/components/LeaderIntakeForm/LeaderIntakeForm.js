@@ -46,19 +46,19 @@ class LeaderIntakeForm extends Component {
         </Field>
         <Field name="gender" label="Gender" component={SelectField}>
           <option></option>
-          <option value="Female">Female</option>
-          <option value="Male">Male</option>
-          <option value="Other">Other</option>
+          <option value="9002">Female</option>
+          <option value="9001">Male</option>
+          <option value="9003">Other</option>
         </Field>
         <Field name="year" label="Graduation Year" component={SelectField}>
           <option></option>
-          <option value="2022">2022</option>
-          <option value="2021">2021</option>
-          <option value="2020">2020</option>
-          <option value="2019">2019</option>
-          <option value="2018">2018</option>
-          <option value="2017">2017</option>
-          <option value="2016">2016</option>
+          <option value="9009">2022</option>
+          <option value="9006">2021</option>
+          <option value="9001">2020</option>
+          <option value="9002">2019</option>
+          <option value="9003">2018</option>
+          <option value="9004">2017</option>
+          <option value="9010">2016</option>
         </Field>
         <Field name="phone_number" label="Phone number" component={TextField} />
         <Field name="slack_username" label="Slack username" component={TextField} />
