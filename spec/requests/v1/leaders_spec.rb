@@ -19,6 +19,8 @@ RSpec.describe "V1::Leaders", type: :request do
     }
 
     context "with valid attributes" do
+      let!(:starting_letter_count) { Letter.count }
+
       before { post "/v1/leaders/intake", params: req_body }
 
       it "creates the leader" do
@@ -45,6 +47,11 @@ RSpec.describe "V1::Leaders", type: :request do
           # Gotta do this to get the parsed JSON representation of the club
           JSON.parse(club.to_json)
         ])
+      end
+
+      it "creates a letter for the leader" do
+        expect(Letter.count).to eq(starting_letter_count + 1)
+        expect(Letter.last.name).to eq(req_body[:name])
       end
     end
 
