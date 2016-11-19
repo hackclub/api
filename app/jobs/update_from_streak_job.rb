@@ -10,12 +10,10 @@ class UpdateFromStreakJob < ApplicationJob
       model.included_modules.include? Streakable
     end
 
-    boxes = StreakClient::Box.all
-
     relationships_to_create = {}
 
     streakable_models.each do |model|
-      model_boxes = boxes.select { |b| b[:pipeline_key] == model.pipeline_key }
+      model_boxes = StreakClient::Box.all_in_pipeline(model.pipeline_key)
 
       relationships_to_create[model] = {}
 
