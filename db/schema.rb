@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161114004811) do
+ActiveRecord::Schema.define(version: 20161119154945) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 20161114004811) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text     "streak_key"
+    t.index ["streak_key"], name: "index_clubs_on_streak_key", using: :btree
   end
 
   create_table "clubs_leaders", id: false, force: :cascade do |t|
@@ -65,6 +66,7 @@ ActiveRecord::Schema.define(version: 20161114004811) do
     t.datetime "updated_at",       null: false
     t.text     "streak_key"
     t.text     "notes"
+    t.index ["streak_key"], name: "index_leaders_on_streak_key", using: :btree
   end
 
   create_table "letters", force: :cascade do |t|
@@ -77,6 +79,7 @@ ActiveRecord::Schema.define(version: 20161114004811) do
     t.text     "notes"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.index ["streak_key"], name: "index_letters_on_streak_key", using: :btree
   end
 
 end
