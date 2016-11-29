@@ -16,7 +16,7 @@ task associate_teachers: :environment do
     end
   end
 
-  THREAD_COUNT = 4
+  THREAD_COUNT = 8
 
   school_pipeline = StreakClient::Pipeline.find(
     Rails.application.secrets.streak_outreach_school_pipeline_key
