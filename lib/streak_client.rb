@@ -26,6 +26,8 @@ module StreakClient
 
       headers["Authorization"] = construct_http_auth_header(@api_key, "")
 
+      params = transform_params(params)
+
       case method
       when :post
         headers['Content-Type'] = 'application/json'
@@ -46,6 +48,12 @@ module StreakClient
 
     def construct_http_auth_header(username, password)
       "Basic #{Base64.strict_encode64(username + ':' + password)}"
+    end
+
+    def transform_params(params)
+      params
+        .clone
+        .deep_transform_keys { |k| k.to_s.camelize(:lower) }
     end
 
     def parse(response)

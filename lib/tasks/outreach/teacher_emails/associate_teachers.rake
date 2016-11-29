@@ -33,12 +33,12 @@ task associate_teachers: :environment do
 
       StreakClient::Box.update(
         teacher[:key],
-        linkedBoxKeys: [school[:key]],
+        linked_box_keys: [school[:key]],
         notes: ''
       )
       StreakClient::Box.update(
         school[:key],
-        stageKey: school_teacher_boxes_added_stage_key
+        stage_key: school_teacher_boxes_added_stage_key
       )
     end
   end

@@ -109,7 +109,7 @@ module Streakable
     StreakClient::Box.update(
       get_streak_key,
       notes: notes,
-      linkedBoxKeys: linked_streak_box_keys
+      linked_box_keys: linked_streak_box_keys
     )
 
     update_all_streak_fields
