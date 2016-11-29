@@ -46,7 +46,7 @@ task associate_teachers: :environment do
   teachers_to_associate.each do |teacher|
     pool.post do
       school_name, school_region = teacher[:notes].split(' | ')
-      schools.find { |s| s[:name] == school_name && s[:fields][school_region_field_key] == school_region }
+      school = schools.find { |s| s[:name] == school_name && s[:fields][school_region_field_key] == school_region }
 
       StreakClient::Box.update(
         teacher[:key],
