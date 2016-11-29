@@ -1,5 +1,21 @@
 desc "Associate teachers in the Outreach - Teachers pipeline with their schools (which is specified in the teacher's notes)"
 task associate_teachers: :environment do
+  def all_boxes_in_pipeline(pipeline_key, page_num=0, boxes=[], page_size_limit=1000)
+    page = StreakClient::Box.all_in_pipeline_paginated(
+      pipeline_key,
+      page: page_num,
+      limit: page_size_limit
+    )
+
+    boxes.push(*page[:results])
+
+    if page[:has_next_page]
+      all_boxes_in_pipeline(pipeline_key, page_num + 1, boxes)
+    else
+      boxes
+    end
+  end
+
   THREAD_COUNT = 4
 
   school_pipeline = StreakClient::Pipeline.find(
@@ -17,9 +33,10 @@ task associate_teachers: :environment do
                            .keys
                            .first
                            .to_s
+  school_region_field_key = school_pipeline[:fields].find { |f| f[:name] == "Region" }[:key].to_sym
 
-  schools = StreakClient::Box.all_in_pipeline(school_pipeline[:key])
-  teachers = StreakClient::Box.all_in_pipeline(teacher_pipeline[:key])
+  schools = all_boxes_in_pipeline(school_pipeline[:key])
+  teachers = all_boxes_in_pipeline(teacher_pipeline[:key])
 
   teachers_to_associate = teachers.select do |t|
     t[:stage_key] == teacher_lead_stage_key && t[:linked_box_keys].count.zero?
@@ -28,8 +45,8 @@ task associate_teachers: :environment do
   pool = Concurrent::FixedThreadPool.new(THREAD_COUNT)
   teachers_to_associate.each do |teacher|
     pool.post do
-      school_name = teacher[:notes]
-      school = schools.find { |s| s[:name] == school_name }
+      school_name, school_region = teacher[:notes].split(' | ')
+      schools.find { |s| s[:name] == school_name && s[:fields][school_region_field_key] == school_region }
 
       StreakClient::Box.update(
         teacher[:key],

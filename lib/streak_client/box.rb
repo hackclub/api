@@ -8,6 +8,17 @@ module StreakClient
       StreakClient.request(:get, "/v1/pipelines/#{pipeline_key}/boxes")
     end
 
+    def self.all_in_pipeline_paginated(pipeline_key, page:, limit:)
+      StreakClient.request(
+        :get,
+        "/v2/pipelines/#{pipeline_key}/boxes",
+        {
+          page: page,
+          limit: limit
+        }
+      )
+    end
+
     def self.create_in_pipeline(pipeline_key, name)
       StreakClient.request(:put, "/v1/pipelines/#{pipeline_key}/boxes", { name: name })
     end
