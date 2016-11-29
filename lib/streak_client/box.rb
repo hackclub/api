@@ -14,11 +14,12 @@ module StreakClient
 
     # params is a hash of key value pairs for fields to update in Streak.
     #
-    # Accepted keys: :name, :notes, :stageKey, :followerKeys, and :linkedBoxKeys
+    # Accepted keys: :name, :notes, :stage_key, :follower_keys, and
+    # :linked_box_keys
     #
-    # :names and :notes are strings. :stageKey is the key of the stage to change
-    # the box to. :followerKeys and :linkedBoxKeys are both arrays of strings
-    # representing keys on Streak.
+    # :names and :notes are strings. :stage_key is the key of the stage to
+    # change the box to. :follower_keys and :linked_box_keys are both arrays of
+    # strings representing keys on Streak.
     #
     # See https://www.streak.com/api/#editbox
     def self.update(box_key, params)

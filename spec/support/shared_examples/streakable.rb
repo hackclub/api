@@ -111,7 +111,7 @@ RSpec.shared_examples "Streakable" do
                                       .with(
                                         streak_key,
                                         notes: notes,
-                                        linkedBoxKeys: linked_box_keys
+                                        linked_box_keys: linked_box_keys
                                       )
   end
 
