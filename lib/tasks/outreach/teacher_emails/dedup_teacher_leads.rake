@@ -23,6 +23,7 @@ task dedup_teacher_leads: :environment do
   pipeline = StreakClient::Pipeline.find(
     Rails.application.secrets.streak_outreach_teacher_pipeline_key
   )
+
   puts "Fetching boxes in teacher pipeline..."
   boxes = all_boxes_in_pipeline(pipeline[:key]) { |i| puts "Retrieved page #{i}..." }
 
@@ -33,33 +34,30 @@ task dedup_teacher_leads: :environment do
   email_field_key = pipeline[:fields].find { |f| f[:name] == "Email" }[:key].to_sym
 
   puts "Figuring out which boxes are dups..."
-  lead_boxes = []
-  existing_emails = {}
 
-  boxes.each do |box|
-    if box[:stage_key] == lead_stage_key
-      lead_boxes.push(box)
-    else
-      email = box[:fields][email_field_key]
-      existing_emails[email] = true
-    end
-  end
+  leads = boxes.select { |b| b[:stage_key] == lead_stage_key }
 
-  boxes_to_delete = []
-  lead_boxes.each do |box|
+  good_leads = []
+  bad_leads = []
+
+  emails = Set.new
+
+  leads.each do |box|
     email = box[:fields][email_field_key]
 
-    if existing_emails[email]
-      boxes_to_delete.push(box)
-      existing_emails[email] = true
+    if emails.include? email
+      bad_leads << box
+    else
+      good_leads << box
+      emails << email
     end
   end
 
-  puts "Deleting duplicate boxes on Streak..."
+  puts "Deleting duplicate leads on Streak..."
 
   semaphore = Mutex.new
   pool = Concurrent::FixedThreadPool.new(THREAD_COUNT)
-  boxes_to_delete.each do |box|
+  bad_leads.each do |box|
     pool.post do
       StreakClient::Box.delete(box[:key])
 
