@@ -40,7 +40,7 @@ class Leader < ApplicationRecord
   )
 
   geocoded_by :address # This geocodes :address into :latitude and :longitude
-  before_validation :geocode
+  before_validation :geocode, if: -> (leader) { leader.address.present? and leader.address_changed? }
 
   has_and_belongs_to_many :clubs
 

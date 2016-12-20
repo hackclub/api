@@ -35,6 +35,7 @@ RSpec.describe Leader, type: :model do
   context "updating" do
     describe "geocoding" do
       subject!(:leader) { create(:leader_with_address) }
+      let!(:original_address) { leader.address }
 
       before do
         Geocoder::Lookup::Test.set_default_stub(
@@ -45,18 +46,32 @@ RSpec.describe Leader, type: :model do
             }
           ]
         )
-
-        leader.address = "NEW ADDRESS"
       end
 
       after { Geocoder::Lookup::Test.reset }
 
       it "saves the new latitude" do
-        expect { leader.save }.to change{leader.reload.latitude}
+        expect {
+          leader.address = "NEW ADDRESS"
+          leader.save
+        }.to change{leader.reload.latitude}
       end
 
       it "saves the new longitude" do
-        expect { leader.save }.to change{leader.reload.longitude}
+        expect {
+          leader.address = "NEW ADDRESS"
+          leader.save
+        }.to change{leader.reload.longitude}
+      end
+
+      context "when address doesn't change" do
+        it "doesn't geocode" do
+          leader.address = original_address
+
+          expect(leader).to_not receive(:geocode)
+
+          leader.save
+        end
       end
     end
   end

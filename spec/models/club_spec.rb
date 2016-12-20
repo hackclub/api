@@ -35,7 +35,8 @@ RSpec.describe Club, type: :model do
 
   context "updating" do
     describe "geocoding" do
-      subject!(:club) { create(:club) }
+      let!(:club) { create(:club)}
+      let!(:original_address) { club.address }
 
       before do
         Geocoder::Lookup::Test.set_default_stub(
@@ -46,18 +47,32 @@ RSpec.describe Club, type: :model do
             }
           ]
         )
-
-        club.address = "NEW ADDRESS"
       end
 
       after { Geocoder::Lookup::Test.reset }
 
       it "saves the new latitude" do
-        expect { club.save }.to change{club.reload.latitude}
+        expect {
+          club.address = "NEW ADDRESS"
+          club.save
+        }.to change{club.reload.latitude}
       end
 
       it "saves the new longitude" do
-        expect { club.save }.to change{club.reload.longitude}
+        expect {
+          club.address = "NEW ADDRESS"
+          club.save
+        }.to change{club.reload.longitude}
+      end
+
+      context "when address doesn't change" do
+        it "doesn't geocode" do
+          club.address = original_address
+
+          expect(club).to_not receive(:geocode)
+
+          club.save
+        end
       end
     end
   end
