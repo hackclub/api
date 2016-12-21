@@ -4,6 +4,7 @@ RSpec.describe Club, type: :model do
   subject(:club) { build(:club) }
 
   it_behaves_like "Streakable"
+  it_behaves_like "Geocodeable"
 
   it { should have_db_column :name }
   it { should have_db_column :streak_key }
@@ -23,57 +24,4 @@ RSpec.describe Club, type: :model do
   it { should validate_presence_of :address }
 
   it { should have_and_belong_to_many :leaders }
-
-  context "creation" do
-    subject(:club) { create(:club) }
-
-    it "geocodes the address" do
-      expect(club.latitude).to be_a BigDecimal
-      expect(club.longitude).to be_a BigDecimal
-    end
-  end
-
-  context "updating" do
-    describe "geocoding" do
-      let!(:club) { create(:club)}
-      let!(:original_address) { club.address }
-
-      before do
-        Geocoder::Lookup::Test.set_default_stub(
-          [
-            {
-              'latitude' => 42.42,
-              'longitude' => -42.42
-            }
-          ]
-        )
-      end
-
-      after { Geocoder::Lookup::Test.reset }
-
-      it "saves the new latitude" do
-        expect {
-          club.address = "NEW ADDRESS"
-          club.save
-        }.to change{club.reload.latitude}
-      end
-
-      it "saves the new longitude" do
-        expect {
-          club.address = "NEW ADDRESS"
-          club.save
-        }.to change{club.reload.longitude}
-      end
-
-      context "when address doesn't change" do
-        it "doesn't geocode" do
-          club.address = original_address
-
-          expect(club).to_not receive(:geocode)
-
-          club.save
-        end
-      end
-    end
-  end
 end

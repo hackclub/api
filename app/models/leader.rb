@@ -1,5 +1,6 @@
 class Leader < ApplicationRecord
   include Streakable
+  include Geocodeable
 
   streak_pipeline_key Rails.application.secrets.streak_leader_pipeline_key
   streak_default_field_mappings key: :streak_key, name: :name, notes: :notes
@@ -39,8 +40,9 @@ class Leader < ApplicationRecord
     longitude: "1019"
   )
 
-  geocoded_by :address # This geocodes :address into :latitude and :longitude
-  before_validation :geocode, if: -> (leader) { leader.address.present? and leader.address_changed? }
+  geocode_attrs address: :address,
+                latitude: :latitude,
+                longitude: :longitude
 
   has_and_belongs_to_many :clubs
 
