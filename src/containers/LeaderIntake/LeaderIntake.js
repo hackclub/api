@@ -52,6 +52,7 @@ class LeaderIntake extends Component {
 
     return (
       <div>
+        <Helmet title="Leader Intake" />
         <Header>
           <Link style={[styles.headerLink]} to="/">
             <Emoji type="leftwards_black_arrow" /> Back to Home Page
@@ -61,7 +62,6 @@ class LeaderIntake extends Component {
           </Heading>
           <Heading style={styles.headerText}>Welcome to Hack Club! Let's get you set up.</Heading>
         </Header>
-        <Helmet title="Leader Intake" />
         <Card style={styles.card}>
           <LeaderIntakeForm
               onSubmit={values => submit(values)}
