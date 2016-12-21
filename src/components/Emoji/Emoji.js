@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
 
-const style = {
+const styles = {
   width: '1.5em',
   height: '1.5em',
   marginTop: '-0.25em',
@@ -16,14 +16,16 @@ const style = {
 }
 
 class Emoji extends Component {
-  backgroundStyle = {
-    backgroundImage: `url(${require(`./images/${this.props.children}.png`)})`
-  }
-
   render() {
+    const { type } = this.props
+
+    const backgroundStyle = {
+      backgroundImage: `url(${require(`./images/${type}.png`)})`
+    }
+
     return (
-      <span style={[style,this.props.style,this.backgroundStyle]}>
-        :{this.props.children}:
+      <span style={[styles,backgroundStyle,this.props.style]}>
+        {`:${type}:`}
       </span>
     )
   }

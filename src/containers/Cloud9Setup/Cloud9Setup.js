@@ -40,18 +40,16 @@ class Cloud9Setup extends Component {
   render() {
     const { status } = this.props
 
+    const emoji = status === "success" ?
+                  "sun_behind_cloud" :
+                  "cloud"
+
     return (
       <div>
         <Helmet title="Cloud9 Setup" />
         <Header>
           <Heading style={styles.cloud}>
-            <Emoji>
-              {
-                  status === "success" ?
-                  "sun_behind_cloud" :
-                  "cloud"
-              }
-            </Emoji>
+            <Emoji type={emoji} />
           </Heading>
           <Heading>Welcome to Hack Club! Let's get you on Cloud9.</Heading>
           <Text style={styles.instructions}>

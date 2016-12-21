@@ -54,10 +54,10 @@ class LeaderIntake extends Component {
       <div>
         <Header>
           <Link style={[styles.headerLink]} to="/">
-            <Emoji>leftwards_black_arrow</Emoji> Back to Home Page
+            <Emoji type="leftwards_black_arrow" /> Back to Home Page
           </Link>
           <Heading style={styles.headerEmoji}>
-            <Emoji>party_popper</Emoji>
+            <Emoji type="party_popper" />
           </Heading>
           <Heading style={styles.headerText}>Welcome to Hack Club! Let's get you set up.</Heading>
         </Header>

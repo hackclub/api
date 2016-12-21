@@ -23,9 +23,9 @@ class Cloud9SetupForm extends Component {
   buttonText(status) {
     switch (status) {
     case "error":
-      return (<Emoji>thinking_face</Emoji>)
+      return (<Emoji type="thinking_face" />)
     case "success":
-      return (<span>Invite Sent! Check your email <Emoji>fisted_hand_sign</Emoji></span>)
+      return (<span>Invite Sent! Check your email <Emoji type="fisted_hand_sign" /></span>)
     default:
       return "Get Your Cloud9 Invite"
     }

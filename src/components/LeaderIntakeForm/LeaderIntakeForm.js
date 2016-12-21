@@ -20,9 +20,9 @@ class LeaderIntakeForm extends Component {
   buttonText(status) {
     switch(status) {
     case "error":
-      return (<span>Shucks <Emoji>face_with_open_mouth_and_cold_sweat</Emoji></span>)
+      return (<span>Shucks <Emoji type="face_with_open_mouth_and_cold_sweat" /></span>)
     case "success":
-      return (<span>You're all set! <Emoji>balloon</Emoji></span>)
+      return (<span>You're all set! <Emoji type="balloon" /></span>)
     default:
       return "Submit"
     }

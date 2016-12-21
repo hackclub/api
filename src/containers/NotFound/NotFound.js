@@ -43,7 +43,7 @@ class NotFound extends Component {
           <Button type="link"
                   href="/"
                   style={styles.btn}>
-            <Emoji>leftwards_black_arrow</Emoji> Go to back to home page
+            <Emoji type="leftwards_black_arrow" /> Go to back to home page
           </Button>
         </Card>
       </div>
