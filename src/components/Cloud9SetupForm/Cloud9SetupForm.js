@@ -3,14 +3,6 @@ import { reduxForm, Field } from 'redux-form'
 import { Button, Emoji, TextField } from '../../components'
 import cloud9SetupValidation from './cloud9SetupValidation'
 
-const styles = {
-  emoji: {
-    fontSize: '24px',
-    verticalAlign: '-3px',
-    lineHeight: 0
-  }
-}
-
 class Cloud9SetupForm extends Component {
   buttonState() {
     const {
