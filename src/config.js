@@ -20,5 +20,6 @@ export default {
         {property: 'og:card', content: 'summary'}
       ]
     }
-  }
+  },
+  apiBaseUrl: process.env.REACT_APP_API_BASE_URL
 }

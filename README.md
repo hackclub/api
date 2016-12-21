@@ -7,6 +7,12 @@ Work in progress
     # Install dependencies
     $ yarn install
     
+Create a file called `.env` with the following contents, replacing "REPLACEME" with actual values:
+
+```
+REACT_APP_API_BASE_URL=REPLACEME
+```
+
     # Start development server
     $ yarn start
     

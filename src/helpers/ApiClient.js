@@ -1,6 +1,7 @@
 import superagent from 'superagent';
+import config from '../config.js'
 
-const baseUrl = 'https://api.hackclub.com'
+const baseUrl = config.apiBaseUrl
 const methods = ['get', 'post', 'put', 'patch', 'del'];
 
 export default class ApiClient {
