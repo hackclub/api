@@ -18,3 +18,9 @@ Documentation:
 # Run those Rails cops!
 Rails:
   Enabled: true
+
+# Disable preference for has_many :through over has_and_belongs_to_many. They're
+# different types of relationships and Rails attaches different helper methods
+# for each, not sure why Rubocop has a preference for this by default.
+Rails/HasAndBelongsToMany:
+  Enabled: false
