@@ -35,7 +35,12 @@ class Hackbot::Conversation < ApplicationRecord
   def finish(event); end
 
   def send_msg(channel, text)
-    ::SlackClient::Chat.send_msg(channel, text, team.bot_access_token, as_user: true)
+    ::SlackClient::Chat.send_msg(
+      channel,
+      text,
+      team.bot_access_token,
+      as_user: true
+    )
   end
 
   private
