@@ -6,10 +6,10 @@ module StreakClient
   module Box
     # Have create_in_pipeline return an object with a randomly generated
     # :streak_key and the name that was passed.
-    def self.create_in_pipeline(pipeline_key, name)
+    def self.create_in_pipeline(_pipeline_key, name)
       # Random 91 character alphanumeric string
-      range = [*'0'..'9',*'A'..'Z',*'a'..'z']
-      streak_key = Array.new(91){ range.sample }.join
+      range = [*'0'..'9', *'A'..'Z', *'a'..'z']
+      streak_key = Array.new(91) { range.sample }.join
 
       {
         key: streak_key,
@@ -18,17 +18,17 @@ module StreakClient
     end
 
     # TODO: Return the full "updated" box here
-    def self.update(box_key, params)
+    def self.update(_box_key, _params)
     end
 
-    def self.edit_field(box_key, field_key, value)
+    def self.edit_field(_box_key, field_key, value)
       {
         key: field_key,
         value: value
       }
     end
 
-    def self.delete(box_key)
+    def self.delete(_box_key)
       {
         success: true
       }

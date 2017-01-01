@@ -1,30 +1,28 @@
 # Resources
-require "streak_client/pipeline"
-require "streak_client/box"
+require 'streak_client/pipeline'
+require 'streak_client/box'
 
 # Errors
-require "common_client/errors/api_error"
-require "common_client/errors/authentication_error"
+require 'common_client/errors/api_error'
+require 'common_client/errors/authentication_error'
 
 # API client to Streak
 module StreakClient
-  @api_base = "https://www.streak.com/api"
+  @api_base = 'https://www.streak.com/api'
 
   class << self
     attr_accessor :api_key, :api_base
 
-    def api_url(url='')
+    def api_url(url = '')
       @api_base + url
     end
 
-    def request(method, path, params={}, headers={})
+    def request(method, path, params = {}, headers = {})
       payload = nil
 
-      unless @api_key
-        raise AuthenticationError.new("No API key provided")
-      end
+      raise AuthenticationError, 'No API key provided' unless @api_key
 
-      headers["Authorization"] = construct_http_auth_header(@api_key, "")
+      headers['Authorization'] = construct_http_auth_header(@api_key, '')
 
       params = transform_params(params)
 
@@ -59,17 +57,17 @@ module StreakClient
     def parse(response)
       parsed = JSON.parse(response, symbolize_names: true)
 
-      snake_case_transform = ->(hash) {
+      snake_case_transform = lambda do |hash|
         hash
           .deep_transform_keys(&:to_s)
           .deep_transform_keys(&:underscore)
           .deep_transform_keys(&:to_sym)
-      }
+      end
 
       if parsed.class == Array
         parsed.map(&snake_case_transform)
       else
-        snake_case_transform.(parsed)
+        snake_case_transform.call(parsed)
       end
     end
   end

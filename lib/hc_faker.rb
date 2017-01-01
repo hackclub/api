@@ -19,8 +19,8 @@ module HCFaker
   class Random
     class << self
       def alphanumeric_string(len: 42)
-        range = [*'0'..'9',*'A'..'Z',*'a'..'z']
-        Array.new(len){ range.sample }.join
+        range = [*'0'..'9', *'A'..'Z', *'a'..'z']
+        Array.new(len) { range.sample }.join
       end
     end
   end

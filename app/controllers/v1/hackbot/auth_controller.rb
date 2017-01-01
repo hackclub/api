@@ -7,9 +7,7 @@ class V1::Hackbot::AuthController < ApplicationController
 
     resp = ::SlackClient::Oauth.access(CLIENT_ID, CLIENT_SECRET, code)
 
-    unless resp[:ok]
-      return render status: 403
-    end
+    return render status: 403 unless resp[:ok]
 
     if ::Hackbot::Team.exists?(team_id: resp[:team_id])
       return render status: 400

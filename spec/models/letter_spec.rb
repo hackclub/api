@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Letter, type: :model do
   subject { build(:letter) }
 
-  it_behaves_like "Streakable"
+  it_behaves_like 'Streakable'
 
   it { should have_db_column :name }
   it { should have_db_column :letter_type }

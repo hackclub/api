@@ -3,27 +3,25 @@ module Cloud9Client
     def self.login(username, password)
       login_resp = Cloud9Client.custom_request(
         :post,
-        "https://c9.io/auth/login",
+        'https://c9.io/auth/login',
         {
           username: username,
           password: password
         }.to_json,
         {},
-        {
-          'Origin' => 'https://c9.io',
-          'Content-Type' => 'application/json'
-        }
+        'Origin' => 'https://c9.io',
+        'Content-Type' => 'application/json'
       )
 
       token_resp = Cloud9Client.custom_request(
         :get,
-        "https://c9.io/api/nc/auth",
+        'https://c9.io/api/nc/auth',
         nil,
         {
-          "client_id" => "profile_direct",
-          "responseType" => "direct",
-          "login_hint" => nil,
-          "immediate" => 1
+          'client_id' => 'profile_direct',
+          'responseType' => 'direct',
+          'login_hint' => nil,
+          'immediate' => 1
         },
         {},
         login_resp.cookies

@@ -12,7 +12,7 @@ module Streakable
     # AssociationReflection represents an association with a class that also
     # includes Streakable.
     def streakable_associations
-      self.reflect_on_all_associations.select do |association|
+      reflect_on_all_associations.select do |association|
         association.klass.included_modules.include? Streakable
       end
     end
@@ -65,7 +65,7 @@ module Streakable
     when String
       field_key = mapping
     else
-      raise InvalidFieldMappingError, "Invalid Streak field mapping given"
+      raise InvalidFieldMappingError, 'Invalid Streak field mapping given'
     end
 
     { field_key: field_key, field_value: stored_value }
@@ -101,7 +101,7 @@ module Streakable
   private
 
   def update_box_if_changed
-    update_box if self.changed?
+    update_box if changed?
   end
 
   # Helpers

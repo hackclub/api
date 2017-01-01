@@ -2,14 +2,12 @@ class Hackbot::Dispatcher
   CONVERSATION_TYPES = [
     Hackbot::Conversations::Attendance,
     Hackbot::Conversations::Mention
-  ]
+  ].freeze
 
   def handle(event, slack_team)
     wranglers = convos_needing_handling(event)
 
-    if wranglers.size > 0
-      return wranglers.each { |w| w.handle(event); w.save! }
-    end
+    return wranglers.each { |w| w.handle(event); w.save! } unless wranglers.empty?
 
     to_create = CONVERSATION_TYPES.select { |c| c.should_start? event }
     created = to_create.map { |c| c.new(team: slack_team) }
@@ -21,6 +19,6 @@ class Hackbot::Dispatcher
 
   def convos_needing_handling(event)
     Hackbot::Conversation.where.not(state: :finish)
-      .select { |c| c.is_part_of_convo? event }
+                         .select { |c| c.is_part_of_convo? event }
   end
 end

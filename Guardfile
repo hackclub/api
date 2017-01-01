@@ -1,5 +1,5 @@
-guard :rspec, cmd: "bin/bundle exec spring rspec" do
-  require "guard/rspec/dsl"
+guard :rspec, cmd: 'bin/bundle exec spring rspec' do
+  require 'guard/rspec/dsl'
   dsl = Guard::RSpec::Dsl.new(self)
 
   # RSpec files
@@ -21,6 +21,6 @@ guard :rspec, cmd: "bin/bundle exec spring rspec" do
   # strict format, there's no obvious way to automatically figure out which
   # individual test to run.
   rails.to_h.each do |_file_type, regex|
-    watch(regex) { rspec.spec_dir}
+    watch(regex) { rspec.spec_dir }
   end
 end

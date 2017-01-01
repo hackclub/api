@@ -6,10 +6,7 @@ class V1::Cloud9Controller < ApplicationController
     errors = {}
     status = 200
 
-    unless EMAIL_REGEX.match(email)
-      errors['email'] = 'Must be a valid email'
-      status = 422
-    else
+    if EMAIL_REGEX.match(email)
       begin
         Cloud9Client::Team.invite_member(
           Rails.application.secrets.cloud9_team_name,
@@ -19,9 +16,12 @@ class V1::Cloud9Controller < ApplicationController
         errors['email'] = 'Invite already sent for this email'
         status = 409
       end
+    else
+      errors['email'] = 'Must be a valid email'
+      status = 422
     end
 
-    if errors.size > 0
+    if !errors.empty?
       render json: { errors: errors }, status: status
     else
       render json: { success: true }, status: status

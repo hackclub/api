@@ -1,11 +1,11 @@
 namespace :stats do
-  desc "Get a summary of our current stats"
+  desc 'Get a summary of our current stats'
   task summary: :environment do
     PIPELINE_KEY = Rails.application.secrets.streak_club_pipeline_key
     ACTIVE_STAGES = [
-      "5001", # Onboarded
-      "5003"  # Had post-first meeting check-in / active
-    ]
+      '5001', # Onboarded
+      '5003'  # Had post-first meeting check-in / active
+    ].freeze
     AVERAGE_CLUB_SIZE = 24
     ADDRESS_FIELD_KEY = Club.field_mappings[:address].to_sym
 

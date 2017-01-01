@@ -3,7 +3,7 @@ class Hackbot::Conversations::Attendance < Hackbot::Conversations::Channel
     event[:type] == 'message' && event[:text] =~ /^attendance/
   end
 
-  def start(event)
+  def start(_event)
     msg_channel "Another week, another time for attendance! Say 'go' when you're ready to begin."
 
     :wait_for_go
