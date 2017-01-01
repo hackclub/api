@@ -65,4 +65,19 @@ CLOUD9_PASSWORD
 # Keys for school and teacher outreach pipelines
 STREAK_OUTREACH_SCHOOL_PIPELINE_KEY
 STREAK_OUTREACH_TEACHER_PIPELINE_KEY
+
+# For Slack authentication
+SLACK_CLIENT_ID
+SLACK_CLIENT_SECRET
 ```
+
+## Other Setup
+
+Dumping this stuff here for lack of a better place.
+
+### Setting up the Slack App
+
+1. Create a new Slack app on Slack
+2. Create one (and only one) bot user and set "Always Show My Bot as Online" to "On"
+3. Click "Event Subscriptions" on the sidebar in the left and set the request URL to `HOSTNAME/v1/hackbot/webhook`, replacing `HOSTNAME` with your actual hostname.
+4. Subscribe to the following bot events: `message.channels`, `message.im`, `message.groups`, `message.mpim`

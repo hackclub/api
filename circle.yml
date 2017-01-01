@@ -10,6 +10,8 @@ machine:
     CLOUD9_TEAM_NAME: fake_team_name
     STREAK_OUTREACH_SCHOOL_PIPELINE_KEY: schools
     STREAK_OUTREACH_TEACHER_PIPELINE_KEY: teachers
+    SLACK_CLIENT_ID: fake_client_id
+    SLACK_CLIENT_SECRET: fake_client_secret
 
 deployment:
   production:
