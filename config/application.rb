@@ -28,7 +28,7 @@ module Api
     config.api_only = true
 
     # Automatically load files from the lib directory
-    config.autoload_paths << Rails.root.join('lib')
+    config.eager_load_paths << Rails.root.join('lib')
 
     # Used DelayedJob as our ActiveJob backend
     config.active_job.queue_adapter = :delayed_job
