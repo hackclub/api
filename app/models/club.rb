@@ -32,5 +32,8 @@ class Club < ApplicationRecord
 
   has_and_belongs_to_many :leaders
 
-  validates_presence_of :name, :address, :latitude, :longitude
+  validates :name, presence: true
+  validates :address, presence: true
+  validates :latitude, presence: true
+  validates :longitude, presence: true
 end
