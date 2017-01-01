@@ -19,6 +19,6 @@ class Hackbot::Dispatcher
 
   def convos_needing_handling(event)
     Hackbot::Conversation.where.not(state: :finish)
-                         .select { |c| c.is_part_of_convo? event }
+                         .select { |c| c.part_of_convo? event }
   end
 end

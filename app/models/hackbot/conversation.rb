@@ -9,7 +9,7 @@ class Hackbot::Conversation < ApplicationRecord
     raise NotImplementedError
   end
 
-  def is_part_of_convo?(event)
+  def part_of_convo?(event)
     # Don't react to events that we cause
     event[:user] != team.bot_user_id
   end

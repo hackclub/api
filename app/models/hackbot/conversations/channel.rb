@@ -1,7 +1,7 @@
 # Channel is a conversation that is limited to a single channel on Slack. Most
 # conversations will inherit from this class.
 class Hackbot::Conversations::Channel < Hackbot::Conversation
-  def is_part_of_convo?(event)
+  def part_of_convo?(event)
     event[:channel] == data['channel'] && super
   end
 
