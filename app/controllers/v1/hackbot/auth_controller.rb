@@ -5,7 +5,7 @@ class V1::Hackbot::AuthController < ApplicationController
   def create
     code = params[:code]
 
-    resp = SlackClient::Oauth.access(CLIENT_ID, CLIENT_SECRET, code)
+    resp = ::SlackClient::Oauth.access(CLIENT_ID, CLIENT_SECRET, code)
 
     unless resp[:ok]
       return render status: 403
