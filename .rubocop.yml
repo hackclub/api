@@ -4,6 +4,12 @@ AllCops:
     # format.
     - 'db/schema.rb'
 
+# Don't do method length checks on database migrations. No need to make sure our
+# migrations fit any sort of method line limit goal.
+Metrics/MethodLength:
+  Exclude:
+    - 'db/migrate/**'
+
 # Don't worry about having top-level class documentation comments for every
 # class. It'd be a nuisance to do this on all of the generated Rails classes.
 Documentation:
