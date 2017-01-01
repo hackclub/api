@@ -41,6 +41,8 @@ group :development, :test do
   # Allow formatting rspec test results in junit's format, giving CircleCI
   # better insight into tests
   gem 'rspec_junit_formatter', '~> 0.2.3'
+
+  gem 'rubocop', '~> 0.46.0', require: false
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
