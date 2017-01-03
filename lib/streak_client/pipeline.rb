@@ -1,7 +1,7 @@
 module StreakClient
   module Pipeline
     def self.all
-      StreakClient.request(:get, "/v1/pipelines")
+      StreakClient.request(:get, '/v1/pipelines')
     end
 
     def self.find(key)

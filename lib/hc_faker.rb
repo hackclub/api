@@ -11,7 +11,8 @@ module HCFaker
   class Address
     class << self
       def full_address
-        "#{Faker::Address.street_address}, #{Faker::Address.city}, #{Faker::Address.state_abbr} #{Faker::Address.zip_code}"
+        "#{Faker::Address.street_address}, #{Faker::Address.city}, "\
+        "#{Faker::Address.state_abbr} #{Faker::Address.zip_code}"
       end
     end
   end
@@ -19,8 +20,8 @@ module HCFaker
   class Random
     class << self
       def alphanumeric_string(len: 42)
-        range = [*'0'..'9',*'A'..'Z',*'a'..'z']
-        Array.new(len){ range.sample }.join
+        range = [*'0'..'9', *'A'..'Z', *'a'..'z']
+        Array.new(len) { range.sample }.join
       end
     end
   end

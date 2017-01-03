@@ -1,50 +1,56 @@
-class Hackbot::Conversation < ApplicationRecord
-  after_initialize :default_values
+module Hackbot
+  class Conversation < ApplicationRecord
+    after_initialize :default_values
 
-  belongs_to :team, foreign_key: 'hackbot_team_id', class_name: ::Hackbot::Team
+    belongs_to :team,
+               foreign_key: 'hackbot_team_id',
+               class_name: ::Hackbot::Team
 
-  validates_presence_of :team, :state
+    validates :team, :state, presence: true
 
-  def self.should_start?(event)
-    raise NotImplementedError
-  end
-
-  def is_part_of_convo?(event)
-    # Don't react to events that we cause
-    event[:user] != self.team.bot_user_id
-  end
-
-  def handle(event)
-    next_state = send(self.state, event)
-
-    if next_state.is_a? Symbol
-      self.state = next_state
-    else
-      self.state = :finish
+    def self.should_start?(_event)
+      raise NotImplementedError
     end
 
-    if self.state == :finish
-      send(:finish, event)
+    def part_of_convo?(event)
+      # Don't react to events that we cause
+      event[:user] != team.bot_user_id
     end
-  end
 
-  protected
+    def handle(event)
+      next_state = send(state, event)
 
-  def start(event)
-    raise notImplementedError
-  end
+      self.state = if next_state.is_a? Symbol
+                     next_state
+                   else
+                     :finish
+                   end
 
-  def finish(event)
-  end
+      send(:finish, event) if state == :finish
+    end
 
-  def send_msg(channel, text)
-    ::SlackClient::Chat.send_msg(channel, text, self.team.bot_access_token, as_user: true)
-  end
+    protected
 
-  private
+    def start(_event)
+      raise notImplementedError
+    end
 
-  def default_values
-    self.state ||= :start
-    self.data ||= {}
+    def finish(event); end
+
+    def send_msg(channel, text)
+      ::SlackClient::Chat.send_msg(
+        channel,
+        text,
+        team.bot_access_token,
+        as_user: true
+      )
+    end
+
+    private
+
+    def default_values
+      self.state ||= :start
+      self.data ||= {}
+    end
   end
 end

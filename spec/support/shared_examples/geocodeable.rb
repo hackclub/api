@@ -1,29 +1,29 @@
-require "rails_helper"
+require 'rails_helper'
 
-RSpec.shared_examples "Geocodeable" do
+RSpec.shared_examples 'Geocodeable' do
   let(:model) { described_class }
 
   let(:address_attr) { model.geocodeable_address_attr }
   let(:latitude_attr) { model.geocodeable_lat_attr }
   let(:longitude_attr) { model.geocodeable_lng_attr }
 
-  def address(obj, attr=address_attr)
+  def address(obj, attr = address_attr)
     obj.send(attr)
   end
 
-  def set_address(obj, new_address, attr=address_attr)
+  def set_address(obj, new_address, attr = address_attr)
     obj.send("#{attr}=", new_address)
   end
 
-  def latitude(obj, attr=latitude_attr)
+  def latitude(obj, attr = latitude_attr)
     obj.send(attr)
   end
 
-  def longitude(obj, attr=longitude_attr)
+  def longitude(obj, attr = longitude_attr)
     obj.send(attr)
   end
 
-  describe "geocoding" do
+  describe 'geocoding' do
     let!(:obj) { create(described_class.to_s.underscore.to_sym) }
     let!(:original_address) { address(obj) }
 
@@ -31,8 +31,8 @@ RSpec.shared_examples "Geocodeable" do
       Geocoder::Lookup::Test.set_default_stub(
         [
           {
-            "latitude" => 42.42,
-            "longitude" => -42.42
+            'latitude' => 42.42,
+            'longitude' => -42.42
           }
         ]
       )
@@ -40,19 +40,19 @@ RSpec.shared_examples "Geocodeable" do
 
     after { Geocoder::Lookup::Test.reset }
 
-    context "when address changes" do
-      it "saves the new latitude" do
-        expect {
-          set_address(obj, "NEW ADDRESS")
+    context 'when address changes' do
+      it 'saves the new latitude' do
+        expect do
+          set_address(obj, 'NEW ADDRESS')
           obj.save
-        }.to change{latitude(obj.reload)}
+        end.to change { latitude(obj.reload) }
       end
 
-      it "saves the new longitude" do
-        expect {
-          set_address(obj, "NEW ADDRESS")
+      it 'saves the new longitude' do
+        expect do
+          set_address(obj, 'NEW ADDRESS')
           obj.save
-        }.to change{longitude(obj.reload)}
+        end.to change { longitude(obj.reload) }
       end
     end
 

@@ -1,6 +1,6 @@
 module SlackClient
   module Oauth
-    def self.access(client_id, client_secret, code, redirect_uri=nil)
+    def self.access(client_id, client_secret, code, redirect_uri = nil)
       SlackClient.rpc(
         'oauth.access',
         nil,

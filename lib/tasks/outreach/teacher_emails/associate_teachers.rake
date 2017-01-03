@@ -1,6 +1,7 @@
+# rubocop:disable Metrics/LineLength, Metrics/MethodLength
 desc "Associate teachers in the Outreach - Teachers pipeline with their schools (which is specified in the teacher's notes)"
 task associate_teachers: :environment do
-  def all_boxes_in_pipeline(pipeline_key, page_num=0, boxes=[], page_size_limit=1000)
+  def all_boxes_in_pipeline(pipeline_key, page_num = 0, boxes = [], page_size_limit = 1000)
     page = StreakClient::Box.all_in_pipeline_paginated(
       pipeline_key,
       page: page_num,
@@ -25,15 +26,15 @@ task associate_teachers: :environment do
     Rails.application.secrets.streak_outreach_teacher_pipeline_key
   )
 
-  school_teacher_boxes_added_stage_key = school_pipeline[:stages].select { |_, stage| stage[:name] == "Teacher Boxes Created" }
-                                         .keys
-                                         .first
-                                         .to_s
-  teacher_lead_stage_key = teacher_pipeline[:stages].select { |_, stage| stage[:name] == "Lead" }
-                           .keys
-                           .first
-                           .to_s
-  school_region_field_key = school_pipeline[:fields].find { |f| f[:name] == "Region" }[:key].to_sym
+  school_teacher_boxes_added_stage_key = school_pipeline[:stages].select { |_, stage| stage[:name] == 'Teacher Boxes Created' }
+                                                                 .keys
+                                                                 .first
+                                                                 .to_s
+  teacher_lead_stage_key = teacher_pipeline[:stages].select { |_, stage| stage[:name] == 'Lead' }
+                                                    .keys
+                                                    .first
+                                                    .to_s
+  school_region_field_key = school_pipeline[:fields].find { |f| f[:name] == 'Region' }[:key].to_sym
 
   schools = all_boxes_in_pipeline(school_pipeline[:key])
   teachers = all_boxes_in_pipeline(teacher_pipeline[:key])

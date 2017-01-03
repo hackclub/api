@@ -1,7 +1,7 @@
 module StreakClient
   module Box
     def self.all
-      StreakClient.request(:get, "/v1/boxes")
+      StreakClient.request(:get, '/v1/boxes')
     end
 
     def self.all_in_pipeline(pipeline_key)
@@ -12,15 +12,17 @@ module StreakClient
       StreakClient.request(
         :get,
         "/v2/pipelines/#{pipeline_key}/boxes",
-        {
-          page: page,
-          limit: limit
-        }
+        page: page,
+        limit: limit
       )
     end
 
     def self.create_in_pipeline(pipeline_key, name)
-      StreakClient.request(:put, "/v1/pipelines/#{pipeline_key}/boxes", { name: name })
+      StreakClient.request(
+        :put,
+        "/v1/pipelines/#{pipeline_key}/boxes",
+        name: name
+      )
     end
 
     # params is a hash of key value pairs for fields to update in Streak.
@@ -42,9 +44,7 @@ module StreakClient
       StreakClient.request(
         :post,
         "/v1/boxes/#{box_key}/fields/#{field_key}",
-        {
-          value: value
-        }
+        value: value
       )
     end
 

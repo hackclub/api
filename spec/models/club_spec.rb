@@ -1,10 +1,10 @@
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe Club, type: :model do
   subject(:club) { build(:club) }
 
-  it_behaves_like "Streakable"
-  it_behaves_like "Geocodeable"
+  it_behaves_like 'Streakable'
+  it_behaves_like 'Geocodeable'
 
   it { should have_db_column :name }
   it { should have_db_column :streak_key }

@@ -1,30 +1,32 @@
-class V1::Cloud9Controller < ApplicationController
-  EMAIL_REGEX = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
+module V1
+  class Cloud9Controller < ApplicationController
+    EMAIL_REGEX = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
 
-  def send_invite
-    email = params[:email]
-    errors = {}
-    status = 200
-
-    unless EMAIL_REGEX.match(email)
-      errors['email'] = 'Must be a valid email'
-      status = 422
-    else
-      begin
-        Cloud9Client::Team.invite_member(
-          Rails.application.secrets.cloud9_team_name,
-          email
-        )
-      rescue RestClient::Conflict
-        errors['email'] = 'Invite already sent for this email'
-        status = 409
+    def send_invite
+      unless EMAIL_REGEX.match(email)
+        return render json: { errors: { email: 'Must be a valid email' } },
+                      status: 422
       end
+
+      invite_member(email)
+
+      render json: { success: true }
+    rescue RestClient::Conflict
+      render json: { errors: { email: 'Invite already sent for this email' } },
+             status: 409
     end
 
-    if errors.size > 0
-      render json: { errors: errors }, status: status
-    else
-      render json: { success: true }, status: status
+    protected
+
+    def invite_member(email)
+      Cloud9Client::Team.invite_member(
+        Rails.application.secrets.cloud9_team_name,
+        email
+      )
+    end
+
+    def email
+      params[:email]
     end
   end
 end
