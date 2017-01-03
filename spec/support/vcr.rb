@@ -57,12 +57,17 @@ VCR.configure do |c|
     cks.last['c9.live.proxy'] if cks.length > 1
   end
 
+  # Disable check on this method because it's throwing a false positive. See
+  # https://github.com/bbatsov/rubocop/issues/3855.
+  #
+  # rubocop:disable Lint/NonLocalExitFromIterator
   def server_cookies(response)
     raw_cookies = response.headers['Set-Cookie']
     return if raw_cookies.nil? || raw_cookies.empty?
 
     raw_cookies.map { |ck| parse_server_cookie(ck) }
   end
+  # rubocop:enable Lint/NonLocalExitFromIterator
 
   def parse_server_cookie(raw_server_cookie)
     parsed_cookie = {}
