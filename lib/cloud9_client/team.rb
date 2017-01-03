@@ -5,9 +5,13 @@ module Cloud9Client
     end
 
     def self.add_member(team_name, username)
-      Cloud9Client.request(:post, "/user/org/#{team_name}/member", username: username,
-                                                                   role: 'r',
-                                                                   subscriptions: [])
+      Cloud9Client.request(
+        :post,
+        "/user/org/#{team_name}/member",
+        username: username,
+        role: 'r',
+        subscriptions: []
+      )
     end
 
     def self.delete_member(team_name, username)

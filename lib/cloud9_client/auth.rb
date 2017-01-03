@@ -1,33 +1,50 @@
 module Cloud9Client
   module Auth
-    def self.login(username, password)
-      login_resp = Cloud9Client.custom_request(
-        :post,
-        'https://c9.io/auth/login',
-        {
-          username: username,
-          password: password
-        }.to_json,
-        {},
-        'Origin' => 'https://c9.io',
-        'Content-Type' => 'application/json'
-      )
+    class << self
+      def login(username, password)
+        authed_cookies = web_login(username, password)
+        access_token = get_access_token(authed_cookies)
 
-      token_resp = Cloud9Client.custom_request(
-        :get,
-        'https://c9.io/api/nc/auth',
-        nil,
-        {
-          'client_id' => 'profile_direct',
-          'responseType' => 'direct',
-          'login_hint' => nil,
-          'immediate' => 1
-        },
-        {},
-        login_resp.cookies
-      )
+        { access_token: access_token }
+      end
 
-      { access_token: token_resp.body }
+      private
+
+      def web_login(username, password) # rubocop:disable Metrics/MethodLength
+        resp = Cloud9Client.custom_request(
+          :post,
+          'https://c9.io/auth/login',
+          {
+            username: username,
+            password: password
+          }.to_json,
+          {},
+          'Origin' => 'https://c9.io',
+          'Content-Type' => 'application/json'
+        )
+
+        resp.cookies
+      end
+
+      # rubocop:disable Metrics/MethodLength
+      def get_access_token(authenticated_cookies)
+        resp = Cloud9Client.custom_request(
+          :get,
+          'https://c9.io/api/nc/auth',
+          nil,
+          {
+            'client_id' => 'profile_direct',
+            'responseType' => 'direct',
+            'login_hint' => nil,
+            'immediate' => 1
+          },
+          {},
+          authenticated_cookies
+        )
+
+        resp.body
+      end
+      # rubocop:enable Metrics/MethodLength
     end
   end
 end

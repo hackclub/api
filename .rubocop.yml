@@ -10,6 +10,10 @@ Metrics/MethodLength:
   Exclude:
     - 'db/migrate/**'
 
+# Disable check for methods requiring more than 5 parameters.
+Metrics/ParameterLists:
+  Enabled: false
+
 # Don't worry about having top-level class documentation comments for every
 # class. It'd be a nuisance to do this on all of the generated Rails classes.
 Documentation:

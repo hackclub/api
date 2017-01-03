@@ -16,6 +16,7 @@ module Cloud9Client
       @api_base + url
     end
 
+    # rubocop:disable Metrics/MethodLength
     def request(method, path, params = {}, headers = {})
       payload = nil
 
@@ -36,6 +37,7 @@ module Cloud9Client
 
       JSON.parse(resp, symbolize_names: true)
     end
+    # rubocop:enable Metrics/MethodLength
 
     def custom_request(method, url, payload = nil, params = {}, headers = {},
                        cookies = {}, use_default_headers = true)
@@ -61,13 +63,16 @@ module Cloud9Client
 
     # Add browser headers, because we're just doing this from the browser,
     # right? ;-)
+    USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) '\
+                 'AppleWebKit/537.36 (KHTML, like Gecko) '\
+                 'Chrome/53.0.2785.143 Safari/537.36'.freeze
     def default_headers
       {
         'Pragma' => 'no-cache',
         'Origin' => 'https://c9.io',
         'Accept-Encoding' => 'gzip, deflate, br',
         'Accept-Language' => 'en-US,en;q=0.8',
-        'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36',
+        'User-Agent' => USER_AGENT,
         'Cache-Control' => 'no-cache',
         'DNT' => '1'
       }
