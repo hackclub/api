@@ -52,23 +52,31 @@ module Streakable
     self.class.set_callback(:destroy, :before, :destroy_box)
   end
 
+  def streak_field_key_for_attribute(attribute)
+    mapping = self.class.field_mappings[attribute]
+
+    case mapping
+    when Hash
+      mapping[:key]
+    when String
+      mapping
+    else
+      raise InvalidFieldMappingError, 'Invalid Streak field mapping given'
+    end
+  end
+
+  def streak_field_value_for_attribute(attribute)
+    send(attribute)
+  end
+
   # Given a symbol attribute name, get that attribute's value, parse the model's
   # field mappings, and return the field key and value that's appropriate for
   # sending to Streak.
   def streak_field_and_value_for_attribute(attribute)
-    mapping = self.class.field_mappings[attribute]
-    stored_value = send(attribute)
-
-    case mapping
-    when Hash
-      field_key = mapping[:key]
-    when String
-      field_key = mapping
-    else
-      raise InvalidFieldMappingError, 'Invalid Streak field mapping given'
-    end
-
-    { field_key: field_key, field_value: stored_value }
+    {
+      field_key: streak_field_key_for_attribute(attribute),
+      field_value: streak_field_value_for_attribute(attribute)
+    }
   end
 
   # Returns an array of box keys suitable for passing to Streak's API
@@ -82,12 +90,16 @@ module Streakable
   end
 
   def create_box
-    unless get_streak_key
-      resp = StreakClient::Box.create_in_pipeline(self.class.pipeline_key, name)
-      set_streak_key(resp[:key])
+    return if streak_key_val
 
-      update_streak_box
-    end
+    resp = StreakClient::Box.create_in_pipeline(self.class.pipeline_key, name)
+
+    # Need to use self here because it'll try to create a variable by default
+    # (try removing 'self.' from the beginning and running tests to see for
+    # yourself)
+    self.streak_key_val = resp[:key]
+
+    update_streak_box
   end
 
   def update_box
@@ -95,7 +107,7 @@ module Streakable
   end
 
   def destroy_box
-    StreakClient::Box.delete(get_streak_key)
+    StreakClient::Box.delete(streak_key_val)
   end
 
   private
@@ -107,7 +119,7 @@ module Streakable
   # Helpers
   def update_streak_box
     StreakClient::Box.update(
-      get_streak_key,
+      streak_key_val,
       notes: notes,
       linked_box_keys: linked_streak_box_keys
     )
@@ -120,18 +132,18 @@ module Streakable
       for_streak = streak_field_and_value_for_attribute(attribute)
 
       StreakClient::Box.edit_field(
-        get_streak_key,
+        streak_key_val,
         for_streak[:field_key],
         for_streak[:field_value]
       )
     end
   end
 
-  def get_streak_key
+  def streak_key_val
     send(self.class.key_attribute)
   end
 
-  def set_streak_key(val)
+  def streak_key_val=(val)
     send("#{self.class.key_attribute}=", val)
   end
 end
