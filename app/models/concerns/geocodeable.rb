@@ -16,10 +16,10 @@ module Geocodeable
                   latitude: latitude,
                   longitude: longitude
 
-      before_validation :geocode, if: ->(obj) {
+      before_validation :geocode, if: (lambda do |obj|
         obj.send(address).present? &&
           obj.send("#{address}_changed?")
-      }
+      end)
     end
   end
 end
