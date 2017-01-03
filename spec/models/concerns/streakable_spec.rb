@@ -42,7 +42,7 @@ RSpec.describe Streakable do
               'Yellow' => '9003'
             }
           },
-          attribute_with_invalid_mapping: 42
+          attr_with_invalid_mapping: 42
         )
       end
     end
@@ -64,7 +64,7 @@ RSpec.describe Streakable do
 
     it 'throws InvalidFieldMappingError when an invalid mapping is given' do
       expect do
-        obj.streak_field_and_value_for_attribute(:attribute_with_invalid_mapping)
+        obj.streak_field_and_value_for_attribute(:attr_with_invalid_mapping)
       end.to raise_error(Streakable::InvalidFieldMappingError)
     end
   end
