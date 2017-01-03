@@ -1,7 +1,10 @@
 class UpdateFromStreakJob < ApplicationJob
   queue_as :default
 
-  def perform(*)
+  # Just a quick note, we're going to temporarily disable basic complexity
+  # checks from Rubocop for now because this method is going to need a real
+  # refactor at some point to implement Streak's V2 API.
+  def perform(*) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     # Since we're going to be doing a ton of reflection, we need to make sure
     # that the entire application is loaded into memory.
     Rails.application.eager_load!
@@ -25,7 +28,8 @@ class UpdateFromStreakJob < ApplicationJob
         attrs_to_update[model.notes_attribute] = box[:notes]
 
         model.field_mappings.each do |attribute, _|
-          key = instance.streak_field_and_value_for_attribute(attribute)[:field_key]
+          key = instance
+                .streak_field_and_value_for_attribute(attribute)[:field_key]
           attrs_to_update[attribute] = box[:fields][key.to_sym]
         end
 
@@ -60,7 +64,11 @@ class UpdateFromStreakJob < ApplicationJob
           model.streakable_associations.each do |association|
             associated_model = association.klass
 
-            instance_to_associate = associated_model.find_by(associated_model.key_attribute => linked_box_key)
+            instance_to_associate =
+              associated_model.find_by(
+                associated_model.key_attribute => linked_box_key
+              )
+
             next if instance_to_associate.nil?
 
             # Heads up, this has some unexpected behavior.
