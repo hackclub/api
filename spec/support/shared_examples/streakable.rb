@@ -10,7 +10,6 @@ RSpec.shared_examples 'Streakable' do
 
       client = class_double(StreakClient::Box).as_stubbed_const
       streak_key = HCFaker::Streak.key
-      field_maps = model.field_mappings
 
       expect(client).to receive(:create_in_pipeline)
         .with(
@@ -52,7 +51,10 @@ RSpec.shared_examples 'Streakable' do
   end
 
   context 'updating' do
-    let!(:new_attrs) { attributes_from_created_instance(model).except(:streak_key) }
+    let!(:new_attrs) do
+      attributes_from_created_instance(model).except(:streak_key)
+    end
+
     subject!(:instance) { model.create(attrs) }
 
     it "updates the Streak box's fields" do
@@ -106,7 +108,8 @@ RSpec.shared_examples 'Streakable' do
     attrs
   end
 
-  def expect_update_box(streak_client_double:, streak_key:, notes:, linked_box_keys:)
+  def expect_update_box(streak_client_double:, streak_key:, notes:,
+                        linked_box_keys:)
     expect(streak_client_double).to receive(:update)
       .with(
         streak_key,
@@ -115,13 +118,16 @@ RSpec.shared_examples 'Streakable' do
       )
   end
 
-  def expect_update_box_fields(streak_client_double:, model:, streak_key:, attrs:)
+  # rubocop:disable Metrics/MethodLength
+  def expect_update_box_fields(streak_client_double:, model:, streak_key:,
+                               attrs:)
     tmp_obj = model.new(attrs)
 
     model.field_mappings.each do |attribute_name, _|
-      field_key, field_value = tmp_obj
-                               .streak_field_and_value_for_attribute(attribute_name)
-                               .values_at(:field_key, :field_value)
+      field_key,
+      field_value = tmp_obj
+                    .streak_field_and_value_for_attribute(attribute_name)
+                    .values_at(:field_key, :field_value)
 
       expect(streak_client_double).to receive(:edit_field)
         .with(
@@ -131,4 +137,5 @@ RSpec.shared_examples 'Streakable' do
         )
     end
   end
+  # rubocop:enable Metrics/MethodLength
 end
