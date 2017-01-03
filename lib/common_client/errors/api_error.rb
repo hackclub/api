@@ -5,8 +5,8 @@ class ApiError < StandardError
   attr_reader :json_body
   attr_reader :http_headers
 
-  def initialize(message = nil, http_status = nil, http_body = nil, json_body = nil,
-                 http_headers = nil)
+  def initialize(message = nil, http_status = nil, http_body = nil,
+                 json_body = nil, http_headers = nil)
     @message = message
     @http_status = http_status
     @http_body = http_body
