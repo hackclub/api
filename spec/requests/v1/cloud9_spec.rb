@@ -11,7 +11,8 @@ RSpec.describe 'V1::Cloud9', type: :request, vcr: true do
     # probably already been sent an invite on Cloud9. This'll likely cause other
     # tests to fail too.
     #
-    # You'll have to play around with the values we're submitting to get it working again.
+    # You'll have to play around with the values we're submitting to get it
+    # working again.
     context 'with a valid email' do
       let(:email) { 'supervalid.and.superbad@example.com' }
 
@@ -28,7 +29,8 @@ RSpec.describe 'V1::Cloud9', type: :request, vcr: true do
 
       it 'errors' do
         expect(response).to have_http_status(409)
-        expect(json['errors']['email']).to eq('Invite already sent for this email')
+        expect(json['errors']['email'])
+          .to eq('Invite already sent for this email')
       end
     end
 
