@@ -43,10 +43,10 @@ RSpec.describe 'V1::Leaders', type: :request do
       end
 
       it 'adds the leader to the given club' do
-        expect(json['clubs']).to eq([
-                                      # Gotta do this to get the parsed JSON representation of the club
-                                      JSON.parse(club.to_json)
-                                    ])
+        # Gotta do this to get the parsed JSON representation of the club
+        club_json = JSON.parse(club.to_json)
+
+        expect(json['clubs']).to eq([club_json])
       end
 
       it 'creates a letter for the leader' do
