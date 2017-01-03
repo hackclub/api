@@ -18,7 +18,11 @@ module StreakClient
     end
 
     def self.create_in_pipeline(pipeline_key, name)
-      StreakClient.request(:put, "/v1/pipelines/#{pipeline_key}/boxes", name: name)
+      StreakClient.request(
+        :put,
+        "/v1/pipelines/#{pipeline_key}/boxes",
+        name: name
+      )
     end
 
     # params is a hash of key value pairs for fields to update in Streak.
