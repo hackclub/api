@@ -10,7 +10,7 @@ describe 'CORS', type: :request do
       expect(response.headers['Access-Control-Allow-Origin']).to eq(origin)
     end
 
-    it "responds correctly to the CORS preflights OPTIONS request for #{origin}" do
+    it "handles CORS preflights OPTIONS request for #{origin}" do
       options '/v1/ping', headers: {
         'HTTP_ORIGIN' => origin,
         'HTTP_ACCESS_CONTROL_REQUEST_METHOD' => 'GET',
@@ -18,7 +18,8 @@ describe 'CORS', type: :request do
       }
 
       expect(response.headers['Access-Control-Allow-Origin']).to eq(origin)
-      expect(response.headers['Access-Control-Allow-Methods']).to eq('GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD')
+      expect(response.headers['Access-Control-Allow-Methods'])
+        .to eq('GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD')
       expect(response.headers['Access-Control-Allow-Headers']).to eq('test')
       expect(response.headers).to have_key('Access-Control-Max-Age')
     end
