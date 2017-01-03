@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/LineLength, Metrics/MethodLength
 task dedup_teacher_leads: :environment do
   def all_boxes_in_pipeline(pipeline_key, page_num = 0, boxes = [], page_size_limit = 1000, &block)
     page = StreakClient::Box.all_in_pipeline_paginated(

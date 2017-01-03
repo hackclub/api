@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/LineLength, Metrics/MethodLength
 desc "Associate teachers in the Outreach - Teachers pipeline with their schools (which is specified in the teacher's notes)"
 task associate_teachers: :environment do
   def all_boxes_in_pipeline(pipeline_key, page_num = 0, boxes = [], page_size_limit = 1000)
