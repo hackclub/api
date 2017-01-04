@@ -1,12 +1,14 @@
-const AUTH = 'hackclub/slack_auth/AUTH'
-const AUTH_SUCCESS = 'hackclub/leader_intake/AUTH_SUCCESS'
-const AUTH_FAIL = 'hackclub/leader_intake/AUTH_FAIL'
+const AUTH = 'hackclub/hackbot/AUTH'
+const AUTH_SUCCESS = 'hackclub/hackbot/AUTH_SUCCESS'
+const AUTH_FAIL = 'hackclub/hackbot/AUTH_FAIL'
 
 export const STATUS_SUCCESS = 'success'
 export const STATUS_ERROR = 'error'
 
 const initialState = {
-  status: null
+  auth: {
+    status: null
+  }
 }
 
 export default function reducer(state=initialState, action={}) {
@@ -16,12 +18,18 @@ export default function reducer(state=initialState, action={}) {
   case AUTH_SUCCESS:
     return {
       ...state,
-      status: STATUS_SUCCESS
+      auth: {
+        ...state.auth,
+        status: STATUS_SUCCESS
+      }
     }
   case AUTH_FAIL:
     return {
       ...state,
-      status: STATUS_ERROR
+      auth: {
+        ...state.auth,
+        status: STATUS_ERROR
+      }
     }
   default:
     return state

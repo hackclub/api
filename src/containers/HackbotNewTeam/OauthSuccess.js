@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import * as slackAuthActions from '../../redux/modules/slackAuth'
+import * as hackbotActions from '../../redux/modules/hackbot'
 import {
   Link,
   Text
 } from '../../components'
 
-const { STATUS_SUCCESS, STATUS_ERROR } = slackAuthActions
+const { STATUS_SUCCESS, STATUS_ERROR } = hackbotActions
 
 class OauthSuccess extends Component {
   componentDidMount() {
@@ -29,7 +29,7 @@ class OauthSuccess extends Component {
         return (
           <div>
             <Text>Oh snap, there was some sort of error on our end.</Text>
-            <Link to='/slack_auth'>Try again?</Link>
+            <Link to='/hackbot/teams/new'>Try again?</Link>
           </div>
         )
       default:
@@ -43,10 +43,10 @@ class OauthSuccess extends Component {
 }
 
 const mapStateToProps = state => ({
-  status: state.slackAuth.status
+  status: state.hackbot.auth.status
 })
 
 export default connect(
   mapStateToProps,
-  {...slackAuthActions}
+  {...hackbotActions}
 )(OauthSuccess)

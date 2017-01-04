@@ -9,7 +9,7 @@ class OauthFailure extends Component {
     return (
       <div>
         <Text>Oh snap! You didn't give us permission to add hackbot to your Slack.</Text>
-        <Link to='/slack_auth'>Try again?</Link>
+        <Link to='/hackbot/teams/new'>Try again?</Link>
       </div>
     )
   }
