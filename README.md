@@ -11,6 +11,7 @@ Create a file called `.env` with the following contents, replacing "REPLACEME" w
 
 ```
 REACT_APP_API_BASE_URL=REPLACEME
+REACT_APP_SLACK_CLIENT_ID=REPLACEME
 ```
 
     # Start development server

@@ -4,6 +4,7 @@ import { routerReducer } from 'react-router-redux'
 import cloud9Setup from './cloud9Setup'
 import clubs from './clubs'
 import leaderIntake from './leaderIntake'
+import slackAuth from './slackAuth'
 import { reducer as form } from 'redux-form'
 
 export default combineReducers({
@@ -11,5 +12,6 @@ export default combineReducers({
   cloud9Setup,
   clubs,
   leaderIntake,
+  slackAuth,
   form
 })
