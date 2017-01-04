@@ -16,7 +16,7 @@ export default (store) => {
     <Route path="/" component={App}>
       <Route path="cloud9_setup" component={Cloud9Setup} />
       <Route path="intake" component={LeaderIntake} />
-      <Route path="slack_auth" component={SlackAuth} />
+      <Route path="hackbot/teams/new" component={SlackAuth} />
 
       <Route path="*" component={NotFound} status={404} />
     </Route>
