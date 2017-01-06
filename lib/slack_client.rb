@@ -1,5 +1,6 @@
 require 'slack_client/chat'
 require 'slack_client/oauth'
+require 'slack_client/users'
 
 module SlackClient
   @api_base = 'https://www.slack.com/api'

@@ -24,4 +24,5 @@ RSpec.describe Club, type: :model do
   it { should validate_presence_of :address }
 
   it { should have_and_belong_to_many :leaders }
+  it { should have_many :check_ins }
 end

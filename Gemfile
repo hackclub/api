@@ -7,6 +7,7 @@ gem 'puma', '~> 3.0'
 gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
 
 gem 'active_model_serializers', '~> 0.10.0'
+gem 'chronic', '~> 0.10.2'
 gem 'concurrent-ruby', require: 'concurrent'
 gem 'delayed_job_active_record', '~> 4.1', '>= 4.1.1'
 gem 'faker', '~> 1.6'

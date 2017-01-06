@@ -37,11 +37,15 @@ module Hackbot
 
     def finish(event); end
 
+    def access_token
+      team.bot_access_token
+    end
+
     def send_msg(channel, text)
       ::SlackClient::Chat.send_msg(
         channel,
         text,
-        team.bot_access_token,
+        access_token,
         as_user: true
       )
     end
