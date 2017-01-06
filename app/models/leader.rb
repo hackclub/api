@@ -45,6 +45,7 @@ class Leader < ApplicationRecord
                 longitude: :longitude
 
   has_and_belongs_to_many :clubs
+  has_many :check_ins
 
   validates :name, presence: true
 end
