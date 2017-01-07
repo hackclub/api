@@ -64,7 +64,7 @@ module Hackbot
 
         msg_channel "How many people would you estimate came? (I'm not very "\
                     "smart, I'll need you to give me a single number, "\
-                    'something like "25" – do your best to estimate)'
+                    'something like "25" – give your best estimate)'
 
         :wait_for_attendance
       end
