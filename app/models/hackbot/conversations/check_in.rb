@@ -115,7 +115,7 @@ module Hackbot
       def wait_for_notes(event)
         data['notes'] = event[:text] unless event[:text] =~ /^(no|nope|nah)$/i
 
-        ::CheckIn.create(
+        ::CheckIn.create!(
           club: club(event),
           leader: leader(event),
           meeting_date: data['meeting_date'],
