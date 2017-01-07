@@ -14,5 +14,4 @@ RSpec.describe CheckIn, type: :model do
   it { should validate_presence_of :leader }
   it { should validate_presence_of :meeting_date }
   it { should validate_presence_of :attendance }
-  it { should validate_presence_of :notes }
 end
