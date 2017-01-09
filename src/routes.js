@@ -8,8 +8,8 @@ import {
   NotFound,
 } from './containers'
 
-import './cssReset.css'
-import './index.css'
+import './vendor/cssReset.css'
+import './styles/index.css'
 
 export default (store) => {
   return (

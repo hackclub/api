@@ -1,6 +1,6 @@
 import React from 'react'
 import Field from '../Field/Field'
-import colors from '../../colors'
+import colors from '../../styles/colors'
 
 const styles = {
   fontFamily: 'inherit',

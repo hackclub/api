@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import * as intakeActions from '../../redux/modules/leaderIntake'
 import { load as loadClubs } from '../../redux/modules/clubs'
 import { Card, Emoji, Header, Heading, LeaderIntakeForm, Link } from '../../components'
-import colors from '../../colors'
+import colors from '../../styles/colors'
 
 const styles = {
   headerLink: {
