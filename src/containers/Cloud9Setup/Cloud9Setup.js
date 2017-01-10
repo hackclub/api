@@ -8,7 +8,7 @@ import * as cloud9SetupActions from '../../redux/modules/cloud9Setup'
 
 const styles = {
   cloud: {
-    fontSize: '96px',
+    fontSize: '36px',
     lineHeight: '75%'
   },
   instructions: {
