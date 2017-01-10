@@ -20,10 +20,6 @@ const styles = {
       textDecoration: 'underline'
     }
   },
-  headerEmoji: {
-    fontSize: '75px',
-    marginBottom: '30px'
-  },
   headerText: {
     color: colors.bg,
     marginBottom: '0'
@@ -54,12 +50,7 @@ class LeaderIntake extends Component {
       <div>
         <Helmet title="Leader Intake" />
         <Header>
-          <Link style={[styles.headerLink]} to="/">
-            <Emoji type="leftwards_black_arrow" /> Back to Home Page
-          </Link>
-          <Heading style={styles.headerEmoji}>
-            <Emoji type="party_popper" />
-          </Heading>
+          <Link style={[styles.headerLink]} to="/">← Back to Home Page</Link>
           <Heading style={styles.headerText}>Welcome to Hack Club! Let's get you set up.</Heading>
         </Header>
         <Card style={styles.card}>
