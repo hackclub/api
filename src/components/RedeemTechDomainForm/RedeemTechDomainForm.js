@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { reduxForm, Field } from 'redux-form'
-import { Button, TextField } from '../../components'
+import { Button, Emoji, TextField } from '../../components'
 import redeemTechDomainValidation from './redeemTechDomainValidation'
 
 class RedeemTechDomainForm extends Component {
@@ -20,8 +20,20 @@ class RedeemTechDomainForm extends Component {
     }
   }
 
+  buttonText(status) {
+    switch (status) {
+    case "error":
+      return (<span>Something went wrong! <Emoji type="thinking_face" /></span>)
+    case "success":
+      return (<span>Domain requested! <Emoji type="fisted_hand_sign" /></span>)
+    default:
+      return "Get your .TECH domain!"
+    }
+    
+  }
+
   render() {
-    const { handleSubmit, style } = this.props
+    const { handleSubmit, style, status } = this.props
 
     return (
       <form style={style} onSubmit={handleSubmit}>
@@ -30,7 +42,7 @@ class RedeemTechDomainForm extends Component {
         <Field name="requested_domain" label="Domain" placeholder="arthurdent.tech" component={TextField} />
         <Field name="secret_code" label="Secret Code" placeholder="Get from your club leader" component={TextField} />
         <Button type="form" state={ this.buttonState() }>
-          Get your .TECH domain!
+          { this.buttonText(status) }
         </Button>
       </form>
     )
