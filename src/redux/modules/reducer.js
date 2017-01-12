@@ -14,6 +14,6 @@ export default combineReducers({
   clubs,
   hackbot,
   leaderIntake,
-  form,
-  techDomainRedemption
+  techDomainRedemption,
+  form
 })

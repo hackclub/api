@@ -3,5 +3,6 @@ import { createValidator, required, email, techDomain } from '../../utils/valida
 export default createValidator({
   name: [required],
   email: [required, email],
-  domain: [required, techDomain]
+  requested_domain: [required, techDomain],
+  secret_code: [required]
 })

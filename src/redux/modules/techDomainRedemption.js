@@ -25,16 +25,15 @@ export default function reducer(state=initialState, action={}) {
   }
 }
 
-export function submit(name, email, requested_domain, secret_code) {
-  console.log(name, email, requested_domain, secret_code);
+export function submit(name, email, requestedDomain, secretCode) {
   return {
     types: [SUBMIT, SUBMIT_SUCCESS, SUBMIT_FAIL],
     promise: client => client.post('/v1/tech_domain_redemptions', {
       data: {
         name,
         email,
-        requested_domain,
-        secret_code
+        requested_domain: requestedDomain,
+        secret_code: secretCode
       }
     })
   }

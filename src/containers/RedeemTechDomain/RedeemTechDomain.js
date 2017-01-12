@@ -3,7 +3,7 @@ import Radium from 'radium'
 import Helmet from 'react-helmet'
 import { connect } from 'react-redux'
 import { SubmissionError } from 'redux-form'
-import { Anchor, Card, Emoji, Header, Heading, Link, RedeemTechDomainForm, Text } from '../../components'
+import { Card, Header, Heading, RedeemTechDomainForm, Text } from '../../components'
 import * as techDomainRedemptionActions from '../../redux/modules/techDomainRedemption'
 
 const styles = {
@@ -16,6 +16,9 @@ const styles = {
     marginRight: 'auto',
     marginTop: '40px',
     marginBottom: '40px'
+  },
+  links: {
+    color: 'white'
   }
 }
 
@@ -27,7 +30,7 @@ class RedeemTechDomain extends Component {
   handleSubmit(values) {
     const { submit } = this.props
 
-    return submit(values.name, values.email, values.domain, values.secret)
+    return submit(values.name, values.email, values.requested_domain, values.secret_code)
       .catch(error => {
         throw new SubmissionError(error.errors)
       })
@@ -40,7 +43,7 @@ class RedeemTechDomain extends Component {
 
     return (
       <div>
-        <Helmet title="Redeem your .TECH domain!" />
+        <Helmet title="Get a Free .TECH Domain" />
         <Header>
           <Heading>Get a free .TECH domain!</Heading>
           <Text style={styles.instructions}>
@@ -48,7 +51,9 @@ class RedeemTechDomain extends Component {
           </Text>
 
           <Text style={styles.instructions}>
-            Just fill out the form below to submit your request and the <a href="http://get.tech">.tech</a> team will get you set up (they generally respond to requests within the day). Shoot an email to <a href="mailto:zach@hackclub.com">zach@hackclub.com</a> if you run into any trouble.
+            Just fill out the form below to submit your request and the .tech team will get you set
+            up (they generally respond to requests within the day). Shoot an email to zach@hackclub.com
+            if you run into any trouble.
           </Text>
         </Header>
 
