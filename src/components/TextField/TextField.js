@@ -19,10 +19,14 @@ const styles = {
 
 class TextField extends Field {
   renderInput() {
-    const { input, label, type } = this.props
+    const { input, label, type, placeholder } = this.props
 
     return (
-      <input {...input} placeholder={label} type={type} style={styles} />
+      <input {...input}
+        placeholder={placeholder === undefined ? label : placeholder}
+        type={type}
+        style={styles}
+        />
     )
   }
 }
