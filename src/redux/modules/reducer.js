@@ -5,6 +5,7 @@ import cloud9Setup from './cloud9Setup'
 import clubs from './clubs'
 import hackbot from './hackbot'
 import leaderIntake from './leaderIntake'
+import techDomainRedemption from './techDomainRedemption'
 import { reducer as form } from 'redux-form'
 
 export default combineReducers({
@@ -13,5 +14,6 @@ export default combineReducers({
   clubs,
   hackbot,
   leaderIntake,
-  form
+  form,
+  techDomainRedemption
 })

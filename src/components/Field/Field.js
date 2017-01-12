@@ -30,7 +30,7 @@ class Field extends Component {
         <label style={styles.label}>{label}</label>
         <div>
           { this.renderInput() }
-          { touched && error && <div style={styles.error}>{error}</div>}
+          { touched && error && <div style={styles.error}>{error}</div> }
         </div>
       </div>
     )

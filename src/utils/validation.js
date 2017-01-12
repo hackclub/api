@@ -5,7 +5,6 @@ const isEmpty = value =>
 
 const join = (rules) => (value, data) => rules.map(rule => rule(value, data)).filter(error => !!error)[0 /* first error */ ];
 
-
 export function required(value) {
   if (isEmpty(value)) {
     return 'Required'
@@ -16,6 +15,13 @@ const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
 export function email(value) {
   if (!isEmpty(value) && !emailRegex.test(value)) {
     return 'Invalid email address'
+  }
+}
+
+const techDomainRegex = /^[A-Z0-9.-]+\.tech$/i
+export function techDomain(value) {
+  if (!isEmpty(value) && !techDomainRegex.test(value)) {
+    return 'Invalid domain'
   }
 }
 
