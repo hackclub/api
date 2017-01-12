@@ -12,6 +12,7 @@ machine:
     STREAK_OUTREACH_TEACHER_PIPELINE_KEY: teachers
     SLACK_CLIENT_ID: fake_client_id
     SLACK_CLIENT_SECRET: fake_client_secret
+    TECH_DOMAIN_REDEMPTION_SECRET_CODE: fake_secret_code
 
 deployment:
   production:
