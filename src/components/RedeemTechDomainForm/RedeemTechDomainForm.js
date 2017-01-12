@@ -4,6 +4,22 @@ import { Button, TextField } from '../../components'
 import redeemTechDomainValidation from './redeemTechDomainValidation'
 
 class RedeemTechDomainForm extends Component {
+  buttonState() {
+    const {
+      submitting,
+      invalid,
+      status
+    } = this.props
+
+    if (invalid) {
+      return "disabled"
+    } else if (submitting) {
+      return "loading"
+    } else {
+      return status
+    }
+  }
+
   render() {
     const { handleSubmit, style, status } = this.props
 
@@ -13,7 +29,7 @@ class RedeemTechDomainForm extends Component {
         <Field name="email" label="Email" placeholder="wade@example.com" component={TextField} />
         <Field name="domain" label="Domain" placeholder="parzival.tech" component={TextField} />
         <Field name="secret" label="Secret Code" placeholder="Get from your club leader" component={TextField} />
-        <Button type="form">
+        <Button type="form" state={ this.buttonState() }>
           Get your .TECH domain!
         </Button>
       </form>

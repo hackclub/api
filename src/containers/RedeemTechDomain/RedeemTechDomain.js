@@ -3,7 +3,7 @@ import Radium from 'radium'
 import Helmet from 'react-helmet'
 import { connect } from 'react-redux'
 import { SubmissionError } from 'redux-form'
-import { Card, Emoji, Header, Heading, Link, RedeemTechDomainForm, Text } from '../../components'
+import { Anchor, Card, Emoji, Header, Heading, Link, RedeemTechDomainForm, Text } from '../../components'
 import * as techDomainRedemptionActions from '../../redux/modules/techDomainRedemption'
 
 const styles = {
