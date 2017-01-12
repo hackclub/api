@@ -35,6 +35,8 @@ VCR.configure do |c|
     next unless cookies && !cookies.empty?
 
     ck = cookies.find { |k| k.key? 'c9.live' }
+    next unless ck
+
     ck['c9.live']
   end
 
@@ -43,6 +45,8 @@ VCR.configure do |c|
     next unless cookies && !cookies.empty?
 
     ck = cookies.find { |k| k.key? 'c9.live.proxy' }
+    next unless ck
+
     ck['c9.live.proxy']
   end
 
