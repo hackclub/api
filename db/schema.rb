@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170105033651) do
+ActiveRecord::Schema.define(version: 20170110233927) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -113,20 +113,12 @@ ActiveRecord::Schema.define(version: 20170105033651) do
     t.index ["streak_key"], name: "index_letters_on_streak_key", using: :btree
   end
 
-  create_table "slack_users", force: :cascade do |t|
-    t.integer  "user_id"
-    t.text     "slack_uid"
-    t.text     "team_id"
-    t.text     "scopes",                    array: true
-    t.text     "access_token"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.index ["user_id"], name: "index_slack_users_on_user_id", using: :btree
-  end
-
-  create_table "users", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table "tech_domain_redemptions", force: :cascade do |t|
+    t.text     "name"
+    t.text     "email"
+    t.text     "requested_domain"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
   add_foreign_key "check_ins", "clubs"
