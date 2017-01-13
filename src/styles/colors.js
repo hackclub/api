@@ -8,7 +8,9 @@ const colors = {
   veryLightGray: '#ededed',
   lightGray: '#cccccc',
   gray: '#888888',
-  darkGray: '#575757'
+  darkGray: '#575757',
+  offBlack: '#4a4a4a',
+  black: '#383838'
 }
 
 const brandPreferences = {
@@ -17,6 +19,7 @@ const brandPreferences = {
   warning: colors.yellow,
   success: colors.green,
   bg: colors.white,
+  text: colors.black,
 
   outline: colors.lightGray,
   placeholder: colors.veryLightGray,
