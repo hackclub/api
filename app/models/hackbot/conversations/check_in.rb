@@ -22,8 +22,8 @@ module Hackbot
       def wait_for_meeting_confirmation(event)
         case event[:text]
         when /(yes|yeah|yup|mmhm|affirmative)/i
-          msg_channel 'Okay, sweet! On which date of the week? (say something '\
-                      'like "monday" or "wednesday")'
+          msg_channel 'Okay, sweet! On which day was it? (say something '\
+                      'like "monday" or "today")'
 
           :wait_for_day_of_week
         when /(no|nope|nah|negative)/i
