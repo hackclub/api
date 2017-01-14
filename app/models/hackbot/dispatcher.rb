@@ -10,7 +10,10 @@ module Hackbot
 
       return wranglers.each { |w| run_convo(w, event) } unless wranglers.empty?
 
-      to_create = CONVERSATION_TYPES.select { |c| c.should_start? event }
+      to_create = CONVERSATION_TYPES.select do |c|
+        c.should_start?(event, slack_team)
+      end
+
       created = to_create.map { |c| c.new(team: slack_team) }
 
       created.each { |c| run_convo(c, event) }

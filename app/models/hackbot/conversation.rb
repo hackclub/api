@@ -8,7 +8,7 @@ module Hackbot
 
     validates :team, :state, presence: true
 
-    def self.should_start?(_event)
+    def self.should_start?(_event, _team)
       raise NotImplementedError
     end
 

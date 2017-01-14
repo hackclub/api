@@ -6,7 +6,7 @@ module Hackbot
   module Conversations
     # rubocop:disable Metrics/ClassLength
     class CheckIn < Hackbot::Conversations::Channel
-      def self.should_start?(event)
+      def self.should_start?(event, _team)
         event[:text] == 'check in'
       end
 
