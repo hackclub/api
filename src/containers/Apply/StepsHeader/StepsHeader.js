@@ -4,7 +4,6 @@ import {
   Container,
   Heading,
 } from '../../../components'
-import colors from '../../../styles/colors'
 
 import Step from './Step'
 import Arrow from './Arrow'

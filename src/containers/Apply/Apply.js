@@ -1,24 +1,18 @@
 import React, { Component } from 'react'
 import {
-  Container,
-  Heading,
   HorizontalRule,
   NavBar,
 } from '../../components'
-import colors from '../../styles/colors'
 
 import StepsHeader from './StepsHeader/StepsHeader'
 
 const styles = {
   hr: {
     margin: 0,
-
     width: '70%',
     height: '5px',
-
     marginLeft: 'auto',
     marginRight: 'auto',
-
     marginTop: '-2.5px'
   }
 }
