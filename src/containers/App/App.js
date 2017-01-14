@@ -3,7 +3,8 @@ import Helmet from 'react-helmet'
 import config from '../../config'
 
 const styles = {
-  height: '100%'
+  height: '100%',
+  fontFamily: "'Open Sans', sans-serif"
 }
 
 class App extends Component {
