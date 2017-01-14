@@ -9,7 +9,7 @@ const styles = {
 
     fontFamily: 'inherit',
     fontSize: '20px',
-    fontWeight: 'bold',
+    fontWeight: '600',
     color: colors.bg,
 
     width: '100%',

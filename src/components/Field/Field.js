@@ -8,7 +8,7 @@ const styles = {
     display: 'block',
     marginBottom: '5px',
     fontSize: '18px',
-    fontWeight: 'bold'
+    fontWeight: '600'
   },
   error: {
     fontSize: '14px',
