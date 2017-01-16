@@ -1,8 +1,8 @@
 module Hackbot
   class Dispatcher
     CONVERSATION_TYPES = [
-      Hackbot::Conversations::CheckIn,
-      Hackbot::Conversations::Mention
+      Hackbot::Conversations::Mention,
+      Hackbot::Conversations::CheckIn
     ].freeze
 
     def handle(event, slack_team)
@@ -27,8 +27,7 @@ module Hackbot
     end
 
     def convos_needing_handling(event)
-      Hackbot::Conversation.where.not(state: :finish)
-                           .select { |c| c.part_of_convo? event }
+      Hackbot::Conversation.where.not(state: :finish) .select { |c| c.part_of_convo? event }
     end
   end
 end
