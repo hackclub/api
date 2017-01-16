@@ -23,7 +23,8 @@ module V1
       end
 
       def team_from_oauth_access(resp)
-        info = SlackClient::Users.info(resp[:bot][:bot_user_id], resp[:bot][:bot_access_token])
+        info = SlackClient::Users.info(resp[:bot][:bot_user_id],
+                                       resp[:bot][:bot_access_token])
 
         ::Hackbot::Team.create(
           team_id: resp[:team_id],

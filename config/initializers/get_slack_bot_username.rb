@@ -1,1 +1,1 @@
-UpdateSlackUsername.perform_now()
+UpdateSlackUsername.perform_now
