@@ -23,7 +23,8 @@ class Field extends Component {
   }
 
   render() {
-    const { label, meta: { touched, error } } = this.props
+    const { label, meta={} } = this.props
+    const { touched, error } = meta
 
     return (
       <div style={styles.formGroup}>

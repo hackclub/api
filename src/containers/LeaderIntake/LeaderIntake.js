@@ -50,7 +50,7 @@ class LeaderIntake extends Component {
       <div>
         <Helmet title="Leader Intake" />
         <Header>
-          <Link style={[styles.headerLink]} to="/">← Back to Home Page</Link>
+          <Link style={styles.headerLink} to="/">← Back to Home Page</Link>
           <Heading style={styles.headerText}>Welcome to Hack Club! Let's get you set up.</Heading>
         </Header>
         <Card style={styles.card}>

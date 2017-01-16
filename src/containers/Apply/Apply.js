@@ -5,6 +5,8 @@ import {
 } from '../../components'
 
 import StepsHeader from './StepsHeader/StepsHeader'
+import StepsDescription from './StepsDescription/StepsDescription'
+import ApplyForm from './ApplyForm/ApplyForm'
 
 const styles = {
   hr: {
@@ -24,6 +26,8 @@ class Apply extends Component {
         <NavBar />
         <StepsHeader />
         <HorizontalRule style={styles.hr} />
+        <StepsDescription />
+        <ApplyForm />
       </div>
     )
   }
