@@ -10,12 +10,12 @@ import ApplyForm from './ApplyForm/ApplyForm'
 
 const styles = {
   hr: {
-    margin: 0,
     width: '70%',
     height: '5px',
     marginLeft: 'auto',
     marginRight: 'auto',
-    marginTop: '-2.5px'
+    marginTop: '-2.5px',
+    marginBottom: 0
   }
 }
 
