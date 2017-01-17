@@ -1,1 +1,0 @@
-UpdateSlackUsername.perform_now
