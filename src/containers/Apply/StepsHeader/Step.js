@@ -4,20 +4,33 @@ import {
   Text,
 } from '../../../components'
 import colors from '../../../styles/colors'
+import { mediaQueries } from '../../../styles/common'
+
+const iconSmallWidth = 85
+const iconMediumWidth = 125
+const iconMaxHeightRatio = 0.85
 
 const styles = {
   base: {
     display: 'inline-block'
   },
   icon: {
-    maxHeight: '130px',
-    minWidth: '60px',
-    marginBottom: '20px'
+    width: `${iconSmallWidth}px`,
+    maxHeight: `${iconSmallWidth*iconMaxHeightRatio}px`,
+    marginBottom: '5px',
+    [mediaQueries.mediumUp]: {
+      width: `${iconMediumWidth}px`,
+      maxHeight: `${iconMediumWidth*iconMaxHeightRatio}px`,
+      marginBottom: '20px'
+    }
   },
   text: {
     fontWeight: 'bold',
-    fontSize: '28px',
-    color: colors.offBlack
+    color: colors.offBlack,
+    fontSize: '18px',
+    [mediaQueries.mediumUp]: {
+      fontSize: '28px',
+    }
   }
 }
 

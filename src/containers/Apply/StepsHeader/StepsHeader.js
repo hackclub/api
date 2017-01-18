@@ -4,6 +4,7 @@ import {
   Container,
   Heading,
 } from '../../../components'
+import { mediaQueries } from '../../../styles/common'
 
 import Step from './Step'
 import Arrow from './Arrow'
@@ -20,24 +21,41 @@ const styles = {
     marginRight: 'auto',
     textAlign: 'center',
     backgroundImage: `url(${pattern})`,
-    backgroundSize: '450px',
-    paddingTop: '50px',
-    paddingBottom: '75px'
+    backgroundSize: '250px',
+    paddingTop: '25px',
+    paddingBottom: '25px',
+    [mediaQueries.mediumUp]: {
+      backgroundSize: '450px',
+      paddingTop: '50px',
+      paddingBottom: '60px'
+    }
   },
   heading: {
     fontWeight: 'bolder',
-    fontSize: '36px'
+    fontSize: '26px',
+    [mediaQueries.mediumUp]: {
+      fontSize: '36px'
+    }
   },
   steps: {
-    marginTop: '50px',
+    marginTop: '25px',
     display: 'flex',
     alignItems: 'flex-end',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    [mediaQueries.mediumUp]: {
+      marginTop: '50px'
+    }
   },
   arrow: {
-    marginLeft: '50px',
-    marginRight: '50px',
-    alignSelf: 'center'
+    alignSelf: 'center',
+    marginLeft: '10px',
+    marginRight: '10px',
+    marginTop: '-20px',
+    [mediaQueries.mediumUp]: {
+      marginLeft: '50px',
+      marginRight: '50px',
+      marginTop: 0
+    }
   }
 }
 
@@ -50,7 +68,7 @@ class StepsHeader extends Component {
           <div style={styles.steps}>
             <Step icon={pencilAndPaper}
                   iconAlt="Pencil and paper"
-                  text="Apply" />
+                  text="Application" />
             <Arrow style={styles.arrow} />
             <Step icon={chatBubbles}
                   iconAlt="Chat bubbles"

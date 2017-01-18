@@ -13,7 +13,7 @@ import {
   preAppReset,
 } from '../../../redux/modules/application'
 
-import NotStudentMessage from './NotStudentMessage'
+import PreAppResults from './PreAppResults'
 import PreApplicationForm from './PreApplicationForm'
 
 const styles = {
@@ -51,7 +51,7 @@ class ApplyForm extends Component {
 
       return (
         <div>
-          <NotStudentMessage personType={personType} />
+          <PreAppResults personType={personType} />
           <Button type="link" onClick={reset}>← Go back</Button>
         </div>
       )

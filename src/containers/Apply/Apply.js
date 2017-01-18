@@ -3,6 +3,7 @@ import {
   HorizontalRule,
   NavBar,
 } from '../../components'
+import { mediaQueries } from '../../styles/common'
 
 import StepsHeader from './StepsHeader/StepsHeader'
 import StepsDescription from './StepsDescription/StepsDescription'
@@ -10,12 +11,17 @@ import ApplyForm from './ApplyForm/ApplyForm'
 
 const styles = {
   hr: {
-    width: '70%',
-    height: '5px',
+    width: '80%',
+    height: '4px',
+    marginTop: '-2px',
     marginLeft: 'auto',
     marginRight: 'auto',
-    marginTop: '-2.5px',
-    marginBottom: 0
+    marginBottom: 0,
+    [mediaQueries.mediumUp]: {
+      width: '70%',
+      height: '5px',
+      marginTop: '-2.5px'
+    }
   }
 }
 

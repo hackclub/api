@@ -6,38 +6,64 @@ import {
 } from '../../../components'
 import StepDescription from './StepDescription'
 import colors from '../../../styles/colors'
+import { mediaQueries } from '../../../styles/common'
 
 import michaelReachingOut from './michael_reaching_out.svg'
 
 const styles = {
+  wrapper: {
+    marginTop: '25px',
+    marginBottom: '20px',
+    [mediaQueries.mediumUp]: {
+      marginTop: '60px',
+      marginBottom: 'inherit'
+    }
+  },
   heading: {
     fontWeight: 'thin',
-    fontSize: '34px',
-    marginTop: '60px',
-    marginBottom: '40px'
+    fontSize: '26px',
+    marginBottom: '20px',
+    textAlign: 'center',
+    [mediaQueries.mediumUp]: {
+      fontSize: '34px',
+      marginTop: '60px',
+      marginBottom: '40px',
+      textAlign: 'inherit'
+    }
   },
   descLayout: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    overflow: 'hidden'
+    [mediaQueries.mediumUp]: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      overflow: 'hidden'
+    }
   },
   description: {
-    width: '60%',
-    fontSize: '24px'
+    [mediaQueries.mediumUp]: {
+      width: '60%'
+    }
   },
   leadingText: {
-    fontSize: '20px'
+    display: 'none',
+    [mediaQueries.mediumUp]: {
+      display: 'inherit',
+      fontSize: '20px'
+    }
   },
   person: {
-    marginRight: '20px',
-    marginBottom: '-25px'
+    display: 'none',
+    [mediaQueries.mediumUp]: {
+      display: 'inherit',
+      marginRight: '20px',
+      marginBottom: '-25px'
+    }
   }
 }
 
 class StepsDescription extends Component {
   render() {
     return (
-      <Container>
+      <Container style={styles.wrapper}>
         <Heading style={styles.heading}>You and your team will do great things with Hack Club</Heading>
         <div style={styles.descLayout}>
           <div style={styles.description}>

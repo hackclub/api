@@ -1,10 +1,14 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
+import { mediaQueries } from '../../styles/common'
 
 const styles = {
   marginLeft: 'auto',
   marginRight: 'auto',
-  width: '900px'
+  width: '90%',
+  [mediaQueries.mediumUp]: {
+    width: '900px'
+  }
 }
 
 class Container extends Component {
