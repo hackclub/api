@@ -4,7 +4,7 @@ import colors from '../../styles/colors'
 
 const styles = {
   fontSize: '28px',
-  lineHeight: '32px',
+  lineHeight: '125%',
   fontWeight: '600',
   marginBottom: '15px',
   cursor: 'text',

@@ -6,7 +6,7 @@ const styles = {
   marginLeft: 'auto',
   marginRight: 'auto',
   width: '90%',
-  [mediaQueries.mediumUp]: {
+  [mediaQueries.largeUp]: {
     width: '900px'
   }
 }

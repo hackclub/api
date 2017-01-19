@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
+import { Link } from '../../components'
 import colors from '../../styles/colors'
 import { mediaQueries } from '../../styles/common'
 
@@ -22,7 +23,7 @@ class NavBar extends Component {
   render() {
     return (
       <div style={[styles.wrapper,this.props.style]}>
-        <Logo />
+        <Link to="/"><Logo /></Link>
       </div>
     )
   }

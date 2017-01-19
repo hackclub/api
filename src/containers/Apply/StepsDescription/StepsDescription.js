@@ -13,9 +13,9 @@ import michaelReachingOut from './michael_reaching_out.svg'
 const styles = {
   wrapper: {
     marginTop: '25px',
-    marginBottom: '20px',
+    marginBottom: '30px',
     [mediaQueries.mediumUp]: {
-      marginTop: '60px',
+      marginTop: '40px',
       marginBottom: 'inherit'
     }
   },
@@ -26,8 +26,6 @@ const styles = {
     textAlign: 'center',
     [mediaQueries.mediumUp]: {
       fontSize: '34px',
-      marginTop: '60px',
-      marginBottom: '40px',
       textAlign: 'inherit'
     }
   },
@@ -35,10 +33,12 @@ const styles = {
     [mediaQueries.mediumUp]: {
       display: 'flex',
       justifyContent: 'space-between',
+      alignItems: 'flex-end',
       overflow: 'hidden'
     }
   },
   description: {
+    marginBottom: '20px',
     [mediaQueries.mediumUp]: {
       width: '60%'
     }
@@ -54,8 +54,11 @@ const styles = {
     display: 'none',
     [mediaQueries.mediumUp]: {
       display: 'inherit',
-      marginRight: '20px',
-      marginBottom: '-25px'
+      minWidth: '185px',
+      width: '20%',
+      maxHeight: '100%',
+      marginRight: '5%',
+      marginBottom: '-1%'
     }
   }
 }
@@ -76,12 +79,12 @@ class StepsDescription extends Component {
             <StepDescription
                color={colors.offBrandEmphasis}
                title="Structure"
-               description="With Hack Club's pre-planned structure, getting your club off the ground is not only turn-key, but flexible."
+               description="With Hack Club's battle-tested club structure, you're sure to get your club off on the right foot."
                />
             <StepDescription
                color={colors.offBrandSecondaryEmphasis}
-               title="Marketing"
-               description="We'll make sure that you'll sell your club as a world-class experience every time. Stickers, other marketing materials, etc."
+               title="Community"
+               description="By starting a Hack Club, you become a part of something much larger than your school – the worldwide community of young hackers."
                />
           </div>
           <img src={michaelReachingOut} alt="Person offering help" style={styles.person} />

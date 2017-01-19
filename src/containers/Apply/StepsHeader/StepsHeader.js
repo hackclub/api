@@ -52,9 +52,13 @@ const styles = {
     marginRight: '10px',
     marginTop: '-20px',
     [mediaQueries.mediumUp]: {
+      marginLeft: '25px',
+      marginRight: '25px',
+      marginTop: 0
+    },
+    [mediaQueries.largeUp]: {
       marginLeft: '50px',
       marginRight: '50px',
-      marginTop: 0
     }
   }
 }

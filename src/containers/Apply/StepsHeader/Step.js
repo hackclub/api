@@ -7,7 +7,8 @@ import colors from '../../../styles/colors'
 import { mediaQueries } from '../../../styles/common'
 
 const iconSmallWidth = 85
-const iconMediumWidth = 125
+const iconMediumWidth = 115
+const iconLargeWidth = 125
 const iconMaxHeightRatio = 0.85
 
 const styles = {
@@ -22,6 +23,10 @@ const styles = {
       width: `${iconMediumWidth}px`,
       maxHeight: `${iconMediumWidth*iconMaxHeightRatio}px`,
       marginBottom: '20px'
+    },
+    [mediaQueries.largeUp]: {
+      width: `${iconLargeWidth}px`,
+      maxHeight: `${iconLargeWidth*iconMaxHeightRatio}px`,
     }
   },
   text: {
