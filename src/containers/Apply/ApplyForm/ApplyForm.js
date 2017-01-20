@@ -46,7 +46,7 @@ class ApplyForm extends Component {
   contentsOfCard() {
     const { personType, dispatch } = this.props
 
-    if (personType) {
+    if (personType && personType !== personTypes.student) {
       const reset = () => dispatch(preAppReset())
 
       return (
