@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170120004216) do
+ActiveRecord::Schema.define(version: 20170119233357) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,10 +21,8 @@ ActiveRecord::Schema.define(version: 20170120004216) do
     t.date     "meeting_date"
     t.integer  "attendance"
     t.text     "notes"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-    t.text     "did_happen"
-    t.text     "failed_to_happen"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
     t.index ["club_id"], name: "index_check_ins_on_club_id", using: :btree
     t.index ["leader_id"], name: "index_check_ins_on_leader_id", using: :btree
   end
