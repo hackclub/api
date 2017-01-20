@@ -1,4 +1,4 @@
-class UpdateSlackUsername < ApplicationJob
+class UpdateHackbotSlackUsernameJob < ApplicationJob
   queue_as :default
 
   def perform(*)
