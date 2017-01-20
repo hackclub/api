@@ -1,6 +1,6 @@
 class Record
   attr_accessor :created_at, :meeting_date, :club_name, :leaders, :attendance,
-    :notes
+                :notes
 
   def initialize(created_at, meeting_date, club_name, leaders, attendance,
                  notes)
@@ -15,8 +15,7 @@ class Record
   # The titles of the fields that are getting put in the CSV.
   # This should be generated at runtime.
   def self.csv_title
-    ['created_at', 'meeting_date', 'club_name', 'leaders', 'attendance',
-     'notes']
+    %w(created_at meeting_date club_name leaders attendance notes)
   end
 
   def csv_contents
@@ -24,9 +23,9 @@ class Record
   end
 end
 
-namespace :export do 
+namespace :export do
   desc 'Generate a report of all check ins'
-  task :check_ins => :environment do
+  task check_ins: :environment do
     csv_string = CSV.generate do |csv|
       csv << Record.csv_title
       ::CheckIn.all.each do |check_in|
@@ -34,7 +33,7 @@ namespace :export do
           check_in.created_at,
           check_in.meeting_date,
           check_in.club.name,
-          check_in.club.leaders.all.map { |l| l.name }.uniq,
+          check_in.club.leaders.all.map(&:name).uniq,
           check_in.attendance,
           check_in.notes
         )
