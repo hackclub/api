@@ -1,14 +1,20 @@
 class AddMissingSlackUsernamesToHackbotTeams < ActiveRecord::Migration[5.0]
+  # This class is scoped to this migration so it can still run if we ever remove
+  # our Hackbot::Team class in the future.
+  #
+  # I decided to create a temporary Active Record model instead of writing a
+  # custom SQL statement here, because Rails has sane defaults when it comes to
+  # iterating through every record in the database.
+  class HackbotTeam < ActiveRecord::Base; end
+
   def up
-    Hackbot::Team.all.each do |team|
+    HackbotTeam.all.each do |team|
       info = ::SlackClient::Users.info(team.bot_user_id, team.bot_access_token)
       team.update(bot_username: info[:user][:name])
     end
   end
 
   def down
-    Hackbot::Team.all.each do |team|
-      team.update(bot_username: nil)
-    end
+    HackbotTeam.all.each { |t| t.update(bot_username: nil) }
   end
 end
