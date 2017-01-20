@@ -4,7 +4,7 @@ module Hackbot
       def self.should_start?(event, team)
         event[:type] == 'message' &&
           (event[:text].include?(team[:bot_username]) ||
-           event[:text].include?("<@#{team[:bot_username]}>"))
+           event[:text].include?("<@#{team[:bot_user_id]}>"))
       end
 
       def start(_event)
