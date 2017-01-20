@@ -5,4 +5,10 @@ class AddSlackUsername < ActiveRecord::Migration[5.0]
       team.update(bot_username: info[:user][:name])
     end
   end
+
+  def down
+    Hackbot::Team.all.each do |team|
+      team.update(bot_username: nil)
+    end
+  end
 end
