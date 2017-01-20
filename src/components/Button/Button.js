@@ -9,7 +9,7 @@ const styles = {
 
     fontFamily: 'inherit',
     fontSize: '20px',
-    fontWeight: 'bold',
+    fontWeight: '600',
     color: colors.bg,
 
     width: '100%',
@@ -37,7 +37,7 @@ const styles = {
   },
   state: {
     disabled: {
-      backgroundColor: colors.fadedPrimary
+      backgroundColor: colors.disabled
     },
     error: {
       backgroundColor: colors.warning
@@ -61,6 +61,7 @@ class Button extends Component {
     const state = this.props.state
     const givenStyle = this.props.style
     const href = this.props.href
+    const onClick = this.props.onClick
 
     let button = null
     let buttonContents = state === "loading" ?
@@ -77,7 +78,8 @@ class Button extends Component {
                   styles.state[state],
                   givenStyle
                 ]}
-                disabled={state === "disabled"}>
+                disabled={state === "disabled"}
+                onClick={onClick}>
           {buttonContents}
         </button>
         break
@@ -89,7 +91,8 @@ class Button extends Component {
              styles.link,
              styles.state[state],
              givenStyle
-           ]}>
+           ]}
+           onClick={onClick}>
           {buttonContents}
         </a>
         break

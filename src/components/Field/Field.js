@@ -8,7 +8,7 @@ const styles = {
     display: 'block',
     marginBottom: '5px',
     fontSize: '18px',
-    fontWeight: 'bold'
+    fontWeight: '600'
   },
   error: {
     fontSize: '14px',
@@ -23,7 +23,8 @@ class Field extends Component {
   }
 
   render() {
-    const { label, meta: { touched, error } } = this.props
+    const { label, meta={} } = this.props
+    const { touched, error } = meta
 
     return (
       <div style={styles.formGroup}>

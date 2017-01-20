@@ -1,19 +1,25 @@
 import React, { Component, PropTypes } from 'react'
 import Radium from 'radium'
 import Helmet from 'react-helmet'
-import { connect } from 'react-redux'
-import { SubmissionError } from 'redux-form'
 import { Card, Cloud9SetupForm, Emoji, Header, Heading, Text } from '../../components'
+import colors from '../../styles/colors'
+
+import { connect } from 'react-redux'
 import * as cloud9SetupActions from '../../redux/modules/cloud9Setup'
+import { SubmissionError } from 'redux-form'
 
 const styles = {
   cloud: {
     fontSize: '36px',
     lineHeight: '75%'
   },
+  heading: {
+    color: colors.bg
+  },
   instructions: {
     fontSize: '22px',
-    marginTop: '20px'
+    marginTop: '20px',
+    color: colors.bg
   },
   card: {
     marginLeft: 'auto',
@@ -51,7 +57,7 @@ class Cloud9Setup extends Component {
           <Heading style={styles.cloud}>
             <Emoji type={emoji} />
           </Heading>
-          <Heading>Welcome to Hack Club! Let's get you on Cloud9.</Heading>
+          <Heading style={styles.heading}>Welcome to Hack Club! Let's get you on Cloud9.</Heading>
           <Text style={styles.instructions}>
             Just fill out the form below and check your email.
           </Text>

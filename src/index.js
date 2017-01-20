@@ -5,6 +5,7 @@ import ApiClient from './helpers/ApiClient'
 import { Provider } from 'react-redux'
 import { Router, browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
+import { StyleRoot } from 'radium'
 
 import getRoutes from './routes'
 
@@ -20,7 +21,9 @@ const component = (
 
 ReactDOM.render(
   <Provider store={store} key="provider">
-    {component}
+    <StyleRoot>
+      {component}
+    </StyleRoot>
   </Provider>,
   document.getElementById('root')
 )

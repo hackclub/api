@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
+import colors from '../../styles/colors'
 
 const styles = {
   fontSize: '28px',
-  lineHeight: '32px',
-  fontWeight: 'bold',
+  lineHeight: '125%',
+  fontWeight: '600',
   marginBottom: '15px',
-  cursor: 'text'
+  cursor: 'text',
+  color: colors.text
 }
 
 class Heading extends Component {
