@@ -84,3 +84,10 @@ Dumping this stuff here for lack of a better place.
 2. Create one (and only one) bot user and set "Always Show My Bot as Online" to "On"
 3. Click "Event Subscriptions" on the sidebar in the left and set the request URL to `HOSTNAME/v1/hackbot/webhook`, replacing `HOSTNAME` with your actual hostname.
 4. Subscribe to the following bot events: `message.channels`, `message.im`, `message.groups`, `message.mpim`
+
+### Scheduled Jobs
+
+This application depends on a few jobs running periodically in the background. Set this up using cron or a similar scheduler on your deployment of the application -- we use Heroku's scheduler in production.
+
+- `rails heroku_scheduler:queue_update_from_streak` every hour
+- `rails heroku_scheduler:queue_update_hackbot_slack_username` every hour
