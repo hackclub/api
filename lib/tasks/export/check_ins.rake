@@ -1,13 +1,13 @@
 class Record
-  attr_accessor :created_at, :meeting_date, :club_name, :leaders, :attendance,
-                :notes
+  attr_accessor :created_at, :meeting_date, :club_name, :leader_names,
+                :attendance, :notes
 
-  def initialize(created_at, meeting_date, club_name, leaders, attendance,
+  def initialize(created_at, meeting_date, club_name, leader_names, attendance,
                  notes)
     @created_at = created_at
     @meeting_date = meeting_date
     @club_name = club_name
-    @leaders = leaders
+    @leader_names = leader_names
     @attendance = attendance
     @notes = notes
   end
@@ -18,7 +18,8 @@ class Record
   end
 
   def csv_contents
-    [created_at, meeting_date, club_name, leaders.join(', '), attendance, notes]
+    [created_at, meeting_date, club_name, leader_names.join(', '), attendance,
+     notes]
   end
 end
 
