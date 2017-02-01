@@ -18,7 +18,7 @@ class Record
   end
 
   def csv_contents
-    [created_at, meeting_date, club_name, leaders, attendance, notes]
+    [created_at, meeting_date, club_name, leaders.join(', '), attendance, notes]
   end
 end
 
