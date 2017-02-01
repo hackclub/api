@@ -49,8 +49,6 @@ class RedeemTechDomain extends Component {
   render() {
     const { status } = this.props
 
-    console.log(status);
-
     return (
       <div>
         <Helmet title="Get a Free .TECH Domain" />
