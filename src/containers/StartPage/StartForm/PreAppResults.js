@@ -11,16 +11,17 @@ class PreAppResults extends Component {
     case personTypes.teacher:
       return (
         <Text>
-          We've seen teachers have success making announcements in their
-          classrooms about Hack Club and approaching students directly about
-          starting a club.
+          We've seen teachers have success recruiting students by making
+          announcements in their classrooms about Hack Club and approaching
+          students directly about starting a club.
         </Text>
       )
     case personTypes.parent:
       return (
         <Text>
-          We've seen parents have success sharing Hack Club with the local PTA
-          and expressing interest in Hack Club to school administration.
+          We've seen parents have success recruiting students by sharing Hack
+          Club with the local PTA and expressing interest in Hack Club to school
+          administration.
         </Text>
       )
     default:
