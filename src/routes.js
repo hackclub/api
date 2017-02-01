@@ -2,13 +2,13 @@ import React from 'react'
 import { Route } from 'react-router'
 import {
   App,
-  Apply,
   Cloud9Setup,
   HackbotNewTeam,
   LeaderIntake,
   NotFound,
   OneOffFormWrapper,
   RedeemTechDomain,
+  StartPage,
 } from './containers'
 
 import './styles'
@@ -16,7 +16,7 @@ import './styles'
 export default (store) => {
   return (
     <Route path="/" component={App}>
-      <Route path="apply" component={Apply} />
+      <Route path="start" component={StartPage} />
 
       <Route component={OneOffFormWrapper}>
         <Route path="cloud9_setup" component={Cloud9Setup} />

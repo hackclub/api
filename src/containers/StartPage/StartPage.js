@@ -7,7 +7,7 @@ import { mediaQueries } from '../../styles/common'
 
 import StepsHeader from './StepsHeader/StepsHeader'
 import StepsDescription from './StepsDescription/StepsDescription'
-import ApplyForm from './ApplyForm/ApplyForm'
+import StartForm from './StartForm/StartForm'
 
 const styles = {
   hr: {
@@ -25,7 +25,7 @@ const styles = {
   }
 }
 
-class Apply extends Component {
+class Start extends Component {
   render() {
     return (
       <div>
@@ -33,10 +33,10 @@ class Apply extends Component {
         <StepsHeader />
         <HorizontalRule style={styles.hr} />
         <StepsDescription />
-        <ApplyForm />
+        <StartForm />
       </div>
     )
   }
 }
 
-export default Apply
+export default Start
