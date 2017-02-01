@@ -12,10 +12,9 @@ class Record
     @notes = notes
   end
 
-  # The titles of the fields that are getting put in the CSV.
-  # This should be generated at runtime.
   def self.csv_title
-    %w(created_at meeting_date club_name leaders attendance notes)
+    ['Check In Completion Timestamp', 'Meeting Date', 'Club Name', 'Leaders',
+     'Attendance', 'Notes']
   end
 
   def csv_contents
