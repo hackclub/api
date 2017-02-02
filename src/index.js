@@ -19,9 +19,14 @@ const component = (
   </Router>
 )
 
+const styleRootStyles = {
+  minHeight: '100%',
+  minWidth: '100%'
+}
+
 ReactDOM.render(
   <Provider store={store} key="provider">
-    <StyleRoot>
+    <StyleRoot style={styleRootStyles}>
       {component}
     </StyleRoot>
   </Provider>,

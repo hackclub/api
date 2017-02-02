@@ -3,22 +3,32 @@ import Radium from 'radium'
 import Helmet from 'react-helmet'
 import { connect } from 'react-redux'
 import { SubmissionError } from 'redux-form'
-import { Card, Header, Heading, RedeemTechDomainForm, Text } from '../../components'
+import {
+  Card,
+  Container,
+  Header,
+  Heading,
+  RedeemTechDomainForm,
+  Text,
+} from '../../components'
 import * as techDomainRedemptionActions from '../../redux/modules/techDomainRedemption'
 
+import colors from '../../styles/colors'
+
 const styles = {
+  heading: {
+    color: colors.bg
+  },
   instructions: {
     fontSize: '22px',
-    marginTop: '20px'
+    marginTop: '20px',
+    color: colors.bg
   },
   card: {
     marginLeft: 'auto',
     marginRight: 'auto',
     marginTop: '40px',
     marginBottom: '40px'
-  },
-  links: {
-    color: 'white'
   }
 }
 
@@ -39,27 +49,28 @@ class RedeemTechDomain extends Component {
   render() {
     const { status } = this.props
 
-    console.log(status);
-
     return (
       <div>
         <Helmet title="Get a Free .TECH Domain" />
         <Header>
-          <Heading>Get a free .TECH domain!</Heading>
-          <Text style={styles.instructions}>
-            Hack Club has partnered with .tech to get every Hack Club member a free .tech domain.
-          </Text>
+          <Container>
+            <Heading style={styles.heading}>Get a free .TECH domain!</Heading>
+            <Text style={styles.instructions}>
+              We've partnered with the folks that own all of the .tech domains
+              to get every Hack Club member a free domain.
+            </Text>
 
-          <Text style={styles.instructions}>
-            Just fill out the form below to submit your request and the .tech team will get you set
-            up (they generally respond to requests within the day). Shoot an email to zach@hackclub.com
-            if you run into any trouble.
-          </Text>
+            <Text style={styles.instructions}>
+              Fill out the form below to submit your request and the .tech team
+              will get you set up (they generally respond to requests within the
+              day).
+            </Text>
+          </Container>
         </Header>
 
         <Card style={styles.card}>
           <RedeemTechDomainForm
-            onSubmit={values => this.handleSubmit(values)}
+             onSubmit={values => this.handleSubmit(values)}
             status={status}
             />
         </Card>
