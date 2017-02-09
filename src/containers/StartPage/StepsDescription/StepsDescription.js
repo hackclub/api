@@ -74,17 +74,17 @@ class StepsDescription extends Component {
             <StepDescription
                color={colors.primary}
                title="Curriculum"
-               description="Plan your meetings faster with our pre-built curriculum, making it as easy as ever to have a great meeting every time."
+               description="Plan your meetings faster with our pre-built curriculum. Your members will thank you for introducing them to coding through creating apps, websites, and video games."
                />
             <StepDescription
                color={colors.offBrandEmphasis}
                title="Structure"
-               description="With Hack Club's battle-tested club structure, you're sure to get your club off on the right foot."
+               description="Club meetings resemble hackathons, meaning that every member will work from their own computer, building their own individual projects. Your club members will leave excited about what they've built after every meeting."
                />
             <StepDescription
                color={colors.offBrandSecondaryEmphasis}
-               title="Community"
-               description="By starting a Hack Club, you become a part of something much larger than your school – the worldwide community of young hackers."
+               title="Marketing"
+               description="We'll help you spread the word about your club at your school by providing you with stickers and posters, as well as any other help you might need."
                />
           </div>
           <img src={michaelReachingOut} alt="Person offering help" style={styles.person} />
