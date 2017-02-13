@@ -106,7 +106,7 @@ module Hackbot
         msg_channel "#{judgement} Is there anything the Hack Club team can be "\
                     "helpful with? I'll send them anything you send my way "\
                     '(just make sure to include everything in a single '\
-                    'message).'
+                    'message). If not, please just respond with "no".'
 
         :wait_for_notes
       end
