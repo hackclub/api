@@ -41,9 +41,11 @@ module Hackbot
 
           :wait_for_day_of_week
         when /(no|nope|nah|negative)/i
-          msg_channel 'Gotcha! Hope you have a great weekend.'
+          msg_channel "That's a shame! Was there a particular reason the "\
+                      "meeting didn't happen? Is there anything the Hack "\
+                      'Club team can be helpful with?'
 
-          :finish
+          :wait_for_no_meeting_reason
         else
           msg_channel "I'm not very smart yet and had trouble understanding "\
                       'you :-/. Try saying something like "yes" or "no".'
@@ -52,6 +54,12 @@ module Hackbot
         end
       end
       # rubocop:enable Metrics/MethodLength
+
+      def wait_for_no_meeting_reason(event)
+        data['no_meeting_reason'] = event[:text]
+
+        msg_channel 'Gotcha. Hope you have a hack-tastic weekend!'
+      end
 
       # rubocop:disable Metrics/MethodLength
       def wait_for_day_of_week(event)
