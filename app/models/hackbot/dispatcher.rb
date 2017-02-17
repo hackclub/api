@@ -2,6 +2,7 @@ module Hackbot
   class Dispatcher
     CONVERSATION_TYPES = [
       Hackbot::Conversations::CheckIn,
+      Hackbot::Conversations::Help,
       Hackbot::Conversations::Mention
     ].freeze
 
