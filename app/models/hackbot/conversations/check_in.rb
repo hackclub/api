@@ -56,7 +56,7 @@ module Hackbot
       # rubocop:enable Metrics/MethodLength
 
       def wait_for_no_meeting_reason(event)
-        data['notes'] = event[:text] unless event[:text] =~ /^(no|nope|nah)$/i
+        record_notes event
 
         msg_channel 'Gotcha. Hope you have a hack-tastic weekend!'
       end
@@ -135,7 +135,7 @@ module Hackbot
       # rubocop:enable Metrics/CyclomaticComplexity, Metrics/MethodLength
 
       def wait_for_notes(event)
-        data['notes'] = event[:text] unless event[:text] =~ /^(no|nope|nah)$/i
+        record_notes event
 
         ::CheckIn.create!(
           club: club(event),
@@ -150,6 +150,10 @@ module Hackbot
       end
 
       private
+
+      def record_notes(event)
+        data['notes'] = event[:text] unless event[:text] =~ /^(no|nope|nah)$/i
+      end
 
       def first_check_in?
         CheckIn.where("data->>'channel' = ?", data['channel']).empty?
