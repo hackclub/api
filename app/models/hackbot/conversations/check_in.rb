@@ -56,7 +56,7 @@ module Hackbot
       # rubocop:enable Metrics/MethodLength
 
       def wait_for_no_meeting_reason(event)
-        data['no_meeting_reason'] = event[:text]
+        data['notes'] = event[:text]
 
         msg_channel 'Gotcha. Hope you have a hack-tastic weekend!'
       end
