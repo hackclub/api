@@ -13,6 +13,7 @@ machine:
     SLACK_CLIENT_ID: fake_client_id
     SLACK_CLIENT_SECRET: fake_client_secret
     TECH_DOMAIN_REDEMPTION_SECRET_CODE: fake_secret_code
+    GIPHY_API_KEY: fake_giphy_api_key
 
 test:
   override:
