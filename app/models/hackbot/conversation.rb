@@ -12,6 +12,11 @@ module Hackbot
       raise NotImplementedError
     end
 
+    def self.mentions_name?(event, team)
+      event[:text].include?(team[:bot_username]) ||
+        event[:text].include?("<@#{team[:bot_user_id]}>")
+    end
+
     def part_of_convo?(event)
       # Don't react to events that we cause
       event[:user] != team.bot_user_id

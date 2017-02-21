@@ -2,9 +2,7 @@ module Hackbot
   module Conversations
     class Mention < Hackbot::Conversations::Channel
       def self.should_start?(event, team)
-        event[:type] == 'message' &&
-          (event[:text].include?(team[:bot_username]) ||
-           event[:text].include?("<@#{team[:bot_user_id]}>"))
+        event[:type] == 'message' || mentions_name?(event, team)
       end
 
       def start(_event)

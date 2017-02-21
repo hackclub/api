@@ -11,7 +11,7 @@ module Hackbot
                   'learn some new tricks from you!'.freeze
 
       def self.should_start?(event, team)
-        event[:text] =~ /help/ && event[:user] != team.bot_user_id
+        event[:text].include?('help') && mentions_name?(event, team)
       end
 
       def start(_event)
