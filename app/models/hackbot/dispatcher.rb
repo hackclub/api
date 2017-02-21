@@ -2,8 +2,7 @@ module Hackbot
   class Dispatcher
     CONVERSATION_TYPES = [
       Hackbot::Conversations::CheckIn,
-      Hackbot::Conversations::Help,
-      Hackbot::Conversations::Mention
+      Hackbot::Conversations::Help
     ].freeze
 
     def handle(event, slack_team)
