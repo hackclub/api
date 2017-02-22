@@ -33,7 +33,7 @@ class UpdateFromStreakJob < ApplicationJob
           attrs_to_update[attribute] = box[:fields][key.to_sym]
         end
 
-        instance.update_attributes_without_streak(attrs_to_update)
+        instance.update_attributes!(attrs_to_update)
 
         # Delete relationships that aren't present on Streak
         old_linked_box_keys = instance.linked_streak_box_keys

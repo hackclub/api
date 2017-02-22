@@ -40,12 +40,6 @@ module Streakable
     before_destroy :destroy_box
   end
 
-  def update_attributes_without_streak(attrs)
-    self.class.skip_callback(:update, :before, :update_box_if_changed)
-    update_attributes(attrs)
-    self.class.set_callback(:update, :before, :update_box_if_changed)
-  end
-
   def destroy_without_streak!
     self.class.skip_callback(:destroy, :before, :destroy_box)
     destroy!
