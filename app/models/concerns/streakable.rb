@@ -84,14 +84,14 @@ module Streakable
   end
 
   def create_box
-    return if streak_key_val
+    unless streak_key_val
+      resp = StreakClient::Box.create_in_pipeline(self.class.pipeline_key, name)
 
-    resp = StreakClient::Box.create_in_pipeline(self.class.pipeline_key, name)
-
-    # Need to use self here because it'll try to create a variable by default
-    # (try removing 'self.' from the beginning and running tests to see for
-    # yourself)
-    self.streak_key_val = resp[:key]
+      # Need to use self here because it'll try to create a variable by default
+      # (try removing 'self.' from the beginning and running tests to see for
+      # yourself)
+      self.streak_key_val = resp[:key]
+    end
 
     update_streak_box
   end

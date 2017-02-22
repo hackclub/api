@@ -48,6 +48,34 @@ RSpec.shared_examples 'Streakable' do
         instance.send(model.key_attribute)
       }.from(nil).to(streak_key)
     end
+
+    # In the case that you want to create a new record for a Streak box that
+    # already exists
+    context 'when streak_key is set' do
+      let(:attrs) { attributes_from_created_instance(model) }
+      let(:instance) { model.new(attrs) }
+      let(:box_client) { class_double(StreakClient::Box).as_stubbed_const }
+
+      it "doesn't create another box, but does send updates" do
+        expect(box_client).to_not receive(:create_in_pipeline)
+
+        expect_update_box(
+          streak_client_double: box_client,
+          streak_key: attrs[model.key_attribute],
+          notes: attrs[model.notes_attribute],
+          linked_box_keys: [] # TODO: Don't do this
+        )
+
+        expect_update_box_fields(
+          streak_client_double: box_client,
+          model: model,
+          streak_key: attrs[model.key_attribute],
+          attrs: attrs
+        )
+
+        instance.save
+      end
+    end
   end
 
   context 'updating' do
