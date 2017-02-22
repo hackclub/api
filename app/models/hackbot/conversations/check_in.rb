@@ -152,7 +152,7 @@ module Hackbot
       private
 
       def should_record_notes?(event)
-        !event[:text] =~ /^(no|nope|nah)$/i
+        (event[:text] =~ /^(no|nope|nah)$/i).nil?
       end
 
       def record_notes(event)
