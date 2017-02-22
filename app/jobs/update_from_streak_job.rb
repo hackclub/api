@@ -85,7 +85,10 @@ class UpdateFromStreakJob < ApplicationJob
             # This won't happen because Streakable checks to see if the instance
             # has been .changed? before triggering the API request to Streak.
             # Rails doesn't mark it as changed.
-            instance.send(association.plural_name) << instance_to_associate
+            unless instance.send(association.plural_name)
+                           .include? instance_to_associate
+              instance.send(association.plural_name) << instance_to_associate
+            end
           end
         end
       end
