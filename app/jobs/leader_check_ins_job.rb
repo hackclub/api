@@ -6,8 +6,10 @@ class LeaderCheckInsJob < ApplicationJob
   ACTIVE_STAGE_KEY = '5006'.freeze
   LEADER_PIPELINE_KEY = Rails.application.secrets.streak_leader_pipeline_key
 
-  def perform(*)
-    active_leader_usernames.each do |username|
+  def perform(usernames = [])
+    usernames = active_leader_usernames if usernames.empty?
+
+    usernames.each do |username|
       user = user_from_username(username)
       next if user.nil? # couldn't find the user
 
