@@ -36,9 +36,9 @@ task associate_teachers: :environment do
                                                     .to_s
   school_region_field_key = school_pipeline[:fields].find { |f| f[:name] == 'Region' }[:key].to_sym
 
-  puts "Getting all boxes in schools pipeline"
+  puts 'Getting all boxes in schools pipeline'
   schools = all_boxes_in_pipeline(school_pipeline[:key])
-  puts "Getting all boxes in teacher pipeline"
+  puts 'Getting all boxes in teacher pipeline'
   teachers = all_boxes_in_pipeline(teacher_pipeline[:key])
 
   teachers_to_associate = teachers.select do |t|
@@ -46,11 +46,11 @@ task associate_teachers: :environment do
   end
 
   pool = Concurrent::FixedThreadPool.new(THREAD_COUNT)
-  puts "Starting to associate!"
+  puts 'Starting to associate!'
   total = teachers_to_associate.length
   teachers_to_associate.each_with_index do |teacher, i|
     pool.post do
-      puts "#{i} out of #{total}"
+      puts "Starting index \##{i} out of #{total}"
       school_name, school_region = teacher[:notes].split(' | ')
       school = schools.find { |s| s[:name] == school_name && s[:fields][school_region_field_key] == school_region }
 
