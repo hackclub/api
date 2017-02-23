@@ -7,6 +7,11 @@ module Hackbot
 
       def start(event)
         query = event_to_query event
+        if query.empty?
+          msg_channel 'You need to provide a query, silly!'
+
+          return :finish
+        end
 
         gif = GiphyClient.translate query
 
@@ -18,8 +23,8 @@ module Hackbot
       def event_to_query(event)
         event[:text]
           .sub(team[:bot_username], '')
-          .sub("<@#{team[:bot_user_id]}", '')
-          .sub('gif', '')
+          .sub("<@#{team[:bot_user_id]}>", '')
+          .sub('gif', '').strip
       end
 
       def send_gif(text, url)
