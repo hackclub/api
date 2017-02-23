@@ -33,7 +33,7 @@ class UpdateFromStreakJob < ApplicationJob
           attrs_to_update[attribute] = box[:fields][key.to_sym]
         end
 
-        instance.update_attributes_without_streak(attrs_to_update)
+        instance.update_attributes!(attrs_to_update)
 
         # Delete relationships that aren't present on Streak
         old_linked_box_keys = instance.linked_streak_box_keys
@@ -85,7 +85,10 @@ class UpdateFromStreakJob < ApplicationJob
             # This won't happen because Streakable checks to see if the instance
             # has been .changed? before triggering the API request to Streak.
             # Rails doesn't mark it as changed.
-            instance.send(association.plural_name) << instance_to_associate
+            unless instance.send(association.plural_name)
+                           .include? instance_to_associate
+              instance.send(association.plural_name) << instance_to_associate
+            end
           end
         end
       end
