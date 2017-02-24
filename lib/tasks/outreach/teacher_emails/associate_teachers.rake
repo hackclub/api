@@ -46,11 +46,12 @@ task associate_teachers: :environment do
   end
 
   pool = Concurrent::FixedThreadPool.new(THREAD_COUNT)
+  semaphore = Mutex.new
   puts 'Starting to associate!'
   total = teachers_to_associate.length
   teachers_to_associate.each_with_index do |teacher, i|
     pool.post do
-      puts "Starting index \##{i} out of #{total}"
+      semaphore.synchronize { puts "Starting index \##{i} out of #{total}" }
       school_name, school_region = teacher[:notes].split(' | ')
       school = schools.find { |s| s[:name] == school_name && s[:fields][school_region_field_key] == school_region }
 
