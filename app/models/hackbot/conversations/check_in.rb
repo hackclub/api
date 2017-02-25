@@ -134,6 +134,7 @@ module Hackbot
       end
       # rubocop:enable Metrics/CyclomaticComplexity, Metrics/MethodLength
 
+      # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
       def wait_for_notes(event)
         record_notes event if should_record_notes? event
 
@@ -145,9 +146,14 @@ module Hackbot
           notes: data['notes']
         )
 
-        msg_channel "Sweet, I'll let them know! Hope you have a hack-tastic "\
-                    'weekend!'
+        if data['notes'].nil?
+          msg_channel 'OK. Hope you have a hack-tastic weekend!'
+        else
+          msg_channel "Sweet, I'll let them know! Hope you have a hack-tastic "\
+                      'weekend!'
+        end
       end
+      # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
 
       private
 
