@@ -1,22 +1,24 @@
 module Charts
   class << self
-    def attendance(leader)
-      check_ins = ::CheckIn.where(leader: leader).order('meeting_date DESC').limit(4)
-      data = check_ins.pluck :attendance
+    def attendance(leader, history=4)
+      check_ins = ::CheckIn.where(leader: leader).order('meeting_date ASC').limit(history)
+      data_attendance = check_ins.pluck :attendance
+      data_dates = check_ins.pluck :meeting_date
 
       g = Gruff::Line.new
 
-      g.labels = {
-        0 => 'first meeting',
-        1 => 'second meeting',
-        2 => 'third meeting',
-        3 => 'fourth meeting'
-      }
-
       g.minimum_value = 0
-      g.maximum_value = data.max
+      g.maximum_value = data_attendance.max
+      g.sort = false
 
-      g.data('Your Club', data)
+      g.data(
+        'Your Club',
+        data_attendance
+      )
+
+      data_dates.each_with_index do |v, i|
+        g.labels[i] = v
+      end
 
       g.to_blob
     end

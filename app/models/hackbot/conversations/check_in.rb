@@ -141,6 +141,10 @@ module Hackbot
         else
           msg_channel copy('notes.had_notes')
         end
+       
+        send_attendance_stats event
+
+        :finish
       end
       # rubocop:enable Metrics/MethodLength
       # rubocop:enable Metrics/AbcSize
@@ -160,9 +164,13 @@ module Hackbot
       end
 
       def send_attendance_stats(event)
+        lead = leader(event)
+
+        return if ::CheckIn.where(leader: lead).length < 2
+
         temp = Tempfile.new 'attendance_graph'
         temp.binmode
-        temp.write(Charts.attendance(leader(event)))
+        temp.write(Charts.attendance(lead))
         temp.rewind
 
         file_to_channel('attendance_this_week.png', temp)
