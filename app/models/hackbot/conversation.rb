@@ -61,6 +61,15 @@ module Hackbot
       cs.get_copy key
     end
 
+    def send_file(channel, filename, file)
+      SlackClient::Files.upload(
+        channel,
+        filename,
+        file,
+        access_token
+      )
+    end
+
     private
 
     def default_values

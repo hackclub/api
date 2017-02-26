@@ -159,6 +159,15 @@ module Hackbot
         follow_up(messages, next_state, interval)
       end
 
+      def send_attendance_stats(event)
+        temp = Tempfile.new 'attendance_graph'
+        temp.binmode
+        temp.write(Charts.attendance(leader(event)))
+        temp.rewind
+
+        file_to_channel('attendance_this_week.png', temp)
+      end
+
       def should_record_notes?(event)
         (event[:text] =~ /^(no|nope|nah)$/i).nil?
       end

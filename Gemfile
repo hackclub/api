@@ -47,5 +47,6 @@ group :development, :test do
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'gruff'
 
 ruby '2.3.1'
