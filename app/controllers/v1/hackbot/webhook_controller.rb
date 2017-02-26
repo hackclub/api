@@ -8,8 +8,9 @@ module V1
         elsif params[:type] != 'event_callback'
           render status: :not_implemented
         else
-          handle_message
           render status: 200
+
+          Thread.new { handle_message }
         end
       end
 
