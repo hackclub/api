@@ -19,17 +19,17 @@ module Hackbot
       created = to_create.map { |c| c.new(team: slack_team) }
 
       created.each do |c|
-        c.with_lock do
-          run_convo(c, event)
-        end
+        run_convo(c, event)
       end
     end
 
     private
 
     def run_convo(convo, event)
-      convo.handle(event)
-      convo.save!
+      convo.with_lock do
+        convo.handle(event)
+        convo.save!
+      end
     end
 
     def convos_needing_handling(event)

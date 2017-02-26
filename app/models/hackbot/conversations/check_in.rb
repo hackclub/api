@@ -125,6 +125,7 @@ module Hackbot
 
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/AbcSize
+
       def wait_for_notes(event)
         record_notes event if should_record_notes? event
 
@@ -141,7 +142,7 @@ module Hackbot
         else
           msg_channel copy('notes.had_notes')
         end
-       
+
         send_attendance_stats event
 
         :finish
