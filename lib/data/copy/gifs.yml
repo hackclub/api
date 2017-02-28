@@ -1,0 +1,3 @@
+start:
+    invalid: 'You need to provide a query, silly!'
+    valid: 'A gif from Giphy!'

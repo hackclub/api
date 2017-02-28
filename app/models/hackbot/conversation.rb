@@ -17,6 +17,10 @@ module Hackbot
         event[:text].include?("<@#{team[:bot_user_id]}>")
     end
 
+    def self.set_conversation(convo_name)
+      @@convo_name = convo_name
+    end
+
     def part_of_convo?(event)
       # Don't react to events that we cause
       event[:user] != team.bot_user_id
@@ -53,6 +57,12 @@ module Hackbot
         access_token,
         as_user: true
       )
+    end
+
+    def copy(key, hash={})
+      cs = ::CopyService.new(@@convo_name, hash)
+
+      cs.get_copy key
     end
 
     private
