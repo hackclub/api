@@ -81,9 +81,10 @@ module Streakable
       begin
         associated_objs = send(name)
         keys + associated_objs.map { |obj| obj.send(obj.class.key_attribute) }
-
       rescue
         Rails.logger.info 'TODO: Fix Streak co-opting all associations'
+
+        keys
       end
     end
   end

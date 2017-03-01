@@ -23,7 +23,8 @@ class Club < ApplicationRecord
         'Social media' => '9009',
         'Hack Camp' => '9010'
       }
-    }
+    },
+    point_of_contact_name: '1012'
   )
 
   geocode_attrs address: :address,
@@ -38,4 +39,12 @@ class Club < ApplicationRecord
   validates :address, presence: true
   validates :latitude, presence: true
   validates :longitude, presence: true
+
+  def point_of_contact_name
+    point_of_contact.name if point_of_contact
+  end
+
+  def point_of_contact_name=(_)
+    nil
+  end
 end
