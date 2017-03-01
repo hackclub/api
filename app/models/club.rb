@@ -32,6 +32,7 @@ class Club < ApplicationRecord
 
   has_and_belongs_to_many :leaders
   has_many :check_ins
+  belongs_to :point_of_contact, class_name: 'Leader'
 
   validates :name, presence: true
   validates :address, presence: true
