@@ -27,4 +27,8 @@ class StatsService
 
     (Date.today - first_meeting).to_i
   end
+
+  def club_name
+    @leader.clubs.first.name
+  end
 end
