@@ -165,16 +165,22 @@ module Hackbot
       end
 
       def send_attendance_stats(event)
-        lead = leader(event)
+        stats = statistics leader(event)
+        
+        return if stats.total_meetings_count < 2
 
-        return if ::CheckIn.where(leader: lead).length < 2
+        graph = Charts.line_chart(
+          stats.attendance,
+          stats.labels
+        )
 
-        temp = Tempfile.new 'attendance_graph'
-        temp.binmode
-        temp.write(Charts.attendance(lead))
-        temp.rewind
+        file_to_channel('attendance_this_week.png', Charts.as_file(graph))
+      end
 
-        file_to_channel('attendance_this_week.png', temp)
+      def statistics(leader)
+        @stats ||= ::StatsService.new(leader)
+
+        @stats
       end
 
       def should_record_notes?(event)

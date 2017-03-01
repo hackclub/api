@@ -1,19 +1,13 @@
 module Charts
   class << self
-    def attendance(leader, history = 4)
-      check_ins = ::CheckIn.where(leader: leader)
-                           .order('meeting_date ASC')
-                           .limit(history)
+    def as_file(g)
+      temp = Tempfile.new
+      temp.binmode
+      temp.write g.to_blob
+      temp.rewind
 
-      data_attendance = check_ins.pluck :attendance
-      data_dates = check_ins.pluck :meeting_date
-
-      g = line_chart(data_attendance, data_dates)
-
-      g.to_blob
+      temp
     end
-
-    private
 
     def line_chart(numbers, labels)
       g = Gruff::Line.new

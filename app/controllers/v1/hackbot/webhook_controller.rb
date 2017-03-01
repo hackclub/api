@@ -10,7 +10,8 @@ module V1
         else
           render status: 200
 
-          Thread.new { handle_message }
+          #Thread.new { handle_message }
+          handle_message
         end
       end
 
