@@ -43,6 +43,8 @@ class UpdateFromStreakJob < ApplicationJob
         to_create = new_linked_box_keys - old_linked_box_keys
 
         model.streakable_associations.each do |association|
+          next unless instance.send(:respond_to?, association.plural_name)
+
           records = instance.send(association.plural_name)
           records_to_remove = records.where(model.key_attribute => to_del)
 
