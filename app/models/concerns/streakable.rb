@@ -78,12 +78,10 @@ module Streakable
     association_names = self.class.streakable_associations.map(&:plural_name)
 
     association_names.inject([]) do |keys, name|
-      begin
+      if send(:respond_to?, name)
         associated_objs = send(name)
         keys + associated_objs.map { |obj| obj.send(obj.class.key_attribute) }
-      rescue
-        Rails.logger.info 'TODO: Fix Streak co-opting all associations'
-
+      else
         keys
       end
     end

@@ -4,7 +4,7 @@ module Hackbot
       Hackbot::Conversations::CheckIn,
       Hackbot::Conversations::Gifs,
       Hackbot::Conversations::Help,
-      Hackbot::Conversations::SetPOC
+      Hackbot::Conversations::SetPoc
     ].freeze
 
     def handle(event, slack_team)

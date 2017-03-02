@@ -40,10 +40,14 @@ class Club < ApplicationRecord
   validates :latitude, presence: true
   validates :longitude, presence: true
 
+  # This getter returns the point_of_contact_name.
   def point_of_contact_name
     point_of_contact.name if point_of_contact
   end
 
+  # This setter prevents the point of contact name from being set from Streak.
+  # The point of contact should only be changed in the database, which will
+  # update the Streak pipeline.
   def point_of_contact_name=(_)
     nil
   end
