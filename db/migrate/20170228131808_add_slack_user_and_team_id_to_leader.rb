@@ -28,6 +28,8 @@ class AddSlackUserAndTeamIdToLeader < ActiveRecord::Migration[5.0]
     leaders.each do |leader|
       slack_user = all_users.find { |u| u[:name] == leader['slack_username'] }
 
+      next if slack_user.nil?
+
       update "UPDATE leaders SET slack_id = '#{slack_user[:id]}' "\
              "WHERE slack_username = '#{leader['slack_username']}'"
     end
