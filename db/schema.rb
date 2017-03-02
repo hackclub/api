@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170222152231) do
+ActiveRecord::Schema.define(version: 20170228131808) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -99,6 +99,8 @@ ActiveRecord::Schema.define(version: 20170222152231) do
     t.datetime "updated_at",       null: false
     t.text     "streak_key"
     t.text     "notes"
+    t.text     "slack_id"
+    t.text     "slack_team_id"
     t.index ["streak_key"], name: "index_leaders_on_streak_key", using: :btree
   end
 
