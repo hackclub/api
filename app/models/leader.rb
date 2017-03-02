@@ -56,12 +56,22 @@ class Leader < ApplicationRecord
     return if access_token.nil?
 
     if slack_id_changed?
-      info = SlackClient::Users.info(slack_id, access_token)[:user]
-      self.slack_username = info[:name]
+      slack_id_sync
     elsif slack_username_changed?
-      user = user_from_username slack_username
-      self.slack_id = user[:id]
+      slack_username_sync
     end
+  end
+
+  private
+
+  def slack_id_sync
+    info = SlackClient::Users.info(slack_id, access_token)[:user]
+    self.slack_username = info[:name] unless info.nil?
+  end
+
+  def slack_username_sync
+    user = user_from_username slack_username
+    self.slack_id = user[:id] unless user.nil?
   end
 
   def user_from_username(username)
