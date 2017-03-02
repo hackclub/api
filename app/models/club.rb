@@ -23,7 +23,8 @@ class Club < ApplicationRecord
         'Social media' => '9009',
         'Hack Camp' => '9010'
       }
-    }
+    },
+    point_of_contact_name: '1012'
   )
 
   geocode_attrs address: :address,
@@ -32,9 +33,22 @@ class Club < ApplicationRecord
 
   has_and_belongs_to_many :leaders
   has_many :check_ins
+  belongs_to :point_of_contact, class_name: 'Leader'
 
   validates :name, presence: true
   validates :address, presence: true
   validates :latitude, presence: true
   validates :longitude, presence: true
+
+  # This getter returns the point_of_contact_name.
+  def point_of_contact_name
+    point_of_contact.name if point_of_contact
+  end
+
+  # This setter prevents the point of contact name from being set from Streak.
+  # The point of contact should only be changed in the database, which will
+  # update the Streak pipeline.
+  def point_of_contact_name=(_)
+    nil
+  end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170228131808) do
+ActiveRecord::Schema.define(version: 20170301124058) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,9 +34,11 @@ ActiveRecord::Schema.define(version: 20170228131808) do
     t.decimal  "longitude"
     t.text     "source"
     t.text     "notes"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
     t.text     "streak_key"
+    t.integer  "point_of_contact_id"
+    t.index ["point_of_contact_id"], name: "index_clubs_on_point_of_contact_id", using: :btree
     t.index ["streak_key"], name: "index_clubs_on_streak_key", using: :btree
   end
 
@@ -127,4 +129,5 @@ ActiveRecord::Schema.define(version: 20170228131808) do
 
   add_foreign_key "check_ins", "clubs"
   add_foreign_key "check_ins", "leaders"
+  add_foreign_key "clubs", "leaders", column: "point_of_contact_id"
 end

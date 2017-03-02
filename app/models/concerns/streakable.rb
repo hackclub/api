@@ -78,8 +78,12 @@ module Streakable
     association_names = self.class.streakable_associations.map(&:plural_name)
 
     association_names.inject([]) do |keys, name|
-      associated_objs = send(name)
-      keys + associated_objs.map { |obj| obj.send(obj.class.key_attribute) }
+      if send(:respond_to?, name)
+        associated_objs = send(name)
+        keys + associated_objs.map { |obj| obj.send(obj.class.key_attribute) }
+      else
+        keys
+      end
     end
   end
 
