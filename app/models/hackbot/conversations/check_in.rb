@@ -5,7 +5,7 @@
 module Hackbot
   module Conversations
     # rubocop:disable Metrics/ClassLength
-    class CheckIn < Hackbot::Conversations::Channel
+    class CheckIn < Hackbot::Conversations::Followup
       def self.should_start?(event, _team)
         event[:text] == 'check in'
       end
@@ -20,6 +20,8 @@ module Hackbot
           msg_channel copy('greeting', first_name: first_name)
         end
 
+        default_follow_up 'wait_for_meeting_confirmation'
+
         :wait_for_meeting_confirmation
       end
 
@@ -29,14 +31,17 @@ module Hackbot
         when /(yes|yeah|yup|mmhm|affirmative)/i
           msg_channel copy('meeting_confirmation.positive')
 
+          default_follow_up 'wait_for_day_of_week'
           :wait_for_day_of_week
         when /(no|nope|nah|negative)/i
           msg_channel copy('meeting_confirmation.negative')
 
+          default_follow_up 'wait_for_no_meeting_reason'
           :wait_for_no_meeting_reason
         else
           msg_channel copy('meeting_confirmation.invalid')
 
+          default_follow_up 'wait_for_meeting_confirmation'
           :wait_for_meeting_confirmation
         end
       end
@@ -55,12 +60,14 @@ module Hackbot
         unless meeting_date
           msg_channel copy('day_of_week.unknown')
 
+          default_follow_up 'wait_for_day_of_week'
           return :wait_for_day_of_week
         end
 
         unless meeting_date > 7.days.ago && meeting_date < Date.tomorrow
           msg_channel copy('day_of_week.invalid')
 
+          default_follow_up 'wait_for_day_of_week'
           return :wait_for_day_of_week
         end
 
@@ -68,6 +75,7 @@ module Hackbot
 
         msg_channel copy('day_of_week.valid')
 
+        default_follow_up 'wait_for_attendance'
         :wait_for_attendance
       end
       # rubocop:enable Metrics/MethodLength
@@ -79,6 +87,7 @@ module Hackbot
         unless integer?(event[:text])
           msg_channel copy('attendance.invalid')
 
+          default_follow_up 'wait_for_attendance'
           return :wait_for_attendance
         end
 
@@ -87,6 +96,7 @@ module Hackbot
         if count < 0
           msg_channel copy('attendance.not_realistic')
 
+          default_follow_up 'wait_for_attendance'
           return :wait_for_attendance
         end
 
@@ -107,6 +117,7 @@ module Hackbot
 
         msg_channel copy('attendance.valid', judgement: judgement)
 
+        default_follow_up 'wait_for_notes'
         :wait_for_notes
       end
       # rubocop:enable Metrics/AbcSize
@@ -136,6 +147,18 @@ module Hackbot
       # rubocop:enable Metrics/AbcSize
 
       private
+
+      def default_follow_up next_state
+        interval = 10.seconds
+
+        messages = [
+          'Hey! Just wanted to follow-up on this :)',
+          'Ping.',
+          'Yo – this is my last ping for you'
+        ]
+
+        follow_up messages, next_state, interval
+      end
 
       def should_record_notes?(event)
         (event[:text] =~ /^(no|nope|nah)$/i).nil?
