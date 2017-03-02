@@ -70,6 +70,9 @@ STREAK_OUTREACH_TEACHER_PIPELINE_KEY
 SLACK_CLIENT_ID
 SLACK_CLIENT_SECRET
 
+# Default Slack team ID (probably for Hack Club)
+SLACK_TEAM_ID
+
 # Secret code required when redeeming .tech domains
 TECH_DOMAIN_REDEMPTION_SECRET_CODE
 ```

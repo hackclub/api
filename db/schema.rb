@@ -101,6 +101,8 @@ ActiveRecord::Schema.define(version: 20170301124058) do
     t.datetime "updated_at",       null: false
     t.text     "streak_key"
     t.text     "notes"
+    t.text     "slack_id"
+    t.text     "slack_team_id"
     t.index ["streak_key"], name: "index_leaders_on_streak_key", using: :btree
   end
 

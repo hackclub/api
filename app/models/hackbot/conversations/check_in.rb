@@ -182,18 +182,9 @@ module Hackbot
       end
 
       def leader(event)
-        @u ||= user(event)
-        @leader ||= Leader.find_by(slack_username: @u[:name])
+        @leader ||= Leader.find_by(slack_id: event[:user])
 
         @leader
-      end
-
-      def user(event)
-        user_id = event[:user]
-
-        resp = SlackClient::Users.info(user_id, access_token)
-
-        resp[:user]
       end
     end
     # rubocop:enable Metrics/ClassLength
