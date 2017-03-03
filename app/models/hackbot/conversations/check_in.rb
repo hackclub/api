@@ -6,13 +6,12 @@ module Hackbot
   module Conversations
     # rubocop:disable Metrics/ClassLength
     class CheckIn < Hackbot::Conversations::Channel
-      set_conversation('check_in')
+      copy_source 'check_in'
 
       def self.should_start?(event, _team)
         event[:text] == 'check in'
       end
 
-      # rubocop:disable Metrics/LineLength, Metrics/MethodLength
       def start(event)
         leader_info = leader(event)
         first_name = leader_info.name.split(' ').first
@@ -25,7 +24,6 @@ module Hackbot
 
         :wait_for_meeting_confirmation
       end
-      # rubocop:enable Metrics/LineLength, Metrics/MethodLength
 
       # rubocop:disable Metrics/MethodLength
       def wait_for_meeting_confirmation(event)
@@ -58,8 +56,6 @@ module Hackbot
 
         unless meeting_date
           msg_channel copy('day_of_week.unknown')
-                      'understanding you. Try saying something simpler, like '\
-                      '"tuesday" or "thursday".'
 
           return :wait_for_day_of_week
         end
@@ -79,6 +75,7 @@ module Hackbot
       # rubocop:enable Metrics/MethodLength
 
       # rubocop:disable Metrics/CyclomaticComplexity, Metrics/MethodLength
+      # rubocop:disable Metrics/AbcSize
       def wait_for_attendance(event)
         unless integer?(event[:text])
           msg_channel copy('attendance.invalid')
@@ -113,6 +110,7 @@ module Hackbot
 
         :wait_for_notes
       end
+      # rubocop:enable Metrics/AbcSize
       # rubocop:enable Metrics/CyclomaticComplexity, Metrics/MethodLength
 
       # rubocop:disable Metrics/MethodLength, Metrics/AbcSize

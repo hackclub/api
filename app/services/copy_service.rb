@@ -10,20 +10,15 @@ class CopyService
 
     sections.each { |s| copy = copy[s] }
 
-    # Are there multiple copy options for us to choose from? If there is, pick
-    # one at random and spit it out.
-    if copy.respond_to? 'each'
-      return copy.sample
-    end
-
-    copy
+    # If there are multiple options, choose one at random.
+    copy.respond_to?('each') ? copy.sample : copy
   end
 
   private
 
   def get_conversation(name)
     path = File.join(copy_route, "#{name}.yml")
-    copy = ERB.new(File.read path).result @context
+    copy = ERB.new(File.read(path)).result @context
 
     YAML.load(copy)
   end
@@ -34,7 +29,7 @@ class CopyService
 
   def hash_to_binding(hash)
     b = binding
-    b.local_variable_set("info", hash)
+    b.local_variable_set('info', hash)
     b
   end
 end
