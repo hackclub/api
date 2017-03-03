@@ -1,35 +1,24 @@
 class FollowUpIfNeededJob < ApplicationJob
   HACK_CLUB_TEAM_ID = 'T0266FRGM'.freeze
 
-  def perform(conversation_id,
-              last_state_name,
-              last_message_timestamp,
-              follow_up_interval,
-              messages_to_follow_up_with)
-    conversation = Hackbot::Conversation.find conversation_id
+  def perform(conversation_id, last_state_name, last_message_timestamp,
+              follow_up_interval, messages_to_follow_up_with)
+    convo = Hackbot::Conversation.find conversation_id
 
-    return if conversation.nil?
+    return if convo.nil?
 
-    return if last_state_name != conversation.state
+    return if last_state_name != convo.state
 
-    return if last_message_timestamp != conversation.data['last_message_ts']
+    return if last_message_timestamp != convo.data['last_message_ts']
 
     return if messages_to_follow_up_with.empty?
 
-    send_follow_up(
-      messages_to_follow_up_with.shift,
-      conversation.data['channel']
-    )
+    send_follow_up(messages_to_follow_up_with.shift, convo.data['channel'])
 
     FollowUpIfNeededJob
       .set(wait: follow_up_interval)
-      .perform_later(
-        conversation_id,
-        last_state_name,
-        last_message_timestamp,
-        follow_up_interval,
-        messages_to_follow_up_with
-      )
+      .perform_later(conversation_id, last_state_name, last_message_timestamp,
+                     follow_up_interval, messages_to_follow_up_with)
   end
 
   private

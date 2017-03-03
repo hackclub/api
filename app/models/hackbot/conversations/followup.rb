@@ -7,7 +7,7 @@ module Hackbot
         super
       end
 
-      def follow_up(messages, next_state, interval=10.seconds)
+      def follow_up(messages, next_state, interval = 10.seconds)
         FollowUpIfNeededJob
           .set(wait: interval)
           .perform_later(
@@ -21,4 +21,3 @@ module Hackbot
     end
   end
 end
-

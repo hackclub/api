@@ -11,8 +11,7 @@ module Hackbot
       end
 
       def start(event)
-        leader_info = leader(event)
-        first_name = leader_info.name.split(' ').first
+        first_name = leader(event).name.split(' ').first
 
         if first_check_in?
           msg_channel copy('first_greeting', first_name: first_name)
@@ -53,7 +52,7 @@ module Hackbot
         msg_channel copy('no_meeting_reason')
       end
 
-      # rubocop:disable Metrics/MethodLength
+      # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
       def wait_for_day_of_week(event)
         meeting_date = Chronic.parse(event[:text], context: :past)
 
@@ -78,7 +77,7 @@ module Hackbot
         default_follow_up 'wait_for_attendance'
         :wait_for_attendance
       end
-      # rubocop:enable Metrics/MethodLength
+      # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
 
       # rubocop:disable Metrics/CyclomaticComplexity,
       # rubocop:disable Metrics/MethodLength
@@ -148,7 +147,7 @@ module Hackbot
 
       private
 
-      def default_follow_up next_state
+      def default_follow_up(next_state)
         interval = 24.hours
 
         messages = [
