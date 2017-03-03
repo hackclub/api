@@ -14,7 +14,7 @@ class LeaderCheckInsJob < ApplicationJob
       im = open_im(user_id)
       event = construct_fake_event(user_id, im[:channel][:id])
 
-      convo = Hackbot::Conversations::CheckIn.new(team: slack_team)
+      convo = Hackbot::Conversations::CheckIn.create(team: slack_team)
       convo.handle(event)
       convo.save!
     end
@@ -32,7 +32,8 @@ class LeaderCheckInsJob < ApplicationJob
       team_id: slack_team.team_id,
       user: user_id,
       type: 'message',
-      channel: channel_id
+      channel: channel_id,
+      ts: 'fake.timestamp'
     }
   end
 
@@ -56,9 +57,10 @@ class LeaderCheckInsJob < ApplicationJob
   end
 
   def active_leader_slack_ids
-    active_leaders
-      .map(&:slack_id)
-      .reject { |u| u.nil? || u.empty? }
+    #active_leaders
+    #  .map(&:slack_id)
+    #  .reject { |u| u.nil? || u.empty? }
+    [user_from_username('harrison')[:id]]
   end
 
   def active_leaders
