@@ -17,12 +17,6 @@ module Hackbot
         event[:text].include?("<@#{team[:bot_user_id]}>")
     end
 
-    def self.copy_source(convo_name)
-      @source = convo_name
-    end
-
-    attr_writer copy_source
-
     def part_of_convo?(event)
       # Don't react to events that we cause
       event[:user] != team.bot_user_id
@@ -61,8 +55,8 @@ module Hackbot
       )
     end
 
-    def copy(key, hash = {})
-      cs = ::CopyService.new(@copy_source, hash)
+    def copy(key, hash = {}, source = default_copy_source)
+      cs = ::CopyService.new(source, hash)
 
       cs.get_copy key
     end
@@ -72,6 +66,10 @@ module Hackbot
     def default_values
       self.state ||= :start
       self.data ||= {}
+    end
+
+    def default_copy_source
+      self.class.name.demodulize.underscore
     end
   end
 end

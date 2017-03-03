@@ -1,8 +1,6 @@
 module Hackbot
   module Conversations
     class Gifs < Hackbot::Conversations::Channel
-      copy_source 'gifs'
-
       def self.should_start?(event, team)
         event[:text].include?('gif') && mentions_name?(event, team)
       end

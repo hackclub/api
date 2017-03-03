@@ -1,8 +1,6 @@
 module Hackbot
   module Conversations
     class Help < Hackbot::Conversations::Channel
-      copy_source 'help'
-
       def self.should_start?(event, team)
         event[:text].include?('help') && mentions_name?(event, team)
       end
