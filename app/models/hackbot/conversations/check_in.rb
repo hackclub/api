@@ -149,7 +149,7 @@ module Hackbot
       private
 
       def default_follow_up next_state
-        interval = 10.seconds
+        interval = 24.hours
 
         messages = [
           'Hey! Just wanted to follow-up on this :)',
