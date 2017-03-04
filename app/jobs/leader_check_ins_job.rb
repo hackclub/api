@@ -9,11 +9,10 @@ class LeaderCheckInsJob < ApplicationJob
   def perform(usernames = [])
     user_ids = active_leader_slack_ids
 
-    user_ids = user_ids_from_usernames usernames unless usernames.empty?
-
+    user_ids = user_ids_from_usernames(usernames) unless usernames.empty?
     user_ids.each do |user_id|
       im = open_im(user_id)
-      event = construct_fake_event(user, im[:channel][:id])
+      event = construct_fake_event(user_id, im[:channel][:id])
 
       convo = Hackbot::Conversations::CheckIn.new(team: slack_team)
       convo.handle(event)
@@ -28,10 +27,10 @@ class LeaderCheckInsJob < ApplicationJob
   #
   # This is clearly a hack and our conversation class should be refactored to
   # account for this use case.
-  def construct_fake_event(user, channel_id)
+  def construct_fake_event(user_id, channel_id)
     {
       team_id: slack_team.team_id,
-      user: user[:id],
+      user: user_id,
       type: 'message',
       channel: channel_id
     }
@@ -44,7 +43,7 @@ class LeaderCheckInsJob < ApplicationJob
   def user_ids_from_usernames(usernames)
     usernames.map do |u|
       user = user_from_username u
-      next unless user.nil?
+      next if user.nil?
 
       user[:id]
     end
