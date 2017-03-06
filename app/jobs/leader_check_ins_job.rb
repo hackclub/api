@@ -7,20 +7,27 @@ class LeaderCheckInsJob < ApplicationJob
   LEADER_PIPELINE_KEY = Rails.application.secrets.streak_leader_pipeline_key
 
   def perform(usernames = [])
-    user_ids = active_leader_slack_ids
+    user_ids = if usernames.empty?
+                 point_of_contacts
+               else
+                 user_ids_from_slack_usernames(usernames)
+               end
 
-    user_ids = user_ids_from_usernames(usernames) unless usernames.empty?
     user_ids.each do |user_id|
-      im = open_im(user_id)
+      im = open_im user_id
       event = construct_fake_event(user_id, im[:channel][:id])
 
-      convo = Hackbot::Conversations::CheckIn.new(team: slack_team)
-      convo.handle(event)
-      convo.save!
+      start_check_in event
     end
   end
 
   private
+
+  def start_check_in(event)
+    convo = Hackbot::Conversations::CheckIn.new(team: slack_team)
+    convo.handle(event)
+    convo.save!
+  end
 
   # This constructs a fake Slack event to start the conversation with. It'll be
   # sent to the conversation's start method.
@@ -55,19 +62,21 @@ class LeaderCheckInsJob < ApplicationJob
     @all_users.find { |u| u[:name] == username }
   end
 
-  def active_leader_slack_ids
-    active_leaders
+  def point_of_contacts
+    Club
+      .where('point_of_contact_id IS NOT NULL')
+      .map(&:point_of_contact)
+      .select { |ldr| active? ldr }
       .map(&:slack_id)
-      .reject { |u| u.nil? || u.empty? }
   end
 
-  def active_leaders
-    leader_boxes = StreakClient::Box.all_in_pipeline(LEADER_PIPELINE_KEY)
-    active_boxes = leader_boxes.select { |b| b[:stage_key] == ACTIVE_STAGE_KEY }
+  def active?(leader)
+    @active_boxes ||= StreakClient::Box
+                      .all_in_pipeline(LEADER_PIPELINE_KEY)
+                      .select { |b| b[:stage_key] == ACTIVE_STAGE_KEY }
 
-    active_boxes
-      .map { |box| Leader.find_by(streak_key: box[:key]) }
-      .reject(&:nil?)
+    leader_box = @active_boxes.find { |box| box[:key].eql? leader.streak_key }
+    !leader_box.nil?
   end
 
   def access_token
