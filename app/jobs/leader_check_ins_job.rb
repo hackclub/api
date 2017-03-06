@@ -6,11 +6,11 @@ class LeaderCheckInsJob < ApplicationJob
   ACTIVE_STAGE_KEY = '5006'.freeze
   LEADER_PIPELINE_KEY = Rails.application.secrets.streak_leader_pipeline_key
 
-  def perform(usernames = [])
-    user_ids = if usernames.empty?
+  def perform(streak_keys = [])
+    user_ids = if streak_keys.empty?
                  point_of_contacts
                else
-                 user_ids_from_slack_usernames(usernames)
+                 user_ids_from_streak_keys streak_keys
                end
 
     user_ids.each do |user_id|
@@ -47,19 +47,11 @@ class LeaderCheckInsJob < ApplicationJob
     SlackClient::Chat.open_im(user_id, access_token)
   end
 
-  def user_ids_from_usernames(usernames)
-    usernames.map do |u|
-      user = user_from_username u
-      next if user.nil?
-
-      user[:id]
-    end
-  end
-
-  def user_from_username(username)
-    @all_users ||= SlackClient::Users.list(access_token)[:members]
-
-    @all_users.find { |u| u[:name] == username }
+  def user_ids_from_streak_keys(streak_keys)
+    active_leader_boxes
+      .select { |box| streak_keys.include? box[:key] }
+      .map { |box| Leader.find_by(streak_key: box[:key]) }
+      .map(&:slack_id)
   end
 
   def point_of_contacts
@@ -71,12 +63,19 @@ class LeaderCheckInsJob < ApplicationJob
   end
 
   def active?(leader)
+    leader_box = active_leader_boxes.find do |box|
+      box[:key].eql? leader.streak_key
+    end
+
+    !leader_box.nil?
+  end
+
+  def active_leader_boxes
     @active_boxes ||= StreakClient::Box
                       .all_in_pipeline(LEADER_PIPELINE_KEY)
                       .select { |b| b[:stage_key] == ACTIVE_STAGE_KEY }
 
-    leader_box = @active_boxes.find { |box| box[:key].eql? leader.streak_key }
-    !leader_box.nil?
+    @active_boxes
   end
 
   def access_token
