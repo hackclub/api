@@ -2,7 +2,7 @@ module Hackbot
   module Conversations
     class Gifs < Hackbot::Conversations::Channel
       def self.should_start?(event, team)
-        event[:text].include?('gif') && mentions_name?(event, team)
+        event[:text].downcase.include?('gif') && mentions_name?(event, team)
       end
 
       def start(event)
@@ -22,9 +22,9 @@ module Hackbot
 
       def event_to_query(event)
         event[:text]
-          .sub(team[:bot_username], '')
-          .sub("<@#{team[:bot_user_id]}>", '')
-          .sub('gif', '').strip
+          .sub(/#{team[:bot_username]}/i, '')
+          .sub(/<@#{team[:bot_user_id]}>/i, '')
+          .sub(/gif/i, '').strip
       end
 
       def send_gif(text, url)
