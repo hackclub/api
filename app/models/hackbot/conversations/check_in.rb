@@ -72,7 +72,8 @@ module Hackbot
       end
       # rubocop:enable Metrics/MethodLength
 
-      # rubocop:disable Metrics/CyclomaticComplexity, Metrics/MethodLength
+      # rubocop:disable Metrics/CyclomaticComplexity,
+      # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/AbcSize
       def wait_for_attendance(event)
         unless integer?(event[:text])
@@ -109,9 +110,11 @@ module Hackbot
         :wait_for_notes
       end
       # rubocop:enable Metrics/AbcSize
-      # rubocop:enable Metrics/CyclomaticComplexity, Metrics/MethodLength
+      # rubocop:enable Metrics/CyclomaticComplexity
+      # rubocop:enable Metrics/MethodLength
 
-      # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+      # rubocop:disable Metrics/MethodLength
+      # rubocop:disable Metrics/AbcSize
       def wait_for_notes(event)
         record_notes event if should_record_notes? event
 
@@ -129,7 +132,8 @@ module Hackbot
           msg_channel copy('notes.had_notes')
         end
       end
-      # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
+      # rubocop:enable Metrics/MethodLength
+      # rubocop:enable Metrics/AbcSize
 
       private
 
