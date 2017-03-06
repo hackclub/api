@@ -10,7 +10,7 @@ module Hackbot
         leader = leader_from_event event
 
         if leader.nil?
-          msg_channel "I can't find that Leader :-?"
+          msg_channel copy('start.invalid')
 
           return :finish
         end
@@ -24,7 +24,7 @@ module Hackbot
         if valid_club_index_input? event, club_ids
           handle_club_index_input event, club_ids
         else
-          msg_channel "Please choose a number between 1 and #{club_ids.length}!"
+          msg_channel copy('clubs_num.invalid', num_of_clubs: club_ids.length)
 
           :wait_for_clubs_num
         end
@@ -51,7 +51,7 @@ module Hackbot
       def associate_clubs(clubs, leader)
         if clubs.empty?
           name = pretty_leader_name leader
-          msg_channel "#{name} is not associated with any clubs :D"
+          msg_channel copy('start.no_clubs', leader_name: name)
 
           :finish
         elsif clubs.length == 1
@@ -82,9 +82,11 @@ module Hackbot
 
         name = pretty_leader_name leader
         if club.save!
-          msg_channel "#{name} has been associated with #{club.name}."
+          msg_channel copy('set.success', leader_name: name,
+                                          club_name: club.name)
         else
-          msg_channel "Unable to associate #{name} with #{club.name}."
+          msg_channel copy('set.failure', leader_name: name,
+                                          club_name: club.name)
         end
       end
 
@@ -100,22 +102,27 @@ module Hackbot
         :finish
       end
 
+      # Disabling rubocop here because it's ruling that this method doesn't make
+      # any sense.
+      #
+      # rubocop:disable Metrics/AbcSize
       def associate_one_in_many_clubs(clubs, leader)
-        name = pretty_leader_name leader
-
-        msg_channel "#{name} is associated with the following clubs:"
+        msg_channel copy('start.many_clubs.intro',
+                         leader_name: pretty_name_leader(leader))
 
         clubs.each.with_index(1) do |c, i|
-          msg_channel "#{i}. #{c.name} #{c.streak_key}"
+          msg_channel copy('start.many_clubs.each', i: i, club_name: c.name,
+                                                    streak_key: streak_key)
         end
 
-        msg_channel 'Please pick one and send the number associated with it'
+        msg_channel copy('start.many_clubs.outro')
 
         data['club_ids'] = clubs.map(&:id)
         data['leader_id'] = leader.id
 
         :wait_for_clubs_num
       end
+      # rubocop:enable Metrics/AbcSize
 
       def pretty_leader_name(leader)
         name = leader.name

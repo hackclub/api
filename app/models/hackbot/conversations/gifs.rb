@@ -8,14 +8,14 @@ module Hackbot
       def start(event)
         query = event_to_query event
         if query.empty?
-          msg_channel 'You need to provide a query, silly!'
+          msg_channel copy('start.invalid')
 
           return :finish
         end
 
         gif = GiphyClient.translate query
 
-        send_gif('A gif from Giphy!', gif[:url])
+        send_gif(copy('start.valid'), gif[:url])
       end
 
       private

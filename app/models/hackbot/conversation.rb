@@ -55,11 +55,21 @@ module Hackbot
       )
     end
 
+    def copy(key, hash = {}, source = default_copy_source)
+      cs = ::CopyService.new(source, hash)
+
+      cs.get_copy key
+    end
+
     private
 
     def default_values
       self.state ||= :start
       self.data ||= {}
+    end
+
+    def default_copy_source
+      self.class.name.demodulize.underscore
     end
   end
 end

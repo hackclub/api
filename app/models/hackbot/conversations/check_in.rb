@@ -10,45 +10,32 @@ module Hackbot
         event[:text] == 'check in'
       end
 
-      # rubocop:disable Metrics/LineLength, Metrics/MethodLength
       def start(event)
         leader_info = leader(event)
         first_name = leader_info.name.split(' ').first
 
         if first_check_in?
-          msg_channel "Hey #{first_name}! I'm Hackbot, Hack Club's friendly "\
-                      'robot helper.'
-          msg_channel "I'll be reaching out to you every week, typically on "\
-                      "Fridays, to check in and see how your club's doing. "\
-                      "I'll be sharing everything with the team, so they'll "\
-                      'be in the loop every step of the way '\
-                      ':slightly_smiling_face:'
-          msg_channel 'To start, did you have a club meeting this week?'
+          msg_channel copy('first_greeting', first_name: first_name)
         else
-          msg_channel "Hey #{first_name}! Did you have a club meeting this week?"
+          msg_channel copy('greeting', first_name: first_name)
         end
 
         :wait_for_meeting_confirmation
       end
-      # rubocop:enable Metrics/LineLength, Metrics/MethodLength
 
       # rubocop:disable Metrics/MethodLength
       def wait_for_meeting_confirmation(event)
         case event[:text]
         when /(yes|yeah|yup|mmhm|affirmative)/i
-          msg_channel 'Okay, sweet! On which day was it? (say something '\
-                      'like "monday" or "today")'
+          msg_channel copy('meeting_confirmation.positive')
 
           :wait_for_day_of_week
         when /(no|nope|nah|negative)/i
-          msg_channel "That's a shame! Was there a particular reason the "\
-                      "meeting didn't happen? Is there anything the Hack "\
-                      'Club team can be helpful with?'
+          msg_channel copy('meeting_confirmation.negative')
 
           :wait_for_no_meeting_reason
         else
-          msg_channel "I'm not very smart yet and had trouble understanding "\
-                      'you :-/. Try saying something like "yes" or "no".'
+          msg_channel copy('meeting_confirmation.invalid')
 
           :wait_for_meeting_confirmation
         end
@@ -58,7 +45,7 @@ module Hackbot
       def wait_for_no_meeting_reason(event)
         record_notes event if should_record_notes? event
 
-        msg_channel 'Gotcha. Hope you have a hack-tastic weekend!'
+        msg_channel copy('no_meeting_reason')
       end
 
       # rubocop:disable Metrics/MethodLength
@@ -66,37 +53,31 @@ module Hackbot
         meeting_date = Chronic.parse(event[:text], context: :past)
 
         unless meeting_date
-          msg_channel "Man, I'm not very smart yet and had trouble "\
-                      'understanding you. Try saying something simpler, like '\
-                      '"tuesday" or "thursday".'
+          msg_channel copy('day_of_week.unknown')
 
           return :wait_for_day_of_week
         end
 
         unless meeting_date > 7.days.ago && meeting_date < Date.tomorrow
-          msg_channel "Hmm, #{meeting_date.to_date} didn't happen in the past "\
-                      'week (though I may also be misunderstanding you). Can '\
-                      'you try giving me the day of the week of your last '\
-                      'meeting again?'
+          msg_channel copy('day_of_week.invalid')
 
           return :wait_for_day_of_week
         end
 
         data['meeting_date'] = meeting_date
 
-        msg_channel "How many people would you estimate came? (I'm not very "\
-                    "smart, I'll need you to give me a single number, "\
-                    'something like "25" – give your best estimate)'
+        msg_channel copy('day_of_week.valid')
 
         :wait_for_attendance
       end
       # rubocop:enable Metrics/MethodLength
 
-      # rubocop:disable Metrics/CyclomaticComplexity, Metrics/MethodLength
+      # rubocop:disable Metrics/CyclomaticComplexity,
+      # rubocop:disable Metrics/MethodLength
+      # rubocop:disable Metrics/AbcSize
       def wait_for_attendance(event)
         unless integer?(event[:text])
-          msg_channel "I didn't quite understand that. Can you try giving me "\
-                      'a single number?'
+          msg_channel copy('attendance.invalid')
 
           return :wait_for_attendance
         end
@@ -104,8 +85,7 @@ module Hackbot
         count = event[:text].to_i
 
         if count < 0
-          msg_channel "I'm going to need a positive number, silly. How many "\
-                      'people came to the last meeting?'
+          msg_channel copy('attendance.not_realistic')
 
           return :wait_for_attendance
         end
@@ -114,27 +94,27 @@ module Hackbot
 
         judgement = case count
                     when 0..9
-                      'Nice!'
+                      copy('judgement.ok', count: count)
                     when 10..20
-                      "#{count} is a number to be proud of!"
+                      copy('judgement.good', count: count)
                     when 20..40
-                      "Damn, #{count} is a huge number of people!"
+                      copy('judgement.great', count: count)
                     when 40..100
-                      "I have no words. #{count} people is incredible!"
+                      copy('judgement.awesome', count: count)
                     else
-                      "I'm speechless. That's incredible."
+                      copy('judgement.impossible')
                     end
 
-        msg_channel "#{judgement} Is there anything the Hack Club team can be "\
-                    "helpful with? I'll send them anything you send my way "\
-                    '(just make sure to include everything in a single '\
-                    'message). If not, please just respond with "no".'
+        msg_channel copy('attendance.valid', judgement: judgement)
 
         :wait_for_notes
       end
-      # rubocop:enable Metrics/CyclomaticComplexity, Metrics/MethodLength
+      # rubocop:enable Metrics/AbcSize
+      # rubocop:enable Metrics/CyclomaticComplexity
+      # rubocop:enable Metrics/MethodLength
 
-      # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+      # rubocop:disable Metrics/MethodLength
+      # rubocop:disable Metrics/AbcSize
       def wait_for_notes(event)
         record_notes event if should_record_notes? event
 
@@ -147,13 +127,13 @@ module Hackbot
         )
 
         if data['notes'].nil?
-          msg_channel 'OK. Hope you have a hack-tastic weekend!'
+          msg_channel copy('notes.no_notes')
         else
-          msg_channel "Sweet, I'll let them know! Hope you have a hack-tastic "\
-                      'weekend!'
+          msg_channel copy('notes.had_notes')
         end
       end
-      # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
+      # rubocop:enable Metrics/MethodLength
+      # rubocop:enable Metrics/AbcSize
 
       private
 
