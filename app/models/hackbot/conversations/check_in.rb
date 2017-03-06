@@ -5,7 +5,7 @@
 module Hackbot
   module Conversations
     # rubocop:disable Metrics/ClassLength
-    class CheckIn < Hackbot::Conversations::Followup
+    class CheckIn < Hackbot::Conversations::FollowUp
       def self.should_start?(event, _team)
         event[:text] == 'check in'
       end
@@ -151,12 +151,12 @@ module Hackbot
         interval = 24.hours
 
         messages = [
-          'Hey! Just wanted to follow-up on this :)',
-          'Ping.',
-          'Yo – this is my last ping for you'
+          copy('follow_ups.first'),
+          copy('follow_ups.second'),
+          copy('follow_ups.third')
         ]
 
-        follow_up messages, next_state, interval
+        follow_up(messages, next_state, interval)
       end
 
       def should_record_notes?(event)
