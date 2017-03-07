@@ -166,7 +166,7 @@ module Hackbot
 
         return if stats.total_meetings_count < 2
 
-        graph = Charts.line_chart(
+        graph = Charts.bar_chart(
           stats.attendance,
           stats.labels
         )
