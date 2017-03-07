@@ -1,9 +1,9 @@
 module Hackbot
   module Conversations
     class Stats < Hackbot::Conversations::Channel
-      def self.should_start?(event, _team)
-        event[:type] == 'message' &&
-          event[:text] =~ /.* stats$/
+      def self.should_start?(event, team)
+        event[:type] == 'message' && event[:text] =~ /.* stats$/ &&
+          mentions_name?(event, team)
       end
 
       def start(event)
