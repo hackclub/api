@@ -9,17 +9,10 @@ module Charts
       temp
     end
 
-    def bar_chart(numbers, labels)
+    def bar(numbers, labels)
       g = Gruff::Bar.new
 
-      g.hide_title = true
-      g.hide_legend = true
-      g.theme = {
-        colors: 'white',
-        marker_color: 'white',
-        font_color: 'white',
-        background_colors: '#e42d40'
-      }
+      style g
 
       g.minimum_value = 0
       g.maximum_value = numbers.max
@@ -32,6 +25,19 @@ module Charts
       end
 
       g
+    end
+
+    private
+
+    def style(g)
+      g.hide_title = true
+      g.hide_legend = true
+      g.theme = {
+        colors: ['white'],
+        marker_color: 'white',
+        font_color: 'white',
+        background_colors: '#e42d40'
+      }
     end
   end
 end
