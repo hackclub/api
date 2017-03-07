@@ -1,5 +1,5 @@
 class AddSlackUserAndTeamIdToLeader < ActiveRecord::Migration[5.0]
-  HACK_CLUB_TEAM_ID = 'T0266FRGM'.freeze
+  SLACK_TEAM_ID = Rails.application.secrets.slack_team_id
 
   def change
     add_column :leaders, :slack_id, :text
@@ -37,13 +37,13 @@ class AddSlackUserAndTeamIdToLeader < ActiveRecord::Migration[5.0]
 
   def access_token
     team = select_one 'SELECT * FROM hackbot_teams '\
-                      "WHERE team_id = '#{HACK_CLUB_TEAM_ID}'"
+                      "WHERE team_id = '#{SLACK_TEAM_ID}'"
 
     team['bot_access_token']
   end
 
   def populate_slack_team_ids!
-    update "UPDATE leaders SET slack_team_id = '#{HACK_CLUB_TEAM_ID}'"
+    update "UPDATE leaders SET slack_team_id = '#{SLACK_TEAM_ID}'"
   end
 
   def slack_list_users(access_token)
