@@ -13,8 +13,10 @@ module Hackbot
     end
 
     def self.mentions_name?(event, team)
-      event[:text].include?(team[:bot_username]) ||
-        event[:text].include?("<@#{team[:bot_user_id]}>")
+      t = event[:text].downcase
+      username = team[:bot_username].downcase
+      mention = "<@#{team[:bot_user_id]}>".downcase
+      t.include?(username) || t.include?(mention)
     end
 
     def part_of_convo?(event)
