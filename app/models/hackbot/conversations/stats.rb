@@ -10,19 +10,15 @@ module Hackbot
         stats = statistics(event)
 
         if stats.nil?
-          msg_channel "You don't seem to be a club leader!"
+          msg_channel copy('invalid')
 
           return :finish
         end
 
-        msg_channel '```'\
-                    "These are stats for your club at #{stats.club_name}!\n"\
-                    "In the #{stats.days_alive} days you've been checking in "\
-                    "with me you've had #{stats.total_meetings_count} "\
-                    "meetings.\n"\
-                    "On average, you have #{stats.total_average_attendance} "\
-                    'people attend your meetings.'\
-                    '```'
+        msg_channel copy('stats', school_name: stats.club_name,
+                                  days_alive: stats.days_alive,
+                                  total_meetings: stats.total_meetings_count,
+                                  average_attendance: stats.total_average_attendance)
       end
 
       private
