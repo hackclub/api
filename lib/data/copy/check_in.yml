@@ -34,3 +34,8 @@ attendance:
 notes:
     no_notes: Okay. Hope you have a hack-tastic weekend!
     had_notes: Sweet, I'll let them know! Hope you have a hactastic weekend!
+
+follow_ups:
+    first: "Hey! Just wanted to follow-up on this. :wink:"
+    second: "Ping. :wave:"
+    third: "Just a heads up – this is the last ping I'll send. :airplane_departure:"
