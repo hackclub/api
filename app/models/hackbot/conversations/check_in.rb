@@ -5,20 +5,21 @@
 module Hackbot
   module Conversations
     # rubocop:disable Metrics/ClassLength
-    class CheckIn < Hackbot::Conversations::Channel
+    class CheckIn < Hackbot::Conversations::FollowUp
       def self.should_start?(event, _team)
         event[:text] == 'check in'
       end
 
       def start(event)
-        leader_info = leader(event)
-        first_name = leader_info.name.split(' ').first
+        first_name = leader(event).name.split(' ').first
 
         if first_check_in?
           msg_channel copy('first_greeting', first_name: first_name)
         else
           msg_channel copy('greeting', first_name: first_name)
         end
+
+        default_follow_up 'wait_for_meeting_confirmation'
 
         :wait_for_meeting_confirmation
       end
@@ -29,14 +30,17 @@ module Hackbot
         when /(yes|yeah|yup|mmhm|affirmative)/i
           msg_channel copy('meeting_confirmation.positive')
 
+          default_follow_up 'wait_for_day_of_week'
           :wait_for_day_of_week
         when /(no|nope|nah|negative)/i
           msg_channel copy('meeting_confirmation.negative')
 
+          default_follow_up 'wait_for_no_meeting_reason'
           :wait_for_no_meeting_reason
         else
           msg_channel copy('meeting_confirmation.invalid')
 
+          default_follow_up 'wait_for_meeting_confirmation'
           :wait_for_meeting_confirmation
         end
       end
@@ -48,19 +52,21 @@ module Hackbot
         msg_channel copy('no_meeting_reason')
       end
 
-      # rubocop:disable Metrics/MethodLength
+      # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
       def wait_for_day_of_week(event)
         meeting_date = Chronic.parse(event[:text], context: :past)
 
         unless meeting_date
           msg_channel copy('day_of_week.unknown')
 
+          default_follow_up 'wait_for_day_of_week'
           return :wait_for_day_of_week
         end
 
         unless meeting_date > 7.days.ago && meeting_date < Date.tomorrow
           msg_channel copy('day_of_week.invalid')
 
+          default_follow_up 'wait_for_day_of_week'
           return :wait_for_day_of_week
         end
 
@@ -68,9 +74,10 @@ module Hackbot
 
         msg_channel copy('day_of_week.valid')
 
+        default_follow_up 'wait_for_attendance'
         :wait_for_attendance
       end
-      # rubocop:enable Metrics/MethodLength
+      # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
 
       # rubocop:disable Metrics/CyclomaticComplexity,
       # rubocop:disable Metrics/MethodLength
@@ -79,6 +86,7 @@ module Hackbot
         unless integer?(event[:text])
           msg_channel copy('attendance.invalid')
 
+          default_follow_up 'wait_for_attendance'
           return :wait_for_attendance
         end
 
@@ -87,6 +95,7 @@ module Hackbot
         if count < 0
           msg_channel copy('attendance.not_realistic')
 
+          default_follow_up 'wait_for_attendance'
           return :wait_for_attendance
         end
 
@@ -107,6 +116,7 @@ module Hackbot
 
         msg_channel copy('attendance.valid', judgement: judgement)
 
+        default_follow_up 'wait_for_notes'
         :wait_for_notes
       end
       # rubocop:enable Metrics/AbcSize
@@ -136,6 +146,18 @@ module Hackbot
       # rubocop:enable Metrics/AbcSize
 
       private
+
+      def default_follow_up(next_state)
+        interval = 24.hours
+
+        messages = [
+          copy('follow_ups.first'),
+          copy('follow_ups.second'),
+          copy('follow_ups.third')
+        ]
+
+        follow_up(messages, next_state, interval)
+      end
 
       def should_record_notes?(event)
         (event[:text] =~ /^(no|nope|nah)$/i).nil?

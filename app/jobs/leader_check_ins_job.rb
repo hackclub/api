@@ -24,7 +24,7 @@ class LeaderCheckInsJob < ApplicationJob
   private
 
   def start_check_in(event)
-    convo = Hackbot::Conversations::CheckIn.new(team: slack_team)
+    convo = Hackbot::Conversations::CheckIn.create(team: slack_team)
     convo.handle(event)
     convo.save!
   end
@@ -39,7 +39,8 @@ class LeaderCheckInsJob < ApplicationJob
       team_id: slack_team.team_id,
       user: user_id,
       type: 'message',
-      channel: channel_id
+      channel: channel_id,
+      ts: 'fake.timestamp'
     }
   end
 
