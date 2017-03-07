@@ -125,7 +125,6 @@ module Hackbot
 
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/AbcSize
-
       def wait_for_notes(event)
         record_notes event if should_record_notes? event
 
@@ -144,8 +143,6 @@ module Hackbot
         end
 
         send_attendance_stats event
-
-        :finish
       end
       # rubocop:enable Metrics/MethodLength
       # rubocop:enable Metrics/AbcSize
@@ -166,7 +163,7 @@ module Hackbot
 
       def send_attendance_stats(event)
         stats = statistics leader(event)
-        
+
         return if stats.total_meetings_count < 2
 
         graph = Charts.line_chart(

@@ -1,5 +1,5 @@
 class StatsService
-  GRAPH_SAMPLES=4
+  GRAPH_SAMPLES = 4
 
   def initialize(leader)
     @leader = leader
@@ -18,14 +18,14 @@ class StatsService
     @check_ins.length
   end
 
-  def total_average_attendance
+  def average_attendance
     @check_ins.average :attendance
   end
 
   def days_alive
     first_meeting = @check_ins.first.meeting_date
 
-    (Date.today - first_meeting).to_i
+    (Time.zone.today - first_meeting).to_i
   end
 
   def club_name
