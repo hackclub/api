@@ -141,6 +141,8 @@ module Hackbot
         else
           msg_channel copy('notes.had_notes')
         end
+
+        send_attendance_stats event
       end
       # rubocop:enable Metrics/MethodLength
       # rubocop:enable Metrics/AbcSize
@@ -157,6 +159,25 @@ module Hackbot
         ]
 
         follow_up(messages, next_state, interval)
+      end
+
+      def send_attendance_stats(event)
+        stats = statistics leader(event)
+
+        return if stats.total_meetings_count < 2
+
+        graph = Charts.bar(
+          stats.attendance,
+          stats.labels
+        )
+
+        file_to_channel('attendance_this_week.png', Charts.as_file(graph))
+      end
+
+      def statistics(leader)
+        @stats ||= ::StatsService.new(leader)
+
+        @stats
       end
 
       def should_record_notes?(event)

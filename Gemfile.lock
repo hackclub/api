@@ -84,6 +84,8 @@ GEM
     geocoder (1.4.0)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
+    gruff (0.7.0)
+      rmagick (~> 2.13, >= 2.13.4)
     guard (2.14.0)
       formatador (>= 0.2.4)
       listen (>= 2.7, < 4.0)
@@ -178,6 +180,7 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
+    rmagick (2.16.0)
     rspec (3.5.0)
       rspec-core (~> 3.5.0)
       rspec-expectations (~> 3.5.0)
@@ -266,6 +269,7 @@ DEPENDENCIES
   factory_girl_rails (~> 4.7)
   faker (~> 1.6)
   geocoder (~> 1.4)
+  gruff
   guard-rspec (~> 4.7)
   listen (~> 3.0.5)
   pg (~> 0.18.4)
@@ -289,4 +293,4 @@ RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.12.5
+   1.13.6

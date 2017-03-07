@@ -46,6 +46,7 @@ group :development, :test do
   gem 'rubocop', '~> 0.46.0', require: false
 end
 
+gem 'gruff'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 ruby '2.3.1'

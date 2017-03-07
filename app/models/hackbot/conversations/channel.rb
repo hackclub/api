@@ -17,6 +17,10 @@ module Hackbot
       def msg_channel(text)
         send_msg(data['channel'], text)
       end
+
+      def file_to_channel(filename, file)
+        send_file(data['channel'], filename, file)
+      end
     end
   end
 end

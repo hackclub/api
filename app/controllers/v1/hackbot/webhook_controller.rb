@@ -8,16 +8,17 @@ module V1
         elsif params[:type] != 'event_callback'
           render status: :not_implemented
         else
-          handle_message
           render status: 200
+
+          handle_event
         end
       end
 
-      private
+      def handle_event
+        event = params[:event].to_unsafe_h
+        team_id = params[:team_id]
 
-      def handle_message
-        slack_team = ::Hackbot::Team.find_by(team_id: params[:team_id])
-        ::Hackbot::Dispatcher.new.handle(params[:event], slack_team)
+        HandleSlackEventJob.perform_later(event, team_id)
       end
     end
   end

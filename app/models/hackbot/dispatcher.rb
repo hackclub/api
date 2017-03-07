@@ -4,7 +4,8 @@ module Hackbot
       Hackbot::Conversations::CheckIn,
       Hackbot::Conversations::Gifs,
       Hackbot::Conversations::Help,
-      Hackbot::Conversations::SetPoc
+      Hackbot::Conversations::SetPoc,
+      Hackbot::Conversations::Stats
     ].freeze
 
     def handle(event, slack_team)
@@ -18,14 +19,18 @@ module Hackbot
 
       created = to_create.map { |c| c.new(team: slack_team) }
 
-      created.each { |c| run_convo(c, event) }
+      created.each do |c|
+        run_convo(c, event)
+      end
     end
 
     private
 
     def run_convo(convo, event)
-      convo.handle(event)
-      convo.save!
+      convo.with_lock do
+        convo.handle(event)
+        convo.save!
+      end
     end
 
     def convos_needing_handling(event)
