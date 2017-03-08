@@ -3,7 +3,9 @@ class LeaderCheckInsJob < ApplicationJob
   queue_as :default
 
   HACK_CLUB_TEAM_ID = 'T0266FRGM'.freeze
-  ACTIVE_STAGE_KEY = '5006'.freeze
+  CLUB_ACTIVE_STAGE_KEY = '5003'.freeze
+  CLUB_PIPELINE_KEY = Rails.application.secrets.streak_club_pipeline_key
+  LEADER_ACTIVE_STAGE_KEY = '5006'.freeze
   LEADER_PIPELINE_KEY = Rails.application.secrets.streak_leader_pipeline_key
 
   def perform(streak_keys = [])
@@ -13,9 +15,16 @@ class LeaderCheckInsJob < ApplicationJob
                  user_ids_from_streak_keys streak_keys
                end
 
-    user_ids.each do |user_id|
-      im = open_im user_id
-      event = construct_fake_event(user_id, im[:channel][:id])
+    # We're looping through twice to validate that all users are message-able
+    # before triggering the first conversation.
+    user_ims = user_ids.map do |id|
+      im = open_im id
+      raise Exception.new("Slack user ID not found: '#{id}'") unless im[:ok]
+      im
+    end
+
+    user_ids.zip(user_ims).each do |id, im|
+      event = construct_fake_event(id, im[:channel][:id])
 
       start_check_in event
     end
@@ -55,11 +64,18 @@ class LeaderCheckInsJob < ApplicationJob
       .map(&:slack_id)
   end
 
+  def clubs_from_streak_boxes(streak_boxes)
+    active_club_boxes.map { |box| Club.find_by(streak_key: box[:key]) }
+  end
+
   def point_of_contacts
-    Club
-      .where('point_of_contact_id IS NOT NULL')
+    clubs = clubs_from_streak_boxes active_club_boxes
+
+    clubs
+      .select { |clb| !clb[:point_of_contact_id].nil? }
       .map(&:point_of_contact)
       .select { |ldr| active? ldr }
+      .select { |ldr| ldr.slack_id.present? }
       .map(&:slack_id)
   end
 
@@ -71,12 +87,20 @@ class LeaderCheckInsJob < ApplicationJob
     !leader_box.nil?
   end
 
-  def active_leader_boxes
-    @active_boxes ||= StreakClient::Box
-                      .all_in_pipeline(LEADER_PIPELINE_KEY)
-                      .select { |b| b[:stage_key] == ACTIVE_STAGE_KEY }
+  def active_club_boxes
+    @club_active_boxes ||= StreakClient::Box
+                    .all_in_pipeline(CLUB_PIPELINE_KEY)
+                    .select { |b| b[:stage_key] == CLUB_ACTIVE_STAGE_KEY }
 
-    @active_boxes
+    @club_active_boxes
+  end
+
+  def active_leader_boxes
+    @leader_active_boxes ||= StreakClient::Box
+                      .all_in_pipeline(LEADER_PIPELINE_KEY)
+                      .select { |b| b[:stage_key] == LEADER_ACTIVE_STAGE_KEY }
+
+    @leader_active_boxes
   end
 
   def access_token
