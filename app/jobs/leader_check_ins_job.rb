@@ -3,24 +3,44 @@ class LeaderCheckInsJob < ApplicationJob
   queue_as :default
 
   HACK_CLUB_TEAM_ID = 'T0266FRGM'.freeze
-  ACTIVE_STAGE_KEY = '5006'.freeze
+  CLUB_ACTIVE_STAGE_KEY = '5003'.freeze
+  CLUB_PIPELINE_KEY = Rails.application.secrets.streak_club_pipeline_key
+  LEADER_ACTIVE_STAGE_KEY = '5006'.freeze
   LEADER_PIPELINE_KEY = Rails.application.secrets.streak_leader_pipeline_key
 
-  def perform(usernames = [])
-    user_ids = active_leader_slack_ids
+  def perform(streak_keys = [])
+    user_ids = retrieve_user_ids streak_keys
 
-    user_ids = user_ids_from_usernames(usernames) unless usernames.empty?
-    user_ids.each do |user_id|
-      im = open_im(user_id)
-      event = construct_fake_event(user_id, im[:channel][:id])
+    # We're looping through twice to validate that all users are message-able
+    # before triggering the first conversation.
+    user_ims = user_ids.map do |id|
+      im = open_im id
+      raise(Exception, "Slack user ID not found: '#{id}'") unless im[:ok]
+      im
+    end
 
-      convo = Hackbot::Conversations::CheckIn.create(team: slack_team)
-      convo.handle(event)
-      convo.save!
+    user_ids.zip(user_ims).each do |id, im|
+      event = construct_fake_event(id, im[:channel][:id])
+
+      start_check_in event
     end
   end
 
   private
+
+  def retrieive_user_ids(streak_keys)
+    if streak_keys.empty?
+      point_of_contacts
+    else
+      user_ids_from_streak_keys streak_keys
+    end
+  end
+
+  def start_check_in(event)
+    convo = Hackbot::Conversations::CheckIn.create(team: slack_team)
+    convo.handle event
+    convo.save!
+  end
 
   # This constructs a fake Slack event to start the conversation with. It'll be
   # sent to the conversation's start method.
@@ -41,34 +61,54 @@ class LeaderCheckInsJob < ApplicationJob
     SlackClient::Chat.open_im(user_id, access_token)
   end
 
-  def user_ids_from_usernames(usernames)
-    usernames.map do |u|
-      user = user_from_username u
-      next if user.nil?
-
-      user[:id]
-    end
-  end
-
-  def user_from_username(username)
-    @all_users ||= SlackClient::Users.list(access_token)[:members]
-
-    @all_users.find { |u| u[:name] == username }
-  end
-
-  def active_leader_slack_ids
-    active_leaders
-      .map(&:slack_id)
-      .reject { |u| u.nil? || u.empty? }
-  end
-
-  def active_leaders
-    leader_boxes = StreakClient::Box.all_in_pipeline(LEADER_PIPELINE_KEY)
-    active_boxes = leader_boxes.select { |b| b[:stage_key] == ACTIVE_STAGE_KEY }
-
-    active_boxes
+  def user_ids_from_streak_keys(streak_keys)
+    active_leader_boxes
+      .select { |box| streak_keys.include? box[:key] }
       .map { |box| Leader.find_by(streak_key: box[:key]) }
-      .reject(&:nil?)
+      .map(&:slack_id)
+  end
+
+  def clubs_from_streak_boxes
+    active_club_boxes.map { |box| Club.find_by(streak_key: box[:key]) }
+  end
+
+  def point_of_contacts
+    clubs = clubs_from_streak_boxes
+
+    clubs
+      .select { |clb| !clb[:point_of_contact_id].nil? }
+      .map(&:point_of_contact)
+      .select { |ldr| active? ldr }
+      .select { |ldr| ldr.slack_id.present? }
+      .map(&:slack_id)
+  end
+
+  def active?(leader)
+    leader_box = active_leader_boxes.find do |box|
+      box[:key].eql? leader.streak_key
+    end
+
+    !leader_box.nil?
+  end
+
+  def active_club_boxes
+    @club_active_boxes ||= StreakClient::Box
+                           .all_in_pipeline(CLUB_PIPELINE_KEY)
+                           .select do |b|
+                             b[:stage_key] == CLUB_ACTIVE_STAGE_KEY
+                           end
+
+    @club_active_boxes
+  end
+
+  def active_leader_boxes
+    @leader_active_boxes ||= StreakClient::Box
+                             .all_in_pipeline(LEADER_PIPELINE_KEY)
+                             .select do |b|
+                               b[:stage_key] == LEADER_ACTIVE_STAGE_KEY
+                             end
+
+    @leader_active_boxes
   end
 
   def access_token
