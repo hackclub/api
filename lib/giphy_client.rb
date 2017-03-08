@@ -12,8 +12,8 @@ module GiphyClient
       }
 
       resp = RestClient.get(BASE_URL + TRANSLATE_ENDPOINT, headers)
-
-      JSON.parse(resp, symbolize_names: true)[:data][:images][:fixed_height]
+      data = JSON.parse(resp, symbolize_names: true)[:data]
+      data.empty? ? nil : data[:images][:fixed_height]
     end
   end
 end

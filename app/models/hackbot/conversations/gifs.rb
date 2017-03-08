@@ -13,12 +13,20 @@ module Hackbot
           return :finish
         end
 
-        gif = GiphyClient.translate query
-
-        send_gif(copy('start.valid'), gif[:url])
+        try_sending_gif(query)
       end
 
       private
+
+      def try_sending_gif(query)
+        gif = GiphyClient.translate query
+
+        if gif.nil?
+          msg_channel copy('start.not_found')
+        else
+          send_gif(copy('start.valid'), gif[:url])
+        end
+      end
 
       def event_to_query(event)
         event[:text]
