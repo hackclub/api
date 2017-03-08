@@ -5,8 +5,14 @@ class CopyService
   end
 
   def get_copy(key)
+    erb = ERB.new get_erb(key)
+
+    erb.result @context
+  end
+
+  def get_erb(key)
     sections = key.split '.'
-    copy = get_conversation(@conversation_name)
+    copy = get_conversation_yaml(@conversation_name)
 
     sections.each { |s| copy = copy[s] }
 
@@ -16,11 +22,10 @@ class CopyService
 
   private
 
-  def get_conversation(name)
+  def get_conversation_yaml(name)
     path = File.join(copy_route, "#{name}.yml")
-    copy = ERB.new(File.read(path)).result @context
 
-    YAML.load(copy)
+    YAML.load File.read(path)
   end
 
   def copy_route
