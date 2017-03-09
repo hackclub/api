@@ -1,6 +1,7 @@
 # Resources
-require 'streak_client/pipeline'
 require 'streak_client/box'
+require 'streak_client/pipeline'
+require 'streak_client/task'
 
 # Errors
 require 'common_client/errors/api_error'
@@ -18,7 +19,7 @@ module StreakClient
     end
 
     # rubocop:disable Metrics/MethodLength
-    def request(method, path, params = {}, headers = {})
+    def request(method, path, params = {}, headers = {}, json = true)
       payload = nil
 
       raise AuthenticationError, 'No API key provided' unless @api_key
@@ -29,8 +30,12 @@ module StreakClient
 
       case method
       when :post
-        headers['Content-Type'] = 'application/json'
-        payload = params.to_json
+        if json
+          headers['Content-Type'] = 'application/json'
+          payload = params.to_json
+        else
+          payload = params
+        end
       when :put
         headers[:params] = params
       when :get
