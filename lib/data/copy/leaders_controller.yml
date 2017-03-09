@@ -1,0 +1,4 @@
+welcome: >
+    Hey <%= info[:first_name] %>. Welcome to Hack Club! I'm super excited you're going to be running a club with us at your school this year. My name is Hackbot, Hack Club's friendly robot assistant. I hang out here on the Slack helping out the staff, and club leaders like you!
+
+    Welcome again to the club, I hope you're having an awesome onboarding call!
