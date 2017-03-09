@@ -1,4 +1,6 @@
-invalid: You're not a club leader!
+invalid:
+    - I can only give stats to club leaders. You are not currently registered as a club leader.
+    - This command is only available to club leaders. Isn't elitism great?
 
 stats: >
     These are stats for your club at <%= info[:school_name] %>!

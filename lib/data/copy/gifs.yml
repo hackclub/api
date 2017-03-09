@@ -6,6 +6,8 @@ start:
       - 'For your safety, as well as the safety of others, please submit valid queries. This interface will only respond to the format `@Hackbot gif SEARCH_QUERY`.'
       - 'Input invalid: please provide a query.'
       - 'Input invalid: please tell me something to search for.'
+      - "https://soundcloud.com/user-749646244/no-1"
+      - "https://soundcloud.com/user-749646244/error"
     valid:
       - 'Responding to input...'
       - 'Here you are...'
@@ -25,3 +27,5 @@ start:
       - "n̎o̎t̎ f̎o̎u̎n̎d̎"
       - "I've found exactly `0` gif(s) matching that query"
       - "n͓o͓t͓ f͓o͓u͓n͓d͓"
+      - "https://soundcloud.com/user-749646244/in-a-traditional-economy"
+      - "https://soundcloud.com/user-749646244/that-information-is-classified"
