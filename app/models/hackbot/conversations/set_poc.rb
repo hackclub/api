@@ -112,7 +112,7 @@ module Hackbot
 
         clubs.each.with_index(1) do |c, i|
           msg_channel copy('start.many_clubs.each', i: i, club_name: c.name,
-                                                    streak_key: streak_key)
+                                                    streak_key: leader.streak_key)
         end
 
         msg_channel copy('start.many_clubs.outro')
