@@ -1,4 +1,13 @@
 welcome: >
-    Hey <%= info[:first_name] %>. Welcome to Hack Club! I'm super excited you're going to be running a club with us at your school this year. My name is Hackbot, Hack Club's friendly robot assistant. I hang out here on the Slack helping out the staff, and club leaders like you!
+    Hey <%= info[:name] %>! Noticed you just filled out the intake form – welcome to Hack Club! My name is Hackbot, I'm our Slack's friendly robotic helper.
 
-    Welcome again to the club, I hope you're having an awesome onboarding call!
+    Here's some things I know how to do:
+
+    * Fetch GIFs. `hackbot gif <search-term-here>`
+    * Retrieve club stats (you'll need to have some club meetings before this is useful to you, though!). `hackbot stats`
+
+    As you can tell I'm pretty basic right now, but I learn new things every week. In fact, if you have any suggestions just talk to `@harrison` or `@msw`!
+
+    If you're the point of contact (Kyle should explain what this is), I'll be reaching out to you every week on Friday to find out the latest information about your club.
+
+    Happy hacking!
