@@ -108,7 +108,7 @@ module Hackbot
       # rubocop:disable Metrics/AbcSize
       def associate_one_in_many_clubs(clubs, leader)
         msg_channel copy('start.many_clubs.intro',
-                         leader_name: pretty_name_leader(leader))
+                         leader_name: pretty_leader_name(leader))
 
         clubs.each.with_index(1) do |c, i|
           msg_channel copy('start.many_clubs.each', i: i, club_name: c.name,
