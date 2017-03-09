@@ -106,13 +106,15 @@ module Hackbot
       # any sense.
       #
       # rubocop:disable Metrics/AbcSize
+      # rubocop:disable Metrics/MethodLength
       def associate_one_in_many_clubs(clubs, leader)
         msg_channel copy('start.many_clubs.intro',
                          leader_name: pretty_name_leader(leader))
 
         clubs.each.with_index(1) do |c, i|
+          key = leader.streak_key
           msg_channel copy('start.many_clubs.each', i: i, club_name: c.name,
-                                                    streak_key: leader.streak_key)
+                                                    streak_key: key)
         end
 
         msg_channel copy('start.many_clubs.outro')
@@ -123,6 +125,7 @@ module Hackbot
         :wait_for_clubs_num
       end
       # rubocop:enable Metrics/AbcSize
+      # rubocop:enable Metrics/MethodLength
 
       def pretty_leader_name(leader)
         name = leader.name
