@@ -10,6 +10,7 @@ start:
       - "https://soundcloud.com/user-749646244/error"
     valid:
       - 'Responding to input...'
+      - 'There you go'
       - 'Here you are...'
       - '200: successful gif response'
       - "This gif is a metaphor. I'll let you figure out what for..."
@@ -20,10 +21,13 @@ start:
       - 'There are exactly `LOTS OF` gif(s) matching that query.'
       - 'There are exactly `MANY` gif(s) matching that query.'
       - 'Loaded Graphical Interchange Format'
+      - 'Loaded Jraphical Interchange Format'
+      - 'Want to start a flame war? How do you pronounce this thing?'
     not_found:
       - '404: gif not found'
       - "Impressive, you've found something even I don't know about"
       - "I've searched and there's nothing here. Are you sure that's spelled right?"
+      - "I've searched and there's nothing here. This must be another metaphor..."
       - "n̎o̎t̎ f̎o̎u̎n̎d̎"
       - "I've found exactly `0` gif(s) matching that query"
       - "n͓o͓t͓ f͓o͓u͓n͓d͓"

@@ -1,7 +1,9 @@
 help: >
-    "Hello! And, again, welcome to the Hack Club Searchable Log of All Conversation & Knowledge. I am Hackbot, your friendly robot helper. We hope this short informational text snippet will be a pleasant refresher in my use and operation:
+    "Hello :wave:! And, again, welcome to the Hack Club Searchable Log of All Conversation & Knowledge. I am Hackbot, your friendly robot helper. We hope this short informational text snippet will be a pleasant refresher in my use and operation:
 
-    If you are a club leader, I'll probably reach out to you on Fridays for weekly check ins.
+    I've started cosplaying as GLaDOS and I've learned a few new tricks (thanks to some awesome suggestions that y'all sent to my creators).
+
+    Try saying `hackbot gif cave johnson` or `hackbot stats` in a channel that I'm in.
 
     If you're interested in modifying my code, please create a Hack Club Hackbot Issue at https://github.com/hackclub/api/issues. I'd love to learn some new tricks from you!
 

@@ -3,21 +3,37 @@ first_greeting: >
 
     I'll be reaching out to you every week, typically on Fridays, to check in and see how your club's doing. I'll be in the loop every step of the way :slightly_smiling_face:
 
-    To start, did you have a club meeting this week?
+    Before we get started, I just wanted to let you know that I've started cosplaying as GLaDOS and I've learned a few new tricks (thanks to some awesome suggestions that y'all sent to my creators).
 
-greeting: Hello. And, again, welcome to the Hack Club Weekly Check In. I am required to start by asking you if you had a meeting this past week. (yes/no)
+    Try saying `hackbot gif cave johnson` or `hackbot stats` in a channel that I'm in.
+
+    Let's get started. Did you have a club meeting this week?
+
+greeting: >
+    Hey there!
+
+    Before we get started with check-ins, I just wanted to let you know that I've started cosplaying as GLaDOS and have learned a few new tricks (thanks to some awesome suggestions that y'all sent to my creators).
+
+    Try saying `hackbot gif cave johnson` or `hackbot stats` in a channel that I'm in.
+
+    Now let's get started.
+
+    Hello. And, again, welcome to the Hack Club Weekly Check In. I am required to start by asking you if you had a meeting this past week. (yes/no)
 
 meeting_confirmation:
     positive: As part of a required test protocol, I am required to tell you that you are doing `quite well`! On which day was it? (say something like "monday" or "today")
     negative: How unfortunate. Why did the meeting not occur? Is there anything the Hack Club team can be helpful with?
     invalid: To ensure the safe performance of all Hack Club Weekly Check In activities, please respond with 'yes' or 'no'.
 
-no_meeting_reason: Gotcha. Hope you have a hack-tastic weekend!
+no_meeting_reason: >
+    I understand. Thank you for participating in the Hack Club Weekly Check In experiment. Goodbye!
+
+    https://soundcloud.com/user-749646244/goodbye-1
 
 day_of_week:
-    unknown: Incomprehensible message. Try saying something simpler, like "tuesday" or "thursday".
+    unknown: I am unable to decode this message. Provide simpler input, such as "tuesday" or "thursday".
     invalid: My records indicate this date did not occur in the past week. Can you try giving me the day of the week of your meeting again?
-    valid: How many people would you estimate came? (For example, `25`)
+    valid: Once again, excellent work. Please provide an estimate as to how many attendees your previous meeting captured? (For example, `25`)
 
 judgement:
     ok: Adequate input value. You, `SUBJECT_NAME_HERE`, must be the pride of `SUBJECT_HOMETOWN_HERE`.
@@ -34,7 +50,7 @@ attendance:
     valid: <%= info[:judgement] %> Is there anything the Hack Club team can be helpful with? I can submit a Hack Club Feedback Report (just make sure to include everything in a single message). If not, please respond with "no".
 
 notes:
-    no_notes: Confirmed. Have a good weekend.
+    no_notes: Your report has been filed. Thank you for helping us help you help us all. Have a good rest break.
     had_notes: Your report has been filed. Expect to hear from a Hack Club Report Response Representative within the next `UNDEFINED TIME_UNIT`. That's _very_ fast.
 
 follow_ups:
