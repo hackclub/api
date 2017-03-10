@@ -6,6 +6,8 @@ module Hackbot
   module Conversations
     # rubocop:disable Metrics/ClassLength
     class CheckIn < Hackbot::Conversations::FollowUp
+      TASK_ASSIGNEE = Rails.application.secrets.default_streak_task_assignee
+
       def self.should_start?(event, _team)
         event[:text] == 'check in'
       end
@@ -47,7 +49,11 @@ module Hackbot
       # rubocop:enable Metrics/MethodLength
 
       def wait_for_no_meeting_reason(event)
-        record_notes event if should_record_notes? event
+        if should_record_notes? event
+          notes = record_notes event
+          create_task leader(event), 'Follow-up on notes from a failed '\
+            "meeting: #{notes}"
+        end
 
         msg_channel copy('no_meeting_reason')
       end
@@ -126,7 +132,11 @@ module Hackbot
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/AbcSize
       def wait_for_notes(event)
-        record_notes event if should_record_notes? event
+        if should_record_notes? event
+          notes = record_notes event
+          create_task leader(event), 'Follow-up on notes from check-in: '\
+            "#{notes}"
+        end
 
         ::CheckIn.create!(
           club: club(event),
@@ -172,6 +182,15 @@ module Hackbot
         )
 
         file_to_channel('attendance_this_week.png', Charts.as_file(graph))
+      end
+
+      def create_task(lead, text)
+        StreakClient::Task.create(
+          lead.streak_key,
+          text,
+          due_date: Time.zone.now.next_week(:monday),
+          assignees: [TASK_ASSIGNEE]
+        )
       end
 
       def statistics(leader)
