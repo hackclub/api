@@ -130,7 +130,6 @@ module Hackbot
       # rubocop:enable Metrics/MethodLength
 
       # rubocop:disable Metrics/MethodLength
-      # rubocop:disable Metrics/AbcSize
       def wait_for_notes(event)
         if should_record_notes? event
           notes = record_notes event
@@ -138,13 +137,7 @@ module Hackbot
             "#{notes}"
         end
 
-        ::CheckIn.create!(
-          club: club(event),
-          leader: leader(event),
-          meeting_date: data['meeting_date'],
-          attendance: data['attendance'],
-          notes: data['notes']
-        )
+        generate_check_in event
 
         if data['notes'].nil?
           msg_channel copy('notes.no_notes')
@@ -155,7 +148,16 @@ module Hackbot
         send_attendance_stats event
       end
       # rubocop:enable Metrics/MethodLength
-      # rubocop:enable Metrics/AbcSize
+
+      def generate_check_in(event)
+        ::CheckIn.create!(
+          club: club(event),
+          leader: leader(event),
+          meeting_date: data['meeting_date'],
+          attendance: data['attendance'],
+          notes: data['notes']
+        )
+      end
 
       private
 
