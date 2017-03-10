@@ -12,9 +12,9 @@ first_greeting: >
 greeting: >
     Hey there!
 
-    Before we get started with check-ins, I just wanted to let you know that I've started cosplaying as GLaDOS and have learned a few new tricks (thanks to some awesome suggestions that y'all sent to my creators).
+    Before we get started with check-ins, I just wanted to let you know that I've started cosplaying as GLaDOS (a character from the Portal series) and have learned a few new tricks (thanks to some awesome suggestions that y'all sent to my creators).
 
-    Try saying `hackbot gif cave johnson` or `hackbot stats` in a channel that I'm in.
+    Try saying `@hackbot gif cave johnson` or `@hackbot stats` in a channel that I'm in.
 
     Now let's get started.
 
