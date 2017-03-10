@@ -20,6 +20,9 @@ class ScheduleLeaderCheckInsJob < ApplicationJob
     runtime_day = Date.parse(day)
     next_runtime = runtime_day + local_time
     Timezone.lookup(lat, lng).local_to_utc(next_runtime)
+  rescue Timezone::Error::InvalidZone
+    Rails.logger.warn 'Timezone invalid, defaulting to PST'
+    Timezone.fetch('America/Los_Angeles').local_to_utc(next_runtime)
   end
 
   def active_club_boxes
