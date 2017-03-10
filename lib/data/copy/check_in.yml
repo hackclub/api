@@ -7,7 +7,7 @@ first_greeting: >
 
     Try saying `hackbot gif cave johnson` or `hackbot stats` in a channel that I'm in.
 
-    Let's get started. Did you have a club meeting this week?
+    Let's get started — please be sure to complete this check-in by 8am PST on Monday, <%= Date.parse('Monday').to_formatted_s(:short) %>. Did you have a club meeting this week?
 
 greeting: >
     Hey there!
@@ -16,7 +16,7 @@ greeting: >
 
     Try saying `@hackbot gif cave johnson` or `@hackbot stats` in a channel that I'm in.
 
-    Now let's get started.
+    Now let's get started — please be sure to complete this check-in by 8am PST on Monday, <%= Date.parse('Monday').to_formatted_s(:short) %>.
 
     Hello. And, again, welcome to the Hack Club Weekly Check In. I am required to start by asking you if you had a meeting this past week. (yes/no)
 
