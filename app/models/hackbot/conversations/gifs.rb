@@ -2,7 +2,8 @@ module Hackbot
   module Conversations
     class Gifs < Hackbot::Conversations::Channel
       def self.should_start?(event, team)
-        event[:text].downcase.include?('gif') && mentions_name?(event, team)
+        event[:type].eql?('message') && event[:text].downcase.include?('gif') &&
+          mentions_name?(event, team)
       end
 
       def start(event)
