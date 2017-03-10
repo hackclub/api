@@ -130,7 +130,6 @@ module Hackbot
       # rubocop:enable Metrics/MethodLength
 
       # rubocop:disable Metrics/MethodLength
-      # rubocop:disable Metrics/AbcSize
       def wait_for_notes(event)
         if should_record_notes? event
           notes = record_notes event
@@ -149,7 +148,6 @@ module Hackbot
         send_attendance_stats event
       end
       # rubocop:enable Metrics/MethodLength
-      # rubocop:enable Metrics/AbcSize
 
       def generate_check_in(event)
         ::CheckIn.create!(

@@ -20,10 +20,7 @@ class LeaderCheckInJob < ApplicationJob
   private
 
   def close_previous_check_ins(channel, event)
-    check_ins = Hackbot::Conversations::CheckIn
-                .where("data->>'channel' = '#{channel}'")
-                .where.not(state: 'finish')
-    check_ins.each do |check_in|
+    previous_unfinished_check_ins(channel).each do |check_in|
       if check_in.state.eql? 'wait_for_notes'
         check_in.generate_check_in event
       else
@@ -33,6 +30,12 @@ class LeaderCheckInJob < ApplicationJob
       check_in.state = 'finish'
       check_in.save
     end
+  end
+
+  def previous_unfinished_check_ins(channel)
+    Hackbot::Conversations::CheckIn
+      .where("data->>'channel' = '#{channel}'")
+      .where.not(state: 'finish')
   end
 
   def slack_id_from_streak_key(streak_key)
