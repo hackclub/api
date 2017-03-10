@@ -6,15 +6,32 @@ class ScheduleLeaderCheckInsJob < ApplicationJob
   LEADER_ACTIVE_STAGE_KEY = '5006'.freeze
   LEADER_PIPELINE_KEY = Rails.application.secrets.streak_leader_pipeline_key
 
-  def perform
+  def perform(real_run = false)
+    dry_run_notification unless real_run
     pocs.each do |poc|
       trigger_time = time_offset(poc[:latitude], poc[:longitude])
 
-      LeaderCheckInJob.set(wait_until: trigger_time).perform_later streak_key
+      schedule_check_in(real_run, trigger_time, streak_key)
     end
   end
 
   private
+
+  def dry_run_notification
+    Rails.logger.info 'Running in dry run mode. This will not create '\
+                      'scheduled jobs.'
+    sleep 5.seconds
+  end
+
+  def schedule_check_in(real_run, trigger_time, streak_key)
+    msg = (real_run ? '' : '(Dry run) ')
+    msg << "Scheduling check-in at #{trigger_time} for #{streak_key}"
+    Rails.logger.info msg
+
+    return unless real_run
+
+    LeaderCheckInJob.set(wait_until: trigger_time).perform_later(streak_key)
+  end
 
   def time_offset(lat, lng, day = 'friday', local_time = 17.hours)
     runtime_day = Date.parse(day)
