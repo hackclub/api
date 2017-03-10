@@ -12,11 +12,28 @@ class LeaderCheckInJob < ApplicationJob
     end
 
     event = construct_fake_event(id, im[:channel][:id])
+    close_previous_check_ins(im[:channel][:id], event)
 
     start_check_in event
   end
 
   private
+
+  def close_previous_check_ins(channel, event)
+    check_ins = Hackbot::Conversations::CheckIn
+                .where("data->>'channel' = '#{channel}'")
+                .where.not(state: 'finish')
+    check_ins.each do |check_in|
+      if check_in.state.eql? 'wait_for_notes'
+        check_in.generate_check_in event
+      else
+        check_in.data['failed_to_complete'] = true
+      end
+
+      check_in.state = 'finish'
+      check_in.save
+    end
+  end
 
   def slack_id_from_streak_key(streak_key)
     leader = Leader.find_by(streak_key: streak_key)
