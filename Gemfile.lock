@@ -239,6 +239,7 @@ GEM
       sprockets (>= 3.0.0)
     thor (0.19.1)
     thread_safe (0.3.5)
+    timezone (1.2.6)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     unf (0.1.4)
@@ -285,6 +286,7 @@ DEPENDENCIES
   spring
   spring-commands-rspec (~> 1.0)
   spring-watcher-listen (~> 2.0.0)
+  timezone (~> 1.0)
   tzinfo-data
   vcr (~> 3.0)
   webmock (~> 2.1)
