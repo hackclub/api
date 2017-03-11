@@ -81,7 +81,7 @@ class ScheduleLeaderCheckInsJob < ApplicationJob
     # contact
     active_club_boxes
       .map { |box| Club.find_by(streak_key: box[:key]) }
-      .select { |clb| !clb[:point_of_contact_id].nil? }
+      .select { |clb| !clb.nil? and !(clb[:point_of_contact_id]).nil? }
       .map(&:point_of_contact)
       .select { |ldr| active? ldr }
       .select { |ldr| ldr.slack_id.present? }
