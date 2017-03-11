@@ -76,14 +76,17 @@ class ScheduleLeaderCheckInsJob < ApplicationJob
     !leader_box.nil?
   end
 
+  # rubocop:disable Metrics/AbcSize
   def pocs
     # This returns all active club leaders at active clubs labeled as a point of
     # contact
     active_club_boxes
       .map { |box| Club.find_by(streak_key: box[:key]) }
-      .select { |clb| !clb[:point_of_contact_id].nil? }
+      .select { |clb| !clb.nil? }
+      .select { |clb| !(clb[:point_of_contact_id]).nil? }
       .map(&:point_of_contact)
       .select { |ldr| active? ldr }
       .select { |ldr| ldr.slack_id.present? }
   end
+  # rubocop:enable Metrics/AbcSize
 end
