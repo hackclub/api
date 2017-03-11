@@ -22,7 +22,7 @@ greeting: >
 
 meeting_confirmation:
     positive: As part of a required test protocol, I am required to tell you that you are doing `quite well`! On which day was it? (say something like "monday" or "today")
-    negative: How unfortunate. Why did the meeting not occur? Is there anything the Hack Club team can be helpful with?
+    negative: How unfortunate. Why did the meeting not occur? Are you planning on having future meetings? Is there anything the Hack Club team can be helpful with?
     invalid: To ensure the safe performance of all Hack Club Weekly Check In activities, please respond with 'yes' or 'no'.
 
 no_meeting_reason: >
