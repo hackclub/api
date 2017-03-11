@@ -12,7 +12,7 @@ stats: >
 
     In the <%= info[:days_alive] %> days you've been checking in with me, you've had <%= info[:total_meetings] %> meetings. Across all of your recorded club meetings, on average you have <%= info[:avg_attendance] %> attend your meetings.
 
-    <%= compliment %>
+    <%= info[:compliment] %>
 
 compliment:
     - https://soundcloud.com/user-749646244/you-subject-name-here

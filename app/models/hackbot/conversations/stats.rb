@@ -18,7 +18,8 @@ module Hackbot
         msg_channel copy('stats', school_name: stats.club_name,
                                   days_alive: stats.days_alive,
                                   total_meetings: stats.total_meetings_count,
-                                  avg_attendance: stats.average_attendance)
+                                  avg_attendance: stats.average_attendance,
+                                  compliment: copy('compliment'))
       end
 
       private
