@@ -19,6 +19,13 @@ module Hackbot
       t.include?(username) || t.include?(mention)
     end
 
+    def self.mentions_command?(event, team, command)
+      username = team[:bot_username].downcase
+      mention = "<@#{team[:bot_user_id]}>".downcase
+      t = event[:text].downcase
+      !/(#{username}|#{mention}) #{command}/i.match(t).nil?
+    end
+
     def part_of_convo?(event)
       # Don't react to events that we cause
       event[:user] != team.bot_user_id
