@@ -1,20 +1,16 @@
 module Hackbot
   module Interactions
-    class Gifs < Hackbot::Interactions::Channel
-      def self.should_start?(event, team)
-        event[:type].eql?('message') &&
-          mentions_command?(event, team, 'gif')
-      end
+    class Gifs < Command
+      TRIGGER = /gif ?(?<query>.+)?/
 
       def start(event)
-        query = event_to_query event
-        if query.empty?
+        query = captures(event)[:query]
+
+        if query.present?
+          try_sending_gif(query)
+        else
           msg_channel copy('start.invalid')
-
-          return :finish
         end
-
-        try_sending_gif(query)
       end
 
       private
@@ -27,13 +23,6 @@ module Hackbot
         else
           send_gif(copy('start.valid'), gif[:url])
         end
-      end
-
-      def event_to_query(event)
-        event[:text]
-          .sub(/#{team[:bot_username]}/i, '')
-          .sub(/<@#{team[:bot_user_id]}>/i, '')
-          .sub(/gif/i, '').strip
       end
 
       def send_gif(text, url)
