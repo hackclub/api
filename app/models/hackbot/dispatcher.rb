@@ -30,7 +30,7 @@ module Hackbot
         c.should_start?(event, slack_team)
       end
 
-      created = to_create.map { |c| c.new(team: slack_team) }
+      created = to_create.map { |c| c.create(team: slack_team) }
 
       created.each do |c|
         run_interaction(c, event)
