@@ -2,6 +2,7 @@ module Hackbot
   class Dispatcher
     CONVERSATION_TYPES = [
       Hackbot::Conversations::CheckIn,
+      Hackbot::Conversations::DiceRoll,
       Hackbot::Conversations::Gifs,
       Hackbot::Conversations::Help,
       Hackbot::Conversations::SetPoc,
