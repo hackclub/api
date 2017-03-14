@@ -38,7 +38,7 @@ module Hackbot
     protected
 
     def start
-      raise notImplementedError
+      raise NotImplementedError
     end
 
     def finish; end
