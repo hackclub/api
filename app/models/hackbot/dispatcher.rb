@@ -10,10 +10,22 @@ module Hackbot
     ].freeze
 
     def handle(event, slack_team)
-      wranglers = interactions_needing_handling(event)
+      pending_interactions = interactions_needing_handling(event)
 
-      return wranglers.each { |w| run_interaction(w, event) } unless wranglers.empty?
+      if !pending_interactions.empty?
+        run_pending_interactions(pending_interactions, event)
+      else
+        trigger_new_interactions(event, slack_team)
+      end
+    end
 
+    private
+
+    def run_pending_interactions(pending_interactions, event)
+      pending_interactions.each { |i| run_interaction(i, event) }
+    end
+
+    def trigger_new_interactions(event, slack_team)
       to_create = INTERACTION_TYPES.select do |c|
         c.should_start?(event, slack_team)
       end
@@ -24,8 +36,6 @@ module Hackbot
         run_interaction(c, event)
       end
     end
-
-    private
 
     def run_interaction(interaction, event)
       interaction.with_lock do
