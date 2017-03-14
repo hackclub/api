@@ -9,11 +9,11 @@ module Hackbot
         trigger = self.class::TRIGGER
         mention_regex = Hackbot::Utterances.name(team)
 
-        event[:text] =~ /^#{mention_regex} #{trigger}$/ && super
+        msg =~ /^#{mention_regex} #{trigger}$/ && super
       end
 
       def captured
-        @_captured ||= self.class::TRIGGER.match(event[:text])
+        @_captured ||= self.class::TRIGGER.match(msg)
       end
     end
   end

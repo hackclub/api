@@ -9,7 +9,7 @@ module Hackbot
       TASK_ASSIGNEE = Rails.application.secrets.default_streak_task_assignee
 
       def should_start?
-        event[:text] == 'check in' && super
+        msg == 'check in' && super
       end
 
       def start
@@ -28,7 +28,7 @@ module Hackbot
 
       # rubocop:disable Metrics/MethodLength
       def wait_for_meeting_confirmation
-        case event[:text]
+        case msg
         when /(yes|yeah|yup|mmhm|affirmative)/i
           msg_channel copy('meeting_confirmation.positive')
 
@@ -60,7 +60,7 @@ module Hackbot
 
       # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
       def wait_for_day_of_week
-        meeting_date = Chronic.parse(event[:text], context: :past)
+        meeting_date = Chronic.parse(msg, context: :past)
 
         unless meeting_date
           msg_channel copy('day_of_week.unknown')
@@ -89,14 +89,14 @@ module Hackbot
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/AbcSize
       def wait_for_attendance
-        unless integer?(event[:text])
+        unless integer?(msg)
           msg_channel copy('attendance.invalid')
 
           default_follow_up 'wait_for_attendance'
           return :wait_for_attendance
         end
 
-        count = event[:text].to_i
+        count = msg.to_i
 
         if count < 0
           msg_channel copy('attendance.not_realistic')
@@ -202,11 +202,11 @@ module Hackbot
       end
 
       def should_record_notes?
-        (event[:text] =~ /^(no|nope|nah)$/i).nil?
+        (msg =~ /^(no|nope|nah)$/i).nil?
       end
 
       def record_notes
-        data['notes'] = event[:text]
+        data['notes'] = msg
       end
 
       def first_check_in?

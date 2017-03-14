@@ -43,6 +43,12 @@ module Hackbot
 
     def finish; end
 
+    def msg
+      return nil unless event[:type] == 'message'
+
+      event[:text]
+    end
+
     def access_token
       team.bot_access_token
     end

@@ -27,12 +27,12 @@ module Hackbot
       private
 
       def valid_club_index_input?(club_ids)
-        integer?(event[:text]) && (1..club_ids.length).cover?(event[:text].to_i)
+        integer?(msg) && (1..club_ids.length).cover?(msg.to_i)
       end
 
       def handle_club_index_input(club_ids)
         # Subtract 1 because the array is 0 indexed
-        i = event[:text].to_i - 1
+        i = msg.to_i - 1
 
         leader = Leader.find data['leader_id']
         club = Club.find club_ids[i]
