@@ -1,10 +1,7 @@
 module Hackbot
   module Interactions
-    class Stats < Hackbot::Interactions::Channel
-      def self.should_start?(event, team)
-        event[:type].eql?('message') &&
-          mentions_command?(event, team, 'stats')
-      end
+    class Stats < Command
+      TRIGGER = /stats/
 
       def start(event)
         stats = statistics(event)
