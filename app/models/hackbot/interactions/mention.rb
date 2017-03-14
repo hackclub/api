@@ -1,19 +1,17 @@
 module Hackbot
   module Interactions
     class Mention < TextConversation
-      def self.should_start?(event, team)
-        event[:type].eql?('message') &&
-          event[:text] =~ Hackbot::Utterances.name(team) &&
-          super
+      def should_start?
+        event[:text] =~ Hackbot::Utterances.name(team) && super
       end
 
-      def start(_event)
+      def start
         msg_channel 'Did someone mention me?'
 
         :wait_for_resp
       end
 
-      def wait_for_resp(event)
+      def wait_for_resp
         if event[:text] =~ /^(no|nope|nah|negative)$/i
           msg_channel 'Oh, I see... :slightly_frowning_face:'
         elsif event[:text] =~ /^(yes|yeah|yah|ya|yup)$/i

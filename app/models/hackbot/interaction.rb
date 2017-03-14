@@ -1,5 +1,7 @@
 module Hackbot
   class Interaction < ApplicationRecord
+    attr_internal :event
+
     after_initialize :default_values
 
     belongs_to :team,
@@ -8,17 +10,21 @@ module Hackbot
 
     validates :team, :state, presence: true
 
-    def self.should_start?(_event, _team)
+    def self.should_start?(event, team)
+      new(event: event, team: team).should_start?
+    end
+
+    def should_start?
       raise NotImplementedError
     end
 
-    def part_of_interaction?(event)
+    def should_handle?
       # Don't react to events that we cause
       event[:user] != team.bot_user_id
     end
 
-    def handle(event)
-      next_state = send(state, event)
+    def handle
+      next_state = send(state)
 
       self.state = if next_state.is_a? Symbol
                      next_state
@@ -26,16 +32,16 @@ module Hackbot
                      :finish
                    end
 
-      send(:finish, event) if state == :finish
+      send(:finish) if state == :finish
     end
 
     protected
 
-    def start(_event)
+    def start
       raise notImplementedError
     end
 
-    def finish(event); end
+    def finish; end
 
     def access_token
       team.bot_access_token

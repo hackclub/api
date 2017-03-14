@@ -3,10 +3,8 @@ module Hackbot
     class Help < Command
       TRIGGER = /help/
 
-      def start(_event)
+      def start
         msg_channel copy('help')
-
-        :finish
       end
     end
   end

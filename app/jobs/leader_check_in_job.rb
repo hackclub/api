@@ -51,9 +51,10 @@ class LeaderCheckInJob < ApplicationJob
   end
 
   def start_check_in(event)
-    interactions = Hackbot::Interactions::CheckIn.create(team: slack_team)
-    interactions.handle event
-    interactions.save!
+    interaction = Hackbot::Interactions::CheckIn.create(team: slack_team,
+                                                        event: event)
+    interaction.handle
+    interaction.save!
   end
 
   # This constructs a fake Slack event to start the interaction with. It'll be

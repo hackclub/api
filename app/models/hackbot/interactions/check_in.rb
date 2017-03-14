@@ -8,12 +8,12 @@ module Hackbot
     class CheckIn < Hackbot::Interactions::FollowUp
       TASK_ASSIGNEE = Rails.application.secrets.default_streak_task_assignee
 
-      def self.should_start?(event, _team)
-        event[:text] == 'check in'
+      def should_start?
+        event[:text] == 'check in' && super
       end
 
-      def start(event)
-        first_name = leader(event).name.split(' ').first
+      def start
+        first_name = leader.name.split(' ').first
 
         if first_check_in?
           msg_channel copy('first_greeting', first_name: first_name)
@@ -27,7 +27,7 @@ module Hackbot
       end
 
       # rubocop:disable Metrics/MethodLength
-      def wait_for_meeting_confirmation(event)
+      def wait_for_meeting_confirmation
         case event[:text]
         when /(yes|yeah|yup|mmhm|affirmative)/i
           msg_channel copy('meeting_confirmation.positive')
@@ -48,10 +48,10 @@ module Hackbot
       end
       # rubocop:enable Metrics/MethodLength
 
-      def wait_for_no_meeting_reason(event)
-        if should_record_notes? event
-          notes = record_notes event
-          create_task leader(event), 'Follow-up on notes from a failed '\
+      def wait_for_no_meeting_reason
+        if should_record_notes?
+          notes = record_notes
+          create_task leader, 'Follow-up on notes from a failed '\
             "meeting: #{notes}"
         end
 
@@ -59,7 +59,7 @@ module Hackbot
       end
 
       # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
-      def wait_for_day_of_week(event)
+      def wait_for_day_of_week
         meeting_date = Chronic.parse(event[:text], context: :past)
 
         unless meeting_date
@@ -88,7 +88,7 @@ module Hackbot
       # rubocop:disable Metrics/CyclomaticComplexity,
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/AbcSize
-      def wait_for_attendance(event)
+      def wait_for_attendance
         unless integer?(event[:text])
           msg_channel copy('attendance.invalid')
 
@@ -130,14 +130,14 @@ module Hackbot
       # rubocop:enable Metrics/MethodLength
 
       # rubocop:disable Metrics/MethodLength
-      def wait_for_notes(event)
-        if should_record_notes? event
-          notes = record_notes event
-          create_task leader(event), 'Follow-up on notes from check-in: '\
+      def wait_for_notes
+        if should_record_notes?
+          notes = record_notes
+          create_task leader, 'Follow-up on notes from check-in: '\
             "#{notes}"
         end
 
-        generate_check_in event
+        generate_check_in
 
         if data['notes'].nil?
           msg_channel copy('notes.no_notes')
@@ -145,14 +145,14 @@ module Hackbot
           msg_channel copy('notes.had_notes')
         end
 
-        send_attendance_stats event
+        send_attendance_stats
       end
       # rubocop:enable Metrics/MethodLength
 
-      def generate_check_in(event)
+      def generate_check_in
         ::CheckIn.create!(
-          club: club(event),
-          leader: leader(event),
+          club: club,
+          leader: leader,
           meeting_date: data['meeting_date'],
           attendance: data['attendance'],
           notes: data['notes']
@@ -173,8 +173,8 @@ module Hackbot
         follow_up(messages, next_state, interval)
       end
 
-      def send_attendance_stats(event)
-        stats = statistics leader(event)
+      def send_attendance_stats
+        stats = statistics leader
 
         return if stats.total_meetings_count < 2
 
@@ -201,11 +201,11 @@ module Hackbot
         @stats
       end
 
-      def should_record_notes?(event)
+      def should_record_notes?
         (event[:text] =~ /^(no|nope|nah)$/i).nil?
       end
 
-      def record_notes(event)
+      def record_notes
         data['notes'] = event[:text]
       end
 
@@ -219,13 +219,11 @@ module Hackbot
         false
       end
 
-      def club(event)
-        @leader ||= leader(event)
-
-        @leader.clubs.first
+      def club
+        leader.clubs.first
       end
 
-      def leader(event)
+      def leader
         pipeline_key = Rails.application.secrets.streak_leader_pipeline_key
         slack_id_field = :'1020'
 

@@ -22,7 +22,10 @@ module Hackbot
     private
 
     def run_pending_interactions(pending_interactions, event)
-      pending_interactions.each { |i| run_interaction(i, event) }
+      pending_interactions.each do |i|
+        i.event = event
+        run_interaction(i)
+      end
     end
 
     def trigger_new_interactions(event, slack_team)
@@ -30,23 +33,24 @@ module Hackbot
         c.should_start?(event, slack_team)
       end
 
-      created = to_create.map { |c| c.create(team: slack_team) }
+      created = to_create.map { |c| c.create(team: slack_team, event: event) }
 
-      created.each do |c|
-        run_interaction(c, event)
-      end
+      created.each { |c| run_interaction(c) }
     end
 
-    def run_interaction(interaction, event)
+    def run_interaction(interaction)
       interaction.with_lock do
-        interaction.handle(event)
+        interaction.handle
         interaction.save!
       end
     end
 
     def interactions_needing_handling(event)
       Hackbot::Interaction.where.not(state: :finish)
-                          .select { |c| c.part_of_interaction? event }
+                          .select do |c|
+                            c.event = event
+                            c.should_handle?
+                          end
     end
   end
 end

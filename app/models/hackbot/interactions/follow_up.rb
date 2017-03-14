@@ -1,7 +1,7 @@
 module Hackbot
   module Interactions
     class FollowUp < TextConversation
-      def handle(event)
+      def handle
         data['last_message_ts'] = event[:ts]
 
         super

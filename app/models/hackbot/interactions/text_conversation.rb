@@ -3,17 +3,17 @@
 module Hackbot
   module Interactions
     class TextConversation < Hackbot::Interaction
-      def self.should_start?(event, team)
+      def should_start?
         event[:type] == 'message'
       end
 
-      def part_of_interaction?(event)
+      def should_handle?
         event[:type] == 'message' &&
           event[:channel] == data['channel'] &&
           super
       end
 
-      def handle(event)
+      def handle
         data['channel'] = event[:channel]
         super
       end

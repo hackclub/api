@@ -3,8 +3,8 @@ module Hackbot
     class DiceRoll < Command
       TRIGGER = /roll ?(?<side_count>.+)?/
 
-      def start(event)
-        raw_side_count = captures(event)[:side_count] || '6'
+      def start
+        raw_side_count = captured[:side_count] || '6'
 
         integer?(raw_side_count) ? roll(raw_side_count.to_i) : bad_side_count
       end

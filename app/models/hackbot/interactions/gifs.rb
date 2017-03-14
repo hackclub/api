@@ -3,8 +3,8 @@ module Hackbot
     class Gifs < Command
       TRIGGER = /gif ?(?<query>.+)?/
 
-      def start(event)
-        query = captures(event)[:query]
+      def start
+        query = captured[:query]
 
         if query.present?
           try_sending_gif(query)
