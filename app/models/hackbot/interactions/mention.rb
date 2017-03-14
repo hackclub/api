@@ -3,7 +3,7 @@ module Hackbot
     class Mention < Hackbot::Interactions::Channel
       def self.should_start?(event, team)
         event[:type].eql?('message') &&
-          mentions_name?(event, team)
+          event[:text] =~ Hackbot::Utterances.name(team)
       end
 
       def start(_event)

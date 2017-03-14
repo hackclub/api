@@ -8,14 +8,9 @@ module Hackbot
           #
           # http://stackoverflow.com/q/42779998/1001686
           trigger = self::TRIGGER
+          mention_regex = Hackbot::Utterances.name(team)
 
-          event[:text] =~ /^#{username_regex(team)} #{trigger}$/
-        end
-
-        private
-
-        def username_regex(team)
-          /(<@#{team.bot_user_id}>|#{team.bot_username})/
+          event[:text] =~ /^#{mention_regex} #{trigger}$/
         end
       end
 
