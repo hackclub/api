@@ -1,19 +1,13 @@
 module Hackbot
   module Interactions
-    class SetPoc < Hackbot::Interactions::Channel
-      def self.should_start?(event, _team)
-        event[:type] == 'message' &&
-          event[:text] =~ /^.* set-poc/
-      end
+    class SetPoc < Command
+      TRIGGER = /set-poc ?(?<streak_key>.+)/
 
       def start(event)
-        leader = leader_from_event event
+        streak_key = captures(event)[:streak_key]
 
-        if leader.nil?
-          msg_channel copy('start.invalid')
-
-          return :finish
-        end
+        leader = Leader.find_by(streak_key: streak_key)
+        return msg_channel copy('start.invalid') if leader.nil?
 
         associate_clubs(leader.clubs, leader)
       end
@@ -59,12 +53,6 @@ module Hackbot
         else
           associate_one_in_many_clubs clubs, leader
         end
-      end
-
-      def leader_from_event(event)
-        streak_key = get_last_arg event[:text]
-
-        Leader.find_by(streak_key: streak_key)
       end
 
       def unset_from_any_poc(leader)
