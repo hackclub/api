@@ -1,5 +1,5 @@
 module Hackbot
-  module Conversations
+  module Interactions
     class Command < Channel
       class << self
         def should_start?(event, team)

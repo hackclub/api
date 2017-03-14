@@ -1,5 +1,5 @@
 module Hackbot
-  module Conversations
+  module Interactions
     class DiceRoll < Command
       TRIGGER = /roll ?(?<side_count>.+)?/
 

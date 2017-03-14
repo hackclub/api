@@ -1,9 +1,9 @@
-# Channel is a conversation that is limited to a single channel on Slack. Most
-# conversations will inherit from this class.
+# Channel is an interaction that is limited to a single channel on Slack. Most
+# interactions will inherit from this class.
 module Hackbot
-  module Conversations
-    class Channel < Hackbot::Conversation
-      def part_of_convo?(event)
+  module Interactions
+    class Channel < Hackbot::Interaction
+      def part_of_interaction?(event)
         event[:channel] == data['channel'] && super
       end
 

@@ -5,8 +5,8 @@ module Hackbot
 
     validates :team_id, :bot_user_id, :bot_access_token, uniqueness: true
 
-    has_many :conversations,
+    has_many :interactions,
              foreign_key: 'hackbot_team_id',
-             class_name: ::Hackbot::Conversation
+             class_name: ::Hackbot::Interaction
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170301124058) do
+ActiveRecord::Schema.define(version: 20170314102945) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,14 +65,14 @@ ActiveRecord::Schema.define(version: 20170301124058) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
   end
 
-  create_table "hackbot_conversations", force: :cascade do |t|
+  create_table "hackbot_interactions", force: :cascade do |t|
     t.text     "type"
     t.integer  "hackbot_team_id"
     t.text     "state"
     t.json     "data"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
-    t.index ["hackbot_team_id"], name: "index_hackbot_conversations_on_hackbot_team_id", using: :btree
+    t.index ["hackbot_team_id"], name: "index_hackbot_interactions_on_hackbot_team_id", using: :btree
   end
 
   create_table "hackbot_teams", force: :cascade do |t|

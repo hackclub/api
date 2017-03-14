@@ -3,9 +3,9 @@
 # A few Rubocop cops are disabled in this file because it's pending a refactor.
 # See https://github.com/hackclub/api/issues/25.
 module Hackbot
-  module Conversations
+  module Interactions
     # rubocop:disable Metrics/ClassLength
-    class CheckIn < Hackbot::Conversations::FollowUp
+    class CheckIn < Hackbot::Interactions::FollowUp
       TASK_ASSIGNEE = Rails.application.secrets.default_streak_task_assignee
 
       def self.should_start?(event, _team)

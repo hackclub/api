@@ -1,6 +1,6 @@
 module Hackbot
-  module Conversations
-    class Mention < Hackbot::Conversations::Channel
+  module Interactions
+    class Mention < Hackbot::Interactions::Channel
       def self.should_start?(event, team)
         event[:type].eql?('message') &&
           mentions_name?(event, team)

@@ -1,5 +1,5 @@
 module Hackbot
-  class Conversation < ApplicationRecord
+  class Interaction < ApplicationRecord
     after_initialize :default_values
 
     belongs_to :team,
@@ -26,7 +26,7 @@ module Hackbot
       !/(#{username}|#{mention}) #{command}/i.match(t).nil?
     end
 
-    def part_of_convo?(event)
+    def part_of_interaction?(event)
       # Don't react to events that we cause
       event[:user] != team.bot_user_id
     end

@@ -1,6 +1,6 @@
 module Hackbot
-  module Conversations
-    class FollowUp < Hackbot::Conversations::Channel
+  module Interactions
+    class FollowUp < Hackbot::Interactions::Channel
       def handle(event)
         data['last_message_ts'] = event[:ts]
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Hackbot::Conversation, type: :model do
+RSpec.describe Hackbot::Interaction, type: :model do
   it { should have_db_column :type }
   it { should have_db_column :hackbot_team_id }
   it { should have_db_column :state }

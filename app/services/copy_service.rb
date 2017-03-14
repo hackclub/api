@@ -1,6 +1,6 @@
 class CopyService
-  def initialize(conversation_name, hash)
-    @conversation_name = conversation_name
+  def initialize(interaction_name, hash)
+    @interaction_name = interaction_name
     @context = hash_to_binding hash
   end
 
@@ -12,7 +12,7 @@ class CopyService
 
   def get_erb(key)
     sections = key.split '.'
-    copy = get_conversation_yaml(@conversation_name)
+    copy = get_interaction_yaml(@interaction_name)
 
     sections.each { |s| copy = copy[s] }
 
@@ -22,7 +22,7 @@ class CopyService
 
   private
 
-  def get_conversation_yaml(name)
+  def get_interaction_yaml(name)
     path = File.join(copy_route, "#{name}.yml")
 
     YAML.load File.read(path)

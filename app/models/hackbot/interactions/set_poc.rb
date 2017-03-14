@@ -1,6 +1,6 @@
 module Hackbot
-  module Conversations
-    class SetPoc < Hackbot::Conversations::Channel
+  module Interactions
+    class SetPoc < Hackbot::Interactions::Channel
       def self.should_start?(event, _team)
         event[:type] == 'message' &&
           event[:text] =~ /^.* set-poc/

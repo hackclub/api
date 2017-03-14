@@ -1,6 +1,6 @@
 module Hackbot
-  module Conversations
-    class Gifs < Hackbot::Conversations::Channel
+  module Interactions
+    class Gifs < Hackbot::Interactions::Channel
       def self.should_start?(event, team)
         event[:type].eql?('message') &&
           mentions_command?(event, team, 'gif')
