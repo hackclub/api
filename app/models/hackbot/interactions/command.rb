@@ -1,6 +1,6 @@
 module Hackbot
   module Interactions
-    class Command < Channel
+    class Command < TextConversation
       class << self
         def should_start?(event, team)
           # We have to use self:: to access the constant because of the quirk

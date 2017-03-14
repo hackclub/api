@@ -1,10 +1,16 @@
-# Channel is an interaction that is limited to a single channel on Slack. Most
-# interactions will inherit from this class.
+# TextConversation is an interaction that only consists of messages and is
+# limited to a single channel on Slack.
 module Hackbot
   module Interactions
-    class Channel < Hackbot::Interaction
+    class TextConversation < Hackbot::Interaction
+      def self.should_start?(event, team)
+        event[:type] == 'message'
+      end
+
       def part_of_interaction?(event)
-        event[:channel] == data['channel'] && super
+        event[:type] == 'message' &&
+          event[:channel] == data['channel'] &&
+          super
       end
 
       def handle(event)
