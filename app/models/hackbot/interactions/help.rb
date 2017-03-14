@@ -1,10 +1,7 @@
 module Hackbot
   module Interactions
-    class Help < Hackbot::Interactions::Channel
-      def self.should_start?(event, team)
-        event[:type].eql?('message') &&
-          mentions_command?(event, team, 'help')
-      end
+    class Help < Command
+      TRIGGER = /help/
 
       def start(_event)
         msg_channel copy('help')
