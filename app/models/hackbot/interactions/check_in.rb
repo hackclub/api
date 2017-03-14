@@ -29,12 +29,12 @@ module Hackbot
       # rubocop:disable Metrics/MethodLength
       def wait_for_meeting_confirmation
         case msg
-        when /(yes|yeah|yup|mmhm|affirmative)/i
+        when Hackbot::Utterances.yes
           msg_channel copy('meeting_confirmation.positive')
 
           default_follow_up 'wait_for_day_of_week'
           :wait_for_day_of_week
-        when /(no|nope|nah|negative)/i
+        when Hackbot::Utterances.no
           msg_channel copy('meeting_confirmation.negative')
 
           default_follow_up 'wait_for_no_meeting_reason'

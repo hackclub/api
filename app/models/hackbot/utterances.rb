@@ -5,5 +5,13 @@ module Hackbot
     def self.name(team)
       /(<@#{team.bot_user_id}>|#{team.bot_username})/
     end
+
+    def self.yes
+      /^(yes|yea|yup|yep|ya|sure|ok|yeah|yah|y)$/i
+    end
+
+    def self.no
+      /^(no|nope|nah|negative|n)$/i
+    end
   end
 end

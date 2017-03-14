@@ -12,9 +12,9 @@ module Hackbot
       end
 
       def wait_for_resp
-        if msg =~ /^(no|nope|nah|negative)$/i
+        if msg =~ Hackbot::Utterances.no
           msg_channel 'Oh, I see... :slightly_frowning_face:'
-        elsif msg =~ /^(yes|yeah|yah|ya|yup)$/i
+        elsif msg =~ Hackbot::Utterances.yes
           msg_channel "Oh my! I'm so glad to hear... I was getting a little "\
                       'worried for a moment there.'
         end
