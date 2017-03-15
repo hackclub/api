@@ -1,10 +1,7 @@
 welcome: >
     Hey <%= info[:name] %>! Noticed you just filled out the intake form – welcome to Hack Club! My name is Hackbot, I'm our Slack's friendly robotic helper.
 
-    Here's some things I know how to do:
-
-    * Fetch GIFs. `hackbot gif <search-term-here>`
-    * Retrieve club stats (you'll need to have some club meetings before this is useful to you, though!). `hackbot stats`
+    I currently only know how to do a few things. Firstly, I can get GIFs for you with `hackbot gif <search-term-here`. Secondly, once you've got a few meetings under your belt I can give you stats breakdowns with `hackbot gif stats`
 
     As you can tell I'm pretty basic right now, but I learn new things every week. In fact, if you have any suggestions just talk to `@harrison` or `@msw`!
 

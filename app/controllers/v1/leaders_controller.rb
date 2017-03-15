@@ -53,28 +53,32 @@ module V1
       return if token.nil?
 
       im = SlackClient::Chat.open_im(leader.slack_id, token)
-      return if !im[:ok] || !im[:latest].nil?
+      return unless im[:ok] || !im[:latest].nil?
 
-      send_msg(im[:channel][:id], copy('welcome', first_name: leader.name))
+      send_msg(
+        im[:channel][:id],
+        copy('welcome', first_name: leader.name),
+        token
+      )
     end
 
-    def send_msg(channel, text)
+    def send_msg(channel, text, token)
       SlackClient::Chat.send_msg(
         channel,
         text,
-        access_token(leader),
+        token,
         as_user: true
       )
     end
 
     def copy(selector, values)
-      cs = CopyService.new(values, values)
+      cs = CopyService.new('leaders_controller', values)
 
       cs.get_copy(selector)
     end
 
     def access_token(leader)
-      t = team leader
+      t = team leader.slack_team_id
 
       t.nil? ? nil : t.bot_access_token
     end
