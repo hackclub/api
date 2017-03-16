@@ -1,9 +1,9 @@
 start:
     invalid:
-      - "Please do not attempt to input invalid commands into Hack Club Hackbot command input. This interface will only respond to the format `@Hackbot gif SEARCH_QUERY`."
+      - "Please do not attempt to input invalid commands into Hack Club Hackbot command input. This interface will only respond to the format `@hackbot gif SEARCH_QUERY`."
       - "Your input is invalid. That's **literally** the opposite of what your input should be."
-      - 'For your safety, as well as the safety of others, please do not create invalid queries. This interface will only respond to the format `@Hackbot gif SEARCH_QUERY`.'
-      - 'For your safety, as well as the safety of others, please submit valid queries. This interface will only respond to the format `@Hackbot gif SEARCH_QUERY`.'
+      - 'For your safety, as well as the safety of others, please do not create invalid queries. This interface will only respond to the format `@hackbot gif SEARCH_QUERY`.'
+      - 'For your safety, as well as the safety of others, please submit valid queries. This interface will only respond to the format `@hackbot gif SEARCH_QUERY`.'
       - 'Input invalid: please provide a query.'
       - 'Input invalid: please tell me something to search for.'
       - "https://soundcloud.com/user-749646244/no-1"
