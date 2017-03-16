@@ -1,5 +1,7 @@
 module Hackbot
   class Interaction < ApplicationRecord
+    include Hackbot::Callbacks
+
     attr_internal :event
 
     after_initialize :default_values
@@ -24,15 +26,17 @@ module Hackbot
     end
 
     def handle
-      next_state = send(state)
+      run_callbacks :handle do
+        next_state = send(state)
 
-      self.state = if next_state.is_a? Symbol
-                     next_state
-                   else
-                     :finish
-                   end
+        self.state = if next_state.is_a? Symbol
+                       next_state
+                     else
+                       :finish
+                     end
 
-      send(:finish) if state == :finish
+        send(:finish) if state == :finish
+      end
     end
 
     protected
