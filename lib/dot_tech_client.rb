@@ -28,7 +28,7 @@ module DotTechClient
         iphorm_6_1: person_name,
         iphorm_6_2: person_email,
         iphorm_6_3: COMPANY_NAME,
-        iphone_6_4: requested_domain
+        iphorm_6_4: requested_domain
       )
 
       request(:post, '/startups/', params)
