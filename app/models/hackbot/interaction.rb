@@ -66,10 +66,7 @@ module Hackbot
       )
     end
 
-    def attach(channel, attachments)
-      # Allow people to pass only a single attachment
-      attachments = [attachments] unless attachments.is_a? Array
-
+    def attach(channel, *attachments)
       ::SlackClient::Chat.send_msg(
         channel,
         nil,
