@@ -67,11 +67,19 @@ module Hackbot
     end
 
     def attach(channel, *attachments)
+      # Enable text formatting for all possible values by default
+      #
+      # Docs: https://api.slack.com/docs/message-formatting#message_formatting
+      attachments.each do |a|
+        a[:mrkdwn_in] ||= %w(pretext text fields)
+      end
+
       ::SlackClient::Chat.send_msg(
         channel,
         nil,
         access_token,
-        attachments: attachments.to_json
+        attachments: attachments.to_json,
+        as_user: true
       )
     end
 
