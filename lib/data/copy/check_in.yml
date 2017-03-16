@@ -9,10 +9,18 @@ greeting: Hey <%= info[:first_name] %>! Did you have a club meeting this week?
 
 meeting_confirmation:
     positive: Okay, sweet! On which day was it? (say something like "monday" or "today" – I'm not very clever)
-    negative: That's a shame! Was there a particular reason the meeting didn't happen? Is there anything the Hack Club team can be helpful with?
+    negative: That's a shame! Was there a particular reason the meeting didn't happen?
     invalid: I'm not very smart yet and had trouble understanding you :-/. Try saying something like 'yes' or 'no'.
 
-no_meeting_reason: Gotcha. Hope you have a hack-tastic weekend!
+no_meeting_reason: Gotcha. Are you planning on having a club meeting in the future?
+
+meeting_in_the_future:
+    positive: Awesome! Is there anything the Hack Club team can be helpful with in the meantime?
+    negative: That's a shame. I'll let the Hack Club team know.
+    invalid: I'm not very smart yet and had trouble understanding you :-/. Try saying something like 'yes' or 'no'
+
+help:
+    Got it! Have a hack-tastic weekend!
 
 day_of_week:
     unknown: Man, I'm not very smart yet and had trouble understanding you. Try saying something simpler, like "tuesday" or "thursday".
@@ -33,7 +41,7 @@ attendance:
 
 notes:
     no_notes: Okay. Hope you have a hack-tastic weekend!
-    had_notes: Sweet, I'll let them know! Hope you have a hactastic weekend!
+    had_notes: Sweet, I'll let them know! Hope you have a hack-tastic weekend!
 
 follow_ups:
     first: "Hey! Just wanted to follow-up on this. :wink:"
