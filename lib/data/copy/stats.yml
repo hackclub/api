@@ -1,27 +1,6 @@
-invalid:
-    - I can only give stats to club leaders. You are not currently registered as a club leader.
-    - This command is only available to club leaders. Isn't elitism great?
-    - https://soundcloud.com/user-749646244/that-information-is-classified
-    - https://soundcloud.com/user-749646244/in-a-traditional-economy
-    - This information is classified to non-club users.
-    - I don't see any clubs that you run on my end.
-    - This information can only be accessed by a club leader.
+invalid: You're not a club leader! I currently only know how to give stats to club leaders.
 
 stats: |
     These are stats for your club at <%= info[:school_name] %>!
 
     In the <%= info[:days_alive] %> days you've been checking in with me, you've had <%= info[:total_meetings] %> meetings. Across all of your recorded club meetings, on average you have <%= info[:avg_attendance] %> attend your meetings.
-
-    <%= info[:compliment] %>
-
-compliment:
-    - https://soundcloud.com/user-749646244/you-subject-name-here
-    - https://soundcloud.com/user-749646244/suprise
-    - https://soundcloud.com/user-749646244/once-again-excellent-work
-    - https://soundcloud.com/user-749646244/youre-doing-quite-well
-    - https://soundcloud.com/user-749646244/that-was-genuinely-mildly-impressive
-    - https://soundcloud.com/user-749646244/well-done
-    - https://soundcloud.com/user-749646244/congratulations
-    - https://soundcloud.com/user-749646244/good
-    - https://soundcloud.com/user-749646244/impressive
-    - https://soundcloud.com/user-749646244/very-not-completely-bad

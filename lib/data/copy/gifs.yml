@@ -1,23 +1,6 @@
 start:
-    invalid:
-      - "Please do not attempt to input invalid commands into Hack Club Hackbot command input. This interface will only respond to the format `@hackbot gif SEARCH_QUERY`."
-      - "Your input is invalid. That's **literally** the opposite of what your input should be."
-      - 'For your safety, as well as the safety of others, please do not create invalid queries. This interface will only respond to the format `@hackbot gif SEARCH_QUERY`.'
-      - 'For your safety, as well as the safety of others, please submit valid queries. This interface will only respond to the format `@hackbot gif SEARCH_QUERY`.'
-      - 'Input invalid: please provide a query.'
-      - 'Input invalid: please tell me something to search for.'
-      - "https://soundcloud.com/user-749646244/no-1"
-      - "https://soundcloud.com/user-749646244/error"
+    invalid: You need to provide a query, silly :stuck_out_tongue_winking_eye:!
     valid:
       text: powered by giphy
       fallback: GIF
-    not_found:
-      - '404: gif not found'
-      - "Impressive, you've found something even I don't know about"
-      - "I've searched and there's nothing here. Are you sure that's spelled right?"
-      - "I've searched and there's nothing here. This must be another metaphor..."
-      - "n̎o̎t̎ f̎o̎u̎n̎d̎"
-      - "I've found exactly `0` gif(s) matching that query"
-      - "n͓o͓t͓ f͓o͓u͓n͓d͓"
-      - "https://soundcloud.com/user-749646244/in-a-traditional-economy"
-      - "https://soundcloud.com/user-749646244/that-information-is-classified"
+    not_found: "I couldn't find a gif with that query :disappointed:"
