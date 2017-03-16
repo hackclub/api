@@ -21,21 +21,8 @@ module Hackbot
         if gif.nil?
           msg_channel copy('start.not_found')
         else
-          send_gif(copy('start.valid'), gif[:url])
+          attach_channel(text: copy('start.valid'), image_url: gif[:url])
         end
-      end
-
-      def send_gif(text, url)
-        SlackClient.rpc('chat.postMessage',
-                        access_token,
-                        channel: data['channel'],
-                        as_user: true,
-                        attachments: [
-                          {
-                            text: text,
-                            image_url: url
-                          }
-                        ].to_json)
       end
     end
   end

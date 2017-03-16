@@ -62,6 +62,18 @@ module Hackbot
       )
     end
 
+    def attach(channel, attachments)
+      # Allow people to pass only a single attachment
+      attachments = [attachments] unless attachments.is_a? Array
+
+      ::SlackClient::Chat.send_msg(
+        channel,
+        nil,
+        access_token,
+        attachments: attachments.to_json
+      )
+    end
+
     def copy(key, hash = {}, source = default_copy_source)
       cs = ::CopyService.new(source, hash)
 
