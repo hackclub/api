@@ -204,7 +204,7 @@ module Hackbot
       end
 
       def should_record_notes?
-        (msg =~ /^(no|nope|nah)$/i).nil?
+        (msg =~ Hackbot::Utterances.no).nil?
       end
 
       def record_notes
