@@ -16,12 +16,10 @@ module Hackbot
 
       def start
         first_name = leader.name.split(' ').first
+        deadline = formatted_deadline leader
+        key = (first_check_in? ? 'first_greeting' : 'greeting')
 
-        if first_check_in?
-          msg_channel copy('first_greeting', first_name: first_name)
-        else
-          msg_channel copy('greeting', first_name: first_name)
-        end
+        msg_channel copy(key, first_name: first_name, deadline: deadline)
 
         default_follow_up 'wait_for_meeting_confirmation'
 
@@ -162,6 +160,16 @@ module Hackbot
       end
 
       private
+
+      def formatted_deadline(lead)
+        timezone = lead.timezone || Timezone.fetch('America/Los_Angeles')
+        date_format = '%A, %b %e at %l:%m %p'
+        deadline_utc = DateTime.now.utc.next_week + 15.hours
+        deadline_local = timezone.utc_to_local(deadline_utc)
+        timezone_abbr = timezone.abbr(deadline_local)
+
+        "#{deadline_local.strftime(date_format)} #{timezone_abbr}"
+      end
 
       def default_follow_up(next_state)
         interval = 24.hours
