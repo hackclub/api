@@ -3,6 +3,8 @@
 module Hackbot
   module Interactions
     class TextConversation < Hackbot::Interaction
+      include Concerns::Mirrorable
+
       def should_start?
         event[:type] == 'message'
       end

@@ -98,6 +98,15 @@ module Hackbot
       )
     end
 
+    def current_slack_user
+      return nil unless event[:user]
+
+      @_slack_user ||= SlackClient::Users.info(
+        event[:user],
+        access_token
+      )[:user]
+    end
+
     private
 
     def default_values

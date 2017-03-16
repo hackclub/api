@@ -78,6 +78,9 @@ TECH_DOMAIN_REDEMPTION_SECRET_CODE
 
 # The email of who to assign Streak tasks to
 DEFAULT_STREAK_TASK_ASSIGNEE
+
+# Slack channel to mirror Hackbot interactions to
+HACKBOT_MIRROR_CHANNEL_ID
 ```
 
 ## Other Setup
