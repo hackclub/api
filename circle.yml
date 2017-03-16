@@ -16,6 +16,7 @@ machine:
     TECH_DOMAIN_REDEMPTION_SECRET_CODE: fake_secret_code
     GIPHY_API_KEY: fake_giphy_api_key
     DEFAULT_STREAK_TASK_ASSIGNEE: email@email.email
+    HACKBOT_MIRROR_CHANNEL_ID: fake_channel_id
 
 test:
   override:

@@ -1,4 +1,8 @@
+require 'slack_client/channels'
 require 'slack_client/chat'
+require 'slack_client/groups'
+require 'slack_client/im'
+require 'slack_client/mpim'
 require 'slack_client/oauth'
 require 'slack_client/users'
 

@@ -1,28 +1,16 @@
 start:
     invalid:
-      - "Please do not attempt to input invalid commands into Hack Club Hackbot command input. This interface will only respond to the format `@Hackbot gif SEARCH_QUERY`."
+      - "Please do not attempt to input invalid commands into Hack Club Hackbot command input. This interface will only respond to the format `@hackbot gif SEARCH_QUERY`."
       - "Your input is invalid. That's **literally** the opposite of what your input should be."
-      - 'For your safety, as well as the safety of others, please do not create invalid queries. This interface will only respond to the format `@Hackbot gif SEARCH_QUERY`.'
-      - 'For your safety, as well as the safety of others, please submit valid queries. This interface will only respond to the format `@Hackbot gif SEARCH_QUERY`.'
+      - 'For your safety, as well as the safety of others, please do not create invalid queries. This interface will only respond to the format `@hackbot gif SEARCH_QUERY`.'
+      - 'For your safety, as well as the safety of others, please submit valid queries. This interface will only respond to the format `@hackbot gif SEARCH_QUERY`.'
       - 'Input invalid: please provide a query.'
       - 'Input invalid: please tell me something to search for.'
       - "https://soundcloud.com/user-749646244/no-1"
       - "https://soundcloud.com/user-749646244/error"
     valid:
-      - 'Responding to input...'
-      - 'There you go'
-      - 'Here you are...'
-      - '200: successful gif response'
-      - "This gif is a metaphor. I'll let you figure out what for..."
-      - "This picture is a metaphor for your life."
-      - "See how it just keeps repeating the same thing over and over?"
-      - "v́́́́́́́á́́́́́́ĺ́́́́́́í́́́́́́d́́́́́́́"
-      - "I've found exactly `MORE THAN ONE` gif(s) matching that query."
-      - 'There are exactly `LOTS OF` gif(s) matching that query.'
-      - 'There are exactly `MANY` gif(s) matching that query.'
-      - 'Loaded Graphical Interchange Format'
-      - 'Loaded Jraphical Interchange Format'
-      - 'Want to start a flame war? How do you pronounce this thing?'
+      text: powered by giphy
+      fallback: GIF
     not_found:
       - '404: gif not found'
       - "Impressive, you've found something even I don't know about"

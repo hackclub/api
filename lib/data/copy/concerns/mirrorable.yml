@@ -1,0 +1,18 @@
+mirror_msg:
+  fallback: "<%= info[:slack_mention] %>: <%= info[:text] %>"
+mirror_attachments:
+  fallback: <%= info[:slack_mention] %> sent attachments
+mirror_file:
+  text: |
+    Uploaded `<%= info[:filename] %>`.
+
+    _Mirroring does not currently support showing uploaded files inline._
+  fallback: <%= info[:slack_mention] %> uploaded <%= info[:filename] %>
+template:
+  footer: <%= info[:source] %>, running <%= info[:interaction] %>, id <%= info[:id] %>
+  source:
+    public_channel: "#<%= info[:channel_name] %>"
+    private_channel: "#<%= info[:channel_name] %> (private)"
+    mpim: Group chat w/ <%= info[:slack_mentions].to_sentence %>
+    dm: PM w/ <%= info[:slack_mention] %>
+    unknown: Unknown source

@@ -3,6 +3,8 @@
 module Hackbot
   module Interactions
     class TextConversation < Hackbot::Interaction
+      include Concerns::Mirrorable
+
       def should_start?
         event[:type] == 'message'
       end
@@ -24,8 +26,8 @@ module Hackbot
         send_msg(data['channel'], text)
       end
 
-      def attach_channel(attachments)
-        attach(data['channel'], attachments)
+      def attach_channel(*attachments)
+        attach(data['channel'], *attachments)
       end
 
       def file_to_channel(filename, file)
