@@ -1,13 +1,10 @@
 module Hackbot
-  module Conversations
-    class Stats < Hackbot::Conversations::Channel
-      def self.should_start?(event, team)
-        event[:type].eql?('message') &&
-          mentions_command?(event, team, 'stats')
-      end
+  module Interactions
+    class Stats < Command
+      TRIGGER = /stats/
 
-      def start(event)
-        stats = statistics(event)
+      def start
+        stats = statistics
 
         if stats.nil?
           msg_channel copy('invalid')
@@ -24,15 +21,13 @@ module Hackbot
 
       private
 
-      def statistics(event)
-        lead = leader event
+      def statistics
+        return nil unless leader
 
-        return nil if lead.nil?
-
-        ::StatsService.new(lead)
+        ::StatsService.new(leader)
       end
 
-      def leader(event)
+      def leader
         pipeline_key = Rails.application.secrets.streak_leader_pipeline_key
         slack_id_field = :'1020'
 

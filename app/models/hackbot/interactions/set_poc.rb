@@ -1,28 +1,22 @@
 module Hackbot
-  module Conversations
-    class SetPoc < Hackbot::Conversations::Channel
-      def self.should_start?(event, _team)
-        event[:type] == 'message' &&
-          event[:text] =~ /^.* set-poc/
-      end
+  module Interactions
+    class SetPoc < Command
+      TRIGGER = /set-poc ?(?<streak_key>.+)/
 
-      def start(event)
-        leader = leader_from_event event
+      def start
+        streak_key = captured[:streak_key]
 
-        if leader.nil?
-          msg_channel copy('start.invalid')
-
-          return :finish
-        end
+        leader = Leader.find_by(streak_key: streak_key)
+        return msg_channel copy('start.invalid') if leader.nil?
 
         associate_clubs(leader.clubs, leader)
       end
 
-      def wait_for_clubs_num(event)
+      def wait_for_clubs_num
         club_ids = data['club_ids']
 
-        if valid_club_index_input? event, club_ids
-          handle_club_index_input event, club_ids
+        if valid_club_index_input? club_ids
+          handle_club_index_input club_ids
         else
           msg_channel copy('clubs_num.invalid', num_of_clubs: club_ids.length)
 
@@ -32,13 +26,13 @@ module Hackbot
 
       private
 
-      def valid_club_index_input?(event, club_ids)
-        integer?(event[:text]) && (1..club_ids.length).cover?(event[:text].to_i)
+      def valid_club_index_input?(club_ids)
+        integer?(msg) && (1..club_ids.length).cover?(msg.to_i)
       end
 
-      def handle_club_index_input(event, club_ids)
+      def handle_club_index_input(club_ids)
         # Subtract 1 because the array is 0 indexed
-        i = event[:text].to_i - 1
+        i = msg.to_i - 1
 
         leader = Leader.find data['leader_id']
         club = Club.find club_ids[i]
@@ -59,12 +53,6 @@ module Hackbot
         else
           associate_one_in_many_clubs clubs, leader
         end
-      end
-
-      def leader_from_event(event)
-        streak_key = get_last_arg event[:text]
-
-        Leader.find_by(streak_key: streak_key)
       end
 
       def unset_from_any_poc(leader)

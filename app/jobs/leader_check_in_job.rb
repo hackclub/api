@@ -33,7 +33,7 @@ class LeaderCheckInJob < ApplicationJob
   end
 
   def previous_unfinished_check_ins(channel)
-    Hackbot::Conversations::CheckIn
+    Hackbot::Interactions::CheckIn
       .where("data->>'channel' = '#{channel}'")
       .where.not(state: 'finish')
   end
@@ -51,15 +51,16 @@ class LeaderCheckInJob < ApplicationJob
   end
 
   def start_check_in(event)
-    convo = Hackbot::Conversations::CheckIn.create(team: slack_team)
-    convo.handle event
-    convo.save!
+    interaction = Hackbot::Interactions::CheckIn.create(team: slack_team,
+                                                        event: event)
+    interaction.handle
+    interaction.save!
   end
 
-  # This constructs a fake Slack event to start the conversation with. It'll be
-  # sent to the conversation's start method.
+  # This constructs a fake Slack event to start the interaction with. It'll be
+  # sent to the interaction's start method.
   #
-  # This is clearly a hack and our conversation class should be refactored to
+  # This is clearly a hack and our interaction class should be refactored to
   # account for this use case.
   def construct_fake_event(user_id, channel_id)
     {

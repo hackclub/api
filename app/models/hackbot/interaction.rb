@@ -1,5 +1,9 @@
 module Hackbot
-  class Conversation < ApplicationRecord
+  class Interaction < ApplicationRecord
+    include Hackbot::Callbacks
+
+    attr_internal :event
+
     after_initialize :default_values
 
     belongs_to :team,
@@ -8,48 +12,46 @@ module Hackbot
 
     validates :team, :state, presence: true
 
-    def self.should_start?(_event, _team)
+    def self.should_start?(event, team)
+      new(event: event, team: team).should_start?
+    end
+
+    def should_start?
       raise NotImplementedError
     end
 
-    def self.mentions_name?(event, team)
-      t = event[:text].downcase
-      username = team[:bot_username].downcase
-      mention = "<@#{team[:bot_user_id]}>".downcase
-      t.include?(username) || t.include?(mention)
-    end
-
-    def self.mentions_command?(event, team, command)
-      username = team[:bot_username].downcase
-      mention = "<@#{team[:bot_user_id]}>".downcase
-      t = event[:text].downcase
-      !/(#{username}|#{mention}) #{command}/i.match(t).nil?
-    end
-
-    def part_of_convo?(event)
+    def should_handle?
       # Don't react to events that we cause
       event[:user] != team.bot_user_id
     end
 
-    def handle(event)
-      next_state = send(state, event)
+    def handle
+      run_callbacks :handle do
+        next_state = send(state)
 
-      self.state = if next_state.is_a? Symbol
-                     next_state
-                   else
-                     :finish
-                   end
+        self.state = if next_state.is_a? Symbol
+                       next_state
+                     else
+                       :finish
+                     end
 
-      send(:finish, event) if state == :finish
+        send(:finish) if state == :finish
+      end
     end
 
     protected
 
-    def start(_event)
-      raise notImplementedError
+    def start
+      raise NotImplementedError
     end
 
-    def finish(event); end
+    def finish; end
+
+    def msg
+      return nil unless event[:type] == 'message'
+
+      event[:text]
+    end
 
     def access_token
       team.bot_access_token
@@ -61,6 +63,15 @@ module Hackbot
         text,
         access_token,
         as_user: true
+      )
+    end
+
+    def attach(channel, *attachments)
+      ::SlackClient::Chat.send_msg(
+        channel,
+        nil,
+        access_token,
+        attachments: attachments.to_json
       )
     end
 

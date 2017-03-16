@@ -17,5 +17,5 @@ RSpec.describe Hackbot::Team, type: :model do
   it { should validate_uniqueness_of :bot_user_id }
   it { should validate_uniqueness_of :bot_access_token }
 
-  it { should have_many :conversations }
+  it { should have_many :interactions }
 end

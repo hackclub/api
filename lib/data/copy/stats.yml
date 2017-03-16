@@ -7,7 +7,7 @@ invalid:
     - I don't see any clubs that you run on my end.
     - This information can only be accessed by a club leader.
 
-stats: >
+stats: |
     These are stats for your club at <%= info[:school_name] %>!
 
     In the <%= info[:days_alive] %> days you've been checking in with me, you've had <%= info[:total_meetings] %> meetings. Across all of your recorded club meetings, on average you have <%= info[:avg_attendance] %> attend your meetings.
@@ -25,4 +25,3 @@ compliment:
     - https://soundcloud.com/user-749646244/good
     - https://soundcloud.com/user-749646244/impressive
     - https://soundcloud.com/user-749646244/very-not-completely-bad
-

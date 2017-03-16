@@ -1,41 +1,56 @@
 module Hackbot
   class Dispatcher
-    CONVERSATION_TYPES = [
-      Hackbot::Conversations::CheckIn,
-      Hackbot::Conversations::Gifs,
-      Hackbot::Conversations::Help,
-      Hackbot::Conversations::SetPoc,
-      Hackbot::Conversations::Stats
+    INTERACTION_TYPES = [
+      Hackbot::Interactions::CheckIn,
+      Hackbot::Interactions::DiceRoll,
+      Hackbot::Interactions::Gifs,
+      Hackbot::Interactions::Help,
+      Hackbot::Interactions::SetPoc,
+      Hackbot::Interactions::Stats
     ].freeze
 
     def handle(event, slack_team)
-      wranglers = convos_needing_handling(event)
+      pending_interactions = interactions_needing_handling(event)
 
-      return wranglers.each { |w| run_convo(w, event) } unless wranglers.empty?
-
-      to_create = CONVERSATION_TYPES.select do |c|
-        c.should_start?(event, slack_team)
-      end
-
-      created = to_create.map { |c| c.new(team: slack_team) }
-
-      created.each do |c|
-        run_convo(c, event)
+      if !pending_interactions.empty?
+        run_pending_interactions(pending_interactions, event)
+      else
+        trigger_new_interactions(event, slack_team)
       end
     end
 
     private
 
-    def run_convo(convo, event)
-      convo.with_lock do
-        convo.handle(event)
-        convo.save!
+    def run_pending_interactions(pending_interactions, event)
+      pending_interactions.each do |i|
+        i.event = event
+        run_interaction(i)
       end
     end
 
-    def convos_needing_handling(event)
-      Hackbot::Conversation.where.not(state: :finish)
-                           .select { |c| c.part_of_convo? event }
+    def trigger_new_interactions(event, slack_team)
+      to_create = INTERACTION_TYPES.select do |c|
+        c.should_start?(event, slack_team)
+      end
+
+      created = to_create.map { |c| c.create(team: slack_team, event: event) }
+
+      created.each { |c| run_interaction(c) }
+    end
+
+    def run_interaction(interaction)
+      interaction.with_lock do
+        interaction.handle
+        interaction.save!
+      end
+    end
+
+    def interactions_needing_handling(event)
+      Hackbot::Interaction.where.not(state: :finish)
+                          .select do |c|
+                            c.event = event
+                            c.should_handle?
+                          end
     end
   end
 end

@@ -1,4 +1,4 @@
-first_greeting: >
+first_greeting: |
     Hey <%= info[:first_name] %>! I'm Hackbot, Hack Club's friendly robot helper.
 
     I'll be reaching out to you every week, typically on Fridays, to check in and see how your club's doing. I'll be in the loop every step of the way :slightly_smiling_face:
@@ -9,7 +9,7 @@ first_greeting: >
 
     Let's get started — please be sure to complete this check-in by 8am PST on Monday, <%= Date.parse('Monday').to_formatted_s(:short) %>. Did you have a club meeting this week?
 
-greeting: >
+greeting: |
     Hey there!
 
     Before we get started with check-ins, I just wanted to let you know that I've started cosplaying as GLaDOS (a character from the Portal series) and have learned a few new tricks (thanks to some awesome suggestions that y'all sent to my creators).
@@ -25,7 +25,7 @@ meeting_confirmation:
     negative: How unfortunate. Why did the meeting not occur? Are you planning on having future meetings? Is there anything the Hack Club team can be helpful with?
     invalid: To ensure the safe performance of all Hack Club Weekly Check In activities, please respond with 'yes' or 'no'.
 
-no_meeting_reason: >
+no_meeting_reason: |
     I understand. Thank you for participating in the Hack Club Weekly Check In experiment. Goodbye!
 
     https://soundcloud.com/user-749646244/goodbye-1

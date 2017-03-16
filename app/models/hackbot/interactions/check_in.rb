@@ -3,17 +3,19 @@
 # A few Rubocop cops are disabled in this file because it's pending a refactor.
 # See https://github.com/hackclub/api/issues/25.
 module Hackbot
-  module Conversations
+  module Interactions
     # rubocop:disable Metrics/ClassLength
-    class CheckIn < Hackbot::Conversations::FollowUp
+    class CheckIn < TextConversation
+      include Concerns::Followupable
+
       TASK_ASSIGNEE = Rails.application.secrets.default_streak_task_assignee
 
-      def self.should_start?(event, _team)
-        event[:text] == 'check in'
+      def should_start?
+        msg == 'check in' && super
       end
 
-      def start(event)
-        first_name = leader(event).name.split(' ').first
+      def start
+        first_name = leader.name.split(' ').first
 
         if first_check_in?
           msg_channel copy('first_greeting', first_name: first_name)
@@ -27,14 +29,14 @@ module Hackbot
       end
 
       # rubocop:disable Metrics/MethodLength
-      def wait_for_meeting_confirmation(event)
-        case event[:text]
-        when /(yes|yeah|yup|mmhm|affirmative)/i
+      def wait_for_meeting_confirmation
+        case msg
+        when Hackbot::Utterances.yes
           msg_channel copy('meeting_confirmation.positive')
 
           default_follow_up 'wait_for_day_of_week'
           :wait_for_day_of_week
-        when /(no|nope|nah|negative)/i
+        when Hackbot::Utterances.no
           msg_channel copy('meeting_confirmation.negative')
 
           default_follow_up 'wait_for_no_meeting_reason'
@@ -48,10 +50,10 @@ module Hackbot
       end
       # rubocop:enable Metrics/MethodLength
 
-      def wait_for_no_meeting_reason(event)
-        if should_record_notes? event
-          notes = record_notes event
-          create_task leader(event), 'Follow-up on notes from a failed '\
+      def wait_for_no_meeting_reason
+        if should_record_notes?
+          notes = record_notes
+          create_task leader, 'Follow-up on notes from a failed '\
             "meeting: #{notes}"
         end
 
@@ -59,8 +61,8 @@ module Hackbot
       end
 
       # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
-      def wait_for_day_of_week(event)
-        meeting_date = Chronic.parse(event[:text], context: :past)
+      def wait_for_day_of_week
+        meeting_date = Chronic.parse(msg, context: :past)
 
         unless meeting_date
           msg_channel copy('day_of_week.unknown')
@@ -88,15 +90,15 @@ module Hackbot
       # rubocop:disable Metrics/CyclomaticComplexity,
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/AbcSize
-      def wait_for_attendance(event)
-        unless integer?(event[:text])
+      def wait_for_attendance
+        unless integer?(msg)
           msg_channel copy('attendance.invalid')
 
           default_follow_up 'wait_for_attendance'
           return :wait_for_attendance
         end
 
-        count = event[:text].to_i
+        count = msg.to_i
 
         if count < 0
           msg_channel copy('attendance.not_realistic')
@@ -130,14 +132,14 @@ module Hackbot
       # rubocop:enable Metrics/MethodLength
 
       # rubocop:disable Metrics/MethodLength
-      def wait_for_notes(event)
-        if should_record_notes? event
-          notes = record_notes event
-          create_task leader(event), 'Follow-up on notes from check-in: '\
+      def wait_for_notes
+        if should_record_notes?
+          notes = record_notes
+          create_task leader, 'Follow-up on notes from check-in: '\
             "#{notes}"
         end
 
-        generate_check_in event
+        generate_check_in
 
         if data['notes'].nil?
           msg_channel copy('notes.no_notes')
@@ -145,14 +147,14 @@ module Hackbot
           msg_channel copy('notes.had_notes')
         end
 
-        send_attendance_stats event
+        send_attendance_stats
       end
       # rubocop:enable Metrics/MethodLength
 
-      def generate_check_in(event)
+      def generate_check_in
         ::CheckIn.create!(
-          club: club(event),
-          leader: leader(event),
+          club: club,
+          leader: leader,
           meeting_date: data['meeting_date'],
           attendance: data['attendance'],
           notes: data['notes']
@@ -173,8 +175,8 @@ module Hackbot
         follow_up(messages, next_state, interval)
       end
 
-      def send_attendance_stats(event)
-        stats = statistics leader(event)
+      def send_attendance_stats
+        stats = statistics leader
 
         return if stats.total_meetings_count < 2
 
@@ -201,12 +203,12 @@ module Hackbot
         @stats
       end
 
-      def should_record_notes?(event)
-        (event[:text] =~ /^(no|nope|nah)$/i).nil?
+      def should_record_notes?
+        (msg =~ Hackbot::Utterances.no).nil?
       end
 
-      def record_notes(event)
-        data['notes'] = event[:text]
+      def record_notes
+        data['notes'] = msg
       end
 
       def first_check_in?
@@ -219,13 +221,11 @@ module Hackbot
         false
       end
 
-      def club(event)
-        @leader ||= leader(event)
-
-        @leader.clubs.first
+      def club
+        leader.clubs.first
       end
 
-      def leader(event)
+      def leader
         pipeline_key = Rails.application.secrets.streak_leader_pipeline_key
         slack_id_field = :'1020'
 
