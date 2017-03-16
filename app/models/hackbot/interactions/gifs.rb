@@ -21,7 +21,11 @@ module Hackbot
         if gif.nil?
           msg_channel copy('start.not_found')
         else
-          attach_channel(text: copy('start.valid'), image_url: gif[:url])
+          attach_channel(
+            image_url: gif[:url],
+            footer: copy('start.valid.text'),
+            fallback: copy('start.valid.fallback')
+          )
         end
       end
     end
