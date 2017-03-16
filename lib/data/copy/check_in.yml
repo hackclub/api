@@ -3,57 +3,39 @@ first_greeting: |
 
     I'll be reaching out to you every week, typically on Fridays, to check in and see how your club's doing. I'll be in the loop every step of the way :slightly_smiling_face:
 
-    Before we get started, I just wanted to let you know that I've started cosplaying as GLaDOS and I've learned a few new tricks (thanks to some awesome suggestions that y'all sent to my creators).
+    To start, did you have a club meeting this week?
 
-    Try saying `hackbot gif cave johnson` or `hackbot stats` in a channel that I'm in.
-
-    Let's get started — please be sure to complete this check-in by 8am PST on Monday, <%= Date.parse('Monday').to_formatted_s(:short) %>. Did you have a club meeting this week?
-
-greeting: |
-    Hey there!
-
-    Before we get started with check-ins, I just wanted to let you know that I've started cosplaying as GLaDOS (a character from the Portal series) and have learned a few new tricks (thanks to some awesome suggestions that y'all sent to my creators).
-
-    Try saying `@hackbot gif cave johnson` or `@hackbot stats` in a channel that I'm in.
-
-    Now let's get started — please be sure to complete this check-in by 8am PST on Monday, <%= Date.parse('Monday').to_formatted_s(:short) %>.
-
-    Hello. And, again, welcome to the Hack Club Weekly Check In. I am required to start by asking you if you had a meeting this past week. (yes/no)
+greeting: Hey <%= info[:first_name] %>! Did you have a club meeting this week?
 
 meeting_confirmation:
-    positive: As part of a required test protocol, I am required to tell you that you are doing `quite well`! On which day was it? (say something like "monday" or "today")
-    negative: How unfortunate. Why did the meeting not occur? Are you planning on having future meetings? Is there anything the Hack Club team can be helpful with?
-    invalid: To ensure the safe performance of all Hack Club Weekly Check In activities, please respond with 'yes' or 'no'.
+    positive: Okay, sweet! On which day was it? (say something like "monday" or "today" – I'm not very clever)
+    negative: That's a shame! Was there a particular reason the meeting didn't happen? Is there anything the Hack Club team can be helpful with?
+    invalid: I'm not very smart yet and had trouble understanding you :-/. Try saying something like 'yes' or 'no'.
 
-no_meeting_reason: |
-    I understand. Thank you for participating in the Hack Club Weekly Check In experiment. Goodbye!
-
-    https://soundcloud.com/user-749646244/goodbye-1
+no_meeting_reason: Gotcha. Hope you have a hack-tastic weekend!
 
 day_of_week:
-    unknown: I am unable to decode this message. Provide simpler input, such as "tuesday" or "thursday".
-    invalid: My records indicate this date did not occur in the past week. Can you try giving me the day of the week of your meeting again?
-    valid: Once again, excellent work. Please provide an estimate as to how many attendees your previous meeting captured? (For example, `25`)
+    unknown: Man, I'm not very smart yet and had trouble understanding you. Try saying something simpler, like "tuesday" or "thursday".
+    invalid: Hmm, that date didn't happen in the past week (although I may be misunderstanding you). Can you try giving me the day of the week of your meeting again?
+    valid: How many people would you estimate came? (I'm not very smart, I'll need you to give me a single number, something like "25" – give your best estimate)
 
 judgement:
-    ok: Adequate input value. You, `SUBJECT_NAME_HERE`, must be the pride of `SUBJECT_HOMETOWN_HERE`.
-    good: <%= info[:count] %> is very not completely bad. You, `SUBJECT_NAME_HERE`, must be the pride of `SUBJECT_HOMETOWN_HERE`.
-    great: <%= info[:count] %> is genuinely mildly impressive! You, `SUBJECT_NAME_HERE`, must be the pride of `SUBJECT_HOMETOWN_HERE`.
-    awesome: Good job getting <%= info[:count] %> hackers! You, `SUBJECT_NAME_HERE`, must be the pride of `SUBJECT_HOMETOWN_HERE`.
-    impossible: Good job getting `MAX_VALUE_EXCEEDED` participants. I am required to inform you that you've done **very well**.
+    ok: Nice!
+    good: <%= info[:count] %> is a number to be proud of!
+    great: Damn, <%= info[:count] %> is a huge number of people!
+    awesome: I have no words. <%= info[:count] %> people is incredible!
+    impossible: I'm speechless. That's incredible.
 
 attendance:
-    invalid:
-      - Input invalid. Please input a single number.
-      - Input value invalid. That's the opposite of what input values should be.
-    not_realistic: Make sure your number is a real number greater than 0 (for example, 10 or 25).
-    valid: <%= info[:judgement] %> Is there anything the Hack Club team can be helpful with? I can submit a Hack Club Feedback Report (just make sure to include everything in a single message). If not, please respond with "no".
+    invalid: I didn't quite understand that. Can you try giving a single number?
+    not_realistic: I'm going to need a positive number, silly. How many people came to the last meeting?
+    valid: <%= info[:judgement] %> Is there anything the Hack Club team can be helpful with? I'll send them anything you send my way (just make sure to include everything in a single message). If not, please respond with "no".
 
 notes:
-    no_notes: Your report has been filed. Thank you for helping us help you help us all. Have a good rest break.
-    had_notes: Your report has been filed. Expect to hear from a Hack Club Report Response Representative within the next `UNDEFINED TIME_UNIT`. That's _very_ fast.
+    no_notes: Okay. Hope you have a hack-tastic weekend!
+    had_notes: Sweet, I'll let them know! Hope you have a hactastic weekend!
 
 follow_ups:
     first: "Hey! Just wanted to follow-up on this. :wink:"
-    second: "Hello"
-    third: "Are you still there?"
+    second: "Ping. :wave:"
+    third: "Just a heads up – this is the last ping I'll send. :airplane_departure:"
