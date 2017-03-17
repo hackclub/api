@@ -53,10 +53,17 @@ module Hackbot
       def wait_for_no_meeting_reason
         data['no_meeting_reason'] = msg
 
-        msg_channel copy('no_meeting_reason')
+        if should_ask_if_dead?
+          msg_channel copy('no_meeting_reason')
 
-        default_follow_up 'wait_for_meeting_in_the_future'
-        :wait_for_meeting_in_the_future
+          default_follow_up 'wait_for_meeting_in_the_future'
+          :wait_for_meeting_in_the_future
+        else
+          msg_channel copy('meeting_in_the_future.positive')
+
+          default_follow_up 'wait_for_help'
+          :wait_for_help
+        end
       end
 
       # rubocop:disable Metrics/MethodLength
@@ -240,6 +247,15 @@ module Hackbot
 
       def record_notes
         data['notes'] = msg
+      end
+
+      def should_ask_if_dead?
+        Hackbot::Interactions::CheckIn
+          .where("data->>'channel' = '#{data['channel']}'")
+          .order('created_at DESC')
+          .limit(3)
+          .map { |c| c.data['attendance'].nil? }
+          .reduce(:&)
       end
 
       def first_check_in?
