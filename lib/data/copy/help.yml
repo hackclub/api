@@ -1,4 +1,10 @@
 help: |
-    Hi :wave:! I'm Hack Club's friendly :robot_face: helper. I don't do much right now, but if you're a club leader you've probably received some messages from me about the attendance of your club.
+    Hi :wave:! I'm Hack Club's friendly :robot_face: helper. I don't do much right now, but if you're a leader you've probably received some messages from me about the attendance of your club.
 
-    If you're interested in contributing to my codebase check out https://github.com/hackclub/api/issues. I'd love to learn some new tricks from you!
+    Here are the commands I know:
+
+    <% info[:commands].each do |c| %>
+    `<%= c[:usage] %>` - <%= c[:desc] %>
+    <% end %>
+
+    To use one of them, go ahead and say `<%= info[:bot_mention] %>` and then the command you want to run, like `<%= info[:bot_mention] %> <%= info[:commands].sample[:usage] %>`.

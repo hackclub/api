@@ -3,6 +3,10 @@ module Hackbot
     class Stats < Command
       TRIGGER = /stats/
 
+      USAGE = 'stats'.freeze
+      DESCRIPTION = 'get some generated statistics on your club '\
+                    '(leaders only)'.freeze
+
       def start
         if valid_stats?
           msg_channel copy('stats', school_name: stats.club_name,
