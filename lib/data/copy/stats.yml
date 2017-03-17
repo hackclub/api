@@ -1,6 +1,6 @@
 invalid:
     leader: You don't seem to be a club leader! I can't get any stats for you :(
-    check_ins: You haven't had enough meetings for there to be any stats for you yet :(
+    check_ins: I can give you stats once you've had 3 meetings.
 
 stats: |
     These are stats for your club at <%= info[:school_name] %>!
