@@ -5,7 +5,7 @@ first_greeting: |
 
     To start, did you have a club meeting this week?
 
-greeting: Hey <%= info[:first_name] %>! Let's get started — please be sure to complete this check-in by <%= info[:deadline] %>.
+greeting: Hey <%= info[:first_name] %>! Let's get started — please be sure to complete this check-in by <%= info[:deadline] %>. Did your club meet this week?
 
 meeting_confirmation:
     positive: Okay, sweet! On which day was it? (say something like "monday" or "today" – I'm not very clever)
