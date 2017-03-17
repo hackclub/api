@@ -1,4 +1,6 @@
-invalid: You're not a club leader! I currently only know how to give stats to club leaders.
+invalid:
+    leader: You don't seem to be a club leader! I can't get any stats for you :(
+    check_ins: I can give you stats once you've had 3 meetings.
 
 stats: |
     These are stats for your club at <%= info[:school_name] %>!
