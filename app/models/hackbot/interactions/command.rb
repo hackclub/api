@@ -1,6 +1,14 @@
 module Hackbot
   module Interactions
     class Command < TextConversation
+      def self.usage(event, team)
+        new(event: event, team: team).usage
+      end
+
+      def self.description(event, team)
+        new(event: event, team: team).description
+      end
+
       def should_start?
         # We have to use self.class:: to access the constant because of the
         # quirk described in this StackOverflow question:
@@ -14,6 +22,14 @@ module Hackbot
 
       def captured
         @_captured ||= self.class::TRIGGER.match(msg)
+      end
+
+      def usage
+        self.class::USAGE if self.class.const_defined? 'USAGE'
+      end
+
+      def description
+        self.class::DESCRIPTION if self.class.const_defined? 'DESCRIPTION'
       end
     end
   end
