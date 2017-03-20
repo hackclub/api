@@ -1,5 +1,6 @@
 class FakeSlackEventService
-  def initialize(team, user_id, channel_id = nil, type = 'message', message = nil)
+  def initialize(team, user_id, channel_id = nil, type = 'message',
+                 message = nil)
     @team = team
     @team_id = team.team_id
     @bot_access_token = team.bot_access_token
