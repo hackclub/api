@@ -11,35 +11,12 @@ class LeaderCheckInJob < ApplicationJob
       raise(Exception, "Not able to open instant message: '#{im[:error]}'")
     end
 
-    event = construct_fake_event(id, im[:channel][:id])
-    close_previous_check_ins(im[:channel][:id], event)
-
-    start_check_in event
+    start_check_in
   end
 
   private
 
-  def close_previous_check_ins(channel, event)
-    previous_unfinished_check_ins(channel).each do |check_in|
-      if check_in.state.eql? 'wait_for_notes'
-        check_in.generate_check_in event
-      else
-        check_in.data['failed_to_complete'] = true
-      end
-
-      check_in.state = 'finish'
-      check_in.save
-    end
-  end
-
-  def previous_unfinished_check_ins(channel)
-    Hackbot::Interactions::CheckIn
-      .where("data->>'channel' = '#{channel}'")
-      .where.not(state: 'finish')
-  end
-
   def slack_id_from_streak_key(streak_key)
-    leader = Leader.find_by(streak_key: streak_key)
     if leader.nil?
       raise(Exception, "Leader with streak key not found: '#{streak_key}'")
     end
@@ -50,11 +27,8 @@ class LeaderCheckInJob < ApplicationJob
     id
   end
 
-  def start_check_in(event)
-    interaction = Hackbot::Interactions::CheckIn.create(team: slack_team,
-                                                        event: event)
-    interaction.handle
-    interaction.save!
+  def start_check_in
+    Hackbot::Interactions::CheckIn.trigger(leader.slack_id)
   end
 
   # This constructs a fake Slack event to start the interaction with. It'll be
@@ -70,6 +44,10 @@ class LeaderCheckInJob < ApplicationJob
       channel: channel_id,
       ts: 'fake.timestamp'
     }
+  end
+
+  def leader
+    Leader.find_by(streak_key: streak_key)
   end
 
   def open_im(user_id)

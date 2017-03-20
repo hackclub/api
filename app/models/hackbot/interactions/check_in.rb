@@ -6,7 +6,7 @@ module Hackbot
   module Interactions
     # rubocop:disable Metrics/ClassLength
     class CheckIn < TextConversation
-      include Concerns::Followupable
+      include Concerns::Followupable, Concerns::Triggerable
 
       TASK_ASSIGNEE = Rails.application.secrets.default_streak_task_assignee
 
