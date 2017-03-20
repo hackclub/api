@@ -1,0 +1,10 @@
+welcome: |
+    Hey <%= info[:name] %>! Noticed you just filled out the intake form – welcome to Hack Club :hackclub:! My name is Hackbot, I'm our Slack's friendly robotic helper.
+
+    I can respond to specific commands you give me. For example, if you type `hackbot gif pugs`, I'll send you a gif of some adorable dogs. If you want a list of all the things I know how to do, just type `hackbot help`.
+
+    I'm pretty basic right now, but I learn new things every week. In fact, if you have any ideas :bulb: for new features talk to <@U0C7BTKLG> or <@U0C7B14Q3>!
+
+    If you're the club's point of contact (<@U1S56LC05> should explain what this is), I'll be reaching out to you every week on Friday to find out the latest information about your club.
+
+    Happy hacking!
