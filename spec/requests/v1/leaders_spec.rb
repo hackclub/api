@@ -20,8 +20,16 @@ RSpec.describe 'V1::Leaders', type: :request do
 
     context 'with valid attributes' do
       let!(:starting_letter_count) { Letter.count }
+      let(:welcome) do
+        class_double(Hackbot::Interactions::Welcome).as_stubbed_const
+      end
 
-      before { post '/v1/leaders/intake', params: req_body }
+      before do
+        # Mock the leader welcome interaction so we're not trying to send a
+        # Slack message every time the test is run.
+        allow(welcome).to receive(:trigger)
+        post '/v1/leaders/intake', params: req_body
+      end
 
       it 'creates the leader' do
         expect(response.status).to eq(201)

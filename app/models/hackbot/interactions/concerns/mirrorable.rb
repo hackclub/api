@@ -65,7 +65,7 @@ module Hackbot
 
         def mirror_attachments(slack_user, channel, timestamp, attachments)
           # Make all of the attachments the same color when sending
-          attachments.each { |a| a[:color] = color_for(slack_user) }
+          attachments.each { |a| a[:color] = attachment_color }
 
           _attach(
             MIRROR_CHANNEL,
@@ -93,7 +93,7 @@ module Hackbot
 
         def attachment_template(slack_user, channel, timestamp)
           {
-            color: color_for(slack_user),
+            color: attachment_color,
             author_name: mention_for(slack_user),
             author_icon: slack_user[:profile][:image_72],
             footer: mirror_copy('template.footer',
@@ -115,8 +115,8 @@ module Hackbot
           '@' + slack_user[:name]
         end
 
-        def color_for(slack_user)
-          color_hex_from_string(slack_user[:id])
+        def attachment_color
+          color_hex_from_string(id.to_s)
         end
 
         def color_hex_from_string(str)

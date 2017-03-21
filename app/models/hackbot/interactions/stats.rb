@@ -3,28 +3,39 @@ module Hackbot
     class Stats < Command
       TRIGGER = /stats/
 
+      USAGE = 'stats'.freeze
+      DESCRIPTION = 'get some generated statistics on your club '\
+                    '(leaders only)'.freeze
+
       def start
-        stats = statistics
-
-        if stats.nil?
-          msg_channel copy('invalid')
-
-          return :finish
+        if valid_stats?
+          msg_channel copy('stats', school_name: stats.club_name,
+                                    days_alive: stats.days_alive,
+                                    total_meetings: stats.total_meetings_count,
+                                    avg_attendance: stats.average_attendance)
+        else
+          handle_invalid_stats
         end
-
-        msg_channel copy('stats', school_name: stats.club_name,
-                                  days_alive: stats.days_alive,
-                                  total_meetings: stats.total_meetings_count,
-                                  avg_attendance: stats.average_attendance,
-                                  compliment: copy('compliment'))
       end
 
       private
 
-      def statistics
-        return nil unless leader
+      def valid_stats?
+        !(stats.leader.nil? || stats.check_ins.length <= 2)
+      end
 
-        ::StatsService.new(leader)
+      def handle_invalid_stats
+        selector = if stats.leader.nil?
+                     'leader'
+                   else
+                     'check_ins'
+                   end
+
+        msg_channel copy("invalid.#{selector}")
+      end
+
+      def stats
+        @stats ||= ::StatsService.new(leader)
       end
 
       def leader

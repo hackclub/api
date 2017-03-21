@@ -1,6 +1,8 @@
 class StatsService
   GRAPH_SAMPLES = 4
 
+  attr_accessor :check_ins, :leader
+
   def initialize(leader)
     @leader = leader
     @check_ins = ::CheckIn.where(leader: leader).order('meeting_date ASC')

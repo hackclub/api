@@ -62,6 +62,13 @@ class Leader < ApplicationRecord
     end
   end
 
+  def timezone
+    Timezone.lookup(latitude, longitude)
+  rescue Timezone::Error::InvalidZone
+    Rails.logger.warn("Unable to find timezone for leader \##{id}")
+    nil
+  end
+
   private
 
   def slack_id_sync

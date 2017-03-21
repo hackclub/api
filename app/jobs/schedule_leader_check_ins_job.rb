@@ -2,9 +2,14 @@
 class ScheduleLeaderCheckInsJob < ApplicationJob
   HACK_CLUB_TEAM_ID = 'T0266FRGM'.freeze
   CLUB_ACTIVE_STAGE_KEY = '5003'.freeze
+  CLUB_INACTIVE_ONE_WEEK_KEY = '5012'.freeze
+  CLUB_INACTIVE_TWO_WEEKS_KEY = '5013'.freeze
   CLUB_PIPELINE_KEY = Rails.application.secrets.streak_club_pipeline_key
   LEADER_ACTIVE_STAGE_KEY = '5006'.freeze
   LEADER_PIPELINE_KEY = Rails.application.secrets.streak_leader_pipeline_key
+
+  CLUB_ACTIVE_STAGE_KEYS = [CLUB_ACTIVE_STAGE_KEY, CLUB_INACTIVE_ONE_WEEK_KEY,
+                            CLUB_INACTIVE_TWO_WEEKS_KEY].freeze
 
   def perform(real_run = false, timezones = true)
     dry_run_notification unless real_run
@@ -13,6 +18,8 @@ class ScheduleLeaderCheckInsJob < ApplicationJob
 
       schedule_check_in(real_run, timezones, trigger_time, poc.streak_key)
     end
+
+    Rails.logger.info "Scheduled #{pocs.count} check ins."
   end
 
   private
@@ -52,8 +59,8 @@ class ScheduleLeaderCheckInsJob < ApplicationJob
     @club_active_boxes ||= StreakClient::Box
                            .all_in_pipeline(CLUB_PIPELINE_KEY)
                            .select do |b|
-      b[:stage_key] == CLUB_ACTIVE_STAGE_KEY
-    end
+                             CLUB_ACTIVE_STAGE_KEYS.include? b[:stage_key]
+                           end
 
     @club_active_boxes
   end
