@@ -13,6 +13,9 @@ class ScheduleLeaderCheckInsJob < ApplicationJob
 
   def perform(real_run = false, timezones = true)
     dry_run_notification unless real_run
+
+    close_check_ins
+
     pocs.each do |poc|
       trigger_time = time_offset(poc[:latitude], poc[:longitude])
 
@@ -24,6 +27,14 @@ class ScheduleLeaderCheckInsJob < ApplicationJob
 
   private
 
+  def close_check_ins(real_run)
+    logger('Closing currently open check ins')
+
+    sleep 3.seconds
+
+    CloseCheckInsJob.perform_now unless real_run
+  end
+
   def dry_run_notification
     Rails.logger.info 'Running in dry run mode. This will not create '\
                       'scheduled jobs.'
@@ -31,9 +42,7 @@ class ScheduleLeaderCheckInsJob < ApplicationJob
   end
 
   def schedule_check_in(real_run, timezones, trigger_time, streak_key)
-    msg = (real_run ? '' : '(Dry run) ')
-    msg << "Scheduling check-in at #{trigger_time} for #{streak_key}"
-    Rails.logger.info msg
+    logger("Scheduling check-in at #{trigger_time} for #{streak_key}", real_run)
 
     return unless real_run
 
@@ -44,6 +53,13 @@ class ScheduleLeaderCheckInsJob < ApplicationJob
           end
 
     job.perform_later(streak_key)
+  end
+
+  def logger(message, real_run)
+    msg = (real_run ? '' : '(Dry run) ')
+    msg << message
+
+    Rails.logger.info msg
   end
 
   def time_offset(lat, lng, day = 'friday', local_time = 17.hours)
