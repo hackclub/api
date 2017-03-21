@@ -69,8 +69,10 @@ class CloseCheckInsJob < ApplicationJob
                        "#{check_in.data['channel']}")
     end
 
-    check_in.event = FakeSlackEventService.new(slack_team, im[:user],
-                                               check_in.data['channel'])
+    check_in.event = FakeSlackEventService.new(
+      slack_team, im[:user],
+      check_in.data['channel']
+    ).event
 
     check_in
   end
