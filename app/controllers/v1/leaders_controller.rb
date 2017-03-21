@@ -11,7 +11,7 @@ module V1
 
       if leader.save
         welcome_letter_for_leader(leader).save!
-        welcome_message leader
+        welcome_to_slack leader
 
         render json: leader, status: 201
       else
@@ -48,7 +48,7 @@ module V1
       )
     end
 
-    def welcome_message(leader)
+    def welcome_to_slack(leader)
       Hackbot::Interactions::Welcome.trigger(leader.slack_id)
     end
   end
