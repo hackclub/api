@@ -5,7 +5,7 @@ class CloseCheckInsJob < ApplicationJob
     interactions = if interaction_ids.empty?
                      unfinished_check_ins
                    else
-                     check_ins_from_array
+                     check_ins_from_array interaction_ids
                    end
 
     interactions.each do |check_in|
