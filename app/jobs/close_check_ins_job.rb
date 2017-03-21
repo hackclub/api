@@ -9,7 +9,8 @@ class CloseCheckInsJob < ApplicationJob
                    end
 
     interactions.each do |check_in|
-      raise(Exception, 'This check in nil') if check_in.nil?
+      raise(Exception, 'This check in is nil') if check_in.nil?
+
       close check_in
     end
   end
@@ -26,12 +27,28 @@ class CloseCheckInsJob < ApplicationJob
       # Leaders in this state should not be marked as 'failed_to_complete'
     else
       check_in.data['failed_to_complete'] = true
+      send_close_message check_in.data['channel']
     end
 
     check_in.state = 'finish'
     check_in.save
   end
   # rubocop:enable Lint/EmptyWhen
+
+  def send_close_message(channel)
+    SlackClient::Chat.send_msg(
+      channel,
+      close_message,
+      access_token,
+      as_user: true
+    )
+  end
+
+  def close_message
+    CopyService
+      .new('jobs/close_check_ins_job', {})
+      .get_copy('close')
+  end
 
   def check_ins_from_array(ids)
     ids.map do |id|
@@ -52,19 +69,10 @@ class CloseCheckInsJob < ApplicationJob
                        "#{check_in.data['channel']}")
     end
 
-    check_in.event = construct_fake_event(im[:user], check_in.data['channel'])
+    check_in.event = FakeSlackEventService.new(slack_team, im[:user],
+                                               check_in.data['channel'])
 
     check_in
-  end
-
-  def construct_fake_event(user_id, channel_id)
-    {
-      team_id: slack_team.team_id,
-      user: user_id,
-      type: 'message',
-      channel: channel_id,
-      ts: 'fake.timestamp'
-    }
   end
 
   def im_info(channel_id)
