@@ -12,11 +12,15 @@ class ScheduleLeaderCheckInsJob < ApplicationJob
                             CLUB_INACTIVE_TWO_WEEKS_KEY].freeze
 
   def perform(real_run = false, timezones = true)
-    dry_run_notification unless real_run
+    @dry_run = !real_run
+    dry_run_notification if @dry_run
+
+    close_check_ins
+
     pocs.each do |poc|
       trigger_time = time_offset(poc[:latitude], poc[:longitude])
 
-      schedule_check_in(real_run, timezones, trigger_time, poc.streak_key)
+      schedule_check_in(timezones, trigger_time, poc.streak_key)
     end
 
     Rails.logger.info "Scheduled #{pocs.count} check ins."
@@ -24,18 +28,24 @@ class ScheduleLeaderCheckInsJob < ApplicationJob
 
   private
 
+  def close_check_ins
+    logger('Closing currently open check ins')
+
+    sleep 3.seconds
+
+    CloseCheckInsJob.perform_now unless @dry_run
+  end
+
   def dry_run_notification
     Rails.logger.info 'Running in dry run mode. This will not create '\
                       'scheduled jobs.'
     sleep 5.seconds
   end
 
-  def schedule_check_in(real_run, timezones, trigger_time, streak_key)
-    msg = (real_run ? '' : '(Dry run) ')
-    msg << "Scheduling check-in at #{trigger_time} for #{streak_key}"
-    Rails.logger.info msg
+  def schedule_check_in(timezones, trigger_time, streak_key)
+    logger("Scheduling check-in at #{trigger_time} for #{streak_key}")
 
-    return unless real_run
+    return if @dry_run
 
     job = if timezones
             LeaderCheckInJob.set(wait_until: trigger_time)
@@ -44,6 +54,13 @@ class ScheduleLeaderCheckInsJob < ApplicationJob
           end
 
     job.perform_later(streak_key)
+  end
+
+  def logger(message)
+    msg = (@dry_run ? '(Dry run) ' : '')
+    msg << message
+
+    Rails.logger.info msg
   end
 
   def time_offset(lat, lng, day = 'friday', local_time = 17.hours)
