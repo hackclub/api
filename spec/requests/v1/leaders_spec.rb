@@ -20,7 +20,9 @@ RSpec.describe 'V1::Leaders', type: :request do
 
     context 'with valid attributes' do
       let!(:starting_letter_count) { Letter.count }
-      let (:welcome) { class_double(Hackbot::Interactions::Welcome).as_stubbed_const }
+      let(:welcome) do
+        class_double(Hackbot::Interactions::Welcome).as_stubbed_const
+      end
 
       before do
         # Mock the leader welcome interaction so we're not trying to send a
