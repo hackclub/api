@@ -29,7 +29,7 @@ class ScheduleLeaderCheckInsJob < ApplicationJob
   private
 
   def close_check_ins
-    logger('Closing currently open check ins')
+    log('Closing currently open check ins')
 
     sleep 3.seconds
 
@@ -43,7 +43,7 @@ class ScheduleLeaderCheckInsJob < ApplicationJob
   end
 
   def schedule_check_in(timezones, trigger_time, streak_key)
-    logger("Scheduling check-in at #{trigger_time} for #{streak_key}")
+    log("Scheduling check-in at #{trigger_time} for #{streak_key}")
 
     return if @dry_run
 
@@ -56,7 +56,7 @@ class ScheduleLeaderCheckInsJob < ApplicationJob
     job.perform_later(streak_key)
   end
 
-  def logger(message)
+  def log(message)
     msg = (@dry_run ? '(Dry run) ' : '')
     msg << message
 
