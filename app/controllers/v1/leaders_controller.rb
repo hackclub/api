@@ -49,7 +49,7 @@ module V1
     end
 
     def welcome_to_slack(leader)
-      Hackbot::Interactions::Welcome.trigger(leader.slack_id)
+      ::Hackbot::Interactions::Welcome.trigger(leader.slack_id)
     end
   end
 end
