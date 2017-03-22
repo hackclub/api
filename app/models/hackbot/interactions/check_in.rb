@@ -45,13 +45,51 @@ module Hackbot
       # rubocop:enable Metrics/MethodLength
 
       def wait_for_no_meeting_reason
+        data['no_meeting_reason'] = msg
+
+        if should_ask_if_dead?
+          msg_channel copy('no_meeting_reason')
+
+          default_follow_up 'wait_for_meeting_in_the_future'
+          :wait_for_meeting_in_the_future
+        else
+          msg_channel copy('meeting_in_the_future.positive')
+
+          default_follow_up 'wait_for_help'
+          :wait_for_help
+        end
+      end
+
+      # rubocop:disable Metrics/MethodLength
+      def wait_for_meeting_in_the_future
+        case msg
+        when Hackbot::Utterances.yes
+          msg_channel copy('meeting_in_the_future.positive')
+
+          default_follow_up 'wait_for_help'
+          :wait_for_help
+        when Hackbot::Utterances.no
+          msg_channel copy('meeting_in_the_future.negative')
+          data['wants_to_be_dead'] = true
+
+          :finish
+        else
+          msg_channel copy('meeting_in_the_future.invalid')
+
+          default_follow_up 'wait_for_meeting_in_the_future'
+          :wait_for_meeting_in_the_future
+        end
+      end
+      # rubocop:enable Metrics/MethodLength
+
+      def wait_for_help
         if should_record_notes?
           notes = record_notes
           create_task leader, 'Follow-up on notes from a failed '\
             "meeting: #{notes}"
         end
 
-        msg_channel copy('no_meeting_reason')
+        msg_channel copy('help')
       end
 
       # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
@@ -213,6 +251,15 @@ module Hackbot
 
       def record_notes
         data['notes'] = msg
+      end
+
+      def should_ask_if_dead?
+        Hackbot::Interactions::CheckIn
+          .where("data->>'channel' = '#{data['channel']}'")
+          .order('created_at DESC')
+          .limit(3)
+          .map { |c| c.data['attendance'].nil? }
+          .reduce(:&)
       end
 
       def first_check_in?
