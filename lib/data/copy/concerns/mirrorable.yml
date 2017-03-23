@@ -1,7 +1,7 @@
-mirror_msg:
+mirror_plain:
   fallback: "<%= slack_mention %>: <%= text %>"
-mirror_attachments:
-  fallback: <%= slack_mention %> sent attachments
+mirror_rich:
+  fallback: <%= slack_mention %> sent a rich message -- please view using Slack's native clients
 mirror_file:
   text: |
     Uploaded `<%= filename %>`.

@@ -22,8 +22,8 @@ module Hackbot
 
       protected
 
-      def msg_channel(text)
-        send_msg(data['channel'], text)
+      def msg_channel(msg)
+        send_msg(data['channel'], msg)
       end
 
       def attach_channel(*attachments)

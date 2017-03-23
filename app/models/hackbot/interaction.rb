@@ -63,35 +63,33 @@ module Hackbot
       team.bot_access_token
     end
 
-    def send_msg(channel, text)
-      ::SlackClient::Chat.send_msg(
-        channel,
-        text,
-        access_token,
-        as_user: true
-      )
+    def send_msg(channel, msg)
+      to_send = { as_user: true }
+
+      if msg.is_a? String
+        to_send[:text] = msg
+      else
+        to_send = to_send.merge(msg)
+      end
+
+      if to_send[:attachments]
+        to_send[:attachments] = insert_attachment_defaults(to_send[:attachments])
+      end
+
+      ::SlackClient::Chat.send_msg(channel, nil, access_token, to_send)
     end
 
     def attach(channel, *attachments)
-      attachments = insert_attachment_defaults(attachments)
-
-      ::SlackClient::Chat.send_msg(
-        channel,
-        nil,
-        access_token,
-        attachments: attachments.to_json,
-        as_user: true
-      )
+      send_msg(channel, attachments: attachments)
     end
 
     # Commenting because this method's name is somewhat confusing. Please rename
     # if you can think of something better.
     #
-    # This method updates the attachments of the message that triggered action
-    # with the passed in attachments. It uses action's special response_url
-    # attribute to update the source message without leaving a note in the
-    # user's Slack client saying that the source message was edited, making the
-    # UX of the edit much nicer.
+    # This method updates the message that triggered action with the passed in
+    # attachments. It uses action's special response_url attribute to update the
+    # source message without leaving a note in the user's Slack client saying
+    # that the source message was edited, making the UX of the edit much nicer.
     #
     # The whole behavior of response_url can be quite confusing and difficult to
     # understand -- the first thing to understand is that the request format is
@@ -99,15 +97,17 @@ module Hackbot
     # our current SlackClient implementation.
     #
     # Docs: https://api.slack.com/docs/message-buttons#overview
-    def update_action_source(*attachments)
+    def update_action_source(msg)
+      if msg[:attachments]
+        msg[:attachments] = insert_attachment_defaults(msg[:attachments])
+      end
+
       RestClient::Request.execute(
         method: :post,
         url: event[:response_url],
         payload: {
-          channel: event[:channel],
-          text: nil,
           token: access_token,
-          attachments: insert_attachment_defaults(attachments)
+          **msg
         }.to_json
       )
     end

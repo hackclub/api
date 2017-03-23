@@ -11,23 +11,13 @@ module Hackbot
           before_handle :mirror_incoming_msg
 
           alias_method :_send_msg, :send_msg
-          alias_method :_attach, :attach
           alias_method :_send_file, :send_file
 
-          define_method :send_msg do |channel, text|
-            resp = _send_msg(channel, text)
+          define_method :send_msg do |channel, msg|
+            resp = _send_msg(channel, msg)
             msg = resp[:message]
 
-            mirror_msg(bot_slack_user, channel, msg[:ts], text)
-
-            resp
-          end
-
-          define_method :attach do |channel, *attachments|
-            resp = _attach(channel, *attachments)
-            msg = resp[:message]
-
-            mirror_attachments(bot_slack_user, channel, msg[:ts], attachments)
+            mirror_msg(bot_slack_user, channel, msg[:ts], msg)
 
             resp
           end
@@ -47,47 +37,69 @@ module Hackbot
         def mirror_incoming_msg
           return unless msg
 
-          mirror_msg(current_slack_user, event[:channel], event[:ts], msg)
+          mirror_msg(current_slack_user, event[:channel], event[:ts], event)
         end
 
-        def mirror_msg(slack_user, channel, timestamp, text)
-          _attach(
+        def mirror_msg(slack_user, channel, timestamp, msg_event)
+          if msg_event[:attachments] && msg_event[:attachments].any?
+            mirror_rich_msg(slack_user, channel, timestamp, msg_event)
+          else
+            mirror_plain_msg(slack_user, channel, timestamp, msg_event)
+          end
+        end
+
+        # Mirror a plain text message
+        def mirror_plain_msg(slack_user, channel, timestamp, msg_event)
+          _send_msg(
             MIRROR_CHANNEL,
-            text: text,
-            fallback: mirror_copy(
-              'mirror_msg.fallback',
-              slack_mention: mention_for(slack_user),
-              text: text
-            ),
-            **attachment_template(slack_user, channel, timestamp)
+            attachments: [
+              text: msg_event[:text],
+              fallback: mirror_copy(
+                'mirror_plain.fallback',
+                slack_mention: mention_for(slack_user),
+                text: msg_event[:text]
+              ),
+              **attachment_template(slack_user, channel, timestamp)
+            ]
           )
         end
 
-        def mirror_attachments(slack_user, channel, timestamp, attachments)
-          # Make all of the attachments the same color when sending
+        # Mirror a message that includes more than just text
+        def mirror_rich_msg(slack_user, channel, timestamp, msg_event)
+          attachments = []
+
+          attachments << {
+            **attachment_template(slack_user, channel, timestamp),
+            fallback: mirror_copy(
+              'mirror_rich.fallback',
+              slack_mention: mention_for(slack_user)
+            )
+          }
+          attachments << { text: msg_event[:text] } if msg_event[:text].present?
+          attachments += msg_event[:attachments] if msg_event[:attachments]
+
+          # Make sure all attachments are the same color when we send them to
+          # the user.
           attachments.each { |a| a[:color] = attachment_color }
 
-          _attach(
+          _send_msg(
             MIRROR_CHANNEL,
-            {
-              fallback: mirror_copy('mirror_attachments.fallback',
-                                    slack_mention: mention_for(slack_user)),
-              **attachment_template(slack_user, channel, timestamp)
-            },
-            *attachments
+            attachments: attachments
           )
         end
 
         def mirror_file(slack_user, channel, timestamp, filename)
-          _attach(
+          _send_msg(
             MIRROR_CHANNEL,
-            text: mirror_copy('mirror_file.text', filename: filename),
-            fallback: mirror_copy(
-              'mirror_file.fallback',
-              slack_mention: mention_for(slack_user),
-              filename: filename
-            ),
-            **attachment_template(slack_user, channel, timestamp)
+            attachments: [
+              text: mirror_copy('mirror_file.text', filename: filename),
+              fallback: mirror_copy(
+                'mirror_file.fallback',
+                slack_mention: mention_for(slack_user),
+                filename: filename
+              ),
+              **attachment_template(slack_user, channel, timestamp)
+            ]
           )
         end
 
