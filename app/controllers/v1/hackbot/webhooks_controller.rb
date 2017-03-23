@@ -11,17 +11,17 @@ module V1
       end
 
       def events
-        # See https://api.slack.com/events/url_verification
-        if params[:type] == 'url_verification'
+        case params[:type]
+        when 'url_verification' # See https://api.slack.com/events/url_verification
           render plain: params[:challenge]
-        elsif params[:type] != 'event_callback'
-          render status: :not_implemented
-        else
+        when 'event_callback'
           render status: 200
 
           event = params[:event].to_unsafe_h
 
           handle_event(event, params[:team_id])
+        else
+          render status: :not_implemented
         end
       end
 
