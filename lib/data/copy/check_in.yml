@@ -1,11 +1,11 @@
 first_greeting: |
-    Hey <%= info[:first_name] %>! I'm Hackbot, Hack Club's friendly robot helper.
+    Hey <%= first_name %>! I'm Hackbot, Hack Club's friendly robot helper.
 
     I'll be reaching out to you every week, typically on Fridays, to check in and see how your club's doing. I'll be in the loop every step of the way :slightly_smiling_face:
 
     To start, did you have a club meeting this week?
 
-greeting: Hey <%= info[:first_name] %>! Let's get started — please be sure to complete this check-in by <%= info[:deadline] %>. Did your club meet this week?
+greeting: Hey <%= first_name %>! Let's get started — please be sure to complete this check-in by <%= deadline %>. Did your club meet this week?
 
 meeting_confirmation:
     positive: Okay, sweet! On which day was it? (say something like "monday" or "today" – I'm not very clever)
@@ -29,15 +29,15 @@ day_of_week:
 
 judgement:
     ok: Nice!
-    good: <%= info[:count] %> is a number to be proud of!
-    great: Damn, <%= info[:count] %> is a huge number of people!
-    awesome: I have no words. <%= info[:count] %> people is incredible!
+    good: <%= count %> is a number to be proud of!
+    great: Damn, <%= count %> is a huge number of people!
+    awesome: I have no words. <%= count %> people is incredible!
     impossible: I'm speechless. That's incredible.
 
 attendance:
     invalid: I didn't quite understand that. Can you try giving a single number?
     not_realistic: I'm going to need a positive number, silly. How many people came to the last meeting?
-    valid: <%= info[:judgement] %> Is there anything the Hack Club team can be helpful with? I'll send them anything you send my way (just make sure to include everything in a single message). If not, please respond with "no".
+    valid: <%= judgement %> Is there anything the Hack Club team can be helpful with? I'll send them anything you send my way (just make sure to include everything in a single message). If not, please respond with "no".
 
 notes:
     no_notes: Okay. Hope you have a hack-tastic weekend!

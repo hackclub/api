@@ -1,12 +1,12 @@
 start:
     invalid: I can't find that leader :-?
-    no_clubs: <%= info[:leader_name] %> is not associated with any clubs.
+    no_clubs: <%= leader_name %> is not associated with any clubs.
     many_clubs:
-        intro: <%= info[:leader_name] %> is associated with the following clubs
-        each: <%= info[:i] %>. <%= info[:club_name] %> <%= info[:club_name] %>
+        intro: <%= leader_name %> is associated with the following clubs
+        each: <%= i %>. <%= club_name %> <%= club_name %>
         outro: Please pick one and then send the number next to it.
 clubs_num:
-    invalid: Please choose a number between 1 and <%= info[:num_of_clubs] %>
+    invalid: Please choose a number between 1 and <%= num_of_clubs %>
 set:
-    success: <%= info[:leader_name] %> has been associated with <%= info[:club_name] %>
-    failure: Unable to associate <%= info[:leader_name] %> with <%= info[:club_name] %>
+    success: <%= leader_name %> has been associated with <%= club_name %>
+    failure: Unable to associate <%= leader_name %> with <%= club_name %>

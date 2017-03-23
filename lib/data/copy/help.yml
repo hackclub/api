@@ -3,8 +3,8 @@ help: |
 
     Here are the commands I know:
 
-    <% info[:commands].each do |c| %>
+    <% commands.each do |c| %>
     `<%= c[:usage] %>` - <%= c[:desc] %>
     <% end %>
 
-    To use one of them, go ahead and say `<%= info[:bot_mention] %>` and then the command you want to run, like `<%= info[:bot_mention] %> <%= info[:commands].sample[:usage] %>`.
+    To use one of them, go ahead and say `<%= bot_mention %>` and then the command you want to run, like `<%= bot_mention %> <%= commands.sample[:usage] %>`.
