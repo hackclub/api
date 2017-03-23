@@ -3,6 +3,6 @@ invalid:
     check_ins: I can give you stats once you've had 3 meetings.
 
 stats: |
-    These are stats for your club at <%= info[:school_name] %>!
+    These are stats for your club at <%= school_name %>!
 
-    In the <%= info[:days_alive] %> days you've been checking in with me, you've had <%= info[:total_meetings] %> meetings. Across all of your recorded club meetings, on average you have <%= info[:avg_attendance] %> attend your meetings.
+    In the <%= days_alive %> days you've been checking in with me, you've had <%= total_meetings %> meetings. Across all of your recorded club meetings, on average you have <%= avg_attendance %> attend your meetings.

@@ -34,7 +34,9 @@ class CopyService
 
   def hash_to_binding(hash)
     b = binding
-    b.local_variable_set('info', hash)
+
+    hash.each { |k, v| b.local_variable_set(k, v) }
+
     b
   end
 end
