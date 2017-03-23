@@ -9,7 +9,9 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins 'https://new.hackclub.com', 'https://hackclub.com'
+    allowed_domains = ['https://new.hackclub.com', 'https://hackclub.com']
+    allowed_domains << 'localhost' if Rails.env.development?
+    origins allowed_domains
 
     resource '*',
              headers: :any,
