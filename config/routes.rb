@@ -10,7 +10,11 @@ Rails.application.routes.draw do
 
     namespace :hackbot do
       post 'auth', to: 'auth#create'
-      post 'webhook', to: 'webhook#callback'
+
+      namespace :webhooks do
+        post 'interactions'
+        post 'events'
+      end
     end
   end
 end

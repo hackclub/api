@@ -10,7 +10,7 @@ module Hackbot
       end
 
       def should_handle?
-        event[:type] == 'message' &&
+        (new_msg? || action) &&
           event[:channel] == data['channel'] &&
           super
       end
@@ -32,6 +32,15 @@ module Hackbot
 
       def file_to_channel(filename, file)
         send_file(data['channel'], filename, file)
+      end
+
+      private
+
+      # Returns whether the current event is a new message. This prevents
+      # interactions from being triggered on message edits or other subtypes of
+      # messages.
+      def new_msg?
+        msg && !event[:subtype]
       end
     end
   end

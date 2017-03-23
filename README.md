@@ -42,6 +42,8 @@ DATABASE_URL
 
 # API key for Google Maps geocoding API.
 #
+# You must also enable the timezone API in your Google Cloud account.
+#
 # Get a key from https://console.developers.google.com/flows/enableapi?apiid=geocoding_backend&keyType=SERVER_SIDE
 GOOGLE_MAPS_API_KEY
 
@@ -91,7 +93,7 @@ Dumping this stuff here for lack of a better place.
 
 1. Create a new Slack app on Slack
 2. Create one (and only one) bot user and set "Always Show My Bot as Online" to "On"
-3. Click "Event Subscriptions" on the sidebar in the left and set the request URL to `HOSTNAME/v1/hackbot/webhook`, replacing `HOSTNAME` with your actual hostname.
+3. Click "Event Subscriptions" on the sidebar in the left and set the request URL to `HOSTNAME/v1/hackbot/webhooks/events`, replacing `HOSTNAME` with your actual hostname.
 4. Subscribe to the following bot events: `message.channels`, `message.im`, `message.groups`, `message.mpim`
 
 ### Scheduled Jobs
