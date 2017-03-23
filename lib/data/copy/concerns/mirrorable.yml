@@ -17,8 +17,8 @@ template:
     dm: PM w/ <%= slack_mention %>
     unknown: Unknown source
 mirror_action:
-  text: _Clicked "<%= info[:action_text] %>"_
-  fallback: <%= info[:slack_mention] %> clicked <%= info[:action_text] %>
+  text: _Clicked "<%= action_text %>"_
+  fallback: <%= slack_mention %> clicked <%= action_text %>
 mirror_action_source_update:
   fallback: Updating attachment that created action...
   old_msg_pre: _*Replacing:*_

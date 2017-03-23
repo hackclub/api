@@ -34,9 +34,10 @@ module Hackbot
 
           define_method :update_action_source do |msg, action_event = event|
             resp = _update_action_source(msg)
+            timestamp = Time.now.to_i
 
             mirror_action_source_update(bot_slack_user, action_event[:channel],
-                                        action_event[:msg], msg)
+                                        timestamp, action_event[:msg], msg)
 
             resp
           end
@@ -87,7 +88,7 @@ module Hackbot
             { **attachment_template(slack_user, channel, timestamp),
               fallback: fallback },
 
-            *rich_msg_to_attachments(slack_user, channel, timestamp, msg_event)
+            *rich_msg_to_attachments(msg_event)
           ]
 
           _send_msg(MIRROR_CHANNEL, attachments: attachments)
@@ -121,29 +122,31 @@ module Hackbot
           )
         end
 
-        def mirror_action_source_update(slack_user, channel, old_msg, new_msg)
+        def mirror_action_source_update(slack_user, channel, timestamp, old_msg,
+                                        new_msg)
           _send_msg(
             MIRROR_CHANNEL,
             attachments: action_update_attachments(
-              slack_user, channel, old_msg, new_msg
+              slack_user, channel, timestamp, old_msg, new_msg
             )
           )
         end
 
-        def action_update_attachments(slack_user, channel, old_msg, new_msg)
+        def action_update_attachments(slack_user, channel, timestamp, old_msg,
+                                      new_msg)
           [
             { fallback: mirror_copy('mirror_action_source_update.fallback'),
-              **attachment_template(slack_user, channel, nil) },
+              **attachment_template(slack_user, channel, timestamp) },
 
             { text: mirror_copy('mirror_action_source_update.old_msg_pre'),
               color: attachment_color },
 
-            *rich_msg_to_attachments(slack_user, channel, nil, old_msg),
+            *rich_msg_to_attachments(old_msg),
 
             { text: mirror_copy('mirror_action_source_update.new_msg_pre'),
               color: attachment_color },
 
-            *rich_msg_to_attachments(slack_user, channel, nil, new_msg)
+            *rich_msg_to_attachments(new_msg)
           ]
         end
 
