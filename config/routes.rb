@@ -12,7 +12,7 @@ Rails.application.routes.draw do
       post 'auth', to: 'auth#create'
 
       namespace :webhooks do
-        post 'interactions'
+        post 'interactive_messages'
         post 'events'
       end
     end

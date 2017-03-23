@@ -1,9 +1,9 @@
 module V1
   module Hackbot
     class WebhooksController < ApplicationController
-      def interactions
+      def interactive_messages
         payload = JSON.parse(params[:payload], symbolize_names: true)
-        event = interaction_payload_to_event(payload)
+        event = action_payload_to_event(payload)
 
         handle_event(event, event[:team_id])
 
@@ -31,7 +31,7 @@ module V1
         HandleSlackEventJob.perform_later(event, team_id)
       end
 
-      def interaction_payload_to_event(payload)
+      def action_payload_to_event(payload)
         {
           type: 'action',
           channel: payload[:channel][:id],

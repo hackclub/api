@@ -95,6 +95,7 @@ Dumping this stuff here for lack of a better place.
 2. Create one (and only one) bot user and set "Always Show My Bot as Online" to "On"
 3. Click "Event Subscriptions" on the sidebar in the left and set the request URL to `HOSTNAME/v1/hackbot/webhooks/events`, replacing `HOSTNAME` with your actual hostname.
 4. Subscribe to the following bot events: `message.channels`, `message.im`, `message.groups`, `message.mpim`
+5. Click "Interactive Messages" on the left sidebar and set the request URL to `HOSTNAME/v1/hackbot/webhooks/interactive_messages`, replacing `HOSTNAME` with your actual hostname.
 
 ### Scheduled Jobs
 
