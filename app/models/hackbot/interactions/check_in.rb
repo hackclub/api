@@ -10,6 +10,10 @@ module Hackbot
 
       TASK_ASSIGNEE = Rails.application.secrets.default_streak_task_assignee
 
+      def should_start?
+        false
+      end
+
       def start
         first_name = leader.name.split(' ').first
         deadline = formatted_deadline leader
