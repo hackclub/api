@@ -8,6 +8,11 @@ module SlackClient
       extra_params[:channel] ||= channel
       extra_params[:text] ||= text
 
+      # Encode attachments as JSON if we have them, as required by the API.
+      if extra_params[:attachments]
+        extra_params[:attachments] = extra_params[:attachments].to_json
+      end
+
       SlackClient.rpc('chat.postMessage', access_token, extra_params)
     end
   end

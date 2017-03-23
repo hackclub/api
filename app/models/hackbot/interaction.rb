@@ -1,6 +1,9 @@
 module Hackbot
   class Interaction < ApplicationRecord
     include Hackbot::Callbacks
+    include Hackbot::Copy
+    include Hackbot::Helpers
+    include Hackbot::SlackInteraction
 
     attr_internal :event
 
@@ -47,84 +50,11 @@ module Hackbot
 
     def finish; end
 
-    def msg
-      return nil unless event[:type] == 'message'
-
-      event[:text]
-    end
-
-    def access_token
-      team.bot_access_token
-    end
-
-    def send_msg(channel, text)
-      ::SlackClient::Chat.send_msg(
-        channel,
-        text,
-        access_token,
-        as_user: true
-      )
-    end
-
-    def attach(channel, *attachments)
-      # Enable text formatting for all possible values by default
-      #
-      # Docs: https://api.slack.com/docs/message-formatting#message_formatting
-      attachments.each do |a|
-        a[:mrkdwn_in] ||= %w(pretext text fields)
-      end
-
-      ::SlackClient::Chat.send_msg(
-        channel,
-        nil,
-        access_token,
-        attachments: attachments.to_json,
-        as_user: true
-      )
-    end
-
-    def copy(key, hash = {}, source = default_copy_source)
-      hash = hash.merge default_copy_hash
-
-      cs = ::CopyService.new(source, hash)
-
-      cs.get_copy key
-    end
-
-    def send_file(channel, filename, file)
-      SlackClient::Files.upload(
-        channel,
-        filename,
-        file,
-        access_token
-      )
-    end
-
-    def current_slack_user
-      return nil unless event[:user]
-
-      @_slack_user ||= SlackClient::Users.info(
-        event[:user],
-        access_token
-      )[:user]
-    end
-
     private
 
     def default_values
       self.state ||= :start
       self.data ||= {}
-    end
-
-    def default_copy_source
-      self.class.name.demodulize.underscore
-    end
-
-    def default_copy_hash
-      {
-        team: team,
-        event: event
-      }
     end
   end
 end

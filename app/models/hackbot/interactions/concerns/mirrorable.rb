@@ -8,26 +8,17 @@ module Hackbot
         MIRROR_CHANNEL = Rails.application.secrets.hackbot_mirror_channel_id
 
         included do
-          before_handle :mirror_incoming_msg
+          before_handle :mirror_incoming_event
 
           alias_method :_send_msg, :send_msg
-          alias_method :_attach, :attach
           alias_method :_send_file, :send_file
+          alias_method :_update_action_source, :update_action_source
 
-          define_method :send_msg do |channel, text|
-            resp = _send_msg(channel, text)
+          define_method :send_msg do |channel, msg|
+            resp = _send_msg(channel, msg)
             msg = resp[:message]
 
-            mirror_msg(bot_slack_user, channel, msg[:ts], text)
-
-            resp
-          end
-
-          define_method :attach do |channel, *attachments|
-            resp = _attach(channel, *attachments)
-            msg = resp[:message]
-
-            mirror_attachments(bot_slack_user, channel, msg[:ts], attachments)
+            mirror_msg(bot_slack_user, channel, msg[:ts], msg)
 
             resp
           end
@@ -40,55 +31,134 @@ module Hackbot
 
             resp
           end
+
+          define_method :update_action_source do |msg, action_event = event|
+            resp = _update_action_source(msg)
+            timestamp = Time.now.to_i
+
+            mirror_action_source_update(bot_slack_user, action_event[:channel],
+                                        timestamp, action_event[:msg], msg)
+
+            resp
+          end
         end
 
         private
 
-        def mirror_incoming_msg
-          return unless msg
+        def mirror_incoming_event
+          channel = event[:channel]
+          ts = event[:ts]
 
-          mirror_msg(current_slack_user, event[:channel], event[:ts], msg)
+          if msg
+            mirror_msg(current_slack_user, channel, ts, event)
+          elsif action
+            mirror_action(current_slack_user, channel, ts, action[:text])
+          end
         end
 
-        def mirror_msg(slack_user, channel, timestamp, text)
-          _attach(
-            MIRROR_CHANNEL,
-            text: text,
+        def mirror_msg(slack_user, channel, timestamp, msg_event)
+          if msg_event[:attachments] && msg_event[:attachments].any?
+            mirror_rich_msg(slack_user, channel, timestamp, msg_event)
+          else
+            mirror_plain_msg(slack_user, channel, timestamp, msg_event)
+          end
+        end
+
+        # Mirror a plain text message
+        def mirror_plain_msg(slack_user, channel, timestamp, msg_event)
+          attachments = [
+            text: msg_event[:text],
             fallback: mirror_copy(
-              'mirror_msg.fallback',
+              'mirror_plain.fallback',
               slack_mention: mention_for(slack_user),
-              text: text
+              text: msg_event[:text]
             ),
             **attachment_template(slack_user, channel, timestamp)
-          )
+          ]
+
+          _send_msg(MIRROR_CHANNEL, attachments: attachments)
         end
 
-        def mirror_attachments(slack_user, channel, timestamp, attachments)
-          # Make all of the attachments the same color when sending
-          attachments.each { |a| a[:color] = attachment_color }
+        # Mirror a message that includes more than just text
+        def mirror_rich_msg(slack_user, channel, timestamp, msg_event)
+          fallback = mirror_copy('mirror_rich.fallback',
+                                 slack_mention: mention_for(slack_user))
 
-          _attach(
-            MIRROR_CHANNEL,
-            {
-              fallback: mirror_copy('mirror_attachments.fallback',
-                                    slack_mention: mention_for(slack_user)),
-              **attachment_template(slack_user, channel, timestamp)
-            },
-            *attachments
-          )
+          attachments = [
+            { **attachment_template(slack_user, channel, timestamp),
+              fallback: fallback },
+
+            *rich_msg_to_attachments(msg_event)
+          ]
+
+          _send_msg(MIRROR_CHANNEL, attachments: attachments)
         end
 
         def mirror_file(slack_user, channel, timestamp, filename)
-          _attach(
+          copy_params = { filename: filename,
+                          slack_mention: mention_for(slack_user) }
+
+          _send_msg(
             MIRROR_CHANNEL,
-            text: mirror_copy('mirror_file.text', filename: filename),
-            fallback: mirror_copy(
-              'mirror_file.fallback',
-              slack_mention: mention_for(slack_user),
-              filename: filename
-            ),
-            **attachment_template(slack_user, channel, timestamp)
+            attachments: [
+              text: mirror_copy('mirror_file.text', copy_params),
+              fallback: mirror_copy('mirror_file.fallback', copy_params),
+              **attachment_template(slack_user, channel, timestamp)
+            ]
           )
+        end
+
+        def mirror_action(slack_user, channel, timestamp, action_text)
+          copy_params = { action_text: action_text,
+                          slack_mention: mention_for(slack_user) }
+
+          _send_msg(
+            MIRROR_CHANNEL,
+            attachments: [
+              text: mirror_copy('mirror_action.text', copy_params),
+              fallback: mirror_copy('mirror_action.fallback', copy_params),
+              **attachment_template(slack_user, channel, timestamp)
+            ]
+          )
+        end
+
+        def mirror_action_source_update(slack_user, channel, timestamp, old_msg,
+                                        new_msg)
+          _send_msg(
+            MIRROR_CHANNEL,
+            attachments: action_update_attachments(
+              slack_user, channel, timestamp, old_msg, new_msg
+            )
+          )
+        end
+
+        def action_update_attachments(slack_user, channel, timestamp, old_msg,
+                                      new_msg)
+          [
+            { fallback: mirror_copy('mirror_action_source_update.fallback'),
+              **attachment_template(slack_user, channel, timestamp) },
+
+            { text: mirror_copy('mirror_action_source_update.old_msg_pre'),
+              color: attachment_color },
+
+            *rich_msg_to_attachments(old_msg),
+
+            { text: mirror_copy('mirror_action_source_update.new_msg_pre'),
+              color: attachment_color },
+
+            *rich_msg_to_attachments(new_msg)
+          ]
+        end
+
+        def rich_msg_to_attachments(msg_event)
+          attachments = []
+
+          attachments << { text: msg_event[:text] } if msg_event[:text].present?
+          attachments += msg_event[:attachments] if msg_event[:attachments]
+
+          attachments.each { |a| a[:color] = attachment_color }
+
+          attachments
         end
 
         def attachment_template(slack_user, channel, timestamp)
