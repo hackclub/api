@@ -45,11 +45,13 @@ module Hackbot
         private
 
         def mirror_incoming_event
+          channel = event[:channel]
+          ts = event[:ts]
+
           if msg
-            mirror_msg(current_slack_user, event[:channel], event[:ts], event)
+            mirror_msg(current_slack_user, channel, ts, event)
           elsif action
-            mirror_action(current_slack_user, event[:channel], event[:ts],
-                          action[:text])
+            mirror_action(current_slack_user, channel, ts, action[:text])
           end
         end
 
@@ -63,34 +65,32 @@ module Hackbot
 
         # Mirror a plain text message
         def mirror_plain_msg(slack_user, channel, timestamp, msg_event)
-          _send_msg(
-            MIRROR_CHANNEL,
-            attachments: [
-              text: msg_event[:text],
-              fallback: mirror_copy(
-                'mirror_plain.fallback',
-                slack_mention: mention_for(slack_user),
-                text: msg_event[:text]
-              ),
-              **attachment_template(slack_user, channel, timestamp)
-            ]
-          )
+          attachments = [
+            text: msg_event[:text],
+            fallback: mirror_copy(
+              'mirror_plain.fallback',
+              slack_mention: mention_for(slack_user),
+              text: msg_event[:text]
+            ),
+            **attachment_template(slack_user, channel, timestamp)
+          ]
+
+          _send_msg(MIRROR_CHANNEL, attachments: attachments)
         end
 
         # Mirror a message that includes more than just text
         def mirror_rich_msg(slack_user, channel, timestamp, msg_event)
-          _send_msg(
-            MIRROR_CHANNEL,
-            attachments: [
-              {
-                **attachment_template(slack_user, channel, timestamp),
-                fallback: mirror_copy('mirror_rich.fallback',
-                                      slack_mention: mention_for(slack_user))
-              },
-              *rich_msg_to_attachments(slack_user, channel, timestamp,
-                                       msg_event)
-            ]
-          )
+          fallback = mirror_copy('mirror_rich.fallback',
+                                 slack_mention: mention_for(slack_user))
+
+          attachments = [
+            { **attachment_template(slack_user, channel, timestamp),
+              fallback: fallback },
+
+            *rich_msg_to_attachments(slack_user, channel, timestamp, msg_event)
+          ]
+
+          _send_msg(MIRROR_CHANNEL, attachments: attachments)
         end
 
         def mirror_file(slack_user, channel, timestamp, filename)
@@ -147,7 +147,7 @@ module Hackbot
           ]
         end
 
-        def rich_msg_to_attachments(slack_user, channel, timestamp, msg_event)
+        def rich_msg_to_attachments(msg_event)
           attachments = []
 
           attachments << { text: msg_event[:text] } if msg_event[:text].present?
