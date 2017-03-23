@@ -8,7 +8,7 @@ module Hackbot
         MIRROR_CHANNEL = Rails.application.secrets.hackbot_mirror_channel_id
 
         included do
-          before_handle :mirror_incoming_msg
+          before_handle :mirror_incoming_event
 
           alias_method :_send_msg, :send_msg
           alias_method :_send_file, :send_file
@@ -34,10 +34,13 @@ module Hackbot
 
         private
 
-        def mirror_incoming_msg
-          return unless msg
-
-          mirror_msg(current_slack_user, event[:channel], event[:ts], event)
+        def mirror_incoming_event
+          if msg
+            mirror_msg(current_slack_user, event[:channel], event[:ts], event)
+          elsif action
+            mirror_action(current_slack_user, event[:channel], event[:ts],
+                          action[:text])
+          end
         end
 
         def mirror_msg(slack_user, channel, timestamp, msg_event)
@@ -89,15 +92,28 @@ module Hackbot
         end
 
         def mirror_file(slack_user, channel, timestamp, filename)
+          copy_params = { filename: filename,
+                          slack_mention: mention_for(slack_user) }
+
           _send_msg(
             MIRROR_CHANNEL,
             attachments: [
-              text: mirror_copy('mirror_file.text', filename: filename),
-              fallback: mirror_copy(
-                'mirror_file.fallback',
-                slack_mention: mention_for(slack_user),
-                filename: filename
-              ),
+              text: mirror_copy('mirror_file.text', copy_params),
+              fallback: mirror_copy('mirror_file.fallback', copy_params),
+              **attachment_template(slack_user, channel, timestamp)
+            ]
+          )
+        end
+
+        def mirror_action(slack_user, channel, timestamp, action_text)
+          copy_params = { action_text: action_text,
+                          slack_mention: mention_for(slack_user) }
+
+          _send_msg(
+            MIRROR_CHANNEL,
+            attachments: [
+              text: mirror_copy('mirror_action.text', copy_params),
+              fallback: mirror_copy('mirror_action.fallback', copy_params),
               **attachment_template(slack_user, channel, timestamp)
             ]
           )
