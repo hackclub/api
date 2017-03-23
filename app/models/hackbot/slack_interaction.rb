@@ -37,15 +37,18 @@ module Hackbot
     # our current SlackClient implementation.
     #
     # Docs: https://api.slack.com/docs/message-buttons#overview
-    def update_action_source(msg)
+    def update_action_source(msg, action_event = event)
       if msg[:attachments]
         msg[:attachments] = insert_attachment_defaults(msg[:attachments])
       end
 
       payload = { token: access_token, **msg }
 
-      RestClient::Request.execute(method: :post, url: event[:response_url],
-                                  payload: payload.to_json)
+      RestClient::Request.execute(
+        method: :post,
+        url: action_event[:response_url],
+        payload: payload.to_json
+      )
     end
 
     def send_file(channel, filename, file)

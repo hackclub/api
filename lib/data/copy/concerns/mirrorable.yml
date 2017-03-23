@@ -19,3 +19,7 @@ template:
 mirror_action:
   text: _Clicked "<%= info[:action_text] %>"_
   fallback: <%= info[:slack_mention] %> clicked <%= info[:action_text] %>
+mirror_action_source_update:
+  fallback: Updating attachment that created action...
+  old_msg_pre: _*Replacing:*_
+  new_msg_pre: _*With:*_

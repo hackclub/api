@@ -12,6 +12,7 @@ module Hackbot
 
           alias_method :_send_msg, :send_msg
           alias_method :_send_file, :send_file
+          alias_method :_update_action_source, :update_action_source
 
           define_method :send_msg do |channel, msg|
             resp = _send_msg(channel, msg)
@@ -27,6 +28,15 @@ module Hackbot
             file = resp[:file]
 
             mirror_file(bot_slack_user, channel, file[:timestamp], filename)
+
+            resp
+          end
+
+          define_method :update_action_source do |msg, action_event = event|
+            resp = _update_action_source(msg)
+
+            mirror_action_source_update(bot_slack_user, action_event[:channel],
+                                        action_event[:msg], msg)
 
             resp
           end
@@ -69,25 +79,17 @@ module Hackbot
 
         # Mirror a message that includes more than just text
         def mirror_rich_msg(slack_user, channel, timestamp, msg_event)
-          attachments = []
-
-          attachments << {
-            **attachment_template(slack_user, channel, timestamp),
-            fallback: mirror_copy(
-              'mirror_rich.fallback',
-              slack_mention: mention_for(slack_user)
-            )
-          }
-          attachments << { text: msg_event[:text] } if msg_event[:text].present?
-          attachments += msg_event[:attachments] if msg_event[:attachments]
-
-          # Make sure all attachments are the same color when we send them to
-          # the user.
-          attachments.each { |a| a[:color] = attachment_color }
-
           _send_msg(
             MIRROR_CHANNEL,
-            attachments: attachments
+            attachments: [
+              {
+                **attachment_template(slack_user, channel, timestamp),
+                fallback: mirror_copy('mirror_rich.fallback',
+                                      slack_mention: mention_for(slack_user))
+              },
+              *rich_msg_to_attachments(slack_user, channel, timestamp,
+                                       msg_event)
+            ]
           )
         end
 
@@ -117,6 +119,43 @@ module Hackbot
               **attachment_template(slack_user, channel, timestamp)
             ]
           )
+        end
+
+        def mirror_action_source_update(slack_user, channel, old_msg, new_msg)
+          _send_msg(
+            MIRROR_CHANNEL,
+            attachments: action_update_attachments(
+              slack_user, channel, old_msg, new_msg
+            )
+          )
+        end
+
+        def action_update_attachments(slack_user, channel, old_msg, new_msg)
+          [
+            { fallback: mirror_copy('mirror_action_source_update.fallback'),
+              **attachment_template(slack_user, channel, nil) },
+
+            { text: mirror_copy('mirror_action_source_update.old_msg_pre'),
+              color: attachment_color },
+
+            *rich_msg_to_attachments(slack_user, channel, nil, old_msg),
+
+            { text: mirror_copy('mirror_action_source_update.new_msg_pre'),
+              color: attachment_color },
+
+            *rich_msg_to_attachments(slack_user, channel, nil, new_msg)
+          ]
+        end
+
+        def rich_msg_to_attachments(slack_user, channel, timestamp, msg_event)
+          attachments = []
+
+          attachments << { text: msg_event[:text] } if msg_event[:text].present?
+          attachments += msg_event[:attachments] if msg_event[:attachments]
+
+          attachments.each { |a| a[:color] = attachment_color }
+
+          attachments
         end
 
         def attachment_template(slack_user, channel, timestamp)
