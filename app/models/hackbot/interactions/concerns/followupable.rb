@@ -4,11 +4,15 @@ module Hackbot
       module Followupable
         extend ActiveSupport::Concern
 
+        include Concerns::Leaderable
+
         included do
           before_handle :record_last_event_timestamp
         end
 
         def follow_up(messages, next_state, interval = 10.seconds)
+          interval = FollowUpIfNeededJob.next_ping_interval(interval, leader.timezone.name) unless leader.nil?
+
           FollowUpIfNeededJob
             .set(wait: interval)
             .perform_later(
