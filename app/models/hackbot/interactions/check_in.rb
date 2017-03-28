@@ -6,7 +6,8 @@ module Hackbot
   module Interactions
     # rubocop:disable Metrics/ClassLength
     class CheckIn < TextConversation
-      include Concerns::Followupable, Concerns::Triggerable, Concerns::Leaderable
+      include Concerns::Followupable, Concerns::Triggerable,
+              Concerns::Leaderable
 
       TASK_ASSIGNEE = Rails.application.secrets.default_streak_task_assignee
 
@@ -210,7 +211,7 @@ module Hackbot
       end
 
       def default_follow_up(next_state)
-        interval = 24.hours
+        interval = 6.hours
 
         messages = [
           copy('follow_ups.first'),

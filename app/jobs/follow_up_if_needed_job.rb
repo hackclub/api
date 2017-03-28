@@ -2,23 +2,31 @@ class FollowUpIfNeededJob < ApplicationJob
   HACK_CLUB_TEAM_ID = 'T0266FRGM'.freeze
 
   def self.next_ping_interval(min_length, timezone_name)
-    tz = ActiveSupport::TimeZone.new(timezone_name)
-    return (Time.now + min_length) if tz.nil?
+    tz = ActiveSupport::TimeZone.new(timezone_name) || Time.zone
 
-    next_ping_time = tz.now + min_length
-
-    midnight = tz.now.beginning_of_day
-
-    min = midnight + 7.hours
-    max = midnight + 19.hours
-
-    next_ping_time = min if (next_ping_time <= min || next_ping_time >= max)
+    next_ping_time = next_acceptable_hour(tz, tz.now + min_length)
 
     tz.now - next_ping_time
   end
 
+  def self.next_acceptable_hour(timezone, time)
+    midnight = timezone.now.beginning_of_day
+
+    min = midnight + 7.hours
+    max = midnight + 19.hours
+
+    if time <= min
+      min
+    elsif time >= max
+      min.tomorrow
+    else
+      time
+    end
+  end
+
+  # rubocop:disable Metrics/AbcSize
   def perform(interaction_id, last_state_name, last_message_timestamp,
-              follow_up_interval, msgs_to_follow_up_with, timezone_name = '')
+              follow_up_interval, msgs_to_follow_up_with, tz_name = '')
     interaction = Hackbot::Interaction.find interaction_id
 
     return if interaction.nil?
@@ -28,20 +36,15 @@ class FollowUpIfNeededJob < ApplicationJob
 
     send_follow_up(msgs_to_follow_up_with.shift, interaction.data['channel'])
 
-    interval = self.class.next_ping_interval(follow_up_interval, timezone_name)
-
     FollowUpIfNeededJob
-      .set(wait: interval)
+      .set(wait: self.class.next_ping_interval(follow_up_interval, tz_name))
       .perform_later(interaction_id, last_state_name, last_message_timestamp,
                      follow_up_interval, msgs_to_follow_up_with)
   end
+  # rubocop:enable Metrics/AbcSize
 
   def send_follow_up(msg, channel)
-    SlackClient.rpc('chat.postMessage',
-                    access_token,
-                    channel: channel,
-                    text: msg,
-                    as_user: true)
+    SlackClient::Chat.send_msg(channel, msg, access_token, as_user: true)
   end
 
   def access_token
