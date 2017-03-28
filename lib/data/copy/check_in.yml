@@ -15,7 +15,7 @@ meeting_confirmation:
 no_meeting_reason: Gotcha. Are you planning on having a club meeting in the future?
 
 meeting_in_the_future:
-    positive: Awesome! Is there anything the Hack Club team can be helpful with in the meantime?
+    positive: Gotcha, is there anything preventing you from having your next meeting? If not, please respond with "no".
     negative: That's a shame. I'll let the Hack Club team know.
     invalid: I'm not very smart yet and had trouble understanding you :-/. Try saying something like 'yes' or 'no'
 
@@ -41,7 +41,7 @@ attendance:
 
 notes:
     no_notes: Okay. Hope you have a hack-tastic weekend!
-    had_notes: Sweet, I'll let them know! Hope you have a hack-tastic weekend!
+    had_notes: Gotcha, I'll pass that on to <@U1S56LC05>! Hope you have a hack-tastic weekend!
 
 follow_ups:
     first: "Hey! Just wanted to follow-up on this. :wink:"
