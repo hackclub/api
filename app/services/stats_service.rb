@@ -5,15 +5,15 @@ class StatsService
 
   def initialize(leader)
     @leader = leader
-    @check_ins = ::CheckIn.where(leader: leader).order('meeting_date DESC')
+    @check_ins = ::CheckIn.where(leader: leader).order('meeting_date ASC')
   end
 
   def attendance
-    @check_ins.limit(GRAPH_SAMPLES).reverse_order.pluck :attendance
+    @check_ins.reverse_order.limit(GRAPH_SAMPLES).pluck(:attendance).reverse
   end
 
   def labels
-    @check_ins.limit(GRAPH_SAMPLES).reverse_order.pluck :meeting_date
+    @check_ins.reverse_order.limit(GRAPH_SAMPLES).pluck(:meeting_date).reverse
   end
 
   def total_meetings_count
