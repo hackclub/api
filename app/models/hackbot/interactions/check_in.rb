@@ -211,7 +211,7 @@ module Hackbot
       end
 
       def default_follow_up(next_state)
-        interval = 6.hours
+        interval = 8.hours
 
         messages = [
           copy('follow_ups.first'),
