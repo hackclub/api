@@ -228,7 +228,7 @@ module Hackbot
 
         graph = Charts.bar(
           stats.attendance,
-          stats.labels
+          stats.meeting_dates
         )
 
         file_to_channel('attendance_this_week.png', Charts.as_file(graph))

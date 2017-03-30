@@ -9,11 +9,11 @@ class StatsService
   end
 
   def attendance
-    @check_ins.reverse_order.limit(GRAPH_SAMPLES).pluck(:attendance).reverse
+    get_values :attendance
   end
 
-  def labels
-    @check_ins.reverse_order.limit(GRAPH_SAMPLES).pluck(:meeting_date).reverse
+  def meeting_dates
+    get_values :meeting_date
   end
 
   def total_meetings_count
@@ -32,5 +32,17 @@ class StatsService
 
   def club_name
     @leader.clubs.first.name
+  end
+
+  private
+
+  def get_values(attribute)
+    # We reverse the check-ins twice so we limit from the most recent check-ins
+    # side of the list
+    @check_ins
+      .reverse_order # Most recent check-ins are now first
+      .limit(GRAPH_SAMPLES)
+      .pluck(attribute)
+      .reverse # Oldest check-ins are now first
   end
 end
