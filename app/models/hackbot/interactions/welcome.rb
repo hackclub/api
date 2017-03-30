@@ -1,10 +1,12 @@
 module Hackbot
   module Interactions
     class Welcome < TextConversation
-      include Concerns::Triggerable
+      include Concerns::Triggerable, Concerns::LeaderAssociable
 
       def start
-        msg_channel copy('welcome')
+        first_name = leader.name.split(' ').first
+
+        msg_channel copy('welcome', name: first_name)
       end
     end
   end
