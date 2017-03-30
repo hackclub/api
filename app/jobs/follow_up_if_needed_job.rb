@@ -1,19 +1,25 @@
+# Warning: This job will ignore follow-up times greater than 24 hours. Be aware
+# of this when scheduling follow ups.
+
 class FollowUpIfNeededJob < ApplicationJob
   HACK_CLUB_TEAM_ID = 'T0266FRGM'.freeze
+  FOLLOW_UP_WINDOW_START = 7.hours
+  FOLLOW_UP_WINDOW_END = 19.hours
+  # 7 AM to 7 PM is our window to follow up with people
 
   def self.next_ping_interval(min_length, timezone_name)
     tz = ActiveSupport::TimeZone.new(timezone_name) || Time.zone
 
     next_ping_time = next_acceptable_hour(tz, tz.now + min_length)
 
-    tz.now - next_ping_time
+    next_ping_time - tz.now
   end
 
   def self.next_acceptable_hour(timezone, time)
     midnight = timezone.now.beginning_of_day
 
-    min = midnight + 7.hours
-    max = midnight + 19.hours
+    min = midnight + FOLLOW_UP_WINDOW_START
+    max = midnight + FOLLOW_UP_WINDOW_END
 
     if time <= min
       min
