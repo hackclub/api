@@ -1,6 +1,8 @@
 module Hackbot
   module Interactions
     class Stats < Command
+      include Concerns::LeaderAssociable
+
       TRIGGER = /stats/
 
       USAGE = 'stats'.freeze
@@ -36,17 +38,6 @@ module Hackbot
 
       def stats
         @stats ||= ::StatsService.new(leader)
-      end
-
-      def leader
-        pipeline_key = Rails.application.secrets.streak_leader_pipeline_key
-        slack_id_field = :'1020'
-
-        @leader_box ||= StreakClient::Box
-                        .all_in_pipeline(pipeline_key)
-                        .find { |b| b[:fields][slack_id_field] == event[:user] }
-
-        @leader ||= Leader.find_by(streak_key: @leader_box[:key])
       end
 
       def open_im(slack_id)

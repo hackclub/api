@@ -6,7 +6,8 @@ module Hackbot
   module Interactions
     # rubocop:disable Metrics/ClassLength
     class CheckIn < TextConversation
-      include Concerns::Followupable, Concerns::Triggerable
+      include Concerns::Followupable, Concerns::Triggerable,
+              Concerns::LeaderAssociable
 
       TASK_ASSIGNEE = Rails.application.secrets.default_streak_task_assignee
 
@@ -210,7 +211,7 @@ module Hackbot
       end
 
       def default_follow_up(next_state)
-        interval = 24.hours
+        interval = 8.hours
 
         messages = [
           copy('follow_ups.first'),
@@ -278,17 +279,6 @@ module Hackbot
 
       def club
         leader.clubs.first
-      end
-
-      def leader
-        pipeline_key = Rails.application.secrets.streak_leader_pipeline_key
-        slack_id_field = :'1020'
-
-        @leader_box ||= StreakClient::Box
-                        .all_in_pipeline(pipeline_key)
-                        .find { |b| b[:fields][slack_id_field] == event[:user] }
-
-        @leader ||= Leader.find_by(streak_key: @leader_box[:key])
       end
     end
     # rubocop:enable Metrics/ClassLength
