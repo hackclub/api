@@ -1,5 +1,5 @@
 class StatsService
-  GRAPH_SAMPLES = 4
+  GRAPH_SAMPLES = 5
 
   attr_accessor :check_ins, :leader
 
