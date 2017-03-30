@@ -4,7 +4,7 @@ module Hackbot
       module Followupable
         extend ActiveSupport::Concern
 
-        include Concerns::Leaderable
+        include Concerns::LeaderAssociable
 
         included do
           before_handle :record_last_event_timestamp

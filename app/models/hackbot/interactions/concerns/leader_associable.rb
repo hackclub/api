@@ -1,7 +1,7 @@
 module Hackbot
   module Interactions
     module Concerns
-      module Leaderable
+      module LeaderAssociable
         extend ActiveSupport::Concern
 
         def leader
