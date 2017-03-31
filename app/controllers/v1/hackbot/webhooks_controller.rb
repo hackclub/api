@@ -1,13 +1,32 @@
 module V1
   module Hackbot
     class WebhooksController < ApplicationController
+      # Amount of time to delay HTTP responses to interactive message webhook
+      # requests.
+      #
+      # 3 seconds is the max response delay before Slack retries the request.
+      # While Slack is waiting for a response from our server, it displays a
+      # loading icon in the Slack client to the user, so we want to wait as long
+      # as possible before responding so it looks like Hackbot is doing
+      # something while the user waits for their interaction to process.
+      INTERACTIVE_MESSAGE_RESPONSE_DELAY = 2.5
+
       def interactive_messages
+        start_time = Time.current
+
         payload = JSON.parse(params[:payload], symbolize_names: true)
         event = action_payload_to_event(payload)
 
         handle_event(event, event[:team_id])
 
-        sleep 1
+        elapsed = Time.current - start_time
+        to_wait = INTERACTIVE_MESSAGE_RESPONSE_DELAY - elapsed
+
+        # If the processing of this request took less than
+        # INTERACTIVE_MESSAGE_RESPONSE_DELAY to complete, sleep
+        # INTERACTIVE_MESSAGE_RESPONSE_DELAY - amount of time it took to process
+        # request before sending a response.
+        sleep to_wait if to_wait > 0
       end
 
       def events
