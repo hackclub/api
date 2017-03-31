@@ -236,12 +236,23 @@ module Hackbot
 
       def formatted_deadline(lead)
         timezone = lead.timezone || Timezone.fetch('America/Los_Angeles')
-        date_format = '%A, %b %e at %l:%m %p'
         deadline_utc = DateTime.now.utc.next_week + 15.hours
         deadline_local = timezone.utc_to_local(deadline_utc)
-        timezone_abbr = timezone.abbr(deadline_local)
+        day = deadline_in_local_tz.strftime('%A')
 
-        "#{deadline_local.strftime(date_format)} #{timezone_abbr}"
+        case deadline_in_local_tz.hour
+        when 0..6
+          day = (deadline_in_local_tz - 1.day).strftime('%A')
+          "#{day} night"
+        when 7..12
+          "#{day} morning"
+        when 12
+          "#{day} at noon"
+        when 13..15
+          "#{day} afternoon"
+        when 16..23
+          "#{day} night"
+        end
       end
 
       def default_follow_up(next_state)
