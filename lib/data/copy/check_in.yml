@@ -1,11 +1,11 @@
-first_greeting: |
-    Hey <%= first_name %>! I'm Hackbot, Hack Club's friendly robot helper.
+greeting:
+    if_first_check_in: |
+        Hey <%= first_name %>! I'm Hackbot, Hack Club's friendly robot helper.
 
-    I'll be reaching out to you every week, typically on Fridays, to check in and see how your club's doing. I'll be in the loop every step of the way :slightly_smiling_face:
+        I'll be reaching out to you every week, typically on Fridays, to check in and see how your club's doing. I'll be in the loop every step of the way :slightly_smiling_face:
 
-    To start, did you have a club meeting this week?
-
-greeting: Hey <%= first_name %>! Let's get started — please be sure to complete this check-in by <%= deadline %>. Did your club meet this week?
+        To start, did you have a club meeting this week?
+    default: Hey <%= first_name %>! Let's get started — please be sure to complete this check-in by <%= deadline %>. Did your club meet this week?
 
 meeting_confirmation:
     positive: Okay, sweet! On which day was it? (say something like "monday" or "today" – I'm not very clever)

@@ -18,7 +18,7 @@ module Hackbot
       def start
         first_name = leader.name.split(' ').first
         deadline = formatted_deadline leader
-        key = (first_check_in? ? 'first_greeting' : 'greeting')
+        key = 'greeting.' + (first_check_in? ? 'if_first_check_in' : 'default')
 
         msg_channel(
           text: copy(key, first_name: first_name, deadline: deadline),
