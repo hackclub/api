@@ -8,8 +8,12 @@ greeting:
     default: Hey <%= first_name %>! Let's get started — please be sure to complete this check-in by <%= deadline %>. Did your club meet this week?
 
 meeting_confirmation:
-    positive: Okay, sweet! On which day was it? (say something like "monday" or "today" – I'm not very clever)
-    negative: That's a shame! Why didn't you meet?
+    had_meeting:
+        action_result: ":white_check_mark: *You had a meeting*"
+        ask_day_of_week: Okay, sweet! On which day was it? (say something like "monday" or "today" – I'm not very clever)
+    no_meeting:
+        action_result: ":no_entry: *You did not have a meeting*"
+        ask_why: That's a shame! Why didn't you meet?
     invalid: I'm not very smart yet and had trouble understanding you :-/. Try saying something like 'yes' or 'no'.
 
 no_meeting_reason: Gotcha. Are you planning on having a club meeting in the future?
@@ -37,11 +41,18 @@ judgement:
 attendance:
     invalid: I didn't quite understand that. Can you try giving a single number?
     not_realistic: I'm going to need a positive number, silly. How many people came to the last meeting?
-    valid: <%= judgement %> Is there anything the Hack Club team can be helpful with? I'll send them anything you send my way (just make sure to include everything in a single message). If not, please respond with "no".
+    valid: <%= judgement %> Is there anything the Hack Club team can be helpful with?
+
+notes_confirmation:
+    has_notes:
+        action_result: ":white_check_mark: *You could use help from the Hack Club team*"
+        ask: What should I send to them?
+    no_notes:
+        action_result: ":no_entry: *You don't need any help right now*"
+        goodbye: Okay. Hope you have a hack-tastic weekend!
 
 notes:
-    no_notes: Okay. Hope you have a hack-tastic weekend!
-    had_notes: Gotcha, I'll pass that on to <@U1S56LC05>! Hope you have a hack-tastic weekend!
+  had_notes: Gotcha, I'll pass that on to <@U1S56LC05>! Hope you have a hack-tastic weekend!
 
 follow_ups:
     first: "Hey! Just wanted to follow-up on this. :wink:"

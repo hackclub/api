@@ -37,14 +37,18 @@ module Hackbot
 
         case action[:value]
         when Hackbot::Utterances.yes
-          send_action_result(':white_check_mark: *You had a meeting*')
-          msg_channel copy('meeting_confirmation.positive')
+          send_action_result(
+            copy('meeting_confirmation.had_meeting.action_result')
+          )
+          msg_channel copy('meeting_confirmation.had_meeting.ask_day_of_week')
 
           default_follow_up 'wait_for_day_of_week'
           :wait_for_day_of_week
         when Hackbot::Utterances.no
-          send_action_result(':no_entry: *You did not have a meeting*')
-          msg_channel(copy('meeting_confirmation.negative'))
+          send_action_result(
+            copy('meeting_confirmation.no_meeting.action_result')
+          )
+          msg_channel(copy('meeting_confirmation.no_meeting.ask_why'))
 
           default_follow_up 'wait_for_no_meeting_reason'
           :wait_for_no_meeting_reason
@@ -185,22 +189,27 @@ module Hackbot
       # rubocop:enable Metrics/CyclomaticComplexity
       # rubocop:enable Metrics/MethodLength
 
+      # rubocop:disable Metrics/MethodLength
+      # rubocop:disable Metrics/AbcSize
       def wait_for_notes_confirmation
         return :wait_for_notes_confirmation unless action
 
         case action[:value]
         when Hackbot::Utterances.yes
-          send_action_result(':white_check_mark: *You could use help from the Hack Club team*')
-          msg_channel "What should I send to them?"
+          send_action_result copy('notes_confirmation.has_notes.action_result')
+          msg_channel copy('notes_confirmation.has_notes.ask')
 
           :wait_for_notes
         when Hackbot::Utterances.no
-          send_action_result(":no_entry: *You don't need any help right now*")
-          msg_channel copy('notes.no_notes')
+          send_action_result copy('notes_confirmation.no_notes.action_result')
+          msg_channel copy('notes_confirmation.no_notes.goodbye')
+
           generate_check_in
           send_attendance_stats
         end
       end
+      # rubocop:enable Metrics/AbcSize
+      # rubocop:enable Metrics/MethodLength
 
       # rubocop:disable Metrics/MethodLength
       def wait_for_notes
