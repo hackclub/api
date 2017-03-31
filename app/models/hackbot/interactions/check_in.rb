@@ -18,9 +18,12 @@ module Hackbot
       def start
         first_name = leader.name.split(' ').first
         deadline = formatted_deadline leader
-        key = (first_check_in? ? 'first_greeting' : 'greeting')
+        key = 'greeting.' + (first_check_in? ? 'if_first_check_in' : 'default')
 
-        msg_channel copy(key, first_name: first_name, deadline: deadline)
+        msg_channel(
+          text: copy(key, first_name: first_name, deadline: deadline),
+          attachments: [actions: [{ text: 'Yes' }, { text: 'No' }]]
+        )
 
         default_follow_up 'wait_for_meeting_confirmation'
 
@@ -28,15 +31,24 @@ module Hackbot
       end
 
       # rubocop:disable Metrics/MethodLength
+      # rubocop:disable Metrics/AbcSize
       def wait_for_meeting_confirmation
-        case msg
+        return :wait_for_meeting_confirmation unless action
+
+        case action[:value]
         when Hackbot::Utterances.yes
-          msg_channel copy('meeting_confirmation.positive')
+          send_action_result(
+            copy('meeting_confirmation.had_meeting.action_result')
+          )
+          msg_channel copy('meeting_confirmation.had_meeting.ask_day_of_week')
 
           default_follow_up 'wait_for_day_of_week'
           :wait_for_day_of_week
         when Hackbot::Utterances.no
-          msg_channel copy('meeting_confirmation.negative')
+          send_action_result(
+            copy('meeting_confirmation.no_meeting.action_result')
+          )
+          msg_channel(copy('meeting_confirmation.no_meeting.ask_why'))
 
           default_follow_up 'wait_for_no_meeting_reason'
           :wait_for_no_meeting_reason
@@ -47,6 +59,7 @@ module Hackbot
           :wait_for_meeting_confirmation
         end
       end
+      # rubocop:enable Metrics/AbcSize
       # rubocop:enable Metrics/MethodLength
 
       def wait_for_no_meeting_reason
@@ -159,34 +172,55 @@ module Hackbot
                       copy('judgement.impossible')
                     end
 
-        msg_channel copy('attendance.valid', judgement: judgement)
+        msg_channel(
+          text: copy('attendance.valid', judgement: judgement),
+          attachments: [
+            actions: [
+              { text: 'Yes' },
+              { text: 'No' }
+            ]
+          ]
+        )
 
         default_follow_up 'wait_for_notes'
-        :wait_for_notes
+        :wait_for_notes_confirmation
       end
       # rubocop:enable Metrics/AbcSize
       # rubocop:enable Metrics/CyclomaticComplexity
       # rubocop:enable Metrics/MethodLength
 
       # rubocop:disable Metrics/MethodLength
-      def wait_for_notes
-        if should_record_notes?
-          notes = record_notes
-          create_task leader, 'Follow-up on notes from check-in: '\
-            "#{notes}"
+      # rubocop:disable Metrics/AbcSize
+      def wait_for_notes_confirmation
+        return :wait_for_notes_confirmation unless action
+
+        case action[:value]
+        when Hackbot::Utterances.yes
+          send_action_result copy('notes_confirmation.has_notes.action_result')
+          msg_channel copy('notes_confirmation.has_notes.ask')
+
+          :wait_for_notes
+        when Hackbot::Utterances.no
+          send_action_result copy('notes_confirmation.no_notes.action_result')
+          msg_channel copy('notes_confirmation.no_notes.goodbye')
+
+          generate_check_in
+          send_attendance_stats
         end
+      end
+      # rubocop:enable Metrics/AbcSize
+      # rubocop:enable Metrics/MethodLength
+
+      def wait_for_notes
+        notes = record_notes
+        create_task leader, 'Follow-up on notes from check-in: '\
+                            "#{notes}"
+
+        msg_channel copy('notes.had_notes')
 
         generate_check_in
-
-        if data['notes'].nil?
-          msg_channel copy('notes.no_notes')
-        else
-          msg_channel copy('notes.had_notes')
-        end
-
         send_attendance_stats
       end
-      # rubocop:enable Metrics/MethodLength
 
       def generate_check_in
         ::CheckIn.create!(
