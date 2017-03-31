@@ -211,7 +211,6 @@ module Hackbot
       # rubocop:enable Metrics/AbcSize
       # rubocop:enable Metrics/MethodLength
 
-      # rubocop:disable Metrics/MethodLength
       def wait_for_notes
         notes = record_notes
         create_task leader, 'Follow-up on notes from check-in: '\
@@ -222,7 +221,6 @@ module Hackbot
         generate_check_in
         send_attendance_stats
       end
-      # rubocop:enable Metrics/MethodLength
 
       def generate_check_in
         ::CheckIn.create!(
