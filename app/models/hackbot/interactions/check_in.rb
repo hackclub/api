@@ -236,13 +236,15 @@ module Hackbot
 
       def formatted_deadline(lead)
         timezone = lead.timezone || Timezone.fetch('America/Los_Angeles')
-        deadline_utc = DateTime.now.utc.next_week + 15.hours
-        deadline_local = timezone.utc_to_local(deadline_utc)
+        deadline_in_utc = DateTime.now.utc.next_week + 15.hours
+        deadline_in_local_tz = timezone.utc_to_local(deadline_in_utc)
         day = deadline_in_local_tz.strftime('%A')
 
         case deadline_in_local_tz.hour
         when 0..6
-          day = (deadline_in_local_tz - 1.day).strftime('%A')
+          # Early morning on a day is written as the night of the previous day
+          # For example, 2 AM Tuesday is "Monday night"
+          day = deadline_in_local_tz.yesterday.strftime('%A')
           "#{day} night"
         when 7..12
           "#{day} morning"
