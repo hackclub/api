@@ -51,6 +51,24 @@ module Hackbot
       )
     end
 
+    # Warning: this currently only works for action sources that have a single
+    # attachment with actions, you will likely need to modify this method for
+    # more complex cases.
+    #
+    # This updates the action source to remove its actions and set its first
+    # attachment's text to the given result_str. You should be using this to
+    # give the user the results of the action they invoked.
+    def send_action_result(result_str)
+      update_action_source(
+        **event[:msg],
+        attachments: [
+          **event[:msg][:attachments].first,
+          actions: [],
+          text: result_str
+        ]
+      )
+    end
+
     def send_file(channel, filename, file)
       SlackClient::Files.upload(
         channel,
@@ -70,6 +88,10 @@ module Hackbot
         #
         # Docs: https://api.slack.com/docs/message-formatting#message_formatting
         a[:mrkdwn_in] ||= %w(pretext text fields)
+
+        # Set a default, somewhat useful fallback
+        a[:fallback] ||= 'You must use a Slack client that supports '\
+                         'attachments to view this'
 
         insert_action_defaults!(a) if a[:actions]
       end
@@ -93,6 +115,10 @@ module Hackbot
 
         # Simplify usage by setting a default name.
         action[:name] ||= 'default_name'
+
+        # Set the action's value to its text by default (if you create a button
+        # that shows "Yes", it'll send "Yes" back unless you set another value)
+        action[:value] ||= action[:text]
       end
     end
   end
