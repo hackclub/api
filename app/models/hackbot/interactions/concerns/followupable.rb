@@ -25,7 +25,7 @@ module Hackbot
         private
 
         def interval_in_timezone(interval)
-          tz_name = (leader.nil? ? '' : leader.timezone.name)
+          tz_name = (leader.timezone.nil? ? '' : leader.timezone.name)
 
           FollowUpIfNeededJob.next_ping_interval(interval, tz_name)
         end
