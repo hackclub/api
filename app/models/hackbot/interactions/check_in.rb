@@ -19,10 +19,21 @@ module Hackbot
         first_name = leader.name.split(' ').first
         deadline = formatted_deadline leader
         key = 'greeting.' + (first_check_in? ? 'if_first_check_in' : 'default')
+        actions = []
+
+        actions << { text: 'Yes' }
+
+        if previous_meeting_day
+          actions << { text: "Yes, on #{previous_meeting_day}", value: 'previous_meeting_day'}
+        end
+
+        actions << { text: 'No' }
 
         msg_channel(
           text: copy(key, first_name: first_name, deadline: deadline),
-          attachments: [actions: [{ text: 'Yes' }, { text: 'No' }]]
+          attachments: [
+            actions: actions
+          ]
         )
 
         default_follow_up 'wait_for_meeting_confirmation'
@@ -36,6 +47,12 @@ module Hackbot
         return :wait_for_meeting_confirmation unless action
 
         case action[:value]
+        when 'previous_meeting_day'
+          data['meeting_date'] = Chronic.parse(previous_meeting_day, context: :past)
+          msg_channel copy('day_of_week.valid')
+
+          default_follow_up 'wait_for_attendance'
+          :wait_for_attendance
         when Hackbot::Utterances.yes
           send_action_result(
             copy('meeting_confirmation.had_meeting.action_result')
@@ -242,6 +259,13 @@ module Hackbot
         timezone_abbr = timezone.abbr(deadline_local)
 
         "#{deadline_local.strftime(date_format)} #{timezone_abbr}"
+      end
+
+      def previous_meeting_day
+        last_check_in = ::CheckIn.where(leader: leader).order('meeting_date DESC').first
+        return nil if last_check_in.nil?
+
+        Date::DAYNAMES[last_check_in.meeting_date.wday]
       end
 
       def default_follow_up(next_state)
