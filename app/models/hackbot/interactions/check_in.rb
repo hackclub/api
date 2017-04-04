@@ -57,6 +57,11 @@ module Hackbot
         when 'previous_meeting_day'
           data['meeting_date'] = Chronic.parse(previous_meeting_day,
                                                context: :past)
+          send_action_result(
+            copy('meeting_confirmation.previous_meeting_day',
+                 day: previous_meeting_day)
+          )
+
           msg_channel copy('day_of_week.valid')
 
           default_follow_up 'wait_for_attendance'
