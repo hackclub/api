@@ -17,6 +17,7 @@ machine:
     GIPHY_API_KEY: fake_giphy_api_key
     DEFAULT_STREAK_TASK_ASSIGNEE: email@email.email
     HACKBOT_MIRROR_CHANNEL_ID: fake_channel_id
+    STREAK_DEMO_USER_BOX_KEY: fake_streak_key
 
 test:
   override:

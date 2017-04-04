@@ -83,6 +83,9 @@ DEFAULT_STREAK_TASK_ASSIGNEE
 
 # Slack channel to mirror Hackbot interactions to
 HACKBOT_MIRROR_CHANNEL_ID
+
+# Streak box to use for demo check-ins
+STREAK_DEMO_USER_BOX_KEY
 ```
 
 ## Other Setup
