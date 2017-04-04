@@ -85,7 +85,7 @@ DEFAULT_STREAK_TASK_ASSIGNEE
 HACKBOT_MIRROR_CHANNEL_ID
 
 # Streak box to use for demo check-ins
-DEMO_USER_STREAK_KEY
+STREAK_DEMO_USER_BOX_KEY
 ```
 
 ## Other Setup
