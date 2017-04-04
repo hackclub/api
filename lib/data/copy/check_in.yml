@@ -27,7 +27,7 @@ help:
     Got it! Have a hack-tastic weekend!
 
 day_of_week:
-    unknown: :disappointed: I'm not very smart yet and had trouble understanding you. Try saying something simpler, like "tuesday" or "thursday".
+    unknown: ":disappointed: I'm not very smart yet and had trouble understanding you. Try saying something simpler, like \"tuesday\" or \"thursday\"."
     invalid: Hmm, that date didn't happen in the past week (although I may be misunderstanding you). Can you try giving me the day of the week of your meeting again?
     valid: How many people would you estimate came? (I'm not very smart, I'll need you to give me a single number, something like "25" – give your best estimate)
 
