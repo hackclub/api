@@ -15,6 +15,8 @@ module Hackbot
         false
       end
 
+      # rubocop:disable Metrics/MethodLength
+      # rubocop:disable Metrics/AbcSize
       def start
         first_name = leader.name.split(' ').first
         deadline = formatted_deadline leader
@@ -24,7 +26,10 @@ module Hackbot
         actions << { text: 'Yes' }
 
         if previous_meeting_day
-          actions << { text: "Yes, on #{previous_meeting_day}", value: 'previous_meeting_day'}
+          actions << {
+            text: "Yes, on #{previous_meeting_day}",
+            value: 'previous_meeting_day'
+          }
         end
 
         actions << { text: 'No' }
@@ -40,6 +45,8 @@ module Hackbot
 
         :wait_for_meeting_confirmation
       end
+      # rubocop:enable Metrics/MethodLength
+      # rubocop:enable Metrics/AbcSize
 
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/AbcSize
@@ -48,7 +55,8 @@ module Hackbot
 
         case action[:value]
         when 'previous_meeting_day'
-          data['meeting_date'] = Chronic.parse(previous_meeting_day, context: :past)
+          data['meeting_date'] = Chronic.parse(previous_meeting_day,
+                                               context: :past)
           msg_channel copy('day_of_week.valid')
 
           default_follow_up 'wait_for_attendance'
@@ -262,7 +270,10 @@ module Hackbot
       end
 
       def previous_meeting_day
-        last_check_in = ::CheckIn.where(leader: leader).order('meeting_date DESC').first
+        last_check_in = ::CheckIn.where(leader: leader)
+                                 .order('meeting_date DESC')
+                                 .first
+
         return nil if last_check_in.nil?
 
         Date::DAYNAMES[last_check_in.meeting_date.wday]
