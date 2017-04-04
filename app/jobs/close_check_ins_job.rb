@@ -52,7 +52,7 @@ class CloseCheckInsJob < ApplicationJob
 
   def check_ins_from_array(ids)
     ids.map do |id|
-      event Hackbot::Iteraction::CheckIn.find(id)
+      event Hackbot::Interactions::CheckIn.find(id)
     end
   end
 
