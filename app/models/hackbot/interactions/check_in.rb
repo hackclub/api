@@ -52,6 +52,11 @@ module Hackbot
 
           default_follow_up 'wait_for_no_meeting_reason'
           :wait_for_no_meeting_reason
+        else
+          msg_channel copy('meeting_confirmation.invalid')
+
+          default_follow_up 'wait_for_meeting_confirmation'
+          :wait_for_meeting_confirmation
         end
       end
       # rubocop:enable Metrics/AbcSize
