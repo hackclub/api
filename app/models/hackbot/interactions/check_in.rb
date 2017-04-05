@@ -234,6 +234,8 @@ module Hackbot
 
       private
 
+      # rubocop:disable Metrics/MethodLength
+      # rubocop:disable Metrics/CyclomaticComplexity
       def formatted_deadline(lead)
         timezone = lead.timezone || Timezone.fetch('America/Los_Angeles')
         deadline_in_utc = DateTime.now.utc.next_week + 15.hours
@@ -256,6 +258,8 @@ module Hackbot
           "#{day} night"
         end
       end
+      # rubocop:enable Metrics/CyclomaticComplexity
+      # rubocop:enable Metrics/MethodLength
 
       def default_follow_up(next_state)
         interval = 8.hours
