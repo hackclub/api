@@ -264,15 +264,32 @@ module Hackbot
 
       private
 
+      # rubocop:disable Metrics/MethodLength
+      # rubocop:disable Metrics/CyclomaticComplexity
       def formatted_deadline(lead)
         timezone = lead.timezone || Timezone.fetch('America/Los_Angeles')
-        date_format = '%A, %b %e at %l:%m %p'
-        deadline_utc = DateTime.now.utc.next_week + 15.hours
-        deadline_local = timezone.utc_to_local(deadline_utc)
-        timezone_abbr = timezone.abbr(deadline_local)
+        deadline_in_utc = DateTime.now.utc.next_week + 15.hours
+        deadline_in_local_tz = timezone.utc_to_local(deadline_in_utc)
+        day = deadline_in_local_tz.strftime('%A')
 
-        "#{deadline_local.strftime(date_format)} #{timezone_abbr}"
+        case deadline_in_local_tz.hour
+        when 0..6
+          # Early morning on a day is written as the night of the previous day
+          # For example, 2 AM Tuesday is "Monday night"
+          day = deadline_in_local_tz.yesterday.strftime('%A')
+          "#{day} night"
+        when 7..12
+          "#{day} morning"
+        when 12
+          "#{day} at noon"
+        when 13..15
+          "#{day} afternoon"
+        when 16..23
+          "#{day} night"
+        end
       end
+      # rubocop:enable Metrics/CyclomaticComplexity
+      # rubocop:enable Metrics/MethodLength
 
       def previous_meeting_day
         last_check_in = ::CheckIn.where(leader: leader)
