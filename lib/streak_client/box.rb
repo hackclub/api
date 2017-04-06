@@ -5,7 +5,13 @@ module StreakClient
     end
 
     def self.all_in_pipeline(pipeline_key)
-      StreakClient.request(:get, "/v1/pipelines/#{pipeline_key}/boxes")
+      StreakClient.request(
+        :get,
+        "/v1/pipelines/#{pipeline_key}/boxes",
+        {},  # params
+        {},  # headers
+        true # cache
+      )
     end
 
     def self.all_in_pipeline_paginated(pipeline_key, page:, limit:)
