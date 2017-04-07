@@ -12,7 +12,7 @@ module Hackbot
 
       def should_start?
         # Only run the check in if the command comes from the demo user
-        slack_id == event[:user]
+        super && slack_id == event[:user]
       end
 
       def start
