@@ -50,10 +50,10 @@ module StreakClient
 
       resp = if cache
                Rails.cache.fetch(req.uri.to_s, expires_in: 5.minutes) do
-                 req.execute
+                 req.execute.to_s
                end
              else
-               req.execute
+               req.execute.to_s
              end
 
       parse(resp)
