@@ -5,6 +5,7 @@ source 'https://rubygems.org'
 gem 'pg', '~> 0.18.4'
 gem 'puma', '~> 3.0'
 gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
+gem 'redis-rails', '~> 5.0.0'
 
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'chronic', '~> 0.10.2'

@@ -19,7 +19,10 @@ module StreakClient
     end
 
     # rubocop:disable Metrics/MethodLength
-    def request(method, path, params = {}, headers = {}, json = true)
+    # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/AbcSize
+    def request(method, path, params = {}, headers = {}, cache = false,
+                json = true)
       payload = nil
 
       raise AuthenticationError, 'No API key provided' unless @api_key
@@ -42,11 +45,21 @@ module StreakClient
         headers[:params] = params
       end
 
-      resp = RestClient::Request.execute(method: method, url: api_url(path),
-                                         headers: headers, payload: payload)
+      req = RestClient::Request.new(method: method, url: api_url(path),
+                                    headers: headers, payload: payload)
+
+      resp = if cache
+               Rails.cache.fetch(req.uri.to_s, expires_in: 5.minutes) do
+                 req.execute.to_s
+               end
+             else
+               req.execute.to_s
+             end
 
       parse(resp)
     end
+    # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/CyclomaticComplexity
     # rubocop:enable Metrics/MethodLength
 
     private

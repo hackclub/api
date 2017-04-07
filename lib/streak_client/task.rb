@@ -9,6 +9,7 @@ module StreakClient
         StreakClient.request(:get, "/v2/tasks/#{task_key}")
       end
 
+      # rubocop:disable Metrics/MethodLength
       def create(box_key, text, due_date: nil, assignees: [])
         StreakClient.request(
           :post, "/v2/boxes/#{box_key}/tasks", {
@@ -16,11 +17,13 @@ module StreakClient
             due_date: time_to_ms_since_epoch(due_date),
             assigned_to_sharing_entries:
               construct_sharing_entries(assignees).to_json
-          },
-          {},
-          false
+          },     # params
+          {},    # headers
+          false, # cache
+          false  # json
         )
       end
+      # rubocop:enable Metrics/MethodLength
 
       def update(task_key, params)
         # If the user passes assignees to update, transform the given array of
