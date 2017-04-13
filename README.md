@@ -72,7 +72,8 @@ STREAK_OUTREACH_TEACHER_PIPELINE_KEY
 SLACK_CLIENT_ID
 SLACK_CLIENT_SECRET
 
-# Default Slack team ID (probably for Hack Club)
+# Default Slack team ID (probably going to be T0266FRGM, which is Hack Club's
+# team)
 SLACK_TEAM_ID
 
 # Secret code required when redeeming .tech domains
