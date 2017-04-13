@@ -252,6 +252,8 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    terminal-table (1.7.3)
+      unicode-display_width (~> 1.1.1)
     thor (0.19.1)
     thread_safe (0.3.6)
     timezone (1.2.6)
@@ -302,6 +304,7 @@ DEPENDENCIES
   spring
   spring-commands-rspec (~> 1.0)
   spring-watcher-listen (~> 2.0.0)
+  terminal-table (~> 1.7)
   timezone (~> 1.0)
   tzinfo-data
   vcr (~> 3.0)

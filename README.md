@@ -85,6 +85,10 @@ DEFAULT_STREAK_TASK_ASSIGNEE
 # Slack channel to mirror Hackbot interactions to
 HACKBOT_MIRROR_CHANNEL_ID
 
+# Comma separated list of Slack user IDs that Hackbot should recognize as
+# admins. User IDs can be from multiple Slack teams.
+HACKBOT_ADMINS
+
 # Streak box to use for demo check-ins
 STREAK_DEMO_USER_BOX_KEY
 

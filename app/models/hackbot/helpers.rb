@@ -26,5 +26,13 @@ module Hackbot
         access_token
       )[:user]
     end
+
+    ADMIN_UIDS = Rails.application.secrets.hackbot_admins
+
+    def current_admin?
+      return true if ADMIN_UIDS.include? event[:user]
+
+      false
+    end
   end
 end
