@@ -7,6 +7,8 @@ module Hackbot
       DESCRIPTION = 'set the given leader as the point of contact for their '\
                     'club (staff only)'.freeze
 
+      before_handle :ensure_admin
+
       def start
         streak_key = captured[:streak_key]
 
@@ -127,6 +129,14 @@ module Hackbot
 
       def get_last_arg(text)
         text.split(' ').last
+      end
+
+      def ensure_admin
+        return if current_admin?
+
+        msg_channel(copy('not_admin'))
+
+        throw :abort
       end
     end
   end
