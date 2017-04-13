@@ -1,8 +1,6 @@
 require 'rails_helper'
 
-describe 'CORS', type: :request do
-  origins = ['https://new.hackclub.com', 'https://hackclub.com']
-
+RSpec.shared_examples :cors_origin_tests do |origins|
   origins.each do |origin|
     it "returns the response CORS headers for #{origin}" do
       get '/v1/ping', headers: { 'HTTP_ORIGIN' => origin }
@@ -23,5 +21,23 @@ describe 'CORS', type: :request do
       expect(response.headers['Access-Control-Allow-Headers']).to eq('test')
       expect(response.headers).to have_key('Access-Control-Max-Age')
     end
+  end
+end
+
+describe 'CORS', type: :request do
+  ORIGINS = ['https://new.hackclub.com', 'https://hackclub.com'].freeze
+
+  context 'not in development' do
+    include_examples :cors_origin_tests, ORIGINS
+  end
+
+  context 'in development' do
+    let!(:orig_env) { Rails.env }
+
+    before { Rails.env = 'development' }
+    after { Rails.env = orig_env }
+
+    include_examples :cors_origin_tests,
+                     ORIGINS + ['localhost', 'http://localhost']
   end
 end
