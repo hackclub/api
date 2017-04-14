@@ -38,6 +38,9 @@ module Hackbot
         if event
           event[:user]
         elsif data['channel']
+          # This method can accurately find the Slack ID of a user if the
+          # conversation is a PM. HOWEVER, it will not work in any other type
+          # context.
           dm_channel = channels.find { |im| im[:id] == data['channel'] }
           dm_channel ? dm_channel[:user] : nil
         end
@@ -47,7 +50,7 @@ module Hackbot
 
       def channels
         key = "im.list##{team.bot_access_token}"
-        Rails.cache.fetch(key, expires_in: 1.minute) do
+        Rails.cache.fetch(key, expires_in: 2.minutes) do
           SlackClient.rpc('im.list', team.bot_access_token)[:ims]
         end
       end
