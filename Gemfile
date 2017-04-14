@@ -15,7 +15,7 @@ gem 'faker', '~> 1.6'
 gem 'geocoder', '~> 1.4'
 gem 'rack-cors', require: 'rack/cors'
 gem 'rest-client', '~> 2.0'
-gem 'sentry-raven', '~> 2.0', '>= 2.0.2'
+gem 'sentry-raven', '~> 2.4'
 gem 'timezone', '~>1.0'
 
 group :development, :test do
