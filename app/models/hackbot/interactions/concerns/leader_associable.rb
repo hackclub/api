@@ -11,7 +11,7 @@ module Hackbot
           @leader_box ||= StreakClient::Box
                           .all_in_pipeline(pipeline_key)
                           .find do |b|
-                            b[:fields][slack_id_field] == event[:user]
+                            b[:fields][slack_id_field] == slack_id
                           end
 
           @leader ||= Leader.find_by(streak_key: @leader_box[:key])
