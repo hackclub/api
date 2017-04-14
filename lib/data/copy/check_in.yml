@@ -37,11 +37,13 @@ judgement:
     good: <%= count %> is a number to be proud of!
     great: Damn, <%= count %> is a huge number of people!
     awesome: I have no words. <%= count %> people is incredible!
-    impossible: I'm speechless. That's incredible.
+    amazing: I'm speechless. That's incredible.
 
 attendance:
     invalid: I didn't quite understand that. Can you try giving a single number?
-    not_realistic: I'm going to need a positive number, silly. How many people came to the last meeting?
+    not_realistic:
+        negative: I'm going to need a positive number, silly. How many people came to the last meeting?
+        too_large: There aren't even that many people on Earth yet! How many people actually came to your last meeting?
     valid: <%= judgement %> Is there anything the Hack Club team can be helpful with?
 
 notes_confirmation:
