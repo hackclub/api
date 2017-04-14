@@ -86,6 +86,10 @@ HACKBOT_MIRROR_CHANNEL_ID
 
 # Streak box to use for demo check-ins
 STREAK_DEMO_USER_BOX_KEY
+
+# API key to use with Giphy. Will probably be "dc6zaTOxFJmzC", which is their
+# public beta key (see https://github.com/Giphy/GiphyAPI) for details.
+GIPHY_API_KEY
 ```
 
 ## Other Setup
