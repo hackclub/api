@@ -17,11 +17,13 @@ class UpdateFromStreakJob < ApplicationJob
       model.included_modules.include? Streakable
     end
 
+    records_to_destroy = {}
     relationships_to_create = {}
 
-    streakable_models.each do |model|
+    streakable_models.each do |model| # rubocop:disable Metrics/BlockLength
       model_boxes = StreakClient::Box.all_in_pipeline(model.pipeline_key)
 
+      records_to_destroy[model] = model.ids
       relationships_to_create[model] = {}
 
       model_boxes.each do |box|
@@ -38,6 +40,9 @@ class UpdateFromStreakJob < ApplicationJob
         end
 
         instance.update_attributes!(attrs_to_update)
+
+        # Remove the record from records_to_destroy
+        records_to_destroy[model].delete(instance.id)
 
         # Delete relationships that aren't present on Streak
         old_linked_box_keys = instance.linked_streak_box_keys
@@ -57,6 +62,11 @@ class UpdateFromStreakJob < ApplicationJob
 
         relationships_to_create[model][box[:key]] = to_create
       end
+    end
+
+    # Delete records with corresponding boxes that have been deleted on Streak
+    records_to_destroy.each do |model, record_ids|
+      record_ids.each { |id| model.find(id).destroy_without_streak! }
     end
 
     # Create relationships
