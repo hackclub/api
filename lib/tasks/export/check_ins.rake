@@ -90,9 +90,10 @@ namespace :check_ins do
   task clubs_that_want_to_die: :environment do
     puts csv_from_report(:leaders_who_want_to_die)
   end
-end
 
-task :all => ['check_ins:received', 'check_ins:responded',
-              'check_ins:did_not_respond', 'check_ins:had_meeting',
-              'check_ins:did_not_have_meeting',
-              'check_ins:clubs_that_want_to_die']
+  desc 'Run all commands'
+  task all: ['check_ins:received', 'check_ins:responded',
+             'check_ins:did_not_respond', 'check_ins:had_meeting',
+             'check_ins:did_not_have_meeting',
+             'check_ins:clubs_that_want_to_die']
+end
