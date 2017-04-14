@@ -1,23 +1,29 @@
 class UpdateFromStreakJob < ApplicationJob
   queue_as :default
 
-  # Just a quick note, we're going to temporarily disable basic complexity
-  # checks from Rubocop for now because this method is going to need a real
-  # refactor at some point to implement Streak's V2 API.
-  def perform(*) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+  def perform(*)
     # Since we're going to be doing a ton of reflection, we need to make sure
     # that the entire application is loaded into memory.
     Rails.application.eager_load!
 
+    ActiveRecord::Base.transaction { sync }
+  end
+
+  # Just a quick note, we're going to temporarily disable basic complexity
+  # checks from Rubocop for now because this method is going to need a real
+  # refactor at some point to implement Streak's V2 API.
+  def sync # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     streakable_models = ActiveRecord::Base.descendants.select do |model|
       model.included_modules.include? Streakable
     end
 
+    records_to_destroy = {}
     relationships_to_create = {}
 
-    streakable_models.each do |model|
+    streakable_models.each do |model| # rubocop:disable Metrics/BlockLength
       model_boxes = StreakClient::Box.all_in_pipeline(model.pipeline_key)
 
+      records_to_destroy[model] = model.ids
       relationships_to_create[model] = {}
 
       model_boxes.each do |box|
@@ -34,6 +40,9 @@ class UpdateFromStreakJob < ApplicationJob
         end
 
         instance.update_attributes!(attrs_to_update)
+
+        # Remove the record from records_to_destroy
+        records_to_destroy[model].delete(instance.id)
 
         # Delete relationships that aren't present on Streak
         old_linked_box_keys = instance.linked_streak_box_keys
@@ -55,6 +64,11 @@ class UpdateFromStreakJob < ApplicationJob
       end
     end
 
+    # Delete records with corresponding boxes that have been deleted on Streak
+    records_to_destroy.each do |model, record_ids|
+      record_ids.each { |id| model.find(id).destroy_without_streak! }
+    end
+
     # Create relationships
     relationships_to_create.each do |model, relationships|
       logger.debug "Updating relationships for #{model}"
@@ -73,23 +87,16 @@ class UpdateFromStreakJob < ApplicationJob
 
             next if instance_to_associate.nil?
 
-            # Heads up, this has some unexpected behavior.
-            #
-            # When adding instance_to_associate to the association, Rails is
-            # going to save instance_to_associate, triggering the update
-            # callbacks.
-            #
-            # Usually, this would trigger an API request to Streak to update
-            # instance_to_associate's box, which would be a bad thing because we
-            # haven't yet added instance_to_associate to the association (so
-            # it'd remove the relationship on Streak).
-            #
-            # This won't happen because Streakable checks to see if the instance
-            # has been .changed? before triggering the API request to Streak.
-            # Rails doesn't mark it as changed.
-            unless instance.send(association.plural_name)
-                           .include? instance_to_associate
-              instance.send(association.plural_name) << instance_to_associate
+            current_associated = instance.send(association.name)
+
+            if current_associated.is_a? Enumerable
+              unless current_associated.include? instance_to_associate
+                instance.send(association.name) << instance_to_associate
+              end
+            else
+              logger.debug "Ignoring #{association.name} association because "\
+                           "it's not Enumerable. Non-Enumerable association "\
+                           "syncing isn't currently implemented."
             end
           end
         end
