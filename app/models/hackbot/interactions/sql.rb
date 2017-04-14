@@ -1,12 +1,15 @@
 class Executer
   def execute(query)
     # Slack recommends limiting messages sent to channels to 4000 characters in
-    # https://api.slack.com/rtm#limits.
+    # https://api.slack.com/rtm#limits. We're going to limit our responses at
+    # 3500 characters so we don't have to worry about more limiting response
+    # length if we want to make small changes to the returned result (like if we
+    # want to wrap it in code blocks).
     #
     # This can't be a constant because this file is reloaded whenever
     # Hackbot::Interactions::Sql and causes problems when constants are defined
     # inside of Executer.
-    char_limit = 4000
+    char_limit = 3500
 
     res = fmted_result_from_query(query)
 
