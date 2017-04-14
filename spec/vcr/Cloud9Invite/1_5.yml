@@ -30,10 +30,10 @@ http_interactions:
       - DENY
       Set-Cookie:
       - c9.live.proxy=<CLOUD9_LIVE_PROXY_COOKIE>; Domain=.c9.io; Path=/; Expires=Mon,
-        17 Apr 2017 20:04:38 GMT; HttpOnly
+        17 Apr 2017 20:35:47 GMT; HttpOnly
       - c9.live.proxy=<CLOUD9_LIVE_PROXY_COOKIE_2>; Domain=.c9.io; Path=/; Expires=Mon,
-        17 Apr 2017 20:04:38 GMT; HttpOnly
-      - c9.live=<CLOUD9_LIVE_COOKIE>; Path=/; Expires=Mon, 17 Apr 2017 20:04:38 GMT;
+        17 Apr 2017 20:35:47 GMT; HttpOnly
+      - c9.live=<CLOUD9_LIVE_COOKIE>; Path=/; Expires=Mon, 17 Apr 2017 20:35:47 GMT;
         HttpOnly; Secure
       Content-Type:
       - application/json
@@ -48,7 +48,7 @@ http_interactions:
       Access-Control-Max-Age:
       - '8640000'
       Date:
-      - Fri, 14 Apr 2017 20:04:38 GMT
+      - Fri, 14 Apr 2017 20:35:47 GMT
       Transfer-Encoding:
       - chunked
       Content-Encoding:
@@ -111,7 +111,7 @@ http_interactions:
         fVL56jvk+CIqfHjGH1APOdaHoAoT8vSG/3/1hvgL1b+S588V+1vw/7+Q+7+o
         GPL+T1flp2JBkv4ltLxMnpX94xPk+/f/AMbpCtGwDAAA
     http_version: 
-  recorded_at: Fri, 14 Apr 2017 20:04:38 GMT
+  recorded_at: Fri, 14 Apr 2017 20:35:47 GMT
 - request:
     method: get
     uri: https://c9.io/api/nc/auth?client_id=profile_direct&immediate=1&login_hint&responseType=direct
@@ -138,8 +138,8 @@ http_interactions:
       - DENY
       Set-Cookie:
       - c9.live.proxy=<CLOUD9_LIVE_PROXY_COOKIE>; Domain=.c9.io; Path=/; Expires=Mon,
-        17 Apr 2017 20:04:39 GMT; HttpOnly
-      - c9.live=<CLOUD9_LIVE_COOKIE>; Path=/; Expires=Mon, 17 Apr 2017 20:04:38 GMT;
+        17 Apr 2017 20:35:47 GMT; HttpOnly
+      - c9.live=<CLOUD9_LIVE_COOKIE>; Path=/; Expires=Mon, 17 Apr 2017 20:35:47 GMT;
         HttpOnly; Secure
       Content-Type:
       - text/plain
@@ -154,7 +154,7 @@ http_interactions:
       Access-Control-Max-Age:
       - '8640000'
       Date:
-      - Fri, 14 Apr 2017 20:04:39 GMT
+      - Fri, 14 Apr 2017 20:35:47 GMT
       Transfer-Encoding:
       - chunked
       Content-Encoding:
@@ -166,15 +166,15 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        H4sIAAAAAAAEA7NM9i0t9/HKsDBM8kky907NDDHMAwDiCqTqFAAAAA==
+        H4sIAAAAAAAEA7NMdilOj4o0S4nMdA8y9CgqLfV1BQC5o3/LFAAAAA==
     http_version: 
-  recorded_at: Fri, 14 Apr 2017 20:04:39 GMT
+  recorded_at: Fri, 14 Apr 2017 20:35:47 GMT
 - request:
     method: post
     uri: https://api.c9.io/user/org/ENV-cloud9_team_name/invite?access_token=<CLOUD9_ACCESS_TOKEN>
     body:
       encoding: UTF-8
-      string: '{"email":"agustina.halvorson@hintz.io"}'
+      string: '{"email":"savanna_hagenes@rolfsonlockman.co"}'
     headers:
       Accept:
       - application/json
@@ -185,7 +185,7 @@ http_interactions:
       Content-Type:
       - application/json
       Content-Length:
-      - '39'
+      - '45'
       Host:
       - api.c9.io
   response:
@@ -206,7 +206,7 @@ http_interactions:
       Access-Control-Max-Age:
       - '8640000'
       Date:
-      - Fri, 14 Apr 2017 20:04:40 GMT
+      - Fri, 14 Apr 2017 20:35:49 GMT
       Transfer-Encoding:
       - chunked
       Content-Encoding:
@@ -218,11 +218,11 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        H4sIAAAAAAAEAzWOu27CMBSG3+XMFvIlDjZTV4TUoUPX6viSxIqxkWNQUsS7
-        14C6/tfvDg6r/0Hn4MA6zTmlfK97LgjkMsLhDqE5wDrVS02BQMKzb8KEdrbx
-        auBBoObZp6Zpu35tcxSfp9WWrI9bdN+t4c8YYrNxvC41JNxNGG+5LDl9TCHV
-        313Iz9R6CWV7QXT7xvGE4OT9LgUX8j/jG8+AcfEExoI3rFjauNWGC2ad5MoP
-        vO8pGiY864yhapBKweMP3RwDnOoAAAA=
+        H4sIAAAAAAAEAzWOwW7CMBBE/2XPFrLXTrA5Ie49FYne0OKsQxTHpk5agRD/
+        jqHq9c3M7rtDRwsfqetgo4xDlKiMNVoJyKWHzR2GmkBlbeMkCEg0cQVn8qOP
+        Pyd4CFjyyKky55vu47C74BTj5/77a98exrrgiYZY45l+KSU6nqnnxPO25Bjm
+        nGL240Rp5fOre70M5fZWMWtn3ipS/Dk0GrX773C1ChRnFtCXenihUl+gUieN
+        7CggapR2La10NlgfWg62lfB4AlZcWX/wAAAA
     http_version: 
-  recorded_at: Fri, 14 Apr 2017 20:04:40 GMT
+  recorded_at: Fri, 14 Apr 2017 20:35:49 GMT
 recorded_with: VCR 3.0.3

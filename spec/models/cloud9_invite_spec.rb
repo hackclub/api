@@ -14,13 +14,7 @@ RSpec.describe Cloud9Invite, type: :model, vcr: true do
       .with_message('invite already sent for this email')
   end
 
-  it 'ensures that only valid emails are accepted' do
-    invite = build(:cloud9_invite)
-    invite.email = 'bad_email'
-
-    expect(invite).to be_invalid
-    expect(invite.errors[:email]).to include('is not an email')
-  end
+  it { should validate_email_format_of :email }
 
   it 'sets the configured team name secret as the default' do
     configured_secret = Rails.application.secrets.cloud9_team_name

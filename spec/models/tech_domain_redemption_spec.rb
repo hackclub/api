@@ -9,11 +9,5 @@ RSpec.describe TechDomainRedemption, type: :model do
   it { should validate_presence_of :email }
   it { should validate_presence_of :requested_domain }
 
-  it 'ensures that only valid emails are accepted' do
-    redemption = build(:tech_domain_redemption)
-    redemption.email = 'bad_email'
-
-    expect(redemption).to be_invalid
-    expect(redemption.errors[:email]).to include('is not an email')
-  end
+  it { should validate_email_format_of :email }
 end
