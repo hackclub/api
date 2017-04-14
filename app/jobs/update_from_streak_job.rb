@@ -73,23 +73,16 @@ class UpdateFromStreakJob < ApplicationJob
 
             next if instance_to_associate.nil?
 
-            # Heads up, this has some unexpected behavior.
-            #
-            # When adding instance_to_associate to the association, Rails is
-            # going to save instance_to_associate, triggering the update
-            # callbacks.
-            #
-            # Usually, this would trigger an API request to Streak to update
-            # instance_to_associate's box, which would be a bad thing because we
-            # haven't yet added instance_to_associate to the association (so
-            # it'd remove the relationship on Streak).
-            #
-            # This won't happen because Streakable checks to see if the instance
-            # has been .changed? before triggering the API request to Streak.
-            # Rails doesn't mark it as changed.
-            unless instance.send(association.plural_name)
-                           .include? instance_to_associate
-              instance.send(association.plural_name) << instance_to_associate
+            current_associated = instance.send(association.name)
+
+            if current_associated.is_a? Enumerable
+              unless current_associated.include? instance_to_associate
+                instance.send(association.name) << instance_to_associate
+              end
+            else
+              logger.debug "Ignoring #{association.name} association because "\
+                           "it's not Enumerable. Non-Enumerable association "\
+                           "syncing isn't currently implemented."
             end
           end
         end
