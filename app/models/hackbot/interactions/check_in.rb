@@ -23,8 +23,6 @@ module Hackbot
         key = 'greeting.' + (first_check_in? ? 'if_first_check_in' : 'default')
         actions = []
 
-        actions << { text: 'Yes' }
-
         if previous_meeting_day
           actions << {
             text: "Yes, on #{previous_meeting_day}",
@@ -32,6 +30,7 @@ module Hackbot
           }
         end
 
+        actions << { text: 'Yes' }
         actions << { text: 'No' }
 
         msg_channel(
