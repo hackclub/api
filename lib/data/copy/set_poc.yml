@@ -1,3 +1,4 @@
+not_admin: You must be an administrator to use this command.
 start:
     invalid: I can't find that leader :-?
     no_clubs: <%= leader_name %> is not associated with any clubs.

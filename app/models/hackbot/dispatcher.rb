@@ -7,6 +7,7 @@ module Hackbot
       Hackbot::Interactions::Gifs,
       Hackbot::Interactions::Help,
       Hackbot::Interactions::SetPoc,
+      Hackbot::Interactions::Sql,
       Hackbot::Interactions::Stats
     ].freeze
 
