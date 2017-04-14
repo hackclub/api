@@ -181,7 +181,7 @@ module Hackbot
         count = msg.to_i
 
         if count < 0
-          msg_channel copy('attendance.not_realistic.small')
+          msg_channel copy('attendance.not_realistic.negative')
 
           default_follow_up 'wait_for_attendance'
           return :wait_for_attendance
@@ -190,7 +190,7 @@ module Hackbot
         # Unless Hack Club starts expanding to other solar systems, this
         # number is completely implausible until at least 2025.
         if count > 8_000_000_000
-          msg_channel copy('attendance.not_realistic.large')
+          msg_channel copy('attendance.not_realistic.too_large')
 
           default_follow_up 'wait_for_attendance'
           return :wait_for_attendance
