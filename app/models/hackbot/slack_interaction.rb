@@ -3,7 +3,7 @@ module Hackbot
     extend ActiveSupport::Concern
 
     def send_msg(channel, msg)
-      opts = { as_user: true }
+      opts = HashWithIndifferentAccess.new(as_user: true)
 
       if msg.is_a? String
         opts[:text] = msg

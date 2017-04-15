@@ -1,4 +1,7 @@
 class CopyService
+  # Make ActionView helpers available in copy files when renderings
+  include ActionView::Helpers
+
   def initialize(interaction_name, hash)
     @interaction_name = interaction_name
     @context = hash_to_binding hash

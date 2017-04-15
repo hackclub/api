@@ -6,6 +6,7 @@ module Hackbot
       Hackbot::Interactions::DiceRoll,
       Hackbot::Interactions::Gifs,
       Hackbot::Interactions::Help,
+      Hackbot::Interactions::Lookup,
       Hackbot::Interactions::SetPoc,
       Hackbot::Interactions::Sql,
       Hackbot::Interactions::Stats
