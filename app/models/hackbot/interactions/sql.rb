@@ -76,14 +76,12 @@ end
 
 module Hackbot
   module Interactions
-    class Sql < Command
+    class Sql < AdminCommand
       TRIGGER = /sql (?<query>.*)/
 
       USAGE = 'sql <query>'.freeze
       DESCRIPTION = 'execute the given SQL query and return the results '\
                     '(staff only)'.freeze
-
-      before_handle :ensure_admin
 
       def start
         data['query'] = captured[:query]
@@ -118,18 +116,6 @@ module Hackbot
       # Convert the given string to a formatted Slack code block.
       def to_code(str)
         "```\n" + str + "\n```"
-      end
-
-      def ensure_admin
-        return if current_admin?
-
-        if state == 'start'
-          msg_channel copy('not_admin_start')
-        else
-          send_msg(event[:user], copy('not_admin_in_progress'))
-        end
-
-        throw :abort
       end
     end
   end

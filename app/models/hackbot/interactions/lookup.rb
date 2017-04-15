@@ -1,6 +1,6 @@
 module Hackbot
   module Interactions
-    class Lookup < Command
+    class Lookup < AdminCommand
       include ActionView::Helpers::DateHelper
 
       TRIGGER = /lookup <@(?<uid>.*)>/
@@ -10,8 +10,6 @@ module Hackbot
       USAGE = 'lookup &lt;@username&gt;'.freeze
       DESCRIPTION = 'look up a leader and their club from their Slack '\
                     'username (staff only)'.freeze
-
-      before_handle :ensure_admin
 
       def start
         data['uid_to_lookup'] = captured[:uid]
@@ -49,14 +47,6 @@ module Hackbot
 
       def not_found
         msg_channel copy('not_found')
-      end
-
-      def ensure_admin
-        return if current_admin?
-
-        msg_channel copy('not_admin')
-
-        throw :abort
       end
 
       def construct_msg(leader)
