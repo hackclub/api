@@ -6,7 +6,8 @@ module Hackbot
       TRIGGER = /lookup <@(?<uid>.*)>/
 
       # Quick heads up that &lt; and &gt; are the HTML encodings for < and >,
-      # respectively. Slack requires these characters be HTML encoded.
+      # respectively. If we don't HTML encode them, Slack will interpret
+      # @username as a mention.
       USAGE = 'lookup &lt;@username&gt;'.freeze
       DESCRIPTION = 'look up a leader and their club from their Slack '\
                     'username (staff only)'.freeze
