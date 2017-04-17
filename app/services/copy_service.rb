@@ -1,13 +1,23 @@
 class CopyService
+  # Make ActionView helpers available in copy files when renderings
+  include ActionView::Helpers
+
   def initialize(interaction_name, hash)
     @interaction_name = interaction_name
     @context = hash_to_binding hash
   end
 
   def get_copy(key)
-    erb = ERB.new get_erb(key)
+    to_render = get_erb(key)
 
-    erb.result @context
+    if to_render.is_a? String
+      ERB.new(to_render).result(@context)
+    else
+      to_render = to_render.to_yaml
+      rendered = ERB.new(to_render).result(@context)
+
+      HashWithIndifferentAccess.new(YAML.load(rendered))
+    end
   end
 
   def get_erb(key)
@@ -16,8 +26,8 @@ class CopyService
 
     sections.each { |s| copy = copy[s] }
 
-    # If there are multiple options, choose one at random.
-    copy.respond_to?('each') ? copy.sample : copy
+    # If we get an array, choose one element at random.
+    copy.is_a?(Array) ? copy.sample : copy
   end
 
   private

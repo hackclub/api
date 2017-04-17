@@ -1,5 +1,3 @@
-not_admin_start: You must be an administrator to use this command.
-not_admin_in_progress: You must be an administrator to interact with this command.
 confirm:
   text: |
     Are you sure? This will execute `<%= query %>` and return the results publicly to this channel.

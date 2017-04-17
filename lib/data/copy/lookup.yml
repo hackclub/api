@@ -1,0 +1,101 @@
+not_found: Unable to find a leader with that username.
+
+confirm:
+  msg:
+    text: |
+      Are you sure you want me to do this lookup here? Doing so will make the results of the lookup, which will include private info, available to everyone in the channel.
+
+      *This will share private info. Be careful.*
+    attachments:
+      - actions:
+          - text: 'Yes'
+          - text: 'No'
+  results:
+    proceed: ':white_check_mark: *Do the lookup*'
+    cancel: ':no_entry: *Do not do the lookup*'
+
+resp_prefix: "Here's what I found:"
+leader_attachment:
+  author_icon: '<%= leader_icon_url %>'
+  author_name: '<%= leader.name %>'
+  color: '<%= color %>'
+  fields:
+    - title: Email
+      value: '<%= leader.email %>'
+      short: false
+    - title: Slack Username
+      value: '<%= slack %>'
+      short: true
+    - title: GitHub Username
+      value: '<%= github %>'
+      short: true
+    - title: Twitter Username
+      value: '<%= twitter %>'
+      short: true
+    - title: Phone Number
+      value: '<%= leader.phone_number %>'
+      short: true
+    - title: Gender
+      value: '<%= leader.gender %>'
+      short: true
+    - title: Graduation Year
+      value: '<%= leader.year %>'
+      short: true
+    - title: Address
+      value: '<%= leader.address %>'
+      short: false
+    - title: Streak Key
+      value: '<%= leader.streak_key %>'
+      short: true
+    - title: Database ID
+      value: '<%= leader.id %>'
+      short: true
+    - title: Created
+      value: '<%= time_ago_in_words leader.created_at %> ago'
+      short: true
+    - title: Last Updated
+      value: '<%= time_ago_in_words leader.updated_at %> ago'
+      short: true
+    - title: Notes
+      value: '<%= leader.notes %>'
+      short: false
+club_attachment:
+  # Quick word of warning: I have U+2063 after that \n to force Slack to not
+  # strip the extra new line. For some reason, the message looks *way* better
+  # when there's a new line after the club's name.
+  text: "_*<%= club.name %>*_\n⁣"
+  color: '<%= color %>'
+  fields:
+    - title: Last Meeting
+      value: '<%= stats.last_meeting_date %>'
+      short: true
+    - title: '# Meetings'
+      value: '<%= stats.meeting_count %>'
+      short: true,
+    - title: Average Attendance
+      value: '<%= stats.average_attendance %>'
+      short: true,
+    - title: Leadership Team
+      value: "<%= leaders.join(', ') %>"
+      short: true,
+    - title: Point of Contact
+      value: '<%= poc %>'
+      short: true,
+    - title: Address
+      value: '<%= club.address %>'
+      short: false,
+    - title: Streak Key
+      value: '<%= club.streak_key %>'
+      short: true,
+    - title: Database ID
+      value: '<%= club.id %>'
+      short: true,
+    - title: Created
+      value: '<%= time_ago_in_words club.created_at %> ago'
+      short: true,
+    - title: Last Updated
+      value: '<%= time_ago_in_words club.updated_at %> ago'
+      short: true,
+    - title: Notes
+      value: '<%= club.notes %>'
+      short: false
