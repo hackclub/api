@@ -15,7 +15,7 @@ module Hackbot
       def start
         data['uid_to_lookup'] = captured[:uid]
 
-        if in_pm?
+        if in_dm?
           lookup
         else
           msg_channel copy('confirm.msg')
