@@ -47,6 +47,10 @@ module V1
       private
 
       def handle_event(event, team_id)
+        # Slack HTML escapes the '>', '<', and '&' characters. This unescapes
+        # them.
+        event[:text] = CGI.unescapeHTML(event[:text]) if event[:text]
+
         HandleSlackEventJob.perform_later(event, team_id)
       end
 
