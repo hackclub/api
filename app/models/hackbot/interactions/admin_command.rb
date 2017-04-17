@@ -10,6 +10,8 @@ module Hackbot
 
         if state == 'start'
           msg_channel admin_copy('when_in_start_state')
+
+          self.state = :finish
         else
           send_msg(event[:user], admin_copy('when_in_progress'))
         end
