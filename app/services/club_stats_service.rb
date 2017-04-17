@@ -31,7 +31,7 @@ class ClubStatsService
 
   def meeting_count
     # We can't just do @club.check_ins because multiple check-ins can exist for
-    # a single date (like in the case when we were polling every leader ever
+    # a single date (like in the case when we were polling every leader every
     # week).
     #
     # This counts the number of unique meeting dates that are present in the
