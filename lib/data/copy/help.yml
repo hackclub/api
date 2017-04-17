@@ -7,4 +7,4 @@ help: |
     `<%= c[:usage] %>` - <%= c[:desc] %>
     <% end %>
 
-    To use one of them, go ahead and say `<%= bot_mention %>` and then the command you want to run, like `<%= bot_mention %> <%= commands.sample[:usage] %>`.
+    To use one of them, go ahead and say `<%= bot_mention %>` and then the command you want to run, like `<%= bot_mention %> <%= commands.sample[:usage] %>`. You can also PM me a command without mentioning my username, like `<%= commands.sample[:usage] %>`.
