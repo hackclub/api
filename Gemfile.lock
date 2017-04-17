@@ -133,6 +133,8 @@ GEM
     notiffany (0.1.1)
       nenv (~> 0.1)
       shellany (~> 0.0)
+    octokit (4.7.0)
+      sawyer (~> 0.8.0, >= 0.5.3)
     parser (2.3.3.1)
       ast (~> 2.2)
     pg (0.18.4)
@@ -228,6 +230,9 @@ GEM
       unicode-display_width (~> 1.0, >= 1.0.1)
     ruby-progressbar (1.8.1)
     safe_yaml (1.0.4)
+    sawyer (0.8.1)
+      addressable (>= 2.3.5, < 2.6)
+      faraday (~> 0.8, < 1.0)
     sentry-raven (2.4.0)
       faraday (>= 0.7.6, < 1.0)
     shellany (0.0.1)
@@ -290,6 +295,7 @@ DEPENDENCIES
   gruff
   guard-rspec (~> 4.7)
   listen (~> 3.0.5)
+  octokit (~> 4.7)
   pg (~> 0.18.4)
   puma (~> 3.0)
   rack-cors

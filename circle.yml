@@ -19,6 +19,7 @@ machine:
     HACKBOT_MIRROR_CHANNEL_ID: fake_channel_id
     HACKBOT_ADMINS: fake,admin,list
     STREAK_DEMO_USER_BOX_KEY: fake_streak_key
+    GITHUB_BOT_ACCESS_TOKEN: fake_access_token
 
 test:
   override:

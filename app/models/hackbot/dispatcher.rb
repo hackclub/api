@@ -9,7 +9,8 @@ module Hackbot
       Hackbot::Interactions::Lookup,
       Hackbot::Interactions::SetPoc,
       Hackbot::Interactions::Sql,
-      Hackbot::Interactions::Stats
+      Hackbot::Interactions::Stats,
+      Hackbot::Interactions::UpdateWorkshops
     ].freeze
 
     def handle(event, slack_team)
