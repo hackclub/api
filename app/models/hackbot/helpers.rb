@@ -18,9 +18,9 @@ module Hackbot
       event[:action]
     end
 
-    # Returns whether the current event being processed is a PM. Slack channel
-    # IDs start with D if they're a private message.
-    def in_pm?
+    # Returns whether the current event being processed is a DM. Slack channel
+    # IDs start with D if they're a direct message.
+    def in_dm?
       event[:channel].starts_with? 'D'
     end
 
