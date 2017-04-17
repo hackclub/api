@@ -12,7 +12,7 @@ machine:
     STREAK_OUTREACH_TEACHER_PIPELINE_KEY: teachers
     SLACK_CLIENT_ID: fake_client_id
     SLACK_CLIENT_SECRET: fake_client_secret
-    SLACK_TEAM_ID: fake_slack_team_id
+    DEFAULT_SLACK_TEAM_ID: fake_slack_team_id
     TECH_DOMAIN_REDEMPTION_SECRET_CODE: fake_secret_code
     GIPHY_API_KEY: fake_giphy_api_key
     DEFAULT_STREAK_TASK_ASSIGNEE: email@email.email

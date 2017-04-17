@@ -2,7 +2,7 @@ module V1
   class LeadersController < ApplicationController
     before_action :verify_club_id, only: :intake
 
-    TEAM_ID = Rails.application.secrets.slack_team_id
+    TEAM_ID = Rails.application.secrets.default_slack_team_id
 
     def intake
       leader = Leader.new(

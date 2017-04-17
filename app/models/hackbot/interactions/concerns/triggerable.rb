@@ -4,7 +4,7 @@ module Hackbot
       module Triggerable
         extend ActiveSupport::Concern
 
-        SLACK_TEAM_ID = Rails.application.secrets.slack_team_id
+        SLACK_TEAM_ID = Rails.application.secrets.default_slack_team_id
 
         class_methods do
           # This constructs a fake Slack event to start the interaction with.

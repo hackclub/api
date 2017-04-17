@@ -1,5 +1,5 @@
 class AddSlackUserAndTeamIdToLeader < ActiveRecord::Migration[5.0]
-  SLACK_TEAM_ID = Rails.application.secrets.slack_team_id
+  SLACK_TEAM_ID = Rails.application.secrets.default_slack_team_id
 
   def change
     add_column :leaders, :slack_id, :text
