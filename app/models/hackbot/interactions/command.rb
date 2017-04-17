@@ -18,8 +18,9 @@ module Hackbot
         mention_regex = Hackbot::Utterances.name(team)
 
         if in_dm?
-        then msg =~ /^(#{mention_regex} )?#{trigger}$/ && super
-        else msg =~ /^#{mention_regex} #{trigger}$/ && super
+          msg =~ /^(#{mention_regex} )?#{trigger}$/ && super
+        else
+          msg =~ /^#{mention_regex} #{trigger}$/ && super
         end
       end
 
@@ -33,15 +34,6 @@ module Hackbot
 
       def description
         self.class::DESCRIPTION if self.class.const_defined? 'DESCRIPTION'
-      end
-
-      private
-
-      # Returns whether we're currently in a direct message.
-      #
-      # If the channel ID starts with a D on Slack, then you're in a DM.
-      def in_dm?
-        event[:channel].start_with? 'D'
       end
     end
   end
