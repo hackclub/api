@@ -38,7 +38,7 @@ module Hackbot
         im_id = SlackClient::Chat.open_im(slack_id, access_token)[:channel][:id]
 
         check_in_interactions = Hackbot::Interactions::CheckIn
-                                .where("data->>'channel' = '#{im_id}'")
+                                .where("data->>'channel' = ?", im_id)
                                 .where.not(state: 'finish')
 
         check_in_interactions.map(&:id)
