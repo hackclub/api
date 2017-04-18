@@ -72,45 +72,21 @@ class ScheduleLeaderCheckInsJob < ApplicationJob
     Timezone.fetch('America/Los_Angeles').local_to_utc(next_runtime)
   end
 
-  def active_club_boxes
-    @club_active_boxes ||= StreakClient::Box
-                           .all_in_pipeline(CLUB_PIPELINE_KEY)
-                           .select do |b|
-                             CLUB_ACTIVE_STAGE_KEYS.include? b[:stage_key]
-                           end
-
-    @club_active_boxes
-  end
-
-  def active_leader_boxes
-    @leader_active_boxes ||= StreakClient::Box
-                             .all_in_pipeline(LEADER_PIPELINE_KEY)
-                             .select do |b|
-      b[:stage_key] == LEADER_ACTIVE_STAGE_KEY
-    end
-
-    @leader_active_boxes
-  end
-
   def active?(leader)
-    leader_box = active_leader_boxes.find do |box|
-      box[:key].eql? leader.streak_key
-    end
+    leader_box = Leader.find_by(streak_key: leader.streak_key,
+                                stage_key: LEADER_ACTIVE_STAGE_KEY)
 
     !leader_box.nil?
   end
 
-  # rubocop:disable Metrics/AbcSize
   def pocs
     # This returns all active club leaders at active clubs labeled as a point of
     # contact
-    active_club_boxes
-      .map { |box| Club.find_by(streak_key: box[:key]) }
-      .select { |clb| !clb.nil? }
-      .select { |clb| !(clb[:point_of_contact_id]).nil? }
-      .map(&:point_of_contact)
-      .select { |ldr| active? ldr }
-      .select { |ldr| ldr.slack_id.present? }
+    Club.where(stage_key: CLUB_ACTIVE_STAGE_KEYS)
+        .select { |clb| !(clb[:point_of_contact_id]).nil? }
+        .map(&:point_of_contact)
+        .select { |ldr| active? ldr }
+        .select { |ldr| ldr.slack_id.present? }
   end
   # rubocop:enable Metrics/AbcSize
 end
