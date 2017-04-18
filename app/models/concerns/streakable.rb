@@ -4,9 +4,11 @@ module Streakable
 
   class InvalidFieldMappingError < StandardError; end
 
+  STAGE_KEY_COLUMN_NAME = 'stage_key'.freeze
+
   module ClassMethods
-    attr_reader :pipeline_key, :field_mappings,
-                :key_attribute, :name_attribute, :notes_attribute
+    attr_reader :pipeline_key, :field_mappings, :key_attribute,
+                :name_attribute, :notes_attribute, :stage_attribute
 
     # Returns an array of AssociationReflection objects. Each
     # AssociationReflection represents an association with a class that also
@@ -27,14 +29,16 @@ module Streakable
       @field_mappings = mappings
     end
 
-    def streak_default_field_mappings(key:, name:, notes:)
+    def streak_default_field_mappings(key:, name:, notes:, stage:)
       @key_attribute = key
       @name_attribute = name
       @notes_attribute = notes
+      @stage_attribute = stage
     end
   end
 
   included do
+    before_validation :check_columns
     before_create :create_box
     before_update :update_box_if_changed
     before_destroy :destroy_box
@@ -87,6 +91,13 @@ module Streakable
     end
   end
 
+  def check_columns
+    return unless self.class.column_names.include? STAGE_KEY_COLUMN_NAME
+
+    errors.add(:stage_column, "The 'stage' column does not exist on this model")
+    throw :abort
+  end
+
   def create_box
     unless streak_key_val
       resp = StreakClient::Box.create_in_pipeline(self.class.pipeline_key, name)
@@ -119,7 +130,8 @@ module Streakable
     StreakClient::Box.update(
       streak_key_val,
       notes: notes,
-      linked_box_keys: linked_streak_box_keys
+      linked_box_keys: linked_streak_box_keys,
+      stage_key: stage_key_val
     )
 
     update_all_streak_fields
@@ -143,5 +155,13 @@ module Streakable
 
   def streak_key_val=(val)
     send("#{self.class.key_attribute}=", val)
+  end
+
+  def stage_key_val
+    send(self.class.stage_attribute)
+  end
+
+  def stage_key_val=(val)
+    send("#{self.class.stage_attribute}=", val)
   end
 end

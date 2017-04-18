@@ -3,7 +3,8 @@ class Leader < ApplicationRecord
   include Geocodeable
 
   streak_pipeline_key Rails.application.secrets.streak_leader_pipeline_key
-  streak_default_field_mappings key: :streak_key, name: :name, notes: :notes
+  streak_default_field_mappings key: :streak_key, name: :name, notes: :notes,
+                                stage: :stage_key
   streak_field_mappings(
     email: '1003',
     gender: {
