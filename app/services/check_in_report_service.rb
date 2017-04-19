@@ -11,8 +11,8 @@ class CheckInReportService
 
     @interactions = Hackbot::Interactions::CheckIn
                     .where(state: 'finish')
-                    .where("created_at >= '#{min_day}' AND "\
-             "created_at <= '#{max_day}'")
+                    .where('created_at >= ?', min_day)
+                    .where('created_at <= ?', max_day)
   end
 
   def leaders_who_received_a_check_in
