@@ -1,7 +1,8 @@
 FactoryGirl.define do
   factory :club do
     name { HCFaker::HighSchool.name }
-    streak_key { HCFaker::Random.alphanumeric_string(len: 91) }
+    streak_key { HCFaker::Streak.key }
+    stage_key { HCFaker::Streak.stage_key }
     address { HCFaker::Address.full_address }
     latitude { Faker::Address.latitude }
     longitude { Faker::Address.longitude }

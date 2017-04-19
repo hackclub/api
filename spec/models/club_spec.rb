@@ -8,6 +8,7 @@ RSpec.describe Club, type: :model do
 
   it { should have_db_column :name }
   it { should have_db_column :streak_key }
+  it { should have_db_column :stage_key }
   it { should have_db_column :address }
   it { should have_db_column :latitude }
   it { should have_db_column :longitude }

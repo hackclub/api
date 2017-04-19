@@ -22,7 +22,8 @@ RSpec.shared_examples 'Streakable' do
         streak_client_double: client,
         streak_key: streak_key,
         notes: attrs[model.notes_attribute],
-        linked_box_keys: [] # TODO: Don't do this
+        linked_box_keys: [], # TODO: Don't do this
+        stage_key: attrs[model.stage_attribute]
       )
 
       expect_update_box_fields(
@@ -63,7 +64,8 @@ RSpec.shared_examples 'Streakable' do
           streak_client_double: box_client,
           streak_key: attrs[model.key_attribute],
           notes: attrs[model.notes_attribute],
-          linked_box_keys: [] # TODO: Don't do this
+          linked_box_keys: [], # TODO: Don't do this
+          stage_key: attrs[model.stage_attribute]
         )
 
         expect_update_box_fields(
@@ -80,7 +82,7 @@ RSpec.shared_examples 'Streakable' do
 
   context 'updating' do
     let!(:new_attrs) do
-      attributes_from_created_instance(model).except(:streak_key)
+      attributes_from_created_instance(model).except(:streak_key, :stage_key)
     end
 
     subject!(:instance) { model.create(attrs) }
@@ -92,7 +94,8 @@ RSpec.shared_examples 'Streakable' do
         streak_client_double: client,
         streak_key: instance.streak_key,
         notes: new_attrs[model.notes_attribute],
-        linked_box_keys: [] # TODO: Don't do this
+        linked_box_keys: [], # TODO: Don't do this
+        stage_key: instance.stage_key
       )
 
       expect_update_box_fields(
@@ -137,12 +140,13 @@ RSpec.shared_examples 'Streakable' do
   end
 
   def expect_update_box(streak_client_double:, streak_key:, notes:,
-                        linked_box_keys:)
+                        linked_box_keys:, stage_key:)
     expect(streak_client_double).to receive(:update)
       .with(
         streak_key,
         notes: notes,
-        linked_box_keys: linked_box_keys
+        linked_box_keys: linked_box_keys,
+        stage_key: stage_key
       )
   end
 
