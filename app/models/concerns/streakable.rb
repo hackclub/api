@@ -38,7 +38,6 @@ module Streakable
   end
 
   included do
-    before_validation :check_columns
     before_create :create_box
     before_update :update_box_if_changed
     before_destroy :destroy_box
@@ -89,13 +88,6 @@ module Streakable
         keys
       end
     end
-  end
-
-  def check_columns
-    return unless self.class.column_names.include? STAGE_KEY_COLUMN_NAME
-
-    errors.add(:stage_column, "The 'stage' column does not exist on this model")
-    throw :abort
   end
 
   def create_box
