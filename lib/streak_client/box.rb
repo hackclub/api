@@ -5,13 +5,19 @@ module StreakClient
     end
 
     def self.all_in_pipeline(pipeline_key)
-      StreakClient.request(
-        :get,
-        "/v1/pipelines/#{pipeline_key}/boxes",
-        {},  # params
-        {},  # headers
-        true # cache
-      )
+      results = []
+      page = 0
+      more_results = true
+
+      while more_results
+        resp = all_in_pipeline_paginated(pipeline_key, page: page, limit: 50)
+        results += resp[:results]
+        more_results = resp[:has_next_page]
+
+        page += 1
+      end
+
+      results
     end
 
     def self.all_in_pipeline_paginated(pipeline_key, page:, limit:)
