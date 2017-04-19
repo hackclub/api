@@ -23,6 +23,11 @@ module HCFaker
         range = [*'0'..'9', *'A'..'Z', *'a'..'z']
         Array.new(len) { range.sample }.join
       end
+
+      def numeric_string(len: 4)
+        chars = [*'0'...'9']
+        Array.new(len) { chars.sample }.join
+      end
     end
   end
 
@@ -30,6 +35,10 @@ module HCFaker
     class << self
       def key
         HCFaker::Random.alphanumeric_string(len: 91)
+      end
+
+      def stage_key
+        HCFaker::Random.numeric_string(len: 4)
       end
     end
   end

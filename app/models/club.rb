@@ -3,7 +3,8 @@ class Club < ApplicationRecord
   include Geocodeable
 
   streak_pipeline_key Rails.application.secrets.streak_club_pipeline_key
-  streak_default_field_mappings key: :streak_key, name: :name, notes: :notes
+  streak_default_field_mappings key: :streak_key, name: :name, notes: :notes,
+                                stage: :stage_key
   streak_field_mappings(
     address: '1006',
     latitude: '1007',
