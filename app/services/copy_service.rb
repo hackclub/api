@@ -8,19 +8,29 @@ class CopyService
   end
 
   def get_copy(key)
-    to_render = get_erb(key)
+    to_render = get_copy_file(key)
 
-    if to_render.is_a? String
-      ERB.new(to_render).result(@context)
+    rendered = recursive_render to_render
+
+    if rendered.is_a? String
+      rendered
     else
-      to_render = to_render.to_yaml
-      rendered = ERB.new(to_render).result(@context)
-
-      HashWithIndifferentAccess.new(YAML.load(rendered))
+      HashWithIndifferentAccess.new(rendered)
     end
   end
 
-  def get_erb(key)
+  def recursive_render(to_render)
+    if to_render.is_a? String
+      ERB.new(to_render).result(@context)
+    elsif to_render.is_a? Hash
+      to_render.each { |k, v| to_render[k] = recursive_render v }
+      to_render
+    elsif to_render.is_a? Array
+      to_render.map { |x|  recursive_render x }
+    end
+  end
+
+  def get_copy_file(key)
     sections = key.split '.'
     copy = get_interaction_yaml(@interaction_name)
 
@@ -43,10 +53,10 @@ class CopyService
   end
 
   def hash_to_binding(hash)
-    b = binding
+    bind = binding
 
-    hash.each { |k, v| b.local_variable_set(k, v) }
+    hash.each { |k, v| bind.local_variable_set(k, v) }
 
-    b
+    bind
   end
 end
