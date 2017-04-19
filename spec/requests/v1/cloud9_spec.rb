@@ -25,12 +25,32 @@ RSpec.describe 'V1::Cloud9', type: :request, vcr: true do
     context 'with a duplicate email' do
       let(:email) { 'duplicate@example.com' }
 
-      before { post '/v1/cloud9/send_invite', params: { email: email } }
+      # Default case. User submitted an invite, it was stored in DB, and then
+      # they tried again and we saw their previous record in our DB.
+      context 'when original invite is stored in db' do
+        before { post '/v1/cloud9/send_invite', params: { email: email } }
 
-      it 'errors' do
-        expect(response).to have_http_status(409)
-        expect(json['errors']['email'])
-          .to eq('Invite already sent for this email')
+        it 'errors' do
+          expect(response).to have_http_status(422)
+          expect(json['errors']['email'])
+            .to include('invite already sent for this email')
+        end
+      end
+
+      # In the case that an invite was sent to the user outside of the
+      # application, we should catch the API error that Cloud9 will throw and
+      # return an appropriate error.
+      context 'when original invite is not stored in db' do
+        before do
+          Cloud9Invite.destroy_all
+          post '/v1/cloud9/send_invite', params: { email: email }
+        end
+
+        it 'errors' do
+          expect(response).to have_http_status(422)
+          expect(json['errors']['email'])
+            .to include('invite already sent for this email')
+        end
       end
     end
 
@@ -39,7 +59,7 @@ RSpec.describe 'V1::Cloud9', type: :request, vcr: true do
 
       it 'errors' do
         expect(response).to have_http_status(422)
-        expect(json['errors']['email']).to eq('Must be a valid email')
+        expect(json['errors']['email']).to include('is not an email')
       end
     end
   end
