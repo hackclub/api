@@ -4,20 +4,21 @@ module StreakClient
       StreakClient.request(:get, '/v1/boxes')
     end
 
-    def self.all_in_pipeline(pipeline_key)
-      results = []
-      page = 0
-      more_results = true
+    def self.all_in_pipeline(pipeline_key, chunk_size = 50)
+      Enumerator.new do |y|
+        page = 0
 
-      while more_results
-        resp = all_in_pipeline_paginated(pipeline_key, page: page, limit: 50)
-        results += resp[:results]
-        more_results = resp[:has_next_page]
+        loop do
+          resp = all_in_pipeline_paginated(pipeline_key, page: page,
+                                           limit: chunk_size)
 
-        page += 1
+          resp[:results].each { |r| y << r }
+
+          break unless resp[:has_next_page]
+
+          page += 1
+        end
       end
-
-      results
     end
 
     def self.all_in_pipeline_paginated(pipeline_key, page:, limit:)
