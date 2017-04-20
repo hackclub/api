@@ -1,5 +1,7 @@
 # Schedule LeaderCheckInJob for leaders in each timezone.
 class ScheduleLeaderCheckInsJob < ApplicationJob
+  queue_as :default
+
   HACK_CLUB_TEAM_ID = 'T0266FRGM'.freeze
   CLUB_ACTIVE_STAGE_KEY = '5003'.freeze
   CLUB_INACTIVE_ONE_WEEK_KEY = '5012'.freeze

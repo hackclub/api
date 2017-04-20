@@ -1,4 +1,6 @@
 class CloseCheckInsJob < ApplicationJob
+  queue_as :default
+
   SLACK_TEAM_ID = 'T0266FRGM'.freeze
 
   def perform(interaction_ids = [])
