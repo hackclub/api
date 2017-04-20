@@ -62,7 +62,7 @@ module Hackbot
           end
         end
 
-        GithubClient.create_pull_request(
+        pr = GithubClient.create_pull_request(
           REPO_TO_UPDATE,
           # Branch to make PR to on upstream
           'master',
@@ -73,7 +73,7 @@ module Hackbot
           copy('pr.body')
         )
 
-        copy('progress.pr_submitted')
+        msg_channel copy('progress.pr_submitted', pr_url: pr.html_url)
       end
 
       def git_name
