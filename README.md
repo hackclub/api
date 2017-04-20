@@ -95,6 +95,9 @@ STREAK_DEMO_USER_BOX_KEY
 # API key to use with Giphy. Will probably be "dc6zaTOxFJmzC", which is their
 # public beta key (see https://github.com/Giphy/GiphyAPI) for details.
 GIPHY_API_KEY
+
+# Access token with all scopes enabled for the GitHub account to use as a bot.
+GITHUB_BOT_ACCESS_TOKEN
 ```
 
 ## Other Setup

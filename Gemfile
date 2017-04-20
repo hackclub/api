@@ -2,10 +2,10 @@
 # convention, not an actual technical requirement)
 source 'https://rubygems.org'
 
+gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
+
 gem 'pg', '~> 0.18.4'
 gem 'puma', '~> 3.0'
-gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
-gem 'redis-rails', '~> 5.0.0'
 
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'chronic', '~> 0.10.2'
@@ -13,7 +13,9 @@ gem 'concurrent-ruby', require: 'concurrent'
 gem 'delayed_job_active_record', '~> 4.1', '>= 4.1.1'
 gem 'faker', '~> 1.6'
 gem 'geocoder', '~> 1.4'
+gem 'octokit', '~> 4.7'
 gem 'rack-cors', require: 'rack/cors'
+gem 'redis-rails', '~> 5.0.0'
 gem 'rest-client', '~> 2.0'
 gem 'sentry-raven', '~> 2.4'
 gem 'terminal-table', '~> 1.7'
