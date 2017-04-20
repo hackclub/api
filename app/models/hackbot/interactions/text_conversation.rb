@@ -34,7 +34,25 @@ module Hackbot
         send_file(data['channel'], filename, file)
       end
 
+      def slack_id
+        if event
+          event[:user]
+        elsif data['channel']
+          # Using the data['channel'] field we can figure out the SlackID of a
+          # user if the conversation takes place in a PM
+          dm_channel = channels.find { |im| im[:id] == data['channel'] }
+          dm_channel ? dm_channel[:user] : nil
+        end
+      end
+
       private
+
+      def channels
+        key = "im.list##{team.id}"
+        Rails.cache.fetch(key, expires_in: 2.minutes) do
+          SlackClient.rpc('im.list', team.bot_access_token)[:ims]
+        end
+      end
 
       # Returns whether the current event is a new message. This prevents
       # interactions from being triggered on message edits or other subtypes of
