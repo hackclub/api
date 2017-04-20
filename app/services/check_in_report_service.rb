@@ -26,7 +26,7 @@ class CheckInReportService
       .map(&:leader)
   end
 
-  def leaders_who_did_not_not_have_a_meeting
+  def leaders_who_did_not_have_a_meeting
     @interactions
       .where("data->>'attendance' IS NULL")
       .map(&:leader)
