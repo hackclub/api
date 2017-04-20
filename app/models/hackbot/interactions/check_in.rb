@@ -331,7 +331,7 @@ module Hackbot
           stats.meeting_dates
         )
 
-        file_to_channel('attendance_this_week.png', Charts.as_file(graph))
+        file_to_channel('recent_attendance.png', Charts.as_file(graph))
       end
 
       def create_task(lead, text)
