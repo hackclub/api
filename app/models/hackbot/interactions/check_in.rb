@@ -21,6 +21,7 @@ module Hackbot
         first_name = leader.name.split(' ').first
         deadline = formatted_deadline leader
         key = 'greeting.' + (first_check_in? ? 'if_first_check_in' : 'default')
+        key = 'greeting.restart' if @restart
         actions = []
 
         if previous_meeting_day
@@ -119,7 +120,11 @@ module Hackbot
           msg_channel copy('meeting_in_the_future.negative')
           data['wants_to_be_dead'] = true
 
-          :finish
+          prompt_for_submit
+
+          default_follow_up 'wait_for_submit_confirmation'
+
+          :wait_for_submit_confirmation
         else
           msg_channel copy('meeting_in_the_future.invalid')
 
@@ -130,13 +135,15 @@ module Hackbot
       # rubocop:enable Metrics/MethodLength
 
       def wait_for_help
-        if should_record_notes?
-          notes = record_notes
-          create_task leader, 'Follow-up on notes from a failed '\
-            "meeting: #{notes}"
-        end
+        # Don't record notes if the leader only responds with a negative
+        # utterance such as "No"
+        data['notes'] = msg unless Hackbot::Utterances.no.match(msg)
 
-        msg_channel copy('help')
+        prompt_for_submit
+
+        default_follow_up 'wait_for_submit_confirmation'
+
+        :wait_for_submit_confirmation
       end
 
       # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
@@ -228,7 +235,6 @@ module Hackbot
       # rubocop:enable Metrics/MethodLength
 
       # rubocop:disable Metrics/MethodLength
-      # rubocop:disable Metrics/AbcSize
       def wait_for_notes_confirmation
         return :wait_for_notes_confirmation unless action
 
@@ -240,25 +246,72 @@ module Hackbot
           :wait_for_notes
         when Hackbot::Utterances.no
           send_action_result copy('notes_confirmation.no_notes.action_result')
-          msg_channel copy('notes_confirmation.no_notes.goodbye')
 
-          generate_check_in
-          send_attendance_stats
+          prompt_for_submit
+
+          default_follow_up 'wait_for_submit_confirmation'
+
+          :wait_for_submit_confirmation
         end
       end
-      # rubocop:enable Metrics/AbcSize
       # rubocop:enable Metrics/MethodLength
 
       def wait_for_notes
-        notes = record_notes
-        create_task leader, 'Follow-up on notes from check-in: '\
-                            "#{notes}"
+        data['notes'] = msg
 
-        msg_channel copy('notes.had_notes')
+        prompt_for_submit
 
-        generate_check_in
-        send_attendance_stats
+        default_follow_up 'wait_for_submit_confirmation'
+
+        :wait_for_submit_confirmation
       end
+
+      def wait_for_submit_confirmation
+        return :wait_for_submit_confirmation unless action
+
+        case action[:value].downcase
+        when 'submit'
+          send_action_result copy('submit_confirmation.submit.action_result')
+
+          submit_check_in
+        when 'restart'
+          send_action_result copy('submit_confirmation.restart.action_result')
+
+          restart_check_in
+        end
+      end
+
+      # rubocop:disable Metrics/MethodLength
+      def prompt_for_submit
+        # This chunk is a hack to only display certain fields of the data hash
+        # (ex. cut out "channel") and convert each field to a human readable
+        # format (ex. changing meeting day from a timestamp to "Thursday").
+
+        # This is totally jank and could be written many different ways. If you
+        # have an idea of how to make this code more clear, please do rewrite
+        # it.
+        fields = data.map do |key, val|
+          next if %w(channel last_message_ts).include? key
+
+          title = key.humanize
+          value = val
+
+          title = 'Wants to leave Hack Club' if key == 'wants_to_be_dead'
+          value = Date.parse(val).strftime('%A') if key == 'meeting_date'
+
+          { title: title, value: value }
+        end
+        fields.compact!
+
+        msg_channel(
+          text: copy('submit_confirmation.text'),
+          attachments: [
+            fields: fields,
+            actions: [{ text: 'Restart' }, { text: 'Submit' }]
+          ]
+        )
+      end
+      # rubocop:enable Metrics/MethodLength
 
       def generate_check_in
         ::CheckIn.create!(
@@ -271,6 +324,23 @@ module Hackbot
       end
 
       private
+
+      def restart_check_in
+        @restart = true
+        start
+      end
+
+      def submit_check_in
+        if data['notes']
+          src = data['meeting_date'] ? 'check_in' : 'a failed meeting'
+          create_task(leader, "Follow-up on notes from #{src}: #{data[:notes]}")
+        end
+
+        msg_channel copy('submit_check_in')
+
+        generate_check_in
+        send_attendance_stats
+      end
 
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/CyclomaticComplexity
@@ -347,14 +417,6 @@ module Hackbot
         @stats ||= ::StatsService.new(leader)
 
         @stats
-      end
-
-      def should_record_notes?
-        (msg =~ Hackbot::Utterances.no).nil?
-      end
-
-      def record_notes
-        data['notes'] = msg
       end
 
       def should_ask_if_dead?
