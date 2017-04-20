@@ -11,8 +11,8 @@ confirm:
           - text: 'Yes'
           - text: 'No'
   results:
-    proceed: ':white_check_mark: *Do the lookup*'
-    cancel: ':no_entry: *Do not do the lookup*'
+    proceed: ':white_check_mark: Do the lookup'
+    cancel: ':no_entry: Do not do the lookup'
 
 resp_prefix: "Here's what I found:"
 leader_attachment:

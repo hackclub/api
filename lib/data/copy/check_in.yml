@@ -6,15 +6,16 @@ greeting:
 
         To start, did you have a club meeting this week?
     default: Hey <%= first_name %>! Let's get started — please be sure to complete this check-in by <%= deadline %>. Did your club meet this week?
+    restart: Let's start again! Did your club meet this week?
 
 meeting_confirmation:
     had_meeting:
-        action_result: ":white_check_mark: *You had a meeting*"
+        action_result: ":white_check_mark: You had a meeting"
         ask_day_of_week: Okay, sweet! On which day was it? (say something like "monday" or "today" – I'm not very clever)
     no_meeting:
-        action_result: ":no_entry: *You did not have a meeting*"
+        action_result: ":no_entry: You did not have a meeting"
         ask_why: That's a shame! Why didn't you meet?
-    previous_meeting_day: ":white_check_mark: *You had a meeting on <%= day %>*"
+    previous_meeting_day: ":white_check_mark: You had a meeting on <%= day %>"
     invalid: I'm not very smart yet and had trouble understanding you :-/. Try saying something like 'yes' or 'no'.
 
 no_meeting_reason: Gotcha. Are you planning on having a club meeting in the future?
@@ -23,9 +24,6 @@ meeting_in_the_future:
     positive: Gotcha, is there anything preventing you from having your next meeting? If not, please respond with "no".
     negative: That's a shame. I'll let the Hack Club team know.
     invalid: I'm not very smart yet and had trouble understanding you :-/. Try saying something like 'yes' or 'no'
-
-help:
-    Got it! Have a hack-tastic weekend!
 
 day_of_week:
     unknown: ":disappointed: I'm not very smart yet and had trouble understanding you. Try saying something simpler, like \"tuesday\" or \"thursday\"."
@@ -48,14 +46,20 @@ attendance:
 
 notes_confirmation:
     has_notes:
-        action_result: ":white_check_mark: *You could use help from the Hack Club team*"
+        action_result: ":white_check_mark: You could use help from the Hack Club team"
         ask: What should I send to them?
     no_notes:
-        action_result: ":no_entry: *You don't need any help right now*"
-        goodbye: Okay. Hope you have a hack-tastic weekend!
+        action_result: ":no_entry: You don't need any help right now"
 
-notes:
-  had_notes: Gotcha, I'll pass that on to <@U1S56LC05>! Hope you have a hack-tastic weekend!
+submit_confirmation:
+    text: Just to confirm, this is what I'll send to the team
+    wants_to_be_dead: Club is ending
+    submit:
+        action_result: ":airplane_departure: Check in submitted"
+    restart:
+        action_result: ":leftwards_arrow_with_hook: You want to start over"
+
+submit_check_in: Gotcha, I'll pass that on to <@U1S56LC05>! Hope you have a hack-tastic weekend!
 
 follow_ups:
     first: "Hey! Just wanted to follow-up on this. :wink:"

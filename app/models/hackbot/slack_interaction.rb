@@ -55,17 +55,15 @@ module Hackbot
     # attachment with actions, you will likely need to modify this method for
     # more complex cases.
     #
-    # This updates the action source to remove its actions and set its first
-    # attachment's text to the given result_str. You should be using this to
-    # give the user the results of the action they invoked.
+    # This updates the action source to remove its actions and set adds a new
+    # attachment with a field set to the given result_str. You should be using
+    # this to give the user the results of the action they invoked.
     def send_action_result(result_str)
+      attachments = [**event[:msg][:attachments].first, actions: []]
+      attachments << { fields: [title: result_str] }
       update_action_source(
         **event[:msg],
-        attachments: [
-          **event[:msg][:attachments].first,
-          actions: [],
-          text: result_str
-        ]
+        attachments: attachments
       )
     end
 
