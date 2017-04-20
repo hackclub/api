@@ -274,6 +274,7 @@ module Hackbot
           send_action_result copy('submit_confirmation.submit.action_result')
 
           submit_check_in
+          :finish
         when 'restart'
           send_action_result copy('submit_confirmation.restart.action_result')
 
