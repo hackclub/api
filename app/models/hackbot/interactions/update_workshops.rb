@@ -25,26 +25,26 @@ module Hackbot
           Dir.chdir(dir) do
             msg_channel copy('progress.cloning')
 
-            `git clone --recursive #{fork.clone_url} .`
+            system('git', 'clone', '--recursive', fork.clone_url, '.')
 
             msg_channel copy('progress.configuring')
 
-            `git config user.name "#{git_name}"`
-            `git config user.email "#{git_email}"`
+            system('git', 'config', 'user.name', git_name)
+            system('git', 'config', 'user.email', git_email)
 
             orig_remote = `git config --get remote.origin.url`.strip
             authed_remote = authed_remote(orig_remote)
 
-            `git remote set-url origin #{authed_remote}`
+            system('git', 'remote', 'set-url', 'origin', authed_remote)
 
             msg_channel copy('progress.updating_from_upstream')
 
-            `git pull #{fork.source.clone_url}`
+            system('git', 'pull', fork.source.clone_url)
             `git push origin master`
 
             msg_channel copy('progress.updating_submodules')
 
-            `git checkout -b #{branch_name}`
+            system('git', 'checkout', '-b', branch_name)
 
             `git submodule foreach git pull origin master`
 
@@ -57,7 +57,7 @@ module Hackbot
 
               `git add -A :/`
               `git commit -m "Update submodules"`
-              `git push --set-upstream origin #{branch_name}`
+              system('git', 'push', '--set-upstream', 'origin', branch_name)
             end
           end
         end
@@ -91,7 +91,7 @@ module Hackbot
         remote.userinfo = GithubClient.user.login + ':' +
                           GithubClient.access_token
 
-        remote
+        remote.to_s
       end
 
       # Format: YYYY-MM-DD-update-submodules
