@@ -4,16 +4,13 @@ module StreakClient
       StreakClient.request(:get, '/v1/boxes')
     end
 
-    def self.all_in_pipeline(pipeline_key, chunk_size = 50, cache_time = 5.minutes)
+    def self.all_in_pipeline(pipeline_key, chunk_size = 1000)
       Enumerator.new do |y|
         page = 0
 
         loop do
-          key = "all_in_pipeline##{pipeline_key}##{page}##{chunk_size}"
-          resp = Rails.cache.fetch(key, expires_in: cache_time) do
-            all_in_pipeline_paginated(pipeline_key, page: page,
-                                      limit: chunk_size)
-          end
+          resp = all_in_pipeline_paginated(pipeline_key, page: page,
+                                                         limit: chunk_size)
 
           resp[:results].each { |r| y << r }
 
@@ -28,8 +25,12 @@ module StreakClient
       StreakClient.request(
         :get,
         "/v2/pipelines/#{pipeline_key}/boxes",
-        page: page,
-        limit: limit
+        {
+          page: page,
+          limit: limit
+        },
+        {},
+        true
       )
     end
 
