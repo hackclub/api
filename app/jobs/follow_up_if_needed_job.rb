@@ -2,6 +2,8 @@
 # of this when scheduling follow ups.
 
 class FollowUpIfNeededJob < ApplicationJob
+  queue_as :default
+
   HACK_CLUB_TEAM_ID = 'T0266FRGM'.freeze
   FOLLOW_UP_WINDOW_START = 7.hours
   FOLLOW_UP_WINDOW_END = 19.hours
