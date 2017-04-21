@@ -339,6 +339,7 @@ module Hackbot
 
         msg_channel copy('submit_check_in')
 
+        return unless data['meeting_date']
         generate_check_in
         send_attendance_stats
       end
