@@ -327,10 +327,8 @@ module Hackbot
       private
 
       def restart_check_in
-        data.map do |key|
-          next if %w(channel last_message_ts).include? key
-          data[:key] = nil
-        end
+        keys_to_delete = data.keys - %w(channel last_message_ts)
+        keys_to_delete.each { |key| data.delete key }
 
         @restart = true
 
