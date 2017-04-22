@@ -327,7 +327,13 @@ module Hackbot
       private
 
       def restart_check_in
+        data.map do |key|
+          next if %w(channel last_message_ts).include? key
+          data[:key] = nil
+        end
+
         @restart = true
+
         start
       end
 
