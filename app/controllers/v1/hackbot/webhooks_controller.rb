@@ -9,7 +9,7 @@ module V1
       # loading icon in the Slack client to the user, so we want to wait as long
       # as possible before responding so it looks like Hackbot is doing
       # something while the user waits for their interaction to process.
-      INTERACTIVE_MESSAGE_RESPONSE_DELAY = 2.5
+      INTERACTIVE_MESSAGE_RESPONSE_DELAY = 1.5
 
       def interactive_messages
         start_time = Time.current
