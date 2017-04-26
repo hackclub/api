@@ -48,8 +48,10 @@ class Leader < ApplicationRecord
 
   before_validation :slack_update
 
-  has_and_belongs_to_many :clubs
   has_many :check_ins
+  has_and_belongs_to_many :clubs
+
+  before_destroy { clubs.clear }
 
   validates :name, presence: true
 

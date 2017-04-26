@@ -32,9 +32,11 @@ class Club < ApplicationRecord
                 latitude: :latitude,
                 longitude: :longitude
 
-  has_and_belongs_to_many :leaders
   has_many :check_ins
   belongs_to :point_of_contact, class_name: 'Leader'
+  has_and_belongs_to_many :leaders
+
+  before_destroy { leaders.clear }
 
   validates :name, presence: true
   validates :address, presence: true
