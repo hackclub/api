@@ -193,9 +193,9 @@ module Hackbot
           return :wait_for_attendance
         end
 
-        # Unless Hack Club starts expanding to other solar systems, this
-        # number is completely implausible until at least 2025.
-        if count > 8_000_000_000
+        # Right now PG is storing attendance as an Integer, which means the max
+        # size is 2147483647.
+        if count > 2_147_483_647
           msg_channel copy('attendance.not_realistic.too_large')
 
           default_follow_up 'wait_for_attendance'
