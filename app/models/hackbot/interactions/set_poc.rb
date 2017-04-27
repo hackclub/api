@@ -13,6 +13,8 @@ module Hackbot
         leader = Leader.find_by(streak_key: streak_key)
         return msg_channel copy('start.invalid') if leader.nil?
 
+        data['leader_id'] = leader.id
+
         associate_clubs(leader.clubs, leader)
       end
 
@@ -21,10 +23,29 @@ module Hackbot
 
         if valid_club_index_input? club_ids
           handle_club_index_input club_ids
+
+          :wait_for_letter_decision
         else
           msg_channel copy('clubs_num.invalid', num_of_clubs: club_ids.length)
 
           :wait_for_clubs_num
+        end
+      end
+
+      def wait_for_letter_decision
+        leader = Leader.find data['leader_id']
+        name = pretty_leader_name leader
+
+        case msg
+        when Hackbot::Utterances.yes
+          create_welcome_letter_box(leader).save!
+
+          msg_channel copy('letter_decision.affirmative', leader_name: name)
+        when Hackbot::Utterances.no
+          msg_channel copy('letter_decision.negative', leader_name: name)
+        else
+          msg_channel copy('letter_decision.invalid')
+          :wait_for_letter_decision
         end
       end
 
@@ -42,8 +63,6 @@ module Hackbot
         club = Club.find club_ids[i]
 
         set_poc club, leader
-
-        :finish
       end
 
       def associate_clubs(clubs, leader)
@@ -54,6 +73,7 @@ module Hackbot
           :finish
         elsif clubs.length == 1
           associate_single_club clubs.first, leader
+          :wait_for_letter_decision
         else
           associate_one_in_many_clubs clubs, leader
         end
@@ -90,8 +110,6 @@ module Hackbot
 
       def associate_single_club(club, leader)
         set_poc club, leader
-
-        :finish
       end
 
       # Disabling rubocop here because it's ruling that this method doesn't make
@@ -112,12 +130,22 @@ module Hackbot
         msg_channel copy('start.many_clubs.outro')
 
         data['club_ids'] = clubs.map(&:id)
-        data['leader_id'] = leader.id
 
         :wait_for_clubs_num
       end
       # rubocop:enable Metrics/AbcSize
       # rubocop:enable Metrics/MethodLength
+
+      def create_welcome_letter_box(leader)
+        Letter.new(
+          name: leader.name,
+          # This is the type for club leaders
+          letter_type: '9002',
+          # This is the type for welcome letter + 3oz of stickers
+          what_to_send: '9005',
+          address: leader.address
+        )
+      end
 
       def pretty_leader_name(leader)
         name = leader.name
