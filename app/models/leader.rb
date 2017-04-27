@@ -51,7 +51,13 @@ class Leader < ApplicationRecord
   has_many :check_ins
   has_and_belongs_to_many :clubs
 
-  before_destroy { clubs.clear }
+  before_destroy do
+    # Remove the club leader as the point of contact from any clubs they're
+    # associated with.
+    Club
+      .where(point_of_contact_id: id)
+      .find_each { |c| c.update(point_of_contact: nil) }
+  end
 
   validates :name, presence: true
 
