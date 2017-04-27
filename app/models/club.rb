@@ -36,8 +36,6 @@ class Club < ApplicationRecord
   belongs_to :point_of_contact, class_name: 'Leader'
   has_and_belongs_to_many :leaders
 
-  before_destroy { leaders.clear }
-
   validates :name, presence: true
   validates :address, presence: true
   validates :latitude, presence: true
