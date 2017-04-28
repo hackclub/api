@@ -1,5 +1,6 @@
 module Hackbot
   module Interactions
+    # rubocop:disable Metrics/ClassLength
     class SetPoc < AdminCommand
       TRIGGER = /set-poc ?(?<streak_key>.+)/
 
@@ -32,6 +33,8 @@ module Hackbot
         end
       end
 
+      # rubocop:disable Metrics/MethodLength
+      # rubocop:disable Metrics/AbcSize
       def wait_for_letter_decision
         leader = Leader.find data['leader_id']
         name = pretty_leader_name leader
@@ -48,6 +51,8 @@ module Hackbot
           :wait_for_letter_decision
         end
       end
+      # rubocop:enable Metrics/MethodLength
+      # rubocop:enable Metrics/AbcSize
 
       private
 
@@ -112,11 +117,6 @@ module Hackbot
         set_poc club, leader
       end
 
-      # Disabling rubocop here because it's ruling that this method doesn't make
-      # any sense.
-      #
-      # rubocop:disable Metrics/AbcSize
-      # rubocop:disable Metrics/MethodLength
       def associate_one_in_many_clubs(clubs, leader)
         msg_channel copy('start.many_clubs.intro',
                          leader_name: pretty_leader_name(leader))
@@ -133,8 +133,6 @@ module Hackbot
 
         :wait_for_clubs_num
       end
-      # rubocop:enable Metrics/AbcSize
-      # rubocop:enable Metrics/MethodLength
 
       def create_welcome_letter_box(leader)
         Letter.new(
@@ -157,5 +155,6 @@ module Hackbot
         text.split(' ').last
       end
     end
+    # rubocop:enable Metrics/ClassLength
   end
 end
