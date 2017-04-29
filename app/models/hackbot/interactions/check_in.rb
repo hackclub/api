@@ -266,6 +266,7 @@ module Hackbot
         :wait_for_submit_confirmation
       end
 
+      # rubocop:disable Metrics/MethodLength
       def wait_for_submit_confirmation
         return :wait_for_submit_confirmation unless action
 
@@ -279,8 +280,14 @@ module Hackbot
           send_action_result copy('submit_confirmation.restart.action_result')
 
           restart_check_in
+        else
+
+          default_follow_up 'wait_for_submit_confirmation'
+
+          :wait_for_submit_confirmation
         end
       end
+      # rubocop:enable Metrics/MethodLength
 
       # rubocop:disable Metrics/MethodLength
       def prompt_for_submit
