@@ -118,3 +118,16 @@ This application depends on a few jobs running periodically in the background. S
 
 - `rails heroku_scheduler:queue_update_from_streak` every hour
 - `rails heroku_scheduler:queue_update_hackbot_slack_username` every hour
+
+## Deployment on Heroku
+
+We use Heroku for managing our deployment of this project and that brings along some special caveats. Specifically, we rely on multiple buildpacks.
+
+Here are the buildpacks that need to be configured (they must be in the given order):
+
+```
+https://github.com/heroku/heroku-buildpack-apt
+heroku/ruby
+```
+
+Refer to https://devcenter.heroku.com/articles/buildpacks for instructions on configuring buildpacks.
