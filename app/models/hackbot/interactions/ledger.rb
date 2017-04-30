@@ -21,9 +21,7 @@ module Hackbot
 
             res = run_cmd('ledger', '-f', downloaded_path, *data['args'])
 
-            # res has a trailing new line, so don't need to add a second new
-            # line before the closing backticks.
-            msg_channel "```\n" + res + '```'
+            msg_channel CodeFormatterService.new(res).format
           end
         end
       end

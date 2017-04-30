@@ -1,39 +1,5 @@
 class Executer
   def execute(query)
-    # Slack recommends limiting messages sent to channels to 4000 characters in
-    # https://api.slack.com/rtm#limits. We're going to limit our responses at
-    # 3500 characters so we don't have to worry about more limiting response
-    # length if we want to make small changes to the returned result (like if we
-    # want to wrap it in code blocks).
-    #
-    # This can't be a constant because this file is reloaded whenever
-    # Hackbot::Interactions::Sql and causes problems when constants are defined
-    # inside of Executer.
-    char_limit = 3500
-
-    res = fmted_result_from_query(query)
-
-    truncate(res, char_limit)
-  end
-
-  private
-
-  def truncate(str, char_limit)
-    truncated = str.first(char_limit)
-
-    if truncated != str
-      split = truncated.split("\n")
-
-      all_but_last_line = split[0...-1]
-      all_but_last_line << '...truncated...'
-
-      all_but_last_line.join("\n")
-    else
-      str
-    end
-  end
-
-  def fmted_result_from_query(query)
     final_res = nil
 
     # We need to execute the given query in a separate thread because if it
@@ -58,6 +24,8 @@ class Executer
 
     final_res
   end
+
+  private
 
   def in_new_thread_with_conn(&block)
     Thread.new do
@@ -106,16 +74,11 @@ module Hackbot
       def execute
         send_action_result(copy('confirm.proceed'))
         res = Executer.new.execute(data['query'])
-        msg_channel to_code(res)
+        msg_channel CodeFormatterService.new(res).format
       end
 
       def cancel
         send_action_result(copy('confirm.cancel'))
-      end
-
-      # Convert the given string to a formatted Slack code block.
-      def to_code(str)
-        "```\n" + str + "\n```"
       end
     end
   end
