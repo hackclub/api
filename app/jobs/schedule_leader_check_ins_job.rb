@@ -4,14 +4,9 @@ class ScheduleLeaderCheckInsJob < ApplicationJob
 
   HACK_CLUB_TEAM_ID = 'T0266FRGM'.freeze
   CLUB_ACTIVE_STAGE_KEY = '5003'.freeze
-  CLUB_INACTIVE_ONE_WEEK_KEY = '5012'.freeze
-  CLUB_INACTIVE_TWO_WEEKS_KEY = '5013'.freeze
   CLUB_PIPELINE_KEY = Rails.application.secrets.streak_club_pipeline_key
   LEADER_ACTIVE_STAGE_KEY = '5006'.freeze
   LEADER_PIPELINE_KEY = Rails.application.secrets.streak_leader_pipeline_key
-
-  CLUB_ACTIVE_STAGE_KEYS = [CLUB_ACTIVE_STAGE_KEY, CLUB_INACTIVE_ONE_WEEK_KEY,
-                            CLUB_INACTIVE_TWO_WEEKS_KEY].freeze
 
   def perform(real_run = false, timezones = true)
     @dry_run = !real_run
@@ -84,7 +79,7 @@ class ScheduleLeaderCheckInsJob < ApplicationJob
   def pocs
     # This returns all active club leaders at active clubs labeled as a point of
     # contact
-    Club.where(stage_key: CLUB_ACTIVE_STAGE_KEYS)
+    Club.where(stage_key: CLUB_ACTIVE_STAGE_KEY)
         .select { |clb| !(clb[:point_of_contact_id]).nil? }
         .map(&:point_of_contact)
         .select { |ldr| active? ldr }
