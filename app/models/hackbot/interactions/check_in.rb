@@ -133,6 +133,8 @@ module Hackbot
       # rubocop:enable Metrics/MethodLength
 
       def wait_for_help
+        return :wait_for_help unless msg
+
         # Don't record notes if the leader only responds with a negative
         # utterance such as "No"
         data['notes'] = msg unless Hackbot::Utterances.no.match(msg)
@@ -146,6 +148,8 @@ module Hackbot
 
       # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
       def wait_for_day_of_week
+        return :wait_for_day_of_week unless msg
+
         meeting_date = Chronic.parse(msg, context: :past)
 
         unless meeting_date
@@ -175,6 +179,8 @@ module Hackbot
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/AbcSize
       def wait_for_attendance
+        return :wait_for_attendance unless msg
+
         unless integer?(msg)
           msg_channel copy('attendance.invalid')
 
@@ -255,6 +261,8 @@ module Hackbot
       # rubocop:enable Metrics/MethodLength
 
       def wait_for_notes
+        return :wait_for_notes unless msg
+
         data['notes'] = msg
 
         prompt_for_submit
