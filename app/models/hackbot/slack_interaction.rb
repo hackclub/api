@@ -44,7 +44,7 @@ module Hackbot
 
       payload = { token: access_token, **msg }
 
-      RestClient::Request.execute(
+      SentryRequestClient.execute(
         method: :post,
         url: action_event[:response_url],
         payload: payload.to_json

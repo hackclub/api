@@ -37,7 +37,7 @@ module DotTechClient
     private
 
     def request(method, path, payload)
-      RestClient::Request.execute(
+      SentryRequestClient.execute(
         method: method,
         url: BASE_URL + path,
         payload: payload,

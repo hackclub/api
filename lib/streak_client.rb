@@ -45,7 +45,7 @@ module StreakClient
         headers[:params] = params
       end
 
-      req = RestClient::Request.new(method: method, url: api_url(path),
+      req = SentryRequestClient.new(method: method, url: api_url(path),
                                     headers: headers, payload: payload)
 
       resp = if cache
