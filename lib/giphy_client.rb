@@ -1,7 +1,7 @@
 module GiphyClient
   class << self
     BASE_URL = 'https://api.giphy.com'.freeze
-    TRANSLATE_ENDPOINT = '/v1/gifs/translate'.freeze
+    TRANSLATE_URL = "#{BASE_URL}/v1/gifs/translate".freeze
 
     def translate(message)
       headers = {
@@ -11,7 +11,8 @@ module GiphyClient
         }
       }
 
-      resp = RestClient.get(BASE_URL + TRANSLATE_ENDPOINT, headers)
+      resp = SentryRequestClient.execute(method: 'get', url: TRANSLATE_URL,
+                                         headers: headers)
       data = JSON.parse(resp, symbolize_names: true)[:data]
       data.empty? ? nil : data[:images][:fixed_height]
     end
