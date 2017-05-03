@@ -351,7 +351,8 @@ module Hackbot
       def submit_check_in
         if data['notes']
           src = data['meeting_date'] ? 'check_in' : 'a failed meeting'
-          create_task(leader, "Follow-up on notes from #{src}: #{data['notes']}")
+          create_task(leader, "Follow-up on notes from #{src}: "\
+                      "#{data['notes']}")
         end
 
         msg_channel copy('submit_check_in')
