@@ -12,7 +12,7 @@ class CopyService
 
     rendered = recursive_render to_render
 
-    if rendered.is_a? String
+    if rendered.is_a?(String) || rendered.is_a?(Array)
       rendered
     else
       HashWithIndifferentAccess.new(rendered)
@@ -36,11 +36,25 @@ class CopyService
 
     sections.each { |s| copy = copy[s] }
 
-    # If we get an array, choose one element at random.
-    copy.is_a?(Array) ? copy.sample : copy
+    # If we get an array of strings, choose one element at random.
+    array_of_strings?(copy) ? copy.sample : copy
   end
 
   private
+
+  def array_of_strings?(arr)
+    return unless arr.is_a? Array
+
+    all_strings = true
+    arr.each |a| do
+      next if a.is_a? String
+
+      all_strings = false
+      break
+    end
+
+    all_strings
+  end
 
   def get_interaction_yaml(name)
     path = File.join(copy_route, "#{name}.yml")
