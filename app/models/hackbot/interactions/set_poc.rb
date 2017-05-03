@@ -36,18 +36,22 @@ module Hackbot
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/AbcSize
       def wait_for_letter_decision
+        return :wait_for_letter_decision unless action
+
         leader = Leader.find data['leader_id']
         name = pretty_leader_name leader
 
-        case msg
+        case action[:value]
         when Hackbot::Utterances.yes
+          send_action_result copy('letter_decision.affirmative.action_result',
+                                  leader_name: name)
           create_welcome_letter_box(leader).save!
-
-          msg_channel copy('letter_decision.affirmative', leader_name: name)
+          msg_channel copy('letter_decision.affirmative.text')
         when Hackbot::Utterances.no
-          msg_channel copy('letter_decision.negative', leader_name: name)
+          send_action_result copy('letter_decision.negative.action_result',
+                                  leader_name: name)
+          msg_channel copy('letter_decision.negative.text')
         else
-          msg_channel copy('letter_decision.invalid')
           :wait_for_letter_decision
         end
       end
@@ -90,6 +94,7 @@ module Hackbot
           .update_all(point_of_contact_id: nil)
       end
 
+      # rubocop:disable Metrics/MethodLength
       def set_poc(club, leader)
         # Make sure to unset other POC relations so the club leader is only POC
         # for one club.
@@ -99,13 +104,18 @@ module Hackbot
 
         name = pretty_leader_name leader
         if club.save!
-          msg_channel copy('set.success', leader_name: name,
-                                          club_name: club.name)
+          msg_channel(
+            text: copy('set.success', leader_name: name, club_name: club.name),
+            attachments: [
+              actions: copy('set.actions')
+            ]
+          )
         else
           msg_channel copy('set.failure', leader_name: name,
                                           club_name: club.name)
         end
       end
+      # rubocop:enable Metrics/MethodLength
 
       def integer?(str)
         Integer(str) && true

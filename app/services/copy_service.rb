@@ -46,7 +46,7 @@ class CopyService
     return unless arr.is_a? Array
 
     all_strings = true
-    arr.each |a| do
+    arr.each do |a|
       next if a.is_a? String
 
       all_strings = false
