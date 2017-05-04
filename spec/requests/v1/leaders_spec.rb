@@ -19,7 +19,6 @@ RSpec.describe 'V1::Leaders', type: :request do
     end
 
     context 'with valid attributes' do
-      let!(:starting_letter_count) { Letter.count }
       let(:welcome) do
         class_double(Hackbot::Interactions::Welcome).as_stubbed_const
       end
@@ -55,11 +54,6 @@ RSpec.describe 'V1::Leaders', type: :request do
         club_json = JSON.parse(club.to_json)
 
         expect(json['clubs']).to eq([club_json])
-      end
-
-      it 'creates a letter for the leader' do
-        expect(Letter.count).to eq(starting_letter_count + 1)
-        expect(Letter.last.name).to eq(req_body[:name])
       end
     end
 

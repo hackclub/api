@@ -10,7 +10,6 @@ module V1
       )
 
       if leader.save
-        welcome_letter_for_leader(leader).save!
         welcome_to_slack leader
 
         render json: leader, status: 201
@@ -34,17 +33,6 @@ module V1
       params.permit(
         :name, :email, :gender, :year, :phone_number, :slack_username,
         :github_username, :twitter_username, :address
-      )
-    end
-
-    def welcome_letter_for_leader(leader)
-      Letter.new(
-        name: leader.name,
-        # This is the type for club leaders
-        letter_type: '9002',
-        # This is the type for welcome letter + 3oz of stickers
-        what_to_send: '9005',
-        address: leader.address
       )
     end
 

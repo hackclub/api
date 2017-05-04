@@ -8,5 +8,18 @@ start:
 clubs_num:
     invalid: Please choose a number between 1 and <%= num_of_clubs %>
 set:
-    success: <%= leader_name %> has been associated with <%= club_name %>
+    success: <%= leader_name %> has been associated with <%= club_name %>. Would you like to send a welcome letter to them?
+    actions:
+        - text: Send a welcome letter
+          value: 'yes'
+        - text: Don't send a letter
+          value: 'no'
     failure: Unable to associate <%= leader_name %> with <%= club_name %>
+letter_decision:
+    affirmative:
+        text: Aaaaannddd sent. Thanks!
+        action_result: ":envelope: Sending a welcome letter to <%= leader_name %>!"
+    negative:
+        action_result: ":no_entry: Not sending a welcome letter to <%= leader_name %>."
+        text: Alright then.
+    invalid: I didn't quite understand what you just said. Would you mind repeating that, with either "yes" or "no" as an answer?

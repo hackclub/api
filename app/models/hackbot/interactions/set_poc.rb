@@ -1,5 +1,6 @@
 module Hackbot
   module Interactions
+    # rubocop:disable Metrics/ClassLength
     class SetPoc < AdminCommand
       TRIGGER = /set-poc ?(?<streak_key>.+)/
 
@@ -13,6 +14,8 @@ module Hackbot
         leader = Leader.find_by(streak_key: streak_key)
         return msg_channel copy('start.invalid') if leader.nil?
 
+        data['leader_id'] = leader.id
+
         associate_clubs(leader.clubs, leader)
       end
 
@@ -21,12 +24,39 @@ module Hackbot
 
         if valid_club_index_input? club_ids
           handle_club_index_input club_ids
+
+          :wait_for_letter_decision
         else
           msg_channel copy('clubs_num.invalid', num_of_clubs: club_ids.length)
 
           :wait_for_clubs_num
         end
       end
+
+      # rubocop:disable Metrics/MethodLength
+      # rubocop:disable Metrics/AbcSize
+      def wait_for_letter_decision
+        return :wait_for_letter_decision unless action
+
+        leader = Leader.find data['leader_id']
+        name = pretty_leader_name leader
+
+        case action[:value]
+        when Hackbot::Utterances.yes
+          send_action_result copy('letter_decision.affirmative.action_result',
+                                  leader_name: name)
+          create_welcome_letter_box(leader).save!
+          msg_channel copy('letter_decision.affirmative.text')
+        when Hackbot::Utterances.no
+          send_action_result copy('letter_decision.negative.action_result',
+                                  leader_name: name)
+          msg_channel copy('letter_decision.negative.text')
+        else
+          :wait_for_letter_decision
+        end
+      end
+      # rubocop:enable Metrics/MethodLength
+      # rubocop:enable Metrics/AbcSize
 
       private
 
@@ -42,8 +72,6 @@ module Hackbot
         club = Club.find club_ids[i]
 
         set_poc club, leader
-
-        :finish
       end
 
       def associate_clubs(clubs, leader)
@@ -54,6 +82,7 @@ module Hackbot
           :finish
         elsif clubs.length == 1
           associate_single_club clubs.first, leader
+          :wait_for_letter_decision
         else
           associate_one_in_many_clubs clubs, leader
         end
@@ -65,6 +94,7 @@ module Hackbot
           .update_all(point_of_contact_id: nil)
       end
 
+      # rubocop:disable Metrics/MethodLength
       def set_poc(club, leader)
         # Make sure to unset other POC relations so the club leader is only POC
         # for one club.
@@ -74,13 +104,18 @@ module Hackbot
 
         name = pretty_leader_name leader
         if club.save!
-          msg_channel copy('set.success', leader_name: name,
-                                          club_name: club.name)
+          msg_channel(
+            text: copy('set.success', leader_name: name, club_name: club.name),
+            attachments: [
+              actions: copy('set.actions')
+            ]
+          )
         else
           msg_channel copy('set.failure', leader_name: name,
                                           club_name: club.name)
         end
       end
+      # rubocop:enable Metrics/MethodLength
 
       def integer?(str)
         Integer(str) && true
@@ -90,15 +125,8 @@ module Hackbot
 
       def associate_single_club(club, leader)
         set_poc club, leader
-
-        :finish
       end
 
-      # Disabling rubocop here because it's ruling that this method doesn't make
-      # any sense.
-      #
-      # rubocop:disable Metrics/AbcSize
-      # rubocop:disable Metrics/MethodLength
       def associate_one_in_many_clubs(clubs, leader)
         msg_channel copy('start.many_clubs.intro',
                          leader_name: pretty_leader_name(leader))
@@ -112,12 +140,20 @@ module Hackbot
         msg_channel copy('start.many_clubs.outro')
 
         data['club_ids'] = clubs.map(&:id)
-        data['leader_id'] = leader.id
 
         :wait_for_clubs_num
       end
-      # rubocop:enable Metrics/AbcSize
-      # rubocop:enable Metrics/MethodLength
+
+      def create_welcome_letter_box(leader)
+        Letter.new(
+          name: leader.name,
+          # This is the type for club leaders
+          letter_type: '9002',
+          # This is the type for welcome letter + 3oz of stickers
+          what_to_send: '9005',
+          address: leader.address
+        )
+      end
 
       def pretty_leader_name(leader)
         name = leader.name
@@ -129,5 +165,6 @@ module Hackbot
         text.split(' ').last
       end
     end
+    # rubocop:enable Metrics/ClassLength
   end
 end
