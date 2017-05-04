@@ -40,17 +40,21 @@ module Hackbot
 
         leader = Leader.find data['leader_id']
         name = pretty_leader_name leader
+        nice_msg = copy('letter_decision.nice_statements')
 
         case action[:value]
         when Hackbot::Utterances.yes
           send_action_result copy('letter_decision.affirmative.action_result',
                                   leader_name: name)
+
           create_welcome_letter_box(leader).save!
-          msg_channel copy('letter_decision.affirmative.text')
+
+          msg_channel copy('letter_decision.affirmative.text',
+                           statement: nice_msg)
         when Hackbot::Utterances.no
           send_action_result copy('letter_decision.negative.action_result',
                                   leader_name: name)
-          msg_channel copy('letter_decision.negative.text')
+          msg_channel copy('letter_decision.negative.text', statement: nice_msg)
         else
           :wait_for_letter_decision
         end

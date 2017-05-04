@@ -17,9 +17,16 @@ set:
     failure: Unable to associate <%= leader_name %> with <%= club_name %>
 letter_decision:
     affirmative:
-        text: Aaaaannddd sent. Thanks!
+        text: Aaaaannddd sent. <%= statement %>
         action_result: ":envelope: Sending a welcome letter to <%= leader_name %>!"
     negative:
         action_result: ":no_entry: Not sending a welcome letter to <%= leader_name %>."
-        text: Alright then.
+        text: Alright then. <%= statement %>
     invalid: I didn't quite understand what you just said. Would you mind repeating that, with either "yes" or "no" as an answer?
+    nice_statements:
+        - "Have a nice day! :sunflour:"
+        - "I hope you're having an above average hour! :hourglass:"
+        - "Thanks for stopping by! :walking:"
+        - "Before I go, just wanted to say you're looking great today! :hot_pepper:"
+        - "Here's a gold star, thanks for your work! :star:"
+        - "See ya! May all your Wi-Fi signals be good ones. :signal_strength:"
