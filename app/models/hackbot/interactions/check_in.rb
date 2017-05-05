@@ -18,7 +18,7 @@ module Hackbot
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/AbcSize
       def start
-        unless @not_dormant
+        if @dormant.nil?
           msg_channel(
             text: copy('greeting.dormant.text'),
             attachments: [
@@ -35,7 +35,7 @@ module Hackbot
         deadline = formatted_deadline leader
         key = 'greeting.' + (first_check_in? ? 'if_first_check_in' : 'default')
         key = 'greeting.restart' if @restart
-        key = 'greeting.not_dormant' if @not_dormant
+        key = 'greeting.not_dormant' unless @dormant
         actions = []
 
         if previous_meeting_day
@@ -77,7 +77,7 @@ module Hackbot
           default_follow_up 'wait_for_resurrection_date'
           :wait_for_resurrection_date
         when Hackbot::Utterances.no
-          @not_dormant = true
+          @dormant = false
 
           send_action_result copy('is_dormant.negative.action_result')
 
