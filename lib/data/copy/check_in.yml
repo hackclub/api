@@ -7,6 +7,22 @@ greeting:
         To start, did you have a club meeting this week?
     default: Hey <%= first_name %>! Let's get started — please be sure to complete this check-in by <%= deadline %>. Did your club meet this week?
     restart: Let's start again! Did your club meet this week?
+    dormant:
+        text: Hey! We've been getting feedback that a lot of schools are heading into summer and/or exams right now, and are no longer planning on meeting this school year. Basically, if you're one of these leaders, we'd like to give you a way to opt-out of check-ins. So, are you on a school break right now and not planning on meeting until the next school year?
+        actions:
+            - text: "Yes! Stop pinging me"
+              value: "yes"
+            - text: "We're still meeting."
+              value: "no"
+    not_dormant: That's great. Back to the normal flow. Did you have a club meeting this week?
+
+is_dormant:
+    positive: That's cool. When will your break end? (Say something like "in two months")
+    negative: That's great. Back to the normal flow. Did you have a club meeting this week?
+
+resurrection_date:
+    unknown: I'm not that smart and couldn't understand that date. Try saying something like "in three months" or "twelve weeks".
+    success: Awesome! I'll be in touch a few weeks before then. Please let the Hack Club staff know if you have any questions.
 
 meeting_confirmation:
     had_meeting:

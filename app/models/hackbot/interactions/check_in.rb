@@ -18,10 +18,24 @@ module Hackbot
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/AbcSize
       def start
+        unless @not_dormant
+          msg_channel(
+            text: copy('greeting.dormant.text'),
+            attachments: [
+              actions: copy('greeting.dormant.actions')
+            ]
+          )
+
+          default_follow_up 'wait_for_is_dormant'
+
+          return :wait_for_is_dormant
+        end
+
         first_name = leader.name.split(' ').first
         deadline = formatted_deadline leader
         key = 'greeting.' + (first_check_in? ? 'if_first_check_in' : 'default')
         key = 'greeting.restart' if @restart
+        key = 'greeting.not_dormant' if @not_dormant
         actions = []
 
         if previous_meeting_day
@@ -47,6 +61,47 @@ module Hackbot
       end
       # rubocop:enable Metrics/MethodLength
       # rubocop:enable Metrics/AbcSize
+    
+      def wait_for_is_dormant
+        return :wait_for_is_dormant unless action
+
+        case action[:value]
+        when Hackbot::Utterances.yes
+          msg_channel copy('is_dormant.positive')
+          data['is_dormant'] = true
+
+          default_follow_up 'wait_for_resurrection_date'
+          :wait_for_resurrection_date
+        when Hackbot::Utterances.no
+          @not_dormant = true
+
+          start
+        else
+          default_follow_up 'wait_for_is_dormant'
+          :wait_for_is_dormant
+        end
+      end
+
+      def wait_for_resurrection_date
+        return :wait_for_is_dormant unless msg
+
+        resurrection_date = Chronic.parse(msg, context: :future)
+
+        if resurrection_date.nil?
+          msg_channel copy('resurrection_date.unknown')
+
+          return :wait_for_resurrection_date
+        end
+
+        data['resurrection_date'] = resurrection_date
+
+        # Set stage and active date
+        # Save club
+
+        msg_channel copy('resurrection_date.success')
+
+        :finish
+      end
 
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/AbcSize
