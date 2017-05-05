@@ -91,7 +91,7 @@ module Hackbot
       def wait_for_resurrection_date
         return :wait_for_is_dormant unless msg
 
-        resurrection_date = Chronic.parse(msg, context: :future).to_s
+        resurrection_date = Chronic.parse(msg, context: :future)
 
         if resurrection_date.nil?
           msg_channel copy('resurrection_date.unknown')
@@ -99,7 +99,7 @@ module Hackbot
           return :wait_for_resurrection_date
         end
 
-        data['resurrection_date'] = resurrection_date
+        data['resurrection_date'] = resurrection_date.to_s
 
         club.make_dormant(resurrection_date)
 
