@@ -90,6 +90,7 @@ module Hackbot
       # rubocop:enable Metrics/MethodLength
       # rubocop:enable Metrics/AbcSize
 
+      # rubocop:disable Metrics/MethodLength
       def wait_for_resurrection_date
         return :wait_for_is_dormant unless msg
 
@@ -98,6 +99,7 @@ module Hackbot
         if resurrection_date.nil?
           msg_channel copy('resurrection_date.unknown')
 
+          default_follow_up 'wait_for_resurrection_date'
           return :wait_for_resurrection_date
         end
 
@@ -106,8 +108,11 @@ module Hackbot
         club.make_dormant(resurrection_date)
 
         prompt_for_submit
+
+        default_follow_up 'wait_for_submit_confirmation'
         :wait_for_submit_confirmation
       end
+      # rubocop:enable Metrics/MethodLength
 
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/AbcSize
