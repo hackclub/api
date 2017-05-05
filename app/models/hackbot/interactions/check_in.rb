@@ -95,8 +95,7 @@ module Hackbot
 
         data['resurrection_date'] = resurrection_date
 
-        # Set stage and active date
-        # Save club
+        club.make_dormant(resurrection_date)
 
         msg_channel copy('resurrection_date.success')
 

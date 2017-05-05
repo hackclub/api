@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170417231434) do
+ActiveRecord::Schema.define(version: 20170505071139) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(version: 20170417231434) do
     t.text     "streak_key"
     t.integer  "point_of_contact_id"
     t.text     "stage_key"
+    t.text     "activation_date"
     t.index ["point_of_contact_id"], name: "index_clubs_on_point_of_contact_id", using: :btree
     t.index ["streak_key"], name: "index_clubs_on_streak_key", using: :btree
   end
