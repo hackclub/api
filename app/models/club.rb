@@ -1,4 +1,7 @@
 class Club < ApplicationRecord
+  ACTIVE_STAGE = '5003'.freeze
+  DORMANT_STAGE = '5014'.freeze
+
   include Streakable
   include Geocodeable
 
@@ -25,7 +28,8 @@ class Club < ApplicationRecord
         'Hack Camp' => '9010'
       }
     },
-    point_of_contact_name: '1012'
+    point_of_contact_name: '1012',
+    activation_date: '1015'
   )
 
   geocode_attrs address: :address,
@@ -51,5 +55,18 @@ class Club < ApplicationRecord
   # update the Streak pipeline.
   def point_of_contact_name=(_)
     nil
+  end
+
+  def make_active
+    self.stage_key = ACTIVE_STAGE
+
+    save
+  end
+
+  def make_dormant(resurrection_date = nil)
+    self.stage_key = DORMANT_STAGE
+    self.activation_date = resurrection_date
+
+    save
   end
 end

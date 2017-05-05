@@ -18,10 +18,24 @@ module Hackbot
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/AbcSize
       def start
+        if @dormant.nil?
+          msg_channel(
+            text: copy('greeting.dormant.text'),
+            attachments: [
+              actions: copy('greeting.dormant.actions')
+            ]
+          )
+
+          default_follow_up 'wait_for_is_dormant'
+
+          return :wait_for_is_dormant
+        end
+
         first_name = leader.name.split(' ').first
         deadline = formatted_deadline leader
         key = 'greeting.' + (first_check_in? ? 'if_first_check_in' : 'default')
         key = 'greeting.restart' if @restart
+        key = 'greeting.not_dormant' unless @dormant
         actions = []
 
         if previous_meeting_day
@@ -47,6 +61,58 @@ module Hackbot
       end
       # rubocop:enable Metrics/MethodLength
       # rubocop:enable Metrics/AbcSize
+
+      # rubocop:disable Metrics/MethodLength
+      # rubocop:disable Metrics/AbcSize
+      def wait_for_is_dormant
+        return :wait_for_is_dormant unless action
+
+        case action[:value]
+        when Hackbot::Utterances.yes
+          send_action_result copy('is_dormant.positive.action_result')
+
+          msg_channel copy('is_dormant.positive.text')
+          data['is_dormant'] = true
+
+          default_follow_up 'wait_for_resurrection_date'
+          :wait_for_resurrection_date
+        when Hackbot::Utterances.no
+          @dormant = false
+
+          send_action_result copy('is_dormant.negative.action_result')
+
+          start
+        else
+          default_follow_up 'wait_for_is_dormant'
+          :wait_for_is_dormant
+        end
+      end
+      # rubocop:enable Metrics/MethodLength
+      # rubocop:enable Metrics/AbcSize
+
+      # rubocop:disable Metrics/MethodLength
+      def wait_for_resurrection_date
+        return :wait_for_is_dormant unless msg
+
+        resurrection_date = Chronic.parse(msg, context: :future)
+
+        if resurrection_date.nil?
+          msg_channel copy('resurrection_date.unknown')
+
+          default_follow_up 'wait_for_resurrection_date'
+          return :wait_for_resurrection_date
+        end
+
+        data['resurrection_date'] = resurrection_date.to_s
+
+        club.make_dormant(resurrection_date)
+
+        prompt_for_submit
+
+        default_follow_up 'wait_for_submit_confirmation'
+        :wait_for_submit_confirmation
+      end
+      # rubocop:enable Metrics/MethodLength
 
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/AbcSize
@@ -296,6 +362,9 @@ module Hackbot
       # rubocop:enable Metrics/MethodLength
 
       # rubocop:disable Metrics/MethodLength
+      # rubocop:disable Metrics/AbcSize
+      # rubocop:disable Metrics/CyclomaticComplexity
+      # rubocop:disable Metrics/PerceivedComplexity
       def prompt_for_submit
         # This chunk is a hack to only display certain fields of the data hash
         # (ex. cut out "channel") and convert each field to a human readable
@@ -311,7 +380,17 @@ module Hackbot
           value = val
 
           title = 'Wants to leave Hack Club' if key == 'wants_to_be_dead'
+          title = 'Is going into dormant mode' if key == 'is_dormant'
+          if key == 'resurrection_date'
+            title = "Resurrection date (we'll be in touch a few weeks "\
+              'beforehand)'
+          end
+
+          value = 'Yes' if key == 'is_dormant'
           value = Date.parse(val).strftime('%A') if key == 'meeting_date'
+          if key == 'resurrection_date'
+            value = Date.parse(val).strftime('%Y-%m-%d')
+          end
 
           { title: title, value: value }
         end
@@ -326,6 +405,9 @@ module Hackbot
         )
       end
       # rubocop:enable Metrics/MethodLength
+      # rubocop:enable Metrics/AbcSize
+      # rubocop:enable Metrics/CyclomaticComplexity
+      # rubocop:enable Metrics/PerceivedComplexity
 
       def generate_check_in
         ::CheckIn.create!(
