@@ -61,7 +61,8 @@ module Hackbot
       end
       # rubocop:enable Metrics/MethodLength
       # rubocop:enable Metrics/AbcSize
-    
+
+      # rubocop:disable Metrics/MethodLength
       def wait_for_is_dormant
         return :wait_for_is_dormant unless action
 
@@ -81,6 +82,7 @@ module Hackbot
           :wait_for_is_dormant
         end
       end
+      # rubocop:enable Metrics/MethodLength
 
       def wait_for_resurrection_date
         return :wait_for_is_dormant unless msg

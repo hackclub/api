@@ -1,6 +1,6 @@
 class Club < ApplicationRecord
-  ACTIVE_STAGE = '5003'
-  DORMANT_STAGE = '5014'
+  ACTIVE_STAGE = '5003'.freeze
+  DORMANT_STAGE = '5014'.freeze
 
   include Streakable
   include Geocodeable
@@ -60,13 +60,13 @@ class Club < ApplicationRecord
   def make_active
     self.stage_key = ACTIVE_STAGE
 
-    self.save
+    save
   end
 
   def make_dormant(resurrection_date = nil)
     self.stage_key = DORMANT_STAGE
     self.activation_date = resurrection_date
 
-    self.save
+    save
   end
 end
