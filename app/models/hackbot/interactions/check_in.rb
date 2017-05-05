@@ -63,6 +63,7 @@ module Hackbot
       # rubocop:enable Metrics/AbcSize
 
       # rubocop:disable Metrics/MethodLength
+      # rubocop:disable Metrics/AbcSize
       def wait_for_is_dormant
         return :wait_for_is_dormant unless action
 
@@ -87,6 +88,7 @@ module Hackbot
         end
       end
       # rubocop:enable Metrics/MethodLength
+      # rubocop:enable Metrics/AbcSize
 
       def wait_for_resurrection_date
         return :wait_for_is_dormant unless msg
@@ -355,6 +357,9 @@ module Hackbot
       # rubocop:enable Metrics/MethodLength
 
       # rubocop:disable Metrics/MethodLength
+      # rubocop:disable Metrics/AbcSize
+      # rubocop:disable Metrics/CyclomaticComplexity
+      # rubocop:disable Metrics/PerceivedComplexity
       def prompt_for_submit
         # This chunk is a hack to only display certain fields of the data hash
         # (ex. cut out "channel") and convert each field to a human readable
@@ -371,11 +376,16 @@ module Hackbot
 
           title = 'Wants to leave Hack Club' if key == 'wants_to_be_dead'
           title = 'Is going into dormant mode' if key == 'is_dormant'
-          title = "Resurrection date (we'll be in touch a few weeks beforehand)" if key == 'resurrection_date'
+          if key == 'resurrection_date'
+            title = "Resurrection date (we'll be in touch a few weeks "\
+              'beforehand)'
+          end
 
           value = 'Yes' if key == 'is_dormant'
           value = Date.parse(val).strftime('%A') if key == 'meeting_date'
-          value = Date.parse(val).strftime('%Y-%m-%d') if key == 'resurrection_date'
+          if key == 'resurrection_date'
+            value = Date.parse(val).strftime('%Y-%m-%d')
+          end
 
           { title: title, value: value }
         end
@@ -390,6 +400,9 @@ module Hackbot
         )
       end
       # rubocop:enable Metrics/MethodLength
+      # rubocop:enable Metrics/AbcSize
+      # rubocop:enable Metrics/CyclomaticComplexity
+      # rubocop:enable Metrics/PerceivedComplexity
 
       def generate_check_in
         ::CheckIn.create!(
