@@ -17,8 +17,11 @@ greeting:
     not_dormant: That's great. Back to the normal flow. Did you have a club meeting this week?
 
 is_dormant:
-    positive: That's cool. When will your break end? (Say something like "in two months")
-    negative: That's great. Back to the normal flow. Did you have a club meeting this week?
+    positive:
+        text: That's cool. When will your break end? (Say something like "in two months")
+        action_result: ":black_square_for_stop: Stop sending check-ins until break is over."
+    negative:
+        action_result: ":pencil: Keep sending me check-ins! We're still meeting"
 
 resurrection_date:
     unknown: I'm not that smart and couldn't understand that date. Try saying something like "in three months" or "twelve weeks".

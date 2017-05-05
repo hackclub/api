@@ -68,13 +68,17 @@ module Hackbot
 
         case action[:value]
         when Hackbot::Utterances.yes
-          msg_channel copy('is_dormant.positive')
+          send_action_result copy('is_dormant.positive.action_result')
+
+          msg_channel copy('is_dormant.positive.text')
           data['is_dormant'] = true
 
           default_follow_up 'wait_for_resurrection_date'
           :wait_for_resurrection_date
         when Hackbot::Utterances.no
           @not_dormant = true
+
+          send_action_result copy('is_dormant.negative.action_result')
 
           start
         else
