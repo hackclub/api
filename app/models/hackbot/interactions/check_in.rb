@@ -87,7 +87,7 @@ module Hackbot
       def wait_for_resurrection_date
         return :wait_for_is_dormant unless msg
 
-        resurrection_date = Chronic.parse(msg, context: :future)
+        resurrection_date = Chronic.parse(msg, context: :future).to_s
 
         if resurrection_date.nil?
           msg_channel copy('resurrection_date.unknown')
@@ -99,9 +99,8 @@ module Hackbot
 
         club.make_dormant(resurrection_date)
 
-        msg_channel copy('resurrection_date.success')
-
-        :finish
+        prompt_for_submit
+        :wait_for_submit_confirmation
       end
 
       # rubocop:disable Metrics/MethodLength
@@ -367,7 +366,12 @@ module Hackbot
           value = val
 
           title = 'Wants to leave Hack Club' if key == 'wants_to_be_dead'
+          title = 'Is going into dormant mode' if key == 'is_dormant'
+          title = "Resurrection date (we'll be in touch a few weeks beforehand)" if key == 'resurrection_date'
+
+          value = 'Yes' if key == 'is_dormant'
           value = Date.parse(val).strftime('%A') if key == 'meeting_date'
+          value = Date.parse(val).strftime('%Y-%m-%d') if key == 'resurrection_date'
 
           { title: title, value: value }
         end
