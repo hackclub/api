@@ -5,9 +5,9 @@ class CloseCheckInsJob < ApplicationJob
 
   def perform(interaction_ids = nil)
     interactions = if interaction_ids
-                     unfinished_check_ins
-                   else
                      check_ins_from_array interaction_ids
+                   else
+                     unfinished_check_ins
                    end
 
     interactions.each do |check_in|
