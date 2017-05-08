@@ -3,8 +3,8 @@ class CloseCheckInsJob < ApplicationJob
 
   SLACK_TEAM_ID = 'T0266FRGM'.freeze
 
-  def perform(interaction_ids = [])
-    interactions = if interaction_ids.empty?
+  def perform(interaction_ids = nil)
+    interactions = if interaction_ids
                      unfinished_check_ins
                    else
                      check_ins_from_array interaction_ids
