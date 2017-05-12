@@ -2,7 +2,7 @@ FROM ruby:2.3.1
 MAINTAINER Zach Latta <zach@hackclub.com>
 
 RUN apt-get update -qq && apt-get install -y build-essential libpq-dev \
-  postgresql-client ghostscript
+  postgresql-client ghostscript ledger
 
 RUN mkdir /usr/src/app
 WORKDIR /usr/src/app
