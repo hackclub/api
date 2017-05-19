@@ -1,0 +1,24 @@
+start:
+    text: 'Just to confirm, you want me to send the following:'
+    attachments:
+        fallback: View this message on a native Slack client!
+        actions: 
+            - text: 'Yes'
+              value: 'yes'
+              confirm:
+                  title: Are you sure you want to do this?
+                  text: This will send a private message to everyone who is in this channel. Use it sparingly!
+                  ok_text: 'Send'
+                  dismiss_text: 'Nevermind'
+            - text: 'No'
+              value: 'no'
+
+should_send:
+    positive:
+        action_result: 'Sending a message! :airplane:'
+        done: I've just sent the message to everyone here!
+
+        dispatch: 'Hey! <@<%= slack_id %>> wanted me to pass this message onto you:'
+    negative:
+        action_result: 'Not sending a message! :stop:'
+        done: Okay, I won't send the message.
