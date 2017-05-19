@@ -8,16 +8,7 @@ module Hackbot
 
       def start
         message = captured[:message]
-        msg_channel(
-                     text: copy('start.text'),
-                     attachments: [
-                       fallback: copy('start.attachments.fallback'),
-                       fields: [
-                         { title: "Message", value: message}
-                       ],
-                       actions: copy('start.attachments.actions')
-                     ]
-        )
+        msg_channel copy('start', message: message)
 
         data['message'] = message
         data['user'] = event['user']
@@ -25,10 +16,11 @@ module Hackbot
         :wait_for_should_send
       end
 
+      # rubocop:disable Metrics/MethodLength
+      # rubocop:disable Metrics/AbcSize
       def wait_for_should_send
-        return :wait_for_should_send unless action
-
-        return :wait_for_should_send unless data['user'] == event[:user]
+        return :wait_for_should_send unless action ||
+                                            data['user'] == event[:user]
 
         case action[:value]
         when Hackbot::Utterances.yes
@@ -45,26 +37,34 @@ module Hackbot
           :wait_for_should_send
         end
       end
+      # rubocop:enable Metrics/MethodLength
+      # rubocop:enable Metrics/AbcSize
 
       private
 
       def dispatch_messages(recipients)
         author = SlackClient::Users.info(data['user'], access_token)[:user]
 
-        recipients.each do | recipient_slack_id |
-          send_msg(
-            recipient_slack_id,
-            text: copy('should_send.positive.dispatch', slack_id: data['user']),
-            attachments: [
-              color: '#e42d40',
-              author_name: "@#{author[:name]}",
-              author_icon: author[:profile][:image_72],
-              text: data['message'],
-              ts: Time.now.to_i
-            ]
-        )
+        recipients.each do |recipient_slack_id|
+          notify(author, recipient_slack_id, data['message'])
         end
       end
+
+      # rubocop:disable Metrics/MethodLength
+      def notify(from, to, message)
+        send_msg(
+          to,
+          text: copy('should_send.positive.dispatch', slack_id: from[:id]),
+          attachments: [
+            color: '#e42d40',
+            from_name: "@#{from[:name]}",
+            from_icon: from[:profile][:image_72],
+            text: message,
+            ts: Time.now.to_i
+          ]
+        )
+      end
+      # rubocop:enable Metrics/MethodLength
 
       def slack_ids_of_channel(id)
         SlackClient::Channels.info(id, access_token)[:channel][:members]

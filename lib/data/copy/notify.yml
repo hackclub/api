@@ -1,8 +1,11 @@
 start:
     text: 'Just to confirm, you want me to send the following:'
     attachments:
-        fallback: View this message on a native Slack client!
-        actions: 
+        - fallback: View this message on a native Slack client!
+          fields:
+              - title: Message
+                value: <%= message %>
+          actions:
             - text: 'Yes'
               value: 'yes'
               confirm:
