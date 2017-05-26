@@ -381,6 +381,7 @@ module Hackbot
 
           title = 'Wants to leave Hack Club' if key == 'wants_to_be_dead'
           title = 'Is going into dormant mode' if key == 'is_dormant'
+          title = 'Reason for not meeting' if key == 'no_meeting_reason'
           if key == 'resurrection_date'
             title = "Resurrection date (we'll be in touch a few weeks "\
               'beforehand)'
