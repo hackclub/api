@@ -4,6 +4,7 @@ import Helmet from 'react-helmet'
 import { connect } from 'react-redux'
 import * as intakeActions from '../../redux/modules/leaderIntake'
 import { load as loadClubs } from '../../redux/modules/clubs'
+import { SubmissionError } from 'redux-form'
 import { Card, Header, Heading, LeaderIntakeForm, Link } from '../../components'
 import colors from '../../styles/colors'
 
@@ -37,6 +38,15 @@ class LeaderIntake extends Component {
     status: PropTypes.string
   }
 
+  handleSubmit(values) {
+    const { submit } = this.props
+
+    return submit(values)
+      .catch(error => {
+	throw new SubmissionError(error.errors)
+      })
+  }
+
   componentDidMount() {
     const { loadClubs } = this.props
 
@@ -44,7 +54,7 @@ class LeaderIntake extends Component {
   }
 
   render() {
-    const { submit, status, clubs } = this.props
+    const { status, clubs } = this.props
 
     return (
       <div>
@@ -55,7 +65,7 @@ class LeaderIntake extends Component {
         </Header>
         <Card style={styles.card}>
           <LeaderIntakeForm
-              onSubmit={values => submit(values)}
+              onSubmit={values => this.handleSubmit(values)}
               status={status}
               clubs={clubs}
             />
