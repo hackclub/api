@@ -8,6 +8,7 @@ module Hackbot
       Hackbot::Interactions::Help,
       Hackbot::Interactions::Ledger,
       Hackbot::Interactions::Lookup,
+      Hackbot::Interactions::Notify,
       Hackbot::Interactions::SetPoc,
       Hackbot::Interactions::Sql,
       Hackbot::Interactions::Stats,
