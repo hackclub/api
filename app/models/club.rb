@@ -50,6 +50,18 @@ class Club < ApplicationRecord
     point_of_contact.name if point_of_contact
   end
 
+  def alive?
+    active? || dormant?
+  end
+
+  def active?
+    stage_key == ACTIVE_STAGE
+  end
+
+  def dormant?
+    stage_key == DORMANT_STAGE
+  end
+
   # This setter prevents the point of contact name from being set from Streak.
   # The point of contact should only be changed in the database, which will
   # update the Streak pipeline.
