@@ -10,9 +10,23 @@ RSpec.describe 'V1::Clubs', type: :request do
       expect(json).to eq([])
     end
 
-    context 'when multiple clubs exist' do
+    context 'when dead clubs exist' do
       before do
-        5.times { create(:club) }
+        5.times { create(:dead_club) }
+      end
+
+      it 'does not return any clubs' do
+        get '/v1/clubs'
+
+        expect(response).to have_http_status(200)
+        expect(response.content_type).to eq('application/json')
+        expect(json).to eq([])
+      end
+    end
+
+    context 'when multiple alive clubs exist' do
+      before do
+        5.times { create(:alive_club) }
       end
 
       it 'returns the correct number of clubs' do

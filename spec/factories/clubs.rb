@@ -18,5 +18,13 @@ FactoryGirl.define do
         evaluator.leader_count.times { create(:leader).clubs << club }
       end
     end
+
+    factory :alive_club do
+      stage_key { HCFaker::Streak.stage_key_alive }
+    end
+
+    factory :dead_club do
+      stage_key { HCFaker::Streak.stage_key_dead }
+    end
   end
 end

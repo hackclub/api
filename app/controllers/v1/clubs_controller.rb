@@ -3,7 +3,7 @@ module V1
     before_action :find_club, only: [:show, :update, :destroy]
 
     def index
-      render json: Club.all
+      render json: Club.select(&:alive?)
     end
 
     def create

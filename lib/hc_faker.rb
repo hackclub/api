@@ -40,6 +40,14 @@ module HCFaker
       def stage_key
         HCFaker::Random.numeric_string(len: 4)
       end
+
+      def stage_key_alive
+        %w(5003 5014).sample
+      end
+
+      def stage_key_dead
+        '5004'
+      end
     end
   end
 end
