@@ -19,7 +19,7 @@ module Hackbot
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/AbcSize
       def wait_for_should_send
-        return :wait_for_should_send unless action ||
+        return :wait_for_should_send unless action &&
                                             data['user'] == event[:user]
 
         case action[:value]
