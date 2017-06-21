@@ -1,0 +1,9 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.7.0
+# ignores vulnerabilities until expiry date; change duration by modifying expiry date
+ignore:
+  SNYK-RUBY-NOKOGIRI-20299:
+    - '* > active_model_serializers@0.10.2':
+        reason: None given
+        expires: '2017-02-26T19:34:11.362Z'
+patch: {}

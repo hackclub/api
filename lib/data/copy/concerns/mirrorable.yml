@@ -1,0 +1,25 @@
+mirror_plain:
+  fallback: "<%= slack_mention %>: <%= text %>"
+mirror_rich:
+  fallback: <%= slack_mention %> sent a rich message -- please view using Slack's native clients
+mirror_file:
+  text: |
+    Uploaded `<%= filename %>`.
+
+    _Mirroring does not currently support showing uploaded files inline._
+  fallback: <%= slack_mention %> uploaded <%= filename %>
+template:
+  footer: <%= source %>, running <%= interaction %>, id <%= id %>
+  source:
+    public_channel: "#<%= channel_name %>"
+    private_channel: "#<%= channel_name %> (private)"
+    mpim: Group chat w/ <%= slack_mentions.to_sentence %>
+    dm: PM w/ <%= slack_mention %>
+    unknown: Unknown source
+mirror_action:
+  text: _Clicked "<%= action_text %>"_
+  fallback: <%= slack_mention %> clicked <%= action_text %>
+mirror_action_source_update:
+  fallback: Updating attachment that created action...
+  old_msg_pre: _*Replacing:*_
+  new_msg_pre: _*With:*_
