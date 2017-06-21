@@ -1,0 +1,32 @@
+import React, { Component } from 'react'
+import Radium from 'radium'
+import { Link } from '../../components'
+import colors from '../../styles/colors'
+import { mediaQueries } from '../../styles/common'
+
+import Logo from './Logo'
+
+const styles = {
+  wrapper: {
+    backgroundColor: colors.primary,
+    height: '45px',
+    marginLeft: 'auto',
+    marginRigth: 'auto',
+    [mediaQueries.mediumUp]: {
+      margin: 0,
+      height: '60px'
+    }
+  }
+}
+
+class NavBar extends Component {
+  render() {
+    return (
+      <div style={[styles.wrapper,this.props.style]}>
+        <Link to="/"><Logo /></Link>
+      </div>
+    )
+  }
+}
+
+export default Radium(NavBar)
