@@ -36,5 +36,6 @@ deployment:
     commands:
       - "[[ ! -s \"$(git rev-parse --git-dir)/shallow\" ]] || git fetch --unshallow"
       - git subtree push --prefix api git@heroku.com:mono-api-hackclub.git master
-      - heroku run rake db:migrate --app api-hackclub:
+      - heroku run rake db:migrate --app mono-api-hackclub:
           timeout: 400 # Deploys may take a long time
+      - git subtree push --prefix frontend git@heroku.com:mono-frontend-hackclub.git master
