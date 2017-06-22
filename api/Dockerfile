@@ -4,7 +4,7 @@ MAINTAINER Zach Latta <zach@hackclub.com>
 RUN apt-get update -qq && apt-get install -y build-essential libpq-dev \
   postgresql-client ghostscript ledger
 
-RUN mkdir /usr/src/app
+RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 ADD Gemfile /usr/src/app/Gemfile
