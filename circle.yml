@@ -1,0 +1,44 @@
+machine:
+  services:
+    - postgresql
+  environment:
+    GOOGLE_MAPS_API_KEY: test_maps_api_key
+    STREAK_CLUB_PIPELINE_KEY: clubs
+    STREAK_LEADER_PIPELINE_KEY: leaders
+    STREAK_LETTER_PIPELINE_KEY: letters
+    STREAK_API_KEY: test_api_key
+    CLOUD9_USERNAME: test_username
+    CLOUD9_PASSWORD: test_password
+    CLOUD9_TEAM_NAME: fake_team_name
+    STREAK_OUTREACH_SCHOOL_PIPELINE_KEY: schools
+    STREAK_OUTREACH_TEACHER_PIPELINE_KEY: teachers
+    SLACK_CLIENT_ID: fake_client_id
+    SLACK_CLIENT_SECRET: fake_client_secret
+    DEFAULT_SLACK_TEAM_ID: fake_slack_team_id
+    TECH_DOMAIN_REDEMPTION_SECRET_CODE: fake_secret_code
+    GIPHY_API_KEY: fake_giphy_api_key
+    DEFAULT_STREAK_TASK_ASSIGNEE: email@email.email
+    HACKBOT_MIRROR_CHANNEL_ID: fake_channel_id
+    HACKBOT_ADMINS: fake,admin,list
+    STREAK_DEMO_USER_BOX_KEY: fake_streak_key
+    GITHUB_BOT_ACCESS_TOKEN: fake_access_token
+
+    DATABASE_URL: postgresql://ubuntu:@127.0.0.1:5432/circle_test
+dependencies:
+  override:
+    - cd api && bundle install
+test:
+  override:
+    - cd api && bundle exec rubocop
+    - cd api && bundle exec rspec
+deployment:
+  production:
+    branch: master
+    commands:
+      # CircleCI shallow clones by default. This fetches the remainder of the
+      # repo's history. Heroku deploys will occasionally fail without this.
+      - "[[ ! -s \"$(git rev-parse --git-dir)/shallow\" ]] || git fetch --unshallow"
+      - git subtree push --prefix api git@heroku.com:api-hackclub.git master
+      - heroku run rake db:migrate --app api-hackclub:
+          timeout: 400 # Deploys may take a long time
+      - git subtree push --prefix frontend git@heroku.com:frontend-hackclub.git master
