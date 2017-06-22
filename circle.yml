@@ -34,6 +34,8 @@ deployment:
   production:
     branch: master
     commands:
+      # CircleCI shallow clones by default. This fetches the remainder of the
+      # repo's history. Heroku deploys will occasionally fail without this.
       - "[[ ! -s \"$(git rev-parse --git-dir)/shallow\" ]] || git fetch --unshallow"
       - git subtree push --prefix api git@heroku.com:mono-api-hackclub.git master
       - heroku run rake db:migrate --app mono-api-hackclub:
