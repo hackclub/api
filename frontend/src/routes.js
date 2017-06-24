@@ -9,6 +9,7 @@ import {
   OneOffFormWrapper,
   RedeemTechDomain,
   StartPage,
+  WorkshopWrapper
 } from './containers'
 
 import './styles'
@@ -24,6 +25,8 @@ export default (store) => {
         <Route path="intake" component={LeaderIntake} />
         <Route path="redeem_tech_domain" component={RedeemTechDomain} />
       </Route>
+
+      <Route path="workshops/*" component={WorkshopWrapper} />
 
       <Route path="*" component={NotFound} status={404} />
     </Route>
