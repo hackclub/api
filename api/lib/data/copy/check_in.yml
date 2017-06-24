@@ -77,7 +77,7 @@ submit_confirmation:
     restart:
         action_result: ":leftwards_arrow_with_hook: You want to start over"
 
-submit_check_in: Gotcha, I'll pass that on to <@U1S56LC05>! Hope you have a hack-tastic weekend!
+submit_check_in: Gotcha, I'll pass that on to the Hack Club team! Hope you have a hack-tastic weekend!
 
 follow_ups:
     first: "Hey! Just wanted to follow-up on this. :wink:"
