@@ -9,20 +9,19 @@ module V1
       no_intra_emphasis: true,
       strikethrough: true,
       with_toc_data: true,
-      fenced_code_blocks: true 
+      fenced_code_blocks: true
     }.freeze
 
     def workshops
       response.content_type = 'text/html'
 
-      if !File.file? file_path
+      unless File.file? file_path
         render plain: 'File not found', status: 404
 
         return
       end
 
-      case File.extname(file_path)
-      when ".md"
+      if File.extname(file_path) == '.md'
         render_markdown
       else
         render_file
@@ -35,7 +34,6 @@ module V1
       md = IO.read(file_path)
       renderer = Redcarpet::Markdown.new(Redcarpet::Render::HTML,
                                          MARKDOWN_RENDERER_OPTIONS)
-
 
       out = renderer.render(md)
 
