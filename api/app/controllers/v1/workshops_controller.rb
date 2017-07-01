@@ -16,9 +16,9 @@ module V1
 
         out = renderer.render(md)
 
-        render text: out, status: 200
+        render plain: out, status: 200
       rescue Errno::ENOENT
-        render text: 'File not found', status: 404
+        render plain: 'File not found', status: 404
       end
     end
 
