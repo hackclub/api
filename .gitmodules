@@ -1,0 +1,3 @@
+[submodule "api/vendor/hackclub"]
+	path = api/vendor/hackclub
+	url = https://github.com/hackclub/hackclub.git
