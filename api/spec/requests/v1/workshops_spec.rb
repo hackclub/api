@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'V1::Workshops', type: :request do
-  describe 'GET /v1/workshops/this_file_should_not_exist' do
+  describe 'GET /v1/workshops' do
     it 'returns a 404 when there is no file' do
       get '/v1/workshops/this_file_should_not_exist'
 
