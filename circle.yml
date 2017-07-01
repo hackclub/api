@@ -26,6 +26,8 @@ machine:
     DATABASE_URL: postgresql://ubuntu:@127.0.0.1:5432/circle_test
 dependencies:
   override:
+    - git submodule init
+    - git submodule update --depth 1
     - cd api && bundle install
 test:
   override:
