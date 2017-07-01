@@ -120,6 +120,7 @@ GEM
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
+    mimemagic (0.3.2)
     mini_portile2 (2.1.0)
     minitest (5.10.2)
     multipart-post (2.0.0)
@@ -294,6 +295,7 @@ DEPENDENCIES
   gruff
   guard-rspec (~> 4.7)
   listen (~> 3.0.5)
+  mimemagic (~> 0.3)
   octokit (~> 4.7)
   pg (~> 0.18.4)
   puma (~> 3.0)

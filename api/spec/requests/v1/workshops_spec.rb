@@ -15,5 +15,12 @@ RSpec.describe 'V1::Workshops', type: :request do
       expect(response).to have_http_status(200)
       expect(response.content_type).to eq('text/html')
     end
+
+    it 'returns an image file without putting it through the markdown renderer' do
+      get '/v1/workshops/workshops/dawgshop/img/tupac.gif'
+
+      expect(response).to have_http_status(200)
+      expect(response.content_type).to eq('image/gif')
+    end
   end
 end
