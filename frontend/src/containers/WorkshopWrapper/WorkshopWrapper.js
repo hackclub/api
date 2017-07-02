@@ -2,36 +2,46 @@ import React, { Component } from 'react'
 import Radium from 'radium'
 import Helmet from 'react-helmet'
 import Axios from 'axios'
-import { NavBar } from '../../components'
+import { NavBar, LoadingSpinner } from '../../components'
 import { NotFound } from '../../containers'
 
 const baseUrl = 'https://api.hackclub.com/v1/workshops/'
 
 class WorkshopWrapper extends Component {
-  getInitialState() {
-    return {
-      path: this.props.routeParams.splat || '',
-      notFound: false
-    }
+  constructor(props) {
+    super(props)
+    Axios.get(baseUrl + (props.routeParams.splat || ''))
+         .then(resp => {
+           this.setState({
+             workshopContent: resp.data,
+           })
+         })
+         .catch(e => {
+           console.log(e)
+           this.setState({
+             notFound: true
+           })
+         })
   }
 
-  componentDidMount() {
-    Axios.get(baseUrl + this.state.path)
-      .then(resp => {
-        this.setState({
-          workshopContent: resp.data,
-        })
-      })
-      .catch(e => {
-        // TODO: Handle non-404 errors
-        this.setState({
-          notFound: true
-        })
-      })
+  getInitialState() {
+    return {
+      notFound: false,
+    }
   }
 
   createWorkshop() {
     return {__html: this.state.workshopContent}
+  }
+
+  content() {
+    if (this.state.notFound === undefined) {
+      return <LoadingSpinner />
+    } else if(this.state.notFound === false) {
+      return <div dangerouslySetInnerHTML={this.createWorkshop()} />
+    } else {
+      return <NotFound />
+    }
   }
 
   render() {
@@ -39,7 +49,7 @@ class WorkshopWrapper extends Component {
       <div>
        <Helmet title={this.state.path || 'Workshops'} />
        <NavBar />
-       { this.state.notFound ? <NotFound /> : <div dangerouslySetInnerHTML={this.createWorkshop()} /> }
+       {this.content()}
       </div>
     )
   }
