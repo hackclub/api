@@ -19,8 +19,8 @@ export default (store) => {
     <Route path="/" component={App}>
       <Route path="start" component={StartPage} />
 
-      <Route path="workshop" component={WorkshopWrapper} />
-      <Route path="workshop/*" component={WorkshopWrapper} />
+      <Route path="workshops" component={WorkshopWrapper} />
+      <Route path="workshops/*" component={WorkshopWrapper} />
 
       <Route component={OneOffFormWrapper}>
         <Route path="cloud9_setup" component={Cloud9Setup} />
