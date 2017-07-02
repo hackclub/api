@@ -22,8 +22,8 @@ export default (store) => {
       <Route path="start" component={StartPage} />
       <Route path="apply" component={ApplyPage} />
 
-      <Route path="workshop" component={WorkshopWrapper} />
-      <Route path="workshop/*" component={WorkshopWrapper} />
+      <Route path="workshops" component={WorkshopWrapper} />
+      <Route path="workshops/*" component={WorkshopWrapper} />
 
       <Route component={OneOffFormWrapper}>
         <Route path="slack_invite" component={SlackInvite} />
