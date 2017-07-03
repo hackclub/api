@@ -13,7 +13,8 @@ class WorkshopWrapper extends Component {
     Axios.get(baseUrl + (props.routeParams.splat || ''))
          .then(resp => {
            this.setState({
-             workshopContent: resp.data,
+             notFound: false,
+             workshopContent: resp.data
            })
          })
          .catch(e => {
@@ -26,16 +27,16 @@ class WorkshopWrapper extends Component {
 
   getInitialState() {
     return {
-      notFound: false,
+      notFound: null
     }
-  }
+ }
 
   createWorkshop() {
     return {__html: this.state.workshopContent}
   }
 
   content() {
-    if (this.state.notFound === undefined) {
+    if (this.state.notFound === null) {
       return <LoadingSpinner />
     } else if(this.state.notFound === false) {
       return <div dangerouslySetInnerHTML={this.createWorkshop()} />
