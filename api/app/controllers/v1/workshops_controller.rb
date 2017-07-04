@@ -1,7 +1,7 @@
 module V1
   class WorkshopsController < ApplicationController
     ROOT_URI = 'v1/workshops/'.freeze
-    WORKSHOPS_PATH = 'vendor/hackclub'.freeze
+    WORKSHOPS_PATH = Rails.application.secrets.workshop_files_root
 
     def workshops
       uri = request.env['PATH_INFO']
