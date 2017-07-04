@@ -2,10 +2,13 @@ import React, { Component } from 'react'
 import Radium from 'radium'
 import Helmet from 'react-helmet'
 import Axios from 'axios'
+
 import { NavBar, LoadingSpinner } from '../../components'
 import { NotFound } from '../../containers'
 
-const baseUrl = 'https://api.hackclub.com/v1/workshops/'
+import Workshop from './Workshop/Workshop'
+
+const baseUrl = 'https://api.hackclub/v1/workshops/'
 
 class WorkshopWrapper extends Component {
   constructor(props) {
@@ -14,7 +17,7 @@ class WorkshopWrapper extends Component {
          .then(resp => {
            this.setState({
              notFound: false,
-             workshopContent: resp.data
+             markdown: resp.data
            })
          })
          .catch(e => {
@@ -29,19 +32,15 @@ class WorkshopWrapper extends Component {
     return {
       notFound: null
     }
- }
-
-  createWorkshop() {
-    return {__html: this.state.workshopContent}
   }
 
   content() {
     if (this.state.notFound === null) {
-      return <LoadingSpinner />
+      return (<LoadingSpinner />)
     } else if(this.state.notFound === false) {
-      return <div dangerouslySetInnerHTML={this.createWorkshop()} />
+        return (<Workshop markdown={this.state.markdown}/>)
     } else {
-      return <NotFound />
+      return (<NotFound />)
     }
   }
 
