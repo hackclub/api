@@ -9,6 +9,7 @@ import {
   OneOffFormWrapper,
   RedeemTechDomain,
   StartPage,
+  ApplyPage
 } from './containers'
 
 import './styles'
@@ -17,6 +18,7 @@ export default (store) => {
   return (
     <Route path="/" component={App}>
       <Route path="start" component={StartPage} />
+      <Route path="apply" component={ApplyPage} />
 
       <Route component={OneOffFormWrapper}>
         <Route path="cloud9_setup" component={Cloud9Setup} />
