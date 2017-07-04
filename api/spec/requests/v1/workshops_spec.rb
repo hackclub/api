@@ -6,18 +6,25 @@ RSpec.describe 'V1::Workshops', type: :request do
       get '/v1/workshops/this_file_should_not_exist'
 
       expect(response).to have_http_status(404)
-      expect(response.content_type).to eq('text/html')
+      expect(response.content_type).to eq('text/plain')
     end
 
-    it 'returns a rendered markdown file successfully' do
+    it 'returns a markdown file' do
       get '/v1/workshops/README.md'
+
+      expect(response).to have_http_status(200)
+      expect(response.content_type).to eq('text/markdown')
+    end
+
+    it 'returns a rendered markdown file' do
+      get '/v1/workshops/README.html'
 
       expect(response).to have_http_status(200)
       expect(response.content_type).to eq('text/html')
     end
 
-    it 'returns an image file correctly' do
-      get '/v1/workshops/workshops/dawgshop/img/tupac.gif'
+    it 'returns an image file' do
+      get '/v1/workshops/awkward.gif'
 
       expect(response).to have_http_status(200)
       expect(response.content_type).to eq('image/gif')
