@@ -1,10 +1,13 @@
 import React, { Component} from 'react'
+import Helmet from 'react-helmet'
 import {
   HorizontalRule,
   Heading,
   NavBar,
   Container,
-  Link
+  Link,
+  ApplicationForm,
+  Card
 } from '../../components'
 
 import pattern from '../../styles/pattern.png'
@@ -34,7 +37,12 @@ const styles = {
       width: '70%',
       height: '5px',
       marginTop: '-2.5px'
-    },
+    }
+  },
+  card: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    maxWidth: '1000px'
   }
 }
 
@@ -74,12 +82,18 @@ class Apply extends Component {
   render() {
     return (
       <div>
+        <Helmet title="Apply" />
+
         <NavBar />
         <Container style={[styles.wrapper]}>
           <ApplyHeading />
 
           <ApplyInfo />
         </Container>
+
+        <Card style={[styles.card]}>
+          <ApplicationForm />
+        </Card>
       </div>
     )
   }

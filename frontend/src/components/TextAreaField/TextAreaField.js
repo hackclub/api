@@ -22,10 +22,10 @@ const styles = {
 
 class TextAreaField extends Field {
   renderInput() {
-    const { input, label } = this.props
+    const { input, label, placeholder } = this.props
 
     return (
-      <textarea {...input} style={styles} placeholder={label} />
+      <textarea {...input} style={styles} placeholder={placeholder} />
     )
   }
 }
