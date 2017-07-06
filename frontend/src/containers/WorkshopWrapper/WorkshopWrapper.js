@@ -56,7 +56,7 @@ class WorkshopWrapper extends Component {
     if (this.state.notFound === null) {
       return (<LoadingSpinner />)
     } else if(this.state.notFound === false) {
-        return (<Workshop markdown={this.state.markdown}/>)
+      return (<Workshop markdown={this.state.markdown}/>)
     } else {
       return (<NotFound />)
     }
@@ -65,9 +65,9 @@ class WorkshopWrapper extends Component {
   render() {
     return(
       <div>
-       <Helmet title={this.state.path || 'Workshops'} />
-       <NavBar />
-       {this.content()}
+        <Helmet title={this.state.path || 'Workshops'} />
+        <NavBar />
+        {this.content()}
       </div>
     )
   }
