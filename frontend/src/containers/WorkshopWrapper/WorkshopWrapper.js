@@ -13,19 +13,37 @@ const baseUrl = 'https://api.hackclub/v1/workshops/'
 class WorkshopWrapper extends Component {
   constructor(props) {
     super(props)
-    Axios.get(baseUrl + (props.routeParams.splat || ''))
-         .then(resp => {
-           this.setState({
-             notFound: false,
-             markdown: resp.data
-           })
-         })
-         .catch(e => {
-           console.log(e)
-           this.setState({
-             notFound: true
-           })
-         })
+
+    var rootUrl = baseUrl
+    var extendedUrl = baseUrl + '/' + props.routeParams.splat
+    var url = (props.routeParams.splat ? extendedUrl : rootUrl)
+
+    this.requestWorkshop(url)
+  }
+
+  requestWorkshop(url) {
+    Axios.get(url)
+      .then(resp => this.placeWorkshop(resp.data))
+      .catch(e => this.handleError(e, url))
+  }
+
+  placeWorkshop(data) {
+    this.setState({
+      notFound: false,
+      markdown: data
+    })
+  }
+
+  handleError(e, url) {
+    var isNotFound = e.response.status === 404
+    var isNotReadme = /README.md$/.exec(e.request.responseURL) === null
+    if (isNotFound && isNotReadme) {
+      this.requestWorkshop(url + '/README.md')
+    } else {
+      this.setState({
+        notFound: true
+      })
+    }
   }
 
   getInitialState() {
