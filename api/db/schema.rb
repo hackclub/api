@@ -44,10 +44,16 @@ ActiveRecord::Schema.define(version: 20170706060227) do
     t.string   "interesting_project"
     t.string   "systems_hacked"
     t.string   "steps_taken"
-    t.integer  "year"
     t.text     "referer"
     t.string   "phone_number"
-    t.string   "start_date"
+    t.date     "start_date"
+    t.text     "year"
+    t.text     "application_quality"
+    t.text     "rejection_reason"
+    t.text     "source"
+    t.string   "streak_key"
+    t.string   "stage_key"
+    t.string   "notes"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
   end
