@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# rubocop:disable Metrics/ModuleLength
 module Streakable
   extend ActiveSupport::Concern
 
@@ -63,7 +64,16 @@ module Streakable
   end
 
   def streak_field_value_for_attribute(attribute)
-    send(attribute)
+    val = send(attribute)
+    mapping = self.class.field_mappings[attribute]
+
+    return val unless mapping.is_a? Hash
+
+    if mapping[:type] == 'DATE'
+      time_to_ms_since_epoch(val)
+    else
+      val
+    end
   end
 
   # Given a symbol attribute name, get that attribute's value, parse the model's
@@ -92,7 +102,8 @@ module Streakable
 
   def create_box
     unless streak_key_val
-      resp = StreakClient::Box.create_in_pipeline(self.class.pipeline_key, name)
+      resp = StreakClient::Box.create_in_pipeline(self.class.pipeline_key,
+                                                  name_key_val)
 
       # Need to use self here because it'll try to create a variable by default
       # (try removing 'self.' from the beginning and running tests to see for
@@ -156,4 +167,17 @@ module Streakable
   def stage_key_val=(val)
     send("#{self.class.stage_attribute}=", val)
   end
+
+  def name_key_val
+    send(self.class.name_attribute)
+  end
+
+  def name_key_val=(val)
+    send("#{self.class.name_attribute}=", val)
+  end
+
+  def time_to_ms_since_epoch(time)
+    (time.to_f * 1000).to_i
+  end
 end
+# rubocop:enable Metrics/ModuleLength
