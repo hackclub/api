@@ -108,6 +108,10 @@ GEM
     i18n (0.8.4)
     json (2.0.2)
     jsonapi-renderer (0.1.2)
+    launchy (2.4.3)
+      addressable (~> 2.3)
+    letter_opener (1.4.1)
+      launchy (~> 2.2)
     listen (3.0.8)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -292,6 +296,7 @@ DEPENDENCIES
   geocoder (~> 1.4)
   gruff
   guard-rspec (~> 4.7)
+  letter_opener (~> 1.4.1)
   listen (~> 3.0.5)
   octokit (~> 4.7)
   pg (~> 0.18.4)

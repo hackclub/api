@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 class ClubApplication < ApplicationRecord
   include Streakable
 
@@ -97,4 +98,13 @@ class ClubApplication < ApplicationRecord
   validates :first_name, :last_name, :email, :github, :twitter, :high_school,
             :interesting_project, :systems_hacked, :steps_taken, :year,
             :referer, :phone_number, :start_date, presence: true
+
+  def full_name
+    "#{first_name} #{last_name}"
+  end
+
+  def spam?
+    false
+  end
 end
+# rubocop:enable Metrics/ClassLength
