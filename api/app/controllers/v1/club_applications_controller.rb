@@ -5,10 +5,15 @@ module V1
 
       if application.save
         render json: application, status: 201
+
+        ClubApplicationMailer.application_confirmation(application).deliver
+        ClubApplicationMailer.admin_notification(application).deliver
       else
         render json: { errors: application.errors }, status: 422
       end
     end
+
+    private
 
     def application_params
       params.permit(
