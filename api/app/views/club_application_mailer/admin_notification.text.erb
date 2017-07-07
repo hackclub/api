@@ -2,6 +2,6 @@ New application for Hack Club received:
 
 <%= render "club_application/club_application" %>
 
-<%= if @application.spam? %>
+<% if @application.spam? %>
     This application is suspected to be spam!
-<%= end %>
+<% end %>

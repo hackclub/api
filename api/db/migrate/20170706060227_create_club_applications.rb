@@ -13,7 +13,7 @@ class CreateClubApplications < ActiveRecord::Migration[5.0]
       t.string :steps_taken
       t.text :referer
       t.string :phone_number
-      t.date :start_date
+      t.time :start_date
 
       t.text :year
       t.text :application_quality

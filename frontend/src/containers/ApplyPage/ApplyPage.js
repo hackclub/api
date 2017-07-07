@@ -1,7 +1,11 @@
-import React, { Component} from 'react'
+import React, { Component, PropTypes } from 'react'
+import Radium from 'radium'
 import Helmet from 'react-helmet'
+import { connect } from 'react-redux'
+import * as applyActions from '../../redux/modules/apply'
+import { SubmissionError } from 'redux-form'
+
 import {
-  HorizontalRule,
   Heading,
   NavBar,
   Container,
@@ -10,7 +14,6 @@ import {
   Card
 } from '../../components'
 
-import pattern from '../../styles/pattern.png'
 import { mediaQueries } from '../../styles/common'
 
 const styles = {
@@ -79,6 +82,19 @@ class ApplyInfo extends Component {
 }
 
 class Apply extends Component {
+  static propTypes = {
+    status: PropTypes.string
+  }
+
+  handleSubmit(values) {
+    const { submit } = this.props
+
+    return submit(values)
+      .catch(error => {
+        throw new SubmissionError(error.errors)
+      })
+  }
+
   render() {
     return (
       <div>
@@ -92,11 +108,18 @@ class Apply extends Component {
         </Container>
 
         <Card style={[styles.card]}>
-          <ApplicationForm />
+          <ApplicationForm onSubmit={values => this.handleSubmit(values)} status={status} />
         </Card>
       </div>
     )
   }
 }
 
-export default Apply
+const mapStateToProps = state => ({
+  status: state.apply.status
+})
+
+export default connect(
+  mapStateToProps,
+  {...applyActions}
+)(Radium(Apply))

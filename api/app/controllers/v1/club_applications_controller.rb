@@ -16,7 +16,7 @@ module V1
     private
 
     def application_params
-      params.permit(
+      params.require(:club_application).permit(
         :first_name, :last_name, :email, :github, :twitter, :high_school,
         :interesting_project, :systems_hacked, :steps_taken, :year, :referer,
         :phone_number, :start_date

@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(version: 20170706060227) do
     t.string   "steps_taken"
     t.text     "referer"
     t.string   "phone_number"
-    t.date     "start_date"
+    t.time     "start_date"
     t.text     "year"
     t.text     "application_quality"
     t.text     "rejection_reason"

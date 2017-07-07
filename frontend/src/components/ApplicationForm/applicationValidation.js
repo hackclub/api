@@ -1,12 +1,12 @@
 import { createValidator, required, email } from '../../utils/validation'
 
 export default createValidator({
-  firstName: [required],
-  lastName: [required],
+  first_name: [required],
+  last_name: [required],
   email: [required, email],
   year: [required],
-  interestingProject: [required],
-  hack: [required],
-  firstSteps: [required],
-  referral: [required]
+  interesting_project: [required],
+  systems_hacked: [required],
+  first_steps: [required],
+  referer: [required]
 })

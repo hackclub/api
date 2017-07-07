@@ -3,6 +3,21 @@ import { reduxForm, Field } from 'redux-form'
 import { Button, Emoji, TextField, TextAreaField, SelectField } from '../../components'
 import applicationValidation from './applicationValidation'
 
+const monthNames = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
+]
+
 const subtitleStyles = {
   fontWeight: 300,
   paddingBottom: '8px',
@@ -36,6 +51,33 @@ class ApplicationForm extends Component {
     }
   }
 
+  next12Months() {
+    const genMonth = (date) => {
+      const month = monthNames[date.getMonth()]
+
+      const label = `${month} ${date.getFullYear()}`
+      const iso = date.toISOString()
+
+      return { label, iso }
+    }
+
+    var months = []
+    var today = new Date()
+
+    var asap = genMonth(today);
+    asap.label = "ASAP"
+
+    months.push(asap)
+
+    for (var i = 0; i < 12; i++) {
+      today.setMonth(today.getMonth() + 1)
+
+      months.push(genMonth(today))
+    }
+
+    return months
+  }
+
   buttonText(status) {
     switch(status) {
     case "error":
@@ -48,40 +90,49 @@ class ApplicationForm extends Component {
   }
 
   render() {
+    const { handleSubmit, style, status} = this.props
+
     return (
-      <form onSubmit={(x) => console.log(x) }>
+      <form style={style} onSubmit={handleSubmit}>
         <Subtitle>Information</Subtitle>
 
-        <Field name="firstName" label="First name" placeholder="Zaphod" component={TextField} />
-        <Field name="lastName" label="Last name" placeholder="Beeblebrox" component={TextField} />
+        <Field name="first_name" label="First name" placeholder="Zaphod" component={TextField} />
+        <Field name="last_name" label="Last name" placeholder="Beeblebrox" component={TextField} />
         <Field name="email" type="email" label="Preferred email" placeholder="zaphod@beeblebrox.com" component={TextField} />
-        <Field name="phoneNumber" label="Phone number" placeholder="(555) 555 5555" component={TextField} />
-        <Field name="highSchool" label="High school" placeholder="Visalia High School" component={TextField} />
+        <Field name="phone_number" label="Phone number" placeholder="(555) 555 5555" component={TextField} />
+        <Field name="high_school" label="High school" placeholder="Visalia High School" component={TextField} />
 
-        <Field name="year" label="Current year" component={SelectField} >
-          <option value="below_high_school"></option>
-          <option value="nine">Nine</option>
-          <option value="ten">Ten</option>
-          <option value="eleven">Eleven</option>
-          <option value="twelve">Twelve</option>
-          <option value="college_student">College student</option>
-          <option value="teacher">Teacher</option>
-          <option value="parent">Parent or guardian</option>
-          <option value="other">Other</option>
+        <Field name="year" label="When do you graduate high school?" component={SelectField}>
+          <option value="9010">Other</option>
+          <option value="9001">2022</option>
+          <option value="9002">2021</option>
+          <option value="9003">2020</option>
+          <option value="9004">2019</option>
+          <option value="9005">2018</option>
+          <option value="9006">2017</option>
+          <option value="9007">2016</option>
+          <option value="9009">Teacher</option>
+          <option value="9008">Graduated</option>
         </Field>
 
         <Field name="github" label="GitHub" placeholder="Zaphod" component={TextField} />
         <Field name="twitter" label="Twitter" placeholder="Zaphod" component={TextField} />
 
+        <Field name="start_date" label="When do you want to start your club?" component={SelectField}>
+          { this.next12Months().map(month => {
+            return (<option value={month.iso} key={month.iso}>{month.label}</option>)
+          })}
+        </Field>
+
         <Subtitle>Application</Subtitle>
 
-        <Field name="interestingProject" label="Please tell us about an interesting project, preferably outside of class, that you created or worked on." component={TextAreaField} />
+        <Field name="interesting_project" label="Please tell us about an interesting project, preferably outside of class, that you created or worked on." component={TextAreaField} />
 
-        <Field name="hack" label="Please tell us about the time you most successfully hacked some (non-computer) system to your advantage. Click here for the sorts of responses we're looking for." component={TextAreaField} />
+        <Field name="systems_hacked" label="Please tell us about the time you most successfully hacked some (non-computer) system to your advantage. Click here for the sorts of responses we're looking for." component={TextAreaField} />
 
-        <Field name="firstSteps" label="What steps have you taken so far in starting your club?" component={TextAreaField} />
+        <Field name="steps_taken" label="What steps have you taken so far in starting your club?" component={TextAreaField} />
 
-        <Field name="referral" label="How did you hear about us?" component={TextField} placeholder="" />
+        <Field name="referer" label="How did you hear about us?" component={TextField} placeholder="" />
 
         <Button type="form"
                 state={this.buttonState()}>{this.buttonText(status)}</Button>

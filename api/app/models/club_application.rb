@@ -95,9 +95,9 @@ class ClubApplication < ApplicationRecord
     }
   )
 
-  validates :first_name, :last_name, :email, :github, :twitter, :high_school,
+  validates :first_name, :last_name, :email, :high_school,
             :interesting_project, :systems_hacked, :steps_taken, :year,
-            :referer, :phone_number, :start_date, presence: true
+            :referer, :start_date, presence: true
 
   def full_name
     "#{first_name} #{last_name}"
