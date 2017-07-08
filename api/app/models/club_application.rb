@@ -95,12 +95,18 @@ class ClubApplication < ApplicationRecord
     }
   )
 
+  streak_read_only key: '1021', sym: :spam
+
   validates :first_name, :last_name, :email, :high_school,
             :interesting_project, :systems_hacked, :steps_taken, :year,
             :referer, :start_date, presence: true
 
   def full_name
     "#{first_name} #{last_name}"
+  end
+
+  def spam
+    spam?.to_s
   end
 
   def spam?
