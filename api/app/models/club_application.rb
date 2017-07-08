@@ -104,7 +104,7 @@ class ClubApplication < ApplicationRecord
   end
 
   def spam?
-    false
+    ClubApplicationSpamService.new.spam? self
   end
 end
 # rubocop:enable Metrics/ClassLength
