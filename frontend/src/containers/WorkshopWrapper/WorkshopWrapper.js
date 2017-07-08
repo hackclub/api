@@ -14,8 +14,8 @@ class WorkshopWrapper extends Component {
   constructor(props) {
     super(props)
 
-    var rootUrl = baseUrl
-    var extendedUrl = baseUrl + '/' + props.routeParams.splat
+    var rootUrl = baseUrl + 'README.md'
+    var extendedUrl = baseUrl + props.routeParams.splat
     var url = (props.routeParams.splat ? extendedUrl : rootUrl)
 
     this.requestWorkshop(url)
@@ -23,27 +23,22 @@ class WorkshopWrapper extends Component {
 
   requestWorkshop(url) {
     Axios.get(url)
-      .then(resp => this.placeWorkshop(resp.data))
+      .then(resp => this.placeWorkshop(resp.data, url))
       .catch(e => this.handleError(e, url))
   }
 
-  placeWorkshop(data) {
+  placeWorkshop(data, url) {
     this.setState({
       notFound: false,
-      markdown: data
+      markdown: data,
+      workshopUrl: url
     })
   }
 
   handleError(e, url) {
-    var isNotFound = e.response.status === 404
-    var isNotReadme = /README.md$/.exec(e.request.responseURL) === null
-    if (isNotFound && isNotReadme) {
-      this.requestWorkshop(url + '/README.md')
-    } else {
-      this.setState({
-        notFound: true
-      })
-    }
+    this.setState({
+      notFound: true
+    })
   }
 
   getInitialState() {
@@ -56,7 +51,7 @@ class WorkshopWrapper extends Component {
     if (this.state.notFound === null) {
       return (<LoadingSpinner />)
     } else if(this.state.notFound === false) {
-      return (<Workshop markdown={this.state.markdown}/>)
+      return (<Workshop markdown={this.state.markdown} workshopUrl={this.state.workshopUrl} />)
     } else {
       return (<NotFound />)
     }

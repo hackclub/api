@@ -35,9 +35,29 @@ Marked.setOptions({
   }
 })
 
+const renderer = new Marked.Renderer();
+
 class Workshop extends Component {
   createWorkshop() {
-    return {__html: Marked(this.props.markdown)}
+    renderer.link = (href, title, text) => {
+        var isRelativeLink = !/^(http|https):\/\//.test(href)
+        if (isRelativeLink) {
+            href = 'https://hackclub-dev.ngrok.io/workshops/' + href
+        }
+        return `<a href="${href}" title="${title}">${text}</a>`
+    }
+
+    renderer.image = (href, title, text) => {
+      var isRelativeLink = !/^(http|https):\/\//.test(href)
+      if (isRelativeLink) {
+        href = this.props.workshopUrl.replace(/([^/]*)$/, href)
+      }
+      return `<img src="${href}" title="${title}" alt="${text}" />`
+    }
+
+    var html = Marked(this.props.markdown, { renderer: renderer })
+
+    return {__html: html}
   }
 
   render() {
