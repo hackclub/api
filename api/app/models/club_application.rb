@@ -95,7 +95,7 @@ class ClubApplication < ApplicationRecord
     }
   )
 
-  streak_read_only key: '1021', sym: :spam
+  streak_read_only spam: '1021'
 
   validates :first_name, :last_name, :email, :high_school,
             :interesting_project, :systems_hacked, :steps_taken, :year,

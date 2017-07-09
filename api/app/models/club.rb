@@ -31,7 +31,7 @@ class Club < ApplicationRecord
     activation_date: '1015'
   )
 
-  streak_read_only key: '1012', sym: :point_of_contact_name
+  streak_read_only point_of_contact_name: '1012'
 
   geocode_attrs address: :address,
                 latitude: :latitude,

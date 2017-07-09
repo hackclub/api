@@ -37,13 +37,16 @@ module Streakable
       @stage_attribute = stage
     end
 
-    def streak_read_only(key:, sym:)
-      @field_mappings[sym] = key
+    def streak_read_only(mapping)
+      @field_mappings ||= {}
+      @field_mappings = @field_mappings.merge(mapping)
 
-      # Construct a setter out of the symbol
-      read_only = :"#{sym.to_s + '='}"
+      mapping.keys.each do |sym|
+        # Construct a setter out of the symbol
+        read_only = :"#{sym.to_s + '='}"
 
-      define_method(read_only) { |_| nil }
+        define_method(read_only) { |_| nil }
+      end
     end
   end
 
