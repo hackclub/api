@@ -5,11 +5,12 @@ import { connect } from 'react-redux'
 import * as applyActions from '../../redux/modules/apply'
 import { SubmissionError } from 'redux-form'
 
+import ApplyInfo from './ApplyInfo/ApplyInfo'
+import ApplyHeading from './ApplyHeading/ApplyHeading'
+
 import {
-  Heading,
   NavBar,
   Container,
-  Link,
   ApplicationForm,
   Card
 } from '../../components'
@@ -46,38 +47,6 @@ const styles = {
     marginLeft: 'auto',
     marginRight: 'auto',
     maxWidth: '1000px'
-  }
-}
-
-const headingStyles = {
-  fontWeight: 'bolder',
-  fontSize: '26px',
-  [mediaQueries.mediumUp]: {
-    fontSize: '36px'
-  }
-}
-
-class ApplyHeading extends Component {
-  render() {
-    return (
-      <div>
-        <Heading style={headingStyles}>Apply to Start a Hack Club</Heading>
-      </div>
-    )
-  }
-}
-
-class ApplyInfo extends Component {
-  render() {
-    return (
-      <div>
-        <p>We're accepting applications all the time. It's great if your responses to these questions are over 3 sentences long, but make sure you don't write an essay!</p>
-
-        <br />
-
-        <p>Check out our <Link href="/example_applications">example applications</Link> if you want some help!</p>
-      </div>
-    )
   }
 }
 
