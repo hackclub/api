@@ -9,7 +9,8 @@ import {
   NotFound,
   OneOffFormWrapper,
   RedeemTechDomain,
-  StartPage
+  StartPage,
+  SlackInvite,
 } from './containers'
 
 import './styles'
@@ -21,6 +22,7 @@ export default (store) => {
       <Route path="apply" component={ApplyPage} />
 
       <Route component={OneOffFormWrapper}>
+        <Route path="slack_invite" component={SlackInvite} />
         <Route path="cloud9_setup" component={Cloud9Setup} />
         <Route path="hackbot/teams/new" component={HackbotNewTeam} />
         <Route path="intake" component={LeaderIntake} />

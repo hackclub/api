@@ -10,8 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170706060227) do
 
+ActiveRecord::Schema.define(version: 20170710141834) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -152,6 +152,12 @@ ActiveRecord::Schema.define(version: 20170706060227) do
     t.datetime "updated_at",   null: false
     t.text     "stage_key"
     t.index ["streak_key"], name: "index_letters_on_streak_key", using: :btree
+  end
+
+  create_table "slack_invites", force: :cascade do |t|
+    t.string   "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "tech_domain_redemptions", force: :cascade do |t|

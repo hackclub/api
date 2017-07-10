@@ -23,6 +23,7 @@ machine:
     HACKBOT_ADMINS: fake,admin,list
     STREAK_DEMO_USER_BOX_KEY: fake_streak_key
     GITHUB_BOT_ACCESS_TOKEN: fake_access_token
+    SLACK_ADMIN_ACCESS_TOKEN: fake_slack_access_token
 
     SMTP_ADDRESS: fake_smtp_address
     SMTP_PORT: fake_smtp_port
