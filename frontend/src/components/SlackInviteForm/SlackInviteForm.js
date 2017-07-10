@@ -9,11 +9,11 @@ import {
 import slackInviteValidation from './slackInviteValidation'
 
 class SlackInviteForm extends Component {
-  buttonState(status) {
+  buttonState() {
     const {
       submitting,
       invalid,
-      stats
+      status
     } = this.props
 
     if (invalid) {
