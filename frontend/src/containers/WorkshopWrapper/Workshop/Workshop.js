@@ -5,6 +5,7 @@ import Hljs from 'highlight.js'
 
 import brandPreferences from '../../../styles/colors'
 import './githubMarkdown.css'
+import './highlightjs.css'
 
 const styles = {
   '.markdown-body': {
