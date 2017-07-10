@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
     post 'leaders/intake'
     post 'cloud9/send_invite'
+    post 'slack/send_invite'
 
     resources :clubs
     resources :club_applications, only: [:create]
