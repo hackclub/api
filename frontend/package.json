@@ -3,8 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "react-scripts": "0.6.1",
-    "snyk": "^1.35.0"
+    "react-scripts": "0.6.1"
   },
   "dependencies": {
     "axios": "^0.16.2",
@@ -25,12 +24,16 @@
     "redux": "^3.6.0",
     "redux-form": "^6.1.0",
     "redux-thunk": "^2.1.0",
-    "superagent": "^2.3.0"
+    "superagent": "^2.3.0",
+    "snyk": "^1.36.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  }
+    "eject": "react-scripts eject",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
+  },
+  "snyk": true
 }
