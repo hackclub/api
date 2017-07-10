@@ -1,5 +1,5 @@
 class SlackInvite < ApplicationRecord
-  ACCESS_TOKEN=Rails.application.secrets.slack_admin_access_token
+  ACCESS_TOKEN = Rails.application.secrets.slack_admin_access_token
   UNIQUENESS_MESSAGE = 'invite already sent for this email'.freeze
 
   before_create :invite
@@ -8,9 +8,9 @@ class SlackInvite < ApplicationRecord
   def invite
     resp = SlackClient::Team.invite_user(email, ACCESS_TOKEN)
 
-    unless resp[:ok]
-      errors[:base] << "Slack API error: #{resp[:error]}"
-      throw :abort
-    end
+    return if resp[:ok]
+
+    errors[:base] << "Slack API error: #{resp[:error]}"
+    throw :abort
   end
 end
