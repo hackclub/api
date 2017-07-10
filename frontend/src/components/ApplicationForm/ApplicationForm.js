@@ -96,11 +96,11 @@ class ApplicationForm extends Component {
       <form style={style} onSubmit={handleSubmit}>
         <Subtitle>Information</Subtitle>
 
-        <Field name="first_name" label="First name" placeholder="Zaphod" component={TextField} />
-        <Field name="last_name" label="Last name" placeholder="Beeblebrox" component={TextField} />
-        <Field name="email" type="email" label="Preferred email" placeholder="zaphod@beeblebrox.com" component={TextField} />
+        <Field name="first_name" label="First name" placeholder="Fiona" component={TextField} />
+        <Field name="last_name" label="Last name" placeholder="Hackworth" component={TextField} />
+        <Field name="email" type="email" label="Preferred email" placeholder="fiona@hackworth.com" component={TextField} />
         <Field name="phone_number" label="Phone number" placeholder="(555) 555 5555" component={TextField} />
-        <Field name="high_school" label="High school" placeholder="Visalia High School" component={TextField} />
+        <Field name="high_school" label="High school" placeholder="Atlantis High School" component={TextField} />
 
         <Field name="year" label="When do you graduate high school?" component={SelectField}>
           <option value="9010">Other</option>
@@ -115,8 +115,8 @@ class ApplicationForm extends Component {
           <option value="9008">Graduated</option>
         </Field>
 
-        <Field name="github" label="GitHub" placeholder="Zaphod" component={TextField} />
-        <Field name="twitter" label="Twitter" placeholder="Zaphod" component={TextField} />
+        <Field name="github" label="GitHub" placeholder="FionaHackworth" component={TextField} />
+        <Field name="twitter" label="Twitter" placeholder="fionahack" component={TextField} />
 
         <Field name="start_date" label="When do you want to start your club?" component={SelectField}>
           { this.next12Months().map(month => {
