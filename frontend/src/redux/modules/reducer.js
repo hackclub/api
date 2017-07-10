@@ -3,6 +3,7 @@ import { routerReducer } from 'react-router-redux'
 
 import application from './application'
 import cloud9Setup from './cloud9Setup'
+import slackInvite from './slackInvite'
 import clubs from './clubs'
 import apply from './apply'
 import hackbot from './hackbot'
@@ -19,5 +20,6 @@ export default combineReducers({
   leaderIntake,
   techDomainRedemption,
   apply,
-  form
+  slackInvite,
+  form,
 })
