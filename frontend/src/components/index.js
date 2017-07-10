@@ -1,5 +1,6 @@
 export { default as ApplicationForm } from './ApplicationForm/ApplicationForm'
 export { default as Button } from './Button/Button'
+export { default as LoadingSpinner } from './LoadingSpinner/LoadingSpinner'
 export { default as Card } from './Card/Card'
 export { default as Cloud9SetupForm } from './Cloud9SetupForm/Cloud9SetupForm'
 export { default as Container } from './Container/Container'

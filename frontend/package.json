@@ -6,11 +6,14 @@
     "react-scripts": "0.6.1"
   },
   "dependencies": {
+    "axios": "^0.16.2",
     "better-react-spinkit": "^2.0.0-4",
     "color": "^0.11.3",
+    "highlight.js": "^9.12.0",
     "inline-style-prefixer": "^2.0.4",
     "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.16.5",
+    "marked": "^0.3.6",
     "radium": "^0.18.1",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
@@ -21,12 +24,16 @@
     "redux": "^3.6.0",
     "redux-form": "^6.1.0",
     "redux-thunk": "^2.1.0",
-    "superagent": "^2.3.0"
+    "superagent": "^2.3.0",
+    "snyk": "^1.36.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  }
+    "eject": "react-scripts eject",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
+  },
+  "snyk": true
 }

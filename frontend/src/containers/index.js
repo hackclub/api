@@ -1,4 +1,5 @@
 export { default as App } from './App/App'
+export { default as ApplyPage } from './ApplyPage/ApplyPage'
 export { default as Cloud9Setup } from './Cloud9Setup/Cloud9Setup'
 export { default as HackbotNewTeam } from './HackbotNewTeam/HackbotNewTeam'
 export { default as LeaderIntake } from './LeaderIntake/LeaderIntake'
@@ -7,4 +8,4 @@ export { default as OneOffFormWrapper } from './OneOffFormWrapper/OneOffFormWrap
 export { default as RedeemTechDomain } from './RedeemTechDomain/RedeemTechDomain'
 export { default as SlackInvite } from './SlackInvite/SlackInvite'
 export { default as StartPage } from './StartPage/StartPage'
-export { default as ApplyPage } from './ApplyPage/ApplyPage'
+export { default as WorkshopWrapper } from './WorkshopWrapper/WorkshopWrapper'
