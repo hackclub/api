@@ -4,6 +4,7 @@ import {
   App,
   ApplyPage,
   Cloud9Setup,
+  DonationPage,
   HackbotNewTeam,
   LeaderIntake,
   NotFound,
@@ -21,6 +22,7 @@ export default (store) => {
     <Route path="/" component={App}>
       <Route path="start" component={StartPage} />
       <Route path="apply" component={ApplyPage} />
+      <Route path="donate" component={DonationPage} />
 
       <Route path="workshops" component={WorkshopWrapper} />
       <Route path="workshops/*" component={WorkshopWrapper} />
