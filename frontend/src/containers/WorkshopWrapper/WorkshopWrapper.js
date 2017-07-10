@@ -31,14 +31,23 @@ class WorkshopWrapper extends Component {
     this.setState({
       notFound: false,
       markdown: data,
-      workshopUrl: url
+      imagesUrl: url
     })
   }
 
   handleError(e, url) {
-    this.setState({
-      notFound: true
-    })
+    var isNotFound = e.request && e.request.status === 404
+    var isNotReadme = !/README.md$/.test(url)
+
+    if (isNotFound && isNotReadme) {
+      url = `${url}/README.md`
+
+      this.requestWorkshop(url)
+    } else {
+      this.setState({
+          notFound: true
+      })
+    }
   }
 
   getInitialState() {
@@ -48,12 +57,14 @@ class WorkshopWrapper extends Component {
   }
 
   content() {
-    if (this.state.notFound === null) {
-      return (<LoadingSpinner />)
-    } else if(this.state.notFound === false) {
-      return (<Workshop markdown={this.state.markdown} workshopUrl={this.state.workshopUrl} />)
-    } else {
+    var { notFound, markdown, imagesUrl } = this.state
+
+    if (notFound === true) {
       return (<NotFound />)
+    } else if(notFound === false) {
+        return (<Workshop markdown={markdown} imagesUrl={imagesUrl} />)
+    } else {
+      return (<LoadingSpinner />)
     }
   }
 

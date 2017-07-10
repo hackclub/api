@@ -30,33 +30,29 @@ const styles = {
   }
 }
 
+const renderer = new Marked.Renderer();
+
 Marked.setOptions({
-  highlight: (code, lang, callback) => {
+  highlight: (code) => {
     return Hljs.highlightAuto(code).value
   }
 })
 
-const renderer = new Marked.Renderer();
-
 class Workshop extends Component {
   createWorkshop() {
-    renderer.link = (href, title, text) => {
-        var isRelativeLink = !/^(http|https):\/\//.test(href)
-        if (isRelativeLink) {
-            href = 'https://hackclub-dev.ngrok.io/workshops/' + href
-        }
-        return `<a href="${href}" title="${title}">${text}</a>`
-    }
+    var { imagesUrl, markdown } = this.props
 
     renderer.image = (href, title, text) => {
       var isRelativeLink = !/^(http|https):\/\//.test(href)
       if (isRelativeLink) {
-        href = this.props.workshopUrl.replace(/([^/]*)$/, href)
+        href = imagesUrl.replace(/([^/]*)$/, href)
       }
-      return `<img src="${href}" title="${title}" alt="${text}" />`
+      var titleAttr =  title ? `title="${title}"` : ''
+      var altAttr = text ? ` alt="${text}"` : ''
+      return `<img src="${href}"${titleAttr}${altAttr} />`
     }
 
-    var html = Marked(this.props.markdown, { renderer: renderer })
+    var html = Marked(markdown, { renderer: renderer })
 
     return {__html: html}
   }
