@@ -11,7 +11,7 @@ const styles = {
   textAlign: 'center',
   margin: '0 auto',
   animationName: rotateKeyframes,
-  animationDuration: '3s',
+  animationDuration: '1s',
   animationTimingFunction: 'linear',
   animationIterationCount: 'infinite',
 }
