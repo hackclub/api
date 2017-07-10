@@ -3,12 +3,24 @@ import Radium from 'radium'
 import Helmet from 'react-helmet'
 import Axios from 'axios'
 
+import { mediaQueries } from '../../styles/common'
 import { NavBar, LoadingSpinner } from '../../components'
 import { NotFound } from '../../containers'
 
 import Workshop from './Workshop/Workshop'
 
-const baseUrl = 'https://api.hackclub/v1/workshops/'
+const baseUrl = 'https://hackclub-api.ngrok.io/v1/workshops/'
+
+const styles = {
+  wrapper: {
+    margin: '10px auto',
+    padding: '1em',
+    [mediaQueries.mediumUp]: {
+      maxWidth: '75%',
+      width: '750px'
+    }
+  }
+}
 
 class WorkshopWrapper extends Component {
   constructor(props) {
@@ -73,7 +85,9 @@ class WorkshopWrapper extends Component {
       <div>
         <Helmet title={this.state.path || 'Workshops'} />
         <NavBar />
-        {this.content()}
+        <div style={styles.wrapper}>
+          {this.content()}
+        </div>
       </div>
     )
   }
