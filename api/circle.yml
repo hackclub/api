@@ -1,11 +1,8 @@
 machine:
-  services:
-    - postgresql
   environment:
     GOOGLE_MAPS_API_KEY: test_maps_api_key
     STREAK_CLUB_PIPELINE_KEY: clubs
     STREAK_LEADER_PIPELINE_KEY: leaders
-    STREAK_CLUB_APPLICATIONS_PIPELINE_KEY: club_applications
     STREAK_LETTER_PIPELINE_KEY: letters
     STREAK_API_KEY: test_api_key
     CLOUD9_USERNAME: test_username
@@ -23,21 +20,11 @@ machine:
     HACKBOT_ADMINS: fake,admin,list
     STREAK_DEMO_USER_BOX_KEY: fake_streak_key
     GITHUB_BOT_ACCESS_TOKEN: fake_access_token
-
-    SMTP_ADDRESS: fake_smtp_address
-    SMTP_PORT: fake_smtp_port
-    SMTP_USERNAME: fake_smtp_username
-    SMTP_PASSWORD: fake_smtp_password
-    SMTP_DOMAIN: fake_smtp_domain
-
-    DATABASE_URL: postgresql://ubuntu:@127.0.0.1:5432/circle_test
-dependencies:
-  override:
-    - cd api && bundle install
 test:
   override:
-    - cd api && bundle exec rubocop
-    - cd api && bundle exec rspec
+    - bundle exec rubocop
+    - bundle exec rspec
+
 deployment:
   production:
     branch: master
@@ -45,7 +32,6 @@ deployment:
       # CircleCI shallow clones by default. This fetches the remainder of the
       # repo's history. Heroku deploys will occasionally fail without this.
       - "[[ ! -s \"$(git rev-parse --git-dir)/shallow\" ]] || git fetch --unshallow"
-      - git subtree push --prefix api git@heroku.com:api-hackclub.git master
+      - git push git@heroku.com:api-hackclub.git $CIRCLE_SHA1:refs/heads/master
       - heroku run rake db:migrate --app api-hackclub:
           timeout: 400 # Deploys may take a long time
-      - git subtree push --prefix frontend git@heroku.com:frontend-hackclub.git master

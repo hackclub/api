@@ -28,9 +28,10 @@ class Club < ApplicationRecord
         'Hack Camp' => '9010'
       }
     },
-    point_of_contact_name: '1012',
     activation_date: '1015'
   )
+
+  streak_read_only point_of_contact_name: '1012'
 
   geocode_attrs address: :address,
                 latitude: :latitude,
@@ -60,13 +61,6 @@ class Club < ApplicationRecord
 
   def dormant?
     stage_key == DORMANT_STAGE
-  end
-
-  # This setter prevents the point of contact name from being set from Streak.
-  # The point of contact should only be changed in the database, which will
-  # update the Streak pipeline.
-  def point_of_contact_name=(_)
-    nil
   end
 
   def make_active
