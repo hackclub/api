@@ -2,14 +2,14 @@ import React from 'react'
 import { Route } from 'react-router'
 import {
   App,
+  ApplyPage,
   Cloud9Setup,
   HackbotNewTeam,
   LeaderIntake,
   NotFound,
   OneOffFormWrapper,
   RedeemTechDomain,
-  StartPage,
-  ApplyPage
+  StartPage
 } from './containers'
 
 import './styles'
