@@ -42,18 +42,18 @@ class SlackInvite extends Component {
   handleSubmit(values) {
     const { submit } = this.props
 
-    return submit(values.email).
-      catch(error => {
+    return submit(values.email)
+      .catch(error => {
         throw new SubmissionError(error.errors)
       })
   }
 
   render() {
+    const { status } = this.props
+
     const emoji = status === "success" ?
       "sun_behind_cloud" :
       "cloud"
-
-    const { status } = this.props
 
     return (
       <div>
