@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   namespace :v1 do
     get 'ping', to: 'ping#ping'
+    get 'workshops/*all', constraints: { all: /.*/ }, to: 'workshops#workshops'
 
     post 'leaders/intake'
     post 'cloud9/send_invite'
