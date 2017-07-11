@@ -9,7 +9,7 @@ import { NotFound } from '../../containers'
 
 import Workshop from './Workshop/Workshop'
 
-const baseUrl = 'https:/api.hackclub.com/v1/workshops/'
+const baseUrl = 'https://api.hackclub.com/v1/workshops/'
 
 const styles = {
   wrapper: {
