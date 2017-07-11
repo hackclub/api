@@ -14,6 +14,7 @@ giant_notice() {
 
   local text_len=${#text}
   
+  # see https://stackoverflow.com/a/5799353
   local hr=$(printf "%-${text_len}s" "=" | sed 's/ /=/g')
 
   cat <<EOF
