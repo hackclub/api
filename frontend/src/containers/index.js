@@ -8,4 +8,5 @@ export { default as OneOffFormWrapper } from './OneOffFormWrapper/OneOffFormWrap
 export { default as RedeemTechDomain } from './RedeemTechDomain/RedeemTechDomain'
 export { default as SlackInvite } from './SlackInvite/SlackInvite'
 export { default as StartPage } from './StartPage/StartPage'
+export { default as TeamPage } from './TeamPage/TeamPage'
 export { default as WorkshopWrapper } from './WorkshopWrapper/WorkshopWrapper'
