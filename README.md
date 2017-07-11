@@ -18,6 +18,7 @@
 docker-compose build
 docker-compose run api bundle
 docker-compose run api rails db:create db:migrate
+docker-compose run frontend yarn
 docker-compose up
 ```
 
