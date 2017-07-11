@@ -1,0 +1,124 @@
+#!/bin/sh
+#
+# must be run from repository root. deploys api/ and frontend/ to heroku.
+#
+# couple notes:
+#
+# - since this creates history for any subdirectories that have submodules in
+#   them, this'll create new deployments on every run because it does a force
+#   push
+# - submodules must be initialized for this script to work
+
+giant_notice() {
+  local text="$1"
+
+  local text_len=${#text}
+  
+  # see https://stackoverflow.com/a/5799353
+  local hr=$(printf "%-${text_len}s" "=" | sed 's/ /=/g')
+
+  cat <<EOF
+
+${hr}
+${text}
+${hr}
+
+EOF
+}
+
+# override to supress output
+pushd() {
+  command pushd "$@" > /dev/null
+}
+
+# override to supress output
+popd() {
+  command popd "$@" > /dev/null
+}
+
+list_submodules() {
+  # from https://stackoverflow.com/a/17157444
+  grep path .gitmodules | sed 's/.*= //'
+}
+
+get_submodule_path() {
+  local submodule_name="$1"
+
+  git config --file .gitmodules --get "submodule.${submodule_name}.path"
+}
+
+get_submodule_url() {
+  local submodule_name="$1"
+
+  git config --file .gitmodules --get "submodule.${submodule_name}.url"
+}
+
+# must include trailing slash for dir (ex. "frontend/", not "frontend"). also do
+# "frontend/", not "./frontend/".
+deploy_dir() {
+  local dir="$1"
+  local remote="$2"
+  local ref="$3"
+
+  # init submodules in case they aren't already initialized
+  git submodule init && git submodule update
+
+  # set up local dir to push to
+  local tmp_bare="$(mktemp -d)"
+
+  git init --bare "$tmp_bare"
+
+  # push subtree
+  git subtree push --prefix "$dir" "$tmp_bare" "$ref"
+
+  #
+  # pull from the local dir into temp project, generate .gitmodules, push to
+  # remote
+  #
+
+  local tmp_proj="$(mktemp -d)"
+
+  git clone "$tmp_bare" "$tmp_proj"
+
+  for submodule in $( list_submodules | grep "^${dir}" ); do
+    local submodule_path=$(get_submodule_path "$submodule")
+    local submodule_url=$(get_submodule_url "$submodule")
+
+    # remove $dir from the beginning of the submodule's path. see
+    # https://stackoverflow.com/a/16623897.
+    local resolved_path=${submodule_path#"$dir"}
+
+    pushd "$tmp_proj"
+
+    # generate .gitmodules for the subtree
+    cat <<EOT >> .gitmodules
+[submodule "${submodule}"]
+	path = ${resolved_path}
+	url = ${submodule_url}
+EOT
+
+    git add .gitmodules
+    git commit -m "Add ${submodule} to .gitmodules"
+
+    popd
+  done
+
+  pushd "${tmp_proj}"
+
+  # unfortunately must use force because we write new history each time we
+  # generate .gitmodules
+  git push "$remote" "$ref" --force 
+
+  popd
+
+  # clean up everything
+  rm -rf "$tmp_bare"
+  rm -rf "$tmp_proj"
+}
+
+giant_notice "Deploying API"
+deploy_dir "api/" "git@heroku.com:api-hackclub.git" "master"
+heroku run rake db:migrate --app api-hackclub
+
+giant_notice "Deploying Frontend"
+deploy_dir "frontend/" "git@heroku.com:frontend-hackclub.git" "master"
