@@ -1,7 +1,7 @@
 module Hackbot
   module Interactions
     class UpdateWorkshops < AdminCommand
-      REPO_TO_UPDATE = 'hackclub/lecture-hall'.freeze
+      REPO_TO_UPDATE = 'hackclub/monolith'.freeze
 
       TRIGGER = /update-workshops/
 
