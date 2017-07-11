@@ -26,14 +26,21 @@ ${hr}
 EOF
 }
 
-# override to supress output
+# had to make custom implementations of pushd and popd because they're not
+# available on circleci. these are super limited and only support one layer of
+# directories and can't support more than a single "session".
 pushd() {
-  command pushd "$@" > /dev/null
+  pwd > /tmp/custom_dir_stack
+
+  cd "$1"
 }
 
-# override to supress output
 popd() {
-  command popd "$@" > /dev/null
+  local last_dir="$(cat /tmp/custom_dir_stack)"
+
+  cd "$last_dir"
+
+  rm /tmp/custom_dir_stack
 }
 
 list_submodules() {
