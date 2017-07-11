@@ -6,6 +6,7 @@ import { NavBar, Header, Heading, Button, Card, HorizontalRule, Emoji } from '..
 
 import { mediaQueries } from '../../styles/common'
 import colors from '../../styles/colors'
+import config from '../../config'
 
 const styles = {
   card: {
@@ -51,8 +52,6 @@ class Cards extends React.Component {
   constructor(props) {
     super(props);
 
-    console.log(props)
-
     this.state = {
       loading: true,
       stripeLoading: true,
@@ -86,7 +85,7 @@ class Cards extends React.Component {
   startStripe(e) {
     this.loadStripe(() => {
       this.stripeHandler = window.StripeCheckout.configure({
-        key: 'pk_test_yw3YYp18HpZD1j0sR4un7h2N',
+        key: config.stripePublishableKey,
         image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
         locale: 'auto',
         amount: this.amountInCents(),
@@ -102,15 +101,17 @@ class Cards extends React.Component {
 
           this.setState({status: 'loading'})
 
-          fetch('http://localhost:3000/v1/donations', {method: 'post', body: data })
+          fetch(config.apiBaseUrl + '/v1/donations', {method: 'post', body: data })
             .then(resp => {
               return resp.json()
             }).then(data => {
               if (data.donation_successful) {
-                console.log(data)
-
                 this.setState({status: 'done'})
+              } else {
+                this.setState({status: 'error'})
               }
+            }).catch( () => {
+                this.setState({status: 'error'})
             })
         }
       });
@@ -165,6 +166,8 @@ class Cards extends React.Component {
       return <span><Emoji type="grinning_face"/>Done! Thanks for your donation</span>
     } else if (this.state.status == "loading") {
       return <ThreeBounce size={15} color={colors.bg} />
+    } else if (this.state.status == "error") {
+      return 'Something went wrong! Try again soon.'
     } else {
       return `Donate $${this.state.amount}!`
     }
