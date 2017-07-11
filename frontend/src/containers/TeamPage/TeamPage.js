@@ -26,7 +26,7 @@ class TeamPage extends Component {
         <Helmet title="Team" />
         <NavBar />
 
-        <iframe ref="iframe" style={styles.iframe} src="/staticPage/team"/>
+        <iframe ref="iframe" style={styles.iframe} src="/staticPage/team/index.html" />
       </div>
     )
   }
