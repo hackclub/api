@@ -48,11 +48,5 @@ deployment:
       # CircleCI shallow clones by default. This fetches the remainder of the
       # repo's history. Heroku deploys will occasionally fail without this.
       - "[[ ! -s \"$(git rev-parse --git-dir)/shallow\" ]] || git fetch --unshallow"
-      - git subtree push --prefix frontend git@heroku.com:frontend-hackclub.git master
-      - git submodule init
-      - git submodule update --depth 1
-      - git add --all
-      - git commit -m "CircleCI autocommit to add submodule files"
-      - git subtree push --prefix api git@heroku.com:api-hackclub.git master
-      - heroku run rake db:migrate --app api-hackclub:
-          timeout: 400 # Deploys may take a long time
+      - ./bin/deploy:
+          timeout: 600 # Deploys may take a long time
