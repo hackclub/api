@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     resources :clubs
     resources :club_applications, only: [:create]
     resources :tech_domain_redemptions, only: [:create]
+    resources :donations, only: [:create]
 
     namespace :hackbot do
       post 'auth', to: 'auth#create'

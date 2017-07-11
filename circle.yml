@@ -24,12 +24,13 @@ machine:
     STREAK_DEMO_USER_BOX_KEY: fake_streak_key
     GITHUB_BOT_ACCESS_TOKEN: fake_access_token
     SLACK_ADMIN_ACCESS_TOKEN: fake_slack_access_token
-
     SMTP_ADDRESS: fake_smtp_address
     SMTP_PORT: fake_smtp_port
     SMTP_USERNAME: fake_smtp_username
     SMTP_PASSWORD: fake_smtp_password
     SMTP_DOMAIN: fake_smtp_domain
+    STRIPE_PUBLISHABLE_KEY: fake_public_key
+    STRIPE_SECRET_KEY: fake_secret_key
 
     DATABASE_URL: postgresql://ubuntu:@127.0.0.1:5432/circle_test
 dependencies:
