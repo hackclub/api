@@ -80,7 +80,7 @@ deploy_dir() {
 
   git clone "$tmp_bare" "$tmp_proj"
 
-  for submodule in $( list_submodules | grep "$dir" ); do
+  for submodule in $( list_submodules | grep "^${dir}" ); do
     local submodule_path=$(get_submodule_path "$submodule")
     local submodule_url=$(get_submodule_url "$submodule")
 
