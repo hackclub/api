@@ -39,6 +39,39 @@ const styles = {
     borderRadius: '3px',
     border: `1px solid ${colors.outline}`
   },
+  label: {
+    display: 'block',
+    marginBottom: '5px',
+    fontSize: '18px',
+    fontWeight: '600'
+  },
+  inlineLabel: {
+    display: 'inline'
+  },
+  donateTier: {
+    transition: 'all .25s',
+
+    backgroundColor: 'rgb(225, 225, 225)', // colors.lightGray,
+
+    padding: '15px',
+    marginRight: '15px',
+
+    fontFamily: 'inherit',
+    fontSize: '20px',
+    fontWeight: '400',
+    color: colors.darkGray,
+
+    border: 'none',
+
+    cursor: 'pointer',
+  },
+  donateTierActive: {
+    color: colors.bg,
+    backgroundColor: colors.primary,
+  },
+  donateAmountOptions: {
+    paddingBottom: '10px'
+  },
   donateButton: {
     marginTop: '30px'
   },
@@ -55,15 +88,18 @@ class Cards extends React.Component {
     this.state = {
       loading: true,
       stripeLoading: true,
-      amount: 25,
-      recurring: false
+      amount: 50,
+      recurring: true,
+      custom: false
     };
+
     // onStripeUpdate must be bound or else clicking on button will produce error.
     this.onStripeUpdate = this.onStripeUpdate.bind(this);
     // binding loadStripe as a best practice, not doing so does not seem to cause error.
     this.loadStripe = this.loadStripe.bind(this);
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.handleRecurringChange = this.handleRecurringChange.bind(this)
+    this.setCustom = this.setCustom.bind(this)
     this.pay = this.pay.bind(this);
   }
 
@@ -169,27 +205,88 @@ class Cards extends React.Component {
     } else if (this.state.status == "error") {
       return 'Something went wrong! Try again soon.'
     } else {
-      return `Donate $${this.state.amount}!`
+      let msg = `Donate $${this.state.amount}`
+
+      if (this.state.recurring) {
+        msg = `${msg} a month`
+      }
+
+      return msg + '!'
     }
+  }
+
+  setAmount(amount) {
+    return (v) => {
+      this.setState({ amount, custom: false })
+    }
+  }
+
+  setCustom() {
+    this.setState({ custom: true })
+  }
+
+  renderCustomAmount() {
+    if (this.state.custom) {
+      return <input
+        name="amount"
+        type="number"
+        value={this.state.amount}
+        onChange={this.handleAmountChange}
+        style={styles.input}
+        min="1"
+        step="1" />
+    }
+  }
+
+  renderDonationTier(amount) {
+    const active = this.state.amount == amount && !this.state.custom
+
+    return <button
+              style={[styles.donateTier, active ? styles.donateTierActive : {}]}
+              onClick={this.setAmount(amount)}>
+
+           ${amount}
+
+           </button>
   }
 
   render() {
     const { stripeLoading, loading } = this.state;
+
     return (
       <div>
-        <label htmlFor="amount">Amount</label>
-        <input name="amount" type="number" value={this.state.amount} onChange={this.handleAmountChange} style={styles.input} min="1" step="1"/>
+        <div style={styles.donateAmountOptions}>
+        { this.renderDonationTier(15) }
+        { this.renderDonationTier(50) }
+        { this.renderDonationTier(150) }
+        { this.renderDonationTier(300) }
+
+        <button
+          style={[styles.donateTier, this.state.custom ? styles.donateTierActive : {}]}
+          onClick={this.setCustom}>
+          Custom
+        </button>
+        </div>
+
+        { this.renderCustomAmount() }
+
+
         <br />
 
-        <label htmlFor="recurring">Monthly payment?</label>
+        <label style={[styles.label, styles.inlineLabel]} htmlFor="recurring">Monthly payment?</label>
         <input name="recurring" type="checkbox" value={this.state.recurring} onChange={this.handleRecurringChange} />
         <br />
+        <br />
+
+        <p style={styles.taxDeductible}>Your contribution is tax deductible!</p>
 
         <Button style={styles.donateButton} onClick={this.pay} type='link'>{this.buttonText()}</Button>
       </div>
     );
   }
 }
+
+const PayWithStripe = Radium(Cards)
 
 class Donations extends Component {
   render() {
@@ -208,7 +305,7 @@ class Donations extends Component {
 
           <HorizontalRule style={styles.rule} />
 
-          <Cards/>
+          <PayWithStripe />
         </Card>
       </div>
     )
