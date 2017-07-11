@@ -6,6 +6,13 @@ ignore:
     - eslint > shelljs:
         reason: None given
         expires: '2017-08-09T19:03:09.576Z'
+  'npm:marked:20170112':
+    - jest > jest-cli > node-notifier > cli-usage > marked:
+        reason: None given
+        expires: '2017-08-10T02:58:26.049Z'
+      cli-usage > marked:
+        reason: None given
+        expires: '2017-08-10T03:21:12.496Z'
 # patches apply the minimum changes required to fix a vulnerability
 patch:
   'npm:ms:20170412':
