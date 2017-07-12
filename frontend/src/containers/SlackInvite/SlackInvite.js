@@ -51,9 +51,16 @@ class SlackInvite extends Component {
   render() {
     const { status } = this.props
 
-    const emoji = status === "success" ?
-      "sun_behind_cloud" :
-      "cloud"
+    const emoji = (function() {
+      switch(status) {
+        case "success":
+          return "slightly_smiling_face"
+        case "error":
+          return "slightly_frowning_face"
+        default:
+          return "face_without_mouth"
+      }
+    })()
 
     return (
       <div>
