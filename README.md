@@ -30,6 +30,7 @@ Create a file called `./frontend/.env` with the following contents, replacing "R
 ```
 REACT_APP_API_BASE_URL=REPLACEME
 REACT_APP_SLACK_CLIENT_ID=REPLACEME
+REACT_APP_STRIPE_PUBLISHABLE_KEY=REPLACEME
 ```
 
 ## API Configuration
@@ -112,6 +113,10 @@ GIPHY_API_KEY
 
 # Access token with all scopes enabled for the GitHub account to use as a bot.
 GITHUB_BOT_ACCESS_TOKEN
+
+# Credentials to a Stripe account
+STRIPE_PUBLISHABLE_KEY
+STRIPE_SECRET_KEY
 ```
 
 ### Setting up the Slack App

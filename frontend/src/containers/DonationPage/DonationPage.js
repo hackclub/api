@@ -81,7 +81,7 @@ const styles = {
   }
 }
 
-class Cards extends React.Component {
+class Cards extends Component {
   constructor(props) {
     super(props);
 
