@@ -35,7 +35,7 @@ machine:
 dependencies:
   override:
     - git submodule init
-    - git submodule update --depth 1
+    - git submodule update
     - cd api && bundle install
 test:
   override:
