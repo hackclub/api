@@ -16,13 +16,13 @@ const styles = {
     height: '100%'
   },
   hamburgerIcon: {
-      borderStyle: 'solid',
-      borderWidth: '1px',
-      borderColor: colors.white,
-      borderRadius: '5px',
-      height: '1.8em',
-      margin: '10px',
-      padding: '10px'
+    borderStyle: 'solid',
+    borderWidth: '1px',
+    borderColor: colors.white,
+    borderRadius: '5px',
+    height: '1.8em',
+    margin: '10px',
+    padding: '10px'
   },
   image: {
     height: '40%'
