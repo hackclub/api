@@ -55,9 +55,9 @@ class MobileMenu extends Component {
     this.toggleMenuVisibility = this.toggleMenuVisibility.bind(this)
   }
 
-  renderButton(button) {
+  renderButton(button, i) {
     return (
-      <li style={styles.li}>
+      <li style={styles.li} key={i}>
         <Link to={button.to} style={[styles.links, button.style]}>
         {button.title}
         </Link>
@@ -75,7 +75,11 @@ class MobileMenu extends Component {
     return (
       <div style={styles.menu}>
         <ul>
-        { btns.map(btn => { return this.renderButton(btn) }) }
+          {
+            btns.map((btn, i) => {
+              return this.renderButton(btn, i)
+            })
+          }
         </ul>
       </div>
     )
