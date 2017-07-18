@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
 
-import spritesheet from './spritesheet.png'
-import './emoji.css'
-
 const styles = {
   width: '1.5em',
   height: '1.5em',
   marginTop: '-0.25em',
   display: 'inline-block',
+  backgroundSize: 'contain',
   color: 'transparent',
   overflow: 'hidden',
   textAlign: 'left',
@@ -19,17 +17,15 @@ const styles = {
 
 class Emoji extends Component {
   render() {
-    const emojiName = this.props.type.replace(/ /g, '_')
+    const { type } = this.props
 
     const backgroundStyle = {
-      backgroundImage: `url(${spritesheet})`,
-      width: '72px',
-      height: '72px'
+      backgroundImage: `url(${require(`./images/${type}.png`)})`
     }
 
     return (
-      <span className={`emoji-${emojiName}`} style={[styles,backgroundStyle,this.props.style]}>
-        {`:${emojiName}:`}
+      <span style={[styles,backgroundStyle,this.props.style]}>
+        {`:${type}:`}
       </span>
     )
   }
