@@ -7,7 +7,7 @@ import logo from './logo.svg'
 
 const styles = {
   container: {
-    justifyContent: 'flex-start',
+    justifyContent: 'flex-end',
     height: '100%',
     [mediaQueries.smallUp]: {
       display: 'none'
@@ -15,6 +15,9 @@ const styles = {
     [mediaQueries.mediumUp]: {
       display: 'flex'
     }
+  },
+  image: {
+    height: '40%'
   },
   links: {
     color: 'white',
@@ -28,8 +31,9 @@ const styles = {
       background: 'rgba(0,0,0,0.2)'
     }
   },
-  image: {
-    height: '40%'
+  logo: {
+    // https://www.w3.org/TR/css-flexbox-1/#auto-margins
+    marginRight: 'auto'
   }
 }
 
@@ -39,7 +43,7 @@ class DesktopMenu extends Component {
 
     return(
       <div style={styles.container}>
-        <Link to="/" style={styles.links}>
+        <Link to="/" style={[styles.links,styles.logo]}>
           <img src={logo} alt="Hack Club logo" style={styles.image} />
         </Link>
 
