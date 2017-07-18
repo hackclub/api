@@ -4,7 +4,7 @@ import { FullPageIframe } from '../../components'
 
 class HomePage extends Component {
   render() {
-    return (<FullPageIframe src="https://legacy.hackclub.com" />)
+    return (<FullPageIframe src="/staticPage/home/index.html" />)
   }
 }
 

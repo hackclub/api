@@ -9,10 +9,6 @@ const styles = {
 
 class App extends Component {
   render() {
-    if (!this.props.children) {
-      window.location = "https://hackclub.com"
-    }
-
     return (
       <div style={styles}>
         <Helmet {...config.app.head} />
