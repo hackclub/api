@@ -13,7 +13,7 @@ const styles = {
     backgroundColor: colors.primary,
     minHeight: '45px',
     marginLeft: 'auto',
-    marginRigth: 'auto',
+    marginRight: 'auto',
     [mediaQueries.mediumUp]: {
       margin: 0,
       height: '60px'
