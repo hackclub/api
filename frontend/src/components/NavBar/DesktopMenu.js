@@ -38,16 +38,24 @@ const styles = {
 }
 
 class DesktopMenu extends Component {
-  render(){
-    const buttons = this.props.navigationButtons
+  renderMenu() {
+    let btns = this.props.navigationButtons
 
-    return(
+    return (btns.map((btn, i) => {
+      return (
+        <Link key={i} to={btn.to} style={[styles.links,btn.style]}>{btn.title}</Link>
+      )
+    }))
+  }
+
+  render() {
+    return (
       <div style={styles.container}>
         <Link to="/" style={[styles.links,styles.logo]}>
-          <img src={logo} alt="Hack Club logo" style={styles.image} />
+        <img src={logo} alt="Hack Club logo" style={styles.image} />
         </Link>
 
-        { buttons.map(btn => { return <Link to={btn.to} style={[styles.links, btn.style]}>{btn.title}</Link>})}
+        { this.renderMenu() }
       </div>
     )
   }

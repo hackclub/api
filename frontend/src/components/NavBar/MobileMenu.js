@@ -4,7 +4,7 @@ import { mediaQueries } from '../../styles/common'
 import colors from '../../styles/colors'
 import { Link } from '../../components'
 
-import hamburgerIcon from './Hamburger.svg'
+import hamburgerIcon from './hamburger.svg'
 
 const styles = {
   container: {
@@ -13,30 +13,28 @@ const styles = {
     }
   },
   hamburger: {
-    height: '100%',
-    border: '1px solid green'
+    height: '100%'
   },
   hamburgerIcon: {
     height: '40%'
   },
-  menu: {
-    textAlign: 'center',
-    width: '100%',
-    backgroundColor: colors.disabled,
-    fontSize: '2em'
+  image: {
+    height: '40%'
   },
   links: {
-    color: colors.text,
+    color: colors.white,
     textDecoration: 'none',
     marginTop: '20px',
-    marginBottom: '20px',
-    border: '1px solid red'
+    marginBottom: '20px'
   },
   li: {
     marginTop: '20px'
   },
-  image: {
-    height: '40%'
+  menu: {
+    textAlign: 'center',
+    width: '100%',
+    backgroundColor: colors.primary,
+    fontSize: '2em'
   }
 }
 
@@ -52,11 +50,17 @@ class MobileMenu extends Component {
   }
 
   renderButton(button) {
-    return <li style={styles.li}><Link to={button.to} style={[styles.links, button.style]}>{button.title}</Link></li>
+    return (
+      <li style={styles.li}>
+        <Link to={button.to} style={[styles.links, button.style]}>
+        {button.title}
+        </Link>
+      </li>
+    )
   }
 
   renderMenu() {
-    let buttons = this.props.navigationButtons
+    let btns = this.props.navigationButtons
 
     if (!this.state.isMenuVisible) {
       return
@@ -65,7 +69,7 @@ class MobileMenu extends Component {
     return (
       <div style={styles.menu}>
         <ul>
-          { buttons.map(btn => { return this.renderButton(btn) }) }
+        { btns.map(btn => { return this.renderButton(btn) }) }
         </ul>
       </div>
     )
@@ -81,8 +85,8 @@ class MobileMenu extends Component {
     return(
       <div style={styles.container}>
         <div onClick={this.toggleMenuVisibility} style={styles.hamburger}>
-          <img src={hamburgerIcon} style={styles.hamburgerIcon} alt="Hamburger"/>
-          { this.renderMenu() }
+        <img src={hamburgerIcon} style={styles.hamburgerIcon} alt="Hamburger" />
+        { this.renderMenu() }
         </div>
       </div>
     )

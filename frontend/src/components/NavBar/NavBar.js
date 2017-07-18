@@ -39,7 +39,7 @@ const navigationButtons = [
     to: '/donate'
   },
   {
-    title: <p>Start a Hack Club <Emoji type="airplane_departure"/></p>,
+    title: <p>Start a Hack Club <Emoji type="airplane_departure" /></p>,
     to: '/start',
     style: {
       fontWeight: 'bold'
