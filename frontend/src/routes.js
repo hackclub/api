@@ -1,11 +1,12 @@
 import React from 'react'
-import { Route } from 'react-router'
+import { IndexRoute, Route } from 'react-router'
 import {
   App,
   ApplyPage,
   Cloud9Setup,
   DonationPage,
   HackbotNewTeam,
+  HomePage,
   LeaderIntake,
   NotFound,
   OneOffFormWrapper,
@@ -21,6 +22,7 @@ import './styles'
 export default (store) => {
   return (
     <Route path="/" component={App}>
+      <IndexRoute components={HomePage} />
       <Route path="start" component={StartPage} />
       <Route path="apply" component={ApplyPage} />
       <Route path="donate" component={DonationPage} />
