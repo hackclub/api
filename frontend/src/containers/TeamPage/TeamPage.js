@@ -13,6 +13,12 @@ class TeamPage extends Component {
   componentDidMount() {
     var iframe = this.refs.iframe
 
+    window.addEventListener('resize', () => {
+      var iframeScrollHeight = iframe.contentWindow.document.body.scrollHeight + 'px'
+
+      iframe.height = iframeScrollHeight
+    })
+
     iframe.addEventListener('load', () => {
       var iframeScrollHeight = iframe.contentWindow.document.body.scrollHeight + 'px'
 
