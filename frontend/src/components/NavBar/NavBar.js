@@ -11,11 +11,11 @@ import DesktopMenu from './DesktopMenu'
 const styles = {
   wrapper: {
     backgroundColor: colors.primary,
-    minHeight: '45px',
     marginLeft: 'auto',
     marginRight: 'auto',
     [mediaQueries.mediumUp]: {
       margin: 0,
+      minHeight: '45px',
       height: '60px'
     }
   },

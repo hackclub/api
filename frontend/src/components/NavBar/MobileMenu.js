@@ -16,16 +16,21 @@ const styles = {
     height: '100%'
   },
   hamburgerIcon: {
-    height: '40%'
+      border: '1px solid',
+      borderColor: colors.white,
+      borderRadius: '5px',
+      height: '1.8em',
+      margin: '10px',
+      padding: '10px'
   },
   image: {
     height: '40%'
   },
   links: {
     color: colors.white,
-    textDecoration: 'none',
+    marginBottom: '20px',
     marginTop: '20px',
-    marginBottom: '20px'
+    textDecoration: 'none'
   },
   li: {
     marginTop: '20px'
