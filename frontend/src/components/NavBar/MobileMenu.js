@@ -16,7 +16,8 @@ const styles = {
     height: '100%'
   },
   hamburgerIcon: {
-      border: '1px solid',
+      borderStyle: 'solid',
+      borderWidth: '1px',
       borderColor: colors.white,
       borderRadius: '5px',
       height: '1.8em',
