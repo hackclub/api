@@ -28,7 +28,8 @@ class Club < ApplicationRecord
         'Hack Camp' => '9010'
       }
     },
-    activation_date: '1015'
+    activation_date: '1015',
+    reason_of_death: '1018'
   )
 
   streak_read_only point_of_contact_name: '1012'
