@@ -88,6 +88,10 @@ STREAK_OUTREACH_TEACHER_PIPELINE_KEY
 SLACK_CLIENT_ID
 SLACK_CLIENT_SECRET
 
+# For Slack stats authentication
+SLACK_ADMIN_EMAIL
+SLACK_ADMIN_PASSWORD
+
 # Default Slack team ID (probably going to be T0266FRGM, which is Hack Club's
 # team)
 DEFAULT_SLACK_TEAM_ID
