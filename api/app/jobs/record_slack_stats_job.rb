@@ -8,7 +8,8 @@ class RecordSlackStatsJob < ApplicationJob
   SLACK_PASSWORD = Rails.application.secrets.slack_admin_password
 
   def perform
-    request_stats
+    stats = slack_stats
+    SlackAnalyticLog.create(data: stats)
   end
 
   private
@@ -70,7 +71,7 @@ class RecordSlackStatsJob < ApplicationJob
   end
 
   # rubocop:disable Metrics/MethodLength
-  def request_stats
+  def slack_stats
     @cookies ||= slack_auth_cookie
     @api_token ||= slack_api_token
 
