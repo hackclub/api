@@ -8,4 +8,9 @@ namespace :heroku_scheduler do
   task queue_update_hackbot_slack_username: :environment do
     UpdateHackbotSlackUsernameJob.perform_later
   end
+
+  desc 'Schedule RecordSlackStatsJob'
+  task queue_record_slack_stats: :environment do
+    RecordSlackStatsJob.perform_later
+  end
 end
