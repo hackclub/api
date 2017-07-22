@@ -45,8 +45,11 @@ class Workshop extends Component {
 
       renderer.link = (href, title, text) => {
           var isRelativeLink = !/^(http|https):\/\//.test(href)
+          var isHashLink = /^#/.test(href)
 
-          if (isRelativeLink) {
+          if (isHashLink) {
+              href = pathname + href
+          } else if (isRelativeLink) {
               var folderName = /.*\//.exec(pathname)[0]
               href = folderName + href
           }
