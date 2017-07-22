@@ -11,7 +11,6 @@
     - [Scheduled Jobs](#scheduled-jobs)
     - [Deployment on Heroku](#deployment-on-heroku)
 
-
 ## Setup
 
 ```sh
