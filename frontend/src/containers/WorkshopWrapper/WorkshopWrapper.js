@@ -70,11 +70,12 @@ class WorkshopWrapper extends Component {
 
   content() {
     var { notFound, markdown, imagesUrl } = this.state
+      var { location } = this.props
 
     if (notFound === true) {
       return (<NotFound />)
     } else if(notFound === false) {
-        return (<Workshop markdown={markdown} imagesUrl={imagesUrl} />)
+        return (<Workshop markdown={markdown} imagesUrl={imagesUrl} location={location} />)
     } else {
       return (<LoadingSpinner />)
     }
