@@ -41,23 +41,23 @@ Marked.setOptions({
 class Workshop extends Component {
   createWorkshop() {
     var { imagesUrl, location, markdown } = this.props
-      var pathname = location.pathname
+    var pathname = location.pathname
 
-      renderer.link = (href, title, text) => {
-          var isRelativeLink = !/^(http|https):\/\//.test(href)
-          var isHashLink = /^#/.test(href)
+    renderer.link = (href, title, text) => {
+      var isRelativeLink = !/^(http|https):\/\//.test(href)
+      var isHashLink = /^#/.test(href)
 
-          if (isHashLink) {
-              href = pathname + href
-          } else if (isRelativeLink) {
-              var folderName = /.*\//.exec(pathname)[0]
-              href = folderName + href
-          }
-
-          var titleAttr = (title ? `title="${title}"` : '')
-
-          return `<a href="${href}"${titleAttr}>${text}</a>`
+      if (isHashLink) {
+        href = pathname + href
+      } else if (isRelativeLink) {
+        var folderName = /.*\//.exec(pathname)[0]
+        href = folderName + href
       }
+
+      var titleAttr = (title ? `title="${title}"` : '')
+
+      return `<a href="${href}"${titleAttr}>${text}</a>`
+    }
 
     renderer.image = (href, title, text) => {
       var isRelativeLink = !/^(http|https):\/\//.test(href)
