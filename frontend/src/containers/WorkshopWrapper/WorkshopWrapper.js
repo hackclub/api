@@ -13,8 +13,12 @@ import Workshop from './Workshop/Workshop'
 const baseUrl = config.apiBaseUrl + '/v1/workshops/'
 
 const styles = {
-  wrapper: {
+  pageWrapper: {
+    height: '100%'
+  },
+  workshopWrapper: {
     margin: '10px auto',
+    height: '100%',
     padding: '1em',
     [mediaQueries.mediumUp]: {
       maxWidth: '75%',
@@ -84,10 +88,10 @@ class WorkshopWrapper extends Component {
 
   render() {
     return(
-      <div>
+      <div style={styles.pageWrapper}>
         <Helmet title={this.state.path || 'Workshops'} />
         <NavBar />
-        <div style={styles.wrapper}>
+        <div style={styles.workshopWrapper}>
           {this.content()}
         </div>
       </div>
