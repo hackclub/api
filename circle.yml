@@ -7,6 +7,7 @@ machine:
     STREAK_LEADER_PIPELINE_KEY: leaders
     STREAK_CLUB_APPLICATIONS_PIPELINE_KEY: club_applications
     STREAK_LETTER_PIPELINE_KEY: letters
+    STREAK_FUNDRAISING_PIPELINE_KEY: fundraising
     STREAK_API_KEY: test_api_key
     CLOUD9_USERNAME: test_username
     CLOUD9_PASSWORD: test_password
