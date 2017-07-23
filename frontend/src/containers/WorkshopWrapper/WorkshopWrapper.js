@@ -3,13 +3,14 @@ import Radium from 'radium'
 import Helmet from 'react-helmet'
 import Axios from 'axios'
 
+import config from '../../config'
 import { mediaQueries } from '../../styles/common'
 import { NavBar, LoadingSpinner } from '../../components'
 import { NotFound } from '../../containers'
 
 import Workshop from './Workshop/Workshop'
 
-const baseUrl = 'https://api.hackclub.com/v1/workshops/'
+const baseUrl = config.apiBaseUrl + '/v1/workshops/'
 
 const styles = {
   wrapper: {
