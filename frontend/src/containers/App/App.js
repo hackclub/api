@@ -3,7 +3,7 @@ import Helmet from 'react-helmet'
 import config from '../../config'
 
 const styles = {
-  minHeight: '100%',
+  height: '100%',
   fontFamily: "'Open Sans', sans-serif"
 }
 

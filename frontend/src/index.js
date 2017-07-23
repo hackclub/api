@@ -20,8 +20,8 @@ const component = (
 )
 
 const styleRootStyles = {
-  minHeight: '100%',
-  minWidth: '100%'
+  height: '100%',
+  width: '100%'
 }
 
 ReactDOM.render(
