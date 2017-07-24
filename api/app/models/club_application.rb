@@ -19,10 +19,6 @@ class ClubApplication < ApplicationRecord
     systems_hacked: '1016',
     steps_taken: '1017',
     referer: '1018',
-    start_date: {
-      key: '1008',
-      type: 'DATE'
-    },
     year: {
       key: '1020',
       type: 'DROPDOWN',
@@ -99,7 +95,7 @@ class ClubApplication < ApplicationRecord
 
   validates :first_name, :last_name, :email, :high_school,
             :interesting_project, :systems_hacked, :steps_taken, :year,
-            :referer, :start_date, presence: true
+            :referer, presence: true
 
   def full_name
     "#{first_name} #{last_name}"
