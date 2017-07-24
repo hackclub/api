@@ -88,13 +88,14 @@ class ClubApplication < ApplicationRecord
         'Matthew Email Campaign' => '9020',
         'Github Outreach—Hackathon Participant' => '9021'
       }
-    }
+    },
+    legacy_year: '1023'
   )
 
   streak_read_only spam: '1021'
 
   validates :first_name, :last_name, :email, :high_school,
-            :interesting_project, :systems_hacked, :steps_taken, :year,
+            :interesting_project, :systems_hacked, :steps_taken,
             :referer, presence: true
 
   def full_name
