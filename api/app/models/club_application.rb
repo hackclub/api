@@ -19,10 +19,6 @@ class ClubApplication < ApplicationRecord
     systems_hacked: '1016',
     steps_taken: '1017',
     referer: '1018',
-    start_date: {
-      key: '1008',
-      type: 'DATE'
-    },
     year: {
       key: '1020',
       type: 'DROPDOWN',
@@ -92,14 +88,15 @@ class ClubApplication < ApplicationRecord
         'Matthew Email Campaign' => '9020',
         'Github Outreach—Hackathon Participant' => '9021'
       }
-    }
+    },
+    legacy_year: '1023'
   )
 
   streak_read_only spam: '1021'
 
   validates :first_name, :last_name, :email, :high_school,
-            :interesting_project, :systems_hacked, :steps_taken, :year,
-            :referer, :start_date, presence: true
+            :interesting_project, :systems_hacked, :steps_taken,
+            :referer, presence: true
 
   def full_name
     "#{first_name} #{last_name}"

@@ -14,6 +14,8 @@
 ## Setup
 
 ```sh
+git submodule init
+git submodule update
 docker-compose build
 docker-compose run api bundle
 docker-compose run api rails db:create db:migrate

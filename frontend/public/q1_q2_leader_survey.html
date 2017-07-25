@@ -1,0 +1,218 @@
+<!--
+  This document contains the survey given to leaders who led clubs during Q1
+  and Q2. This'll be a temporary page that'll be removed once the survey is
+  over.
+
+  For any leaders reading this:
+
+  1. Cool.
+  2. This code is awful and I promise it's not representative of the rest of our
+     code.
+  3. Please don't mess with the s parameter. This lets us know if you've
+     submitted feedback so we can bug you if you don't (though we don't tie your
+     submission to your identifier, so feedback is still anonymous). If you
+     don't trust me when I say it's anonymous, read the JavaScript. Two separate
+     HTTP requests.
+  
+     You can easily submit multiple feedbacks with multiple fake identifiers and
+     this will ruin our day. Please, please do not do this, we're trusting you
+     on this one.
+-->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=2">
+    <title>Leader Survey</title>
+    <style>
+.nps_input {
+  display: grid;
+  grid-template-columns: 120px repeat(10, 25px) 120px;
+  grid-auto-rows: 5px;
+
+  margin-top: 35px;
+  margin-bottom: 70px;
+}
+
+.nps_input input {
+  margin-left: 7px;
+}
+
+.nps_input p {
+  text-align: center;
+}
+
+.nps_guiding_text {
+  display: inline-block;
+
+  margin: 0;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+textarea {
+  margin-top: -5px;
+  width: 475px;
+  height: 130px;
+}
+
+.question {
+  margin-top: 20px;
+}
+
+.submit_btn {
+  margin-top: 15px;
+}
+    </style>
+  </head>
+  <body style="width: 500px; margin: auto">
+    <h1>Q1 & Q2 Leader Survey</h1>
+
+    <form id="form">
+      <div>
+        <p class="question">
+        What is one way you would improve Hack Club if you had a month,
+        enough money to live, and all the time in the world?
+        </p>
+
+        <textarea name="one_thing_to_improve"></textarea>
+      </div>
+
+      <div>
+        <p class="question">
+        What is one thing Hack Club did particularly well this past
+        semester?
+        </p>
+
+        <textarea name="what_we_did_well"></textarea>
+      </div>
+
+      <div>
+        <p class="question">
+        Assuming you had a friend at another high school that was technical,
+        how likely is it that you would recommend starting a Hack Club to
+        them?
+        </p>
+
+        <div class="nps_input" style="margin-left: -10px;">
+          <p class="nps_guiding_text" style="text-align: right;">Not likely at all</p>
+          <input type="radio" name="nps" value="1" />
+          <input type="radio" name="nps" value="2" />
+          <input type="radio" name="nps" value="3" />
+          <input type="radio" name="nps" value="4" />
+          <input type="radio" name="nps" value="5" />
+          <input type="radio" name="nps" value="6" />
+          <input type="radio" name="nps" value="7" />
+          <input type="radio" name="nps" value="8" />
+          <input type="radio" name="nps" value="9" />
+          <input type="radio" name="nps" value="10" />
+          <p class="nps_guiding_text">Extremely likely</p>
+
+          <span></span>
+          <p>1</p>
+          <p>2</p>
+          <p>3</p>
+          <p>4</p>
+          <p>5</p>
+          <p>6</p>
+          <p>7</p>
+          <p>8</p>
+          <p>9</p>
+          <p>10</p>
+          <span></span>
+        </div>
+      </div>
+      <div>
+        <p class="question">
+        Anything else you want us to know about your experience this past
+        semester? (optional)
+        </p>
+
+        <textarea name="misc"></textarea>
+      </div>
+
+      <input type="submit" value="Submit" class="submit_btn" />
+    </form>
+    <script type="text/javascript">
+      // from https://stackoverflow.com/a/901144/1001686
+      function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+          results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+      }
+
+      const valuesUrl = 'https://hooks.zapier.com/hooks/catch/507705/5z3vu9/'
+      const markSentUrl = 'https://hooks.zapier.com/hooks/catch/507705/5z29gd/'
+
+      let form = document.getElementById('form')
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault()
+
+        let formData = new FormData(form)
+
+        const values = {
+          secret: getParameterByName('s'),
+          oneThingToImprove: formData.get('one_thing_to_improve'),
+          whatWeDidWell: formData.get('what_we_did_well'),
+          nps: formData.get('nps'),
+          misc: formData.get('misc')
+        }
+
+        const required = ['oneThingToImprove', 'whatWeDidWell', 'nps']
+
+        if (!values.secret) {
+          alert('You are missing your secret! Make sure to click the link you got in the email to get to this page.')
+          return
+        }
+
+        for(let i = 0; i < required.length; i++) {
+          let key = required[i]
+          let val = values[key]
+
+          if (!val) {
+            alert('You are missing a required form field! Not submitting.')
+            return
+          }
+        }
+
+        // Submit values
+        const valuesWithoutSecret = Object.assign({}, values)
+        delete valuesWithoutSecret.secret
+        fetch(valuesUrl, {
+          method: 'POST',
+          body: JSON.stringify(valuesWithoutSecret)
+        })
+          .then(function (resp) {
+            console.log('Feedback form submitted!')
+            alert('Successfully submitted!')
+
+            form.reset()
+          })
+          .catch(function (err) {
+            console.log(err)
+          })
+
+        // Tell server that you submitted your form (this does not tie your
+        // submission to you)
+        fetch(markSentUrl, {
+          method: 'POST',
+          body: JSON.stringify({secret: values.secret})
+        })
+          .then(function (resp) {
+            console.log('Marked as submitted!')
+          })
+          .catch(function (err) {
+            console.log(err)
+          })
+      })
+
+      // analytics
+if(!function(e){var t=!1;if("function"==typeof define&&define.amd&&(define(e),t=!0),"object"==typeof exports&&(module.exports=e(),t=!0),!t){var n=window.Cookies,r=window.Cookies=e();r.noConflict=function(){return window.Cookies=n,r}}}(function(){function e(){for(var e=0,t={};e<arguments.length;e++){var n=arguments[e];for(var r in n)t[r]=n[r]}return t}function t(n){function r(t,o,i){var c;if("undefined"!=typeof document){if(arguments.length>1){if(i=e({path:"/"},r.defaults,i),"number"==typeof i.expires){var s=new Date;s.setMilliseconds(s.getMilliseconds()+864e5*i.expires),i.expires=s}i.expires=i.expires?i.expires.toUTCString():"";try{c=JSON.stringify(o),/^[\{\[]/.test(c)&&(o=c)}catch(a){}o=n.write?n.write(o,t):encodeURIComponent(String(o)).replace(/%(23|24|26|2B|3A|3C|3E|3D|2F|3F|40|5B|5D|5E|60|7B|7D|7C)/g,decodeURIComponent),t=encodeURIComponent(String(t)),t=t.replace(/%(23|24|26|2B|5E|60|7C)/g,decodeURIComponent),t=t.replace(/[\(\)]/g,escape);var f="";for(var p in i)i[p]&&(f+="; "+p,i[p]!==!0&&(f+="="+i[p]));return document.cookie=t+"="+o+f}t||(c={});for(var u=document.cookie?document.cookie.split("; "):[],d=/(%[0-9A-Z]{2})+/g,l=0;l<u.length;l++){var g=u[l].split("="),m=g.slice(1).join("=");'"'===m.charAt(0)&&(m=m.slice(1,-1));try{var C=g[0].replace(d,decodeURIComponent);if(m=n.read?n.read(m,C):n(m,C)||m.replace(d,decodeURIComponent),this.json)try{m=JSON.parse(m)}catch(a){}if(t===C){c=m;break}t||(c[C]=m)}catch(a){}}return c}}return r.set=r,r.get=function(e){return r.call(r,e)},r.getJSON=function(){return r.apply({json:!0},[].slice.call(arguments))},r.defaults={},r.remove=function(t,n){r(t,"",e(n,{expires:-1}))},r.withConverter=t,r}return t(function(){})}),!Cookies.get("q1q2nps")){var secret=getParameterByName("s");secret&&Cookies.set("q1q2nps",secret)}getParameterByName=function(e,t){return Cookies.get("q1q2nps")};
+    </script>
+  </body>
+</html>
