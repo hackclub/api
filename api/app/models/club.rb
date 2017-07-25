@@ -43,10 +43,7 @@ class Club < ApplicationRecord
   belongs_to :point_of_contact, class_name: 'Leader'
   has_and_belongs_to_many :leaders
 
-  validates :name, presence: true
-  validates :address, presence: true
-  validates :latitude, presence: true
-  validates :longitude, presence: true
+  validates :name, :address, :latitude, :longitude, presence: true
 
   # This getter returns the point_of_contact_name.
   def point_of_contact_name
