@@ -26,4 +26,5 @@ RSpec.describe Leader, type: :model do
 
   it { should have_and_belong_to_many :clubs }
   it { should have_many :check_ins }
+  it { should have_many :net_promoter_score_surveys }
 end

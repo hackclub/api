@@ -49,6 +49,7 @@ class Leader < ApplicationRecord
   before_validation :slack_update
 
   has_many :check_ins
+  has_many :net_promoter_score_surveys
   has_and_belongs_to_many :clubs
 
   before_destroy do

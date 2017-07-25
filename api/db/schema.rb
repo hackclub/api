@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170724093659) do
+ActiveRecord::Schema.define(version: 20170725115736) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -163,6 +163,17 @@ ActiveRecord::Schema.define(version: 20170724093659) do
     t.index ["streak_key"], name: "index_letters_on_streak_key", using: :btree
   end
 
+  create_table "net_promoter_score_surveys", force: :cascade do |t|
+    t.integer  "score"
+    t.text     "could_improve"
+    t.text     "done_well"
+    t.text     "anything_else"
+    t.integer  "leader_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["leader_id"], name: "index_net_promoter_score_surveys_on_leader_id", using: :btree
+  end
+
   create_table "slack_analytic_logs", force: :cascade do |t|
     t.json     "data"
     t.datetime "created_at", null: false
@@ -186,4 +197,5 @@ ActiveRecord::Schema.define(version: 20170724093659) do
   add_foreign_key "check_ins", "clubs"
   add_foreign_key "check_ins", "leaders"
   add_foreign_key "clubs", "leaders", column: "point_of_contact_id"
+  add_foreign_key "net_promoter_score_surveys", "leaders"
 end
