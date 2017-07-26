@@ -44,22 +44,22 @@ module StreakClient
         headers[:params] = params
       end
 
-      do_cooldown { perform_request(method, url, headers, payload, cache) }
+      run_with_retry { perform_request(method, url, headers, payload, cache) }
     end
     # rubocop:enable Metrics/MethodLength
 
     private
 
     # rubocop:disable Metrics/MethodLength
-    def do_cooldown
+    def run_with_retry
       cooldown = 2
-      out = nil
+      result = nil
 
       # If the request fails retry again two minutes later, keep on doubling
       # cooldown until it succeeds or goes above 30 seconds.
-      until out
+      while result.nil?
         begin
-          out = yield
+          result = yield
         rescue RestClient::Exception => e
           cooldown *= 2
 
@@ -74,7 +74,7 @@ module StreakClient
         end
       end
 
-      out
+      result
     end
     # rubocop:enable Metrics/MethodLength
 
