@@ -94,9 +94,8 @@ class ClubApplication < ApplicationRecord
 
   streak_read_only spam: '1021'
 
-  validates :first_name, :last_name, :email, :high_school,
-            :interesting_project, :systems_hacked, :steps_taken,
-            :referer, presence: true
+  validates :first_name, :last_name, :email, :high_school, :interesting_project,
+            :systems_hacked, :steps_taken, :referer, presence: true
 
   def full_name
     "#{first_name} #{last_name}"
