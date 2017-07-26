@@ -108,6 +108,19 @@ ActiveRecord::Schema.define(version: 20170725115736) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "fundraising_deals", force: :cascade do |t|
+    t.text     "name"
+    t.text     "streak_key"
+    t.text     "stage_key"
+    t.integer  "commitment_amount"
+    t.integer  "amount_in_bank"
+    t.text     "source"
+    t.text     "notes"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.index ["streak_key"], name: "index_fundraising_deals_on_streak_key", using: :btree
+  end
+
   create_table "hackbot_interactions", force: :cascade do |t|
     t.text     "type"
     t.integer  "hackbot_team_id"
