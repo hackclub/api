@@ -19,8 +19,6 @@ module StreakClient
     end
 
     # rubocop:disable Metrics/MethodLength
-    # rubocop:disable Metrics/CyclomaticComplexity
-    # rubocop:disable Metrics/AbcSize
     def request(method, path, params = {}, headers = {}, cache = false,
                 json = true)
       payload = nil
@@ -30,6 +28,7 @@ module StreakClient
       headers['Authorization'] = construct_http_auth_header(@api_key, '')
 
       params = transform_params(params)
+      url = api_url(path)
 
       case method
       when :post
@@ -45,7 +44,42 @@ module StreakClient
         headers[:params] = params
       end
 
-      req = SentryRequestClient.new(method: method, url: api_url(path),
+      do_cooldown { perform_request(method, url, headers, payload, cache) }
+    end
+    # rubocop:enable Metrics/MethodLength
+
+    private
+
+    # rubocop:disable Metrics/MethodLength
+    def do_cooldown
+      cooldown = 2
+      out = nil
+
+      # If the request fails retry again two minutes later, keep on doubling
+      # cooldown until it succeeds or goes above 30 seconds.
+      until out
+        begin
+          out = yield
+        rescue RestClient::Exception => e
+          cooldown *= 2
+
+          raise e if cooldown > 30
+
+          Rails.logger.info("Failed Streak API request because of error #{e}. "\
+                            "Trying again in #{cooldown} seconds.")
+
+          Raven.extra_context(cooldown: cooldown)
+
+          sleep cooldown
+        end
+      end
+
+      out
+    end
+    # rubocop:enable Metrics/MethodLength
+
+    def perform_request(method, url, headers, payload, cache)
+      req = SentryRequestClient.new(method: method, url: url,
                                     headers: headers, payload: payload)
 
       resp = if cache
@@ -58,11 +92,6 @@ module StreakClient
 
       parse(resp)
     end
-    # rubocop:enable Metrics/AbcSize
-    # rubocop:enable Metrics/CyclomaticComplexity
-    # rubocop:enable Metrics/MethodLength
-
-    private
 
     def construct_http_auth_header(username, password)
       "Basic #{Base64.strict_encode64(username + ':' + password)}"
