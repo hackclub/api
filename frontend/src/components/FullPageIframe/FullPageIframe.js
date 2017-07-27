@@ -11,19 +11,16 @@ const styles = {
 
 class FullPageIframe extends Component {
   componentDidMount() {
-    var iframe = this.refs.iframe
+    const iframe = this.refs.iframe
 
-    window.addEventListener('resize', () => {
-      var iframeScrollHeight = iframe.contentWindow.document.body.scrollHeight + 'px'
+    const resizeFrame = () => {
+      const iframeScrollHeight = iframe.contentWindow.document.body.scrollHeight + 'px'
 
-      iframe.height = iframeScrollHeight
-    })
+      iframe.style.height = iframeScrollHeight
+    }
 
-    iframe.addEventListener('load', () => {
-      var iframeScrollHeight = iframe.contentWindow.document.body.scrollHeight + 'px'
-
-      iframe.height = iframeScrollHeight
-    })
+    window.addEventListener('resize', resizeFrame)
+    iframe.addEventListener('load', resizeFrame)
   }
 
   render() {
