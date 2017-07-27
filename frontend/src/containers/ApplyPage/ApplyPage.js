@@ -65,6 +65,8 @@ class Apply extends Component {
   }
 
   render() {
+    const status = this.props.status
+
     return (
       <div>
         <Helmet title="Apply" />
