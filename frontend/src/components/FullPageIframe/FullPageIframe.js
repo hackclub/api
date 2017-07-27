@@ -34,7 +34,7 @@ class FullPageIframe extends Component {
         <Helmet title={title} />
         <NavBar />
 
-        <iframe ref="iframe" style={styles.iframe} src={src} />
+        <iframe ref="iframe" style={styles.iframe} title={title} src={src} />
       </div>
     )
   }
