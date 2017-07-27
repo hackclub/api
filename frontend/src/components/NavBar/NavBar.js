@@ -3,8 +3,6 @@ import Radium from 'radium'
 import colors from '../../styles/colors'
 import { mediaQueries } from '../../styles/common'
 
-import { Emoji } from '../../components'
-
 import MobileMenu from './MobileMenu'
 import DesktopMenu from './DesktopMenu'
 
@@ -39,7 +37,7 @@ const navigationButtons = [
     to: '/donate'
   },
   {
-    title: <p>Start a Hack Club <Emoji type="airplane_departure" /></p>,
+    title: 'Start a Hack Club »',
     to: '/start',
     style: {
       fontWeight: 'bold'
