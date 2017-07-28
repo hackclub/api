@@ -16,6 +16,10 @@ class ClubApplicationMailer < ApplicationMailer
     to = Mail::Address.new 'team@hackclub.com'
     to.display_name = 'Hack Club Team'
 
-    mail(to: to.format, subject: @application.high_school)
+    subject = "Hack Club Application (#{@application.full_name}, "\
+      "#{@application.high_school})"
+
+    mail(to: to.format, reply_to: @application.mail_address.format,
+         subject: subject)
   end
 end
