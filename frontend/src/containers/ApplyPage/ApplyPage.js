@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Radium from 'radium'
 import Helmet from 'react-helmet'
 import { connect } from 'react-redux'
@@ -65,6 +66,8 @@ class Apply extends Component {
   }
 
   render() {
+    const status = this.props.status
+
     return (
       <div>
         <Helmet title="Apply" />

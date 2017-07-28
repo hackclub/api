@@ -11,19 +11,16 @@ const styles = {
 
 class FullPageIframe extends Component {
   componentDidMount() {
-    var iframe = this.refs.iframe
+    const iframe = this.refs.iframe
 
-    window.addEventListener('resize', () => {
-      var iframeScrollHeight = iframe.contentWindow.document.body.scrollHeight + 'px'
+    const resizeFrame = () => {
+      const iframeScrollHeight = iframe.contentWindow.document.body.scrollHeight + 'px'
 
-      iframe.height = iframeScrollHeight
-    })
+      iframe.style.height = iframeScrollHeight
+    }
 
-    iframe.addEventListener('load', () => {
-      var iframeScrollHeight = iframe.contentWindow.document.body.scrollHeight + 'px'
-
-      iframe.height = iframeScrollHeight
-    })
+    window.addEventListener('resize', resizeFrame)
+    iframe.addEventListener('load', resizeFrame)
   }
 
   render() {
@@ -34,7 +31,7 @@ class FullPageIframe extends Component {
         <Helmet title={title} />
         <NavBar />
 
-        <iframe ref="iframe" style={styles.iframe} src={src} />
+        <iframe ref="iframe" style={styles.iframe} title={title} src={src} />
       </div>
     )
   }

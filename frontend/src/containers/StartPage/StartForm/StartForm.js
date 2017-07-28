@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router'
 import {
   Button,
   Card,
@@ -61,10 +62,12 @@ class ApplyForm extends Component {
   }
 
   render() {
-    const { personType } = this.props
+    const { dispatch, personType, router } = this.props
 
     if (personType === personTypes.student) {
-      window.location = 'https://hackclub.com/apply'
+      router.push('/apply')
+      window.scrollTo(0, 0) // scroll to the top of the page
+      dispatch(preAppReset()) // clear the form
     }
 
     return (
@@ -82,4 +85,4 @@ const mapStateToProps = state => ({
   personType: state.application.preApplication.personType
 })
 
-export default connect(mapStateToProps)(ApplyForm)
+export default connect(mapStateToProps)(withRouter(ApplyForm))
