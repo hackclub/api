@@ -8,6 +8,20 @@ class ClubApplication < ApplicationRecord
 
   streak_default_field_mappings key: :streak_key, name: :high_school,
                                 notes: :notes, stage: :stage_key
+
+  YEARS = {
+    '2016' => '9007',
+    '2017' => '9006',
+    '2018' => '9005',
+    '2019' => '9004',
+    '2020' => '9003',
+    '2021' => '9002',
+    '2022' => '9001',
+    'Graduated' => '9008',
+    'Teacher' => '9009',
+    'Unknown' => '9010'
+  }
+
   streak_field_mappings(
     first_name: '1010',
     last_name: '1011',
@@ -22,18 +36,7 @@ class ClubApplication < ApplicationRecord
     year: {
       key: '1020',
       type: 'DROPDOWN',
-      options: {
-        '2016' => '9007',
-        '2017' => '9006',
-        '2018' => '9005',
-        '2019' => '9004',
-        '2020' => '9003',
-        '2021' => '9002',
-        '2022' => '9001',
-        'Graduated' => '9008',
-        'Teacher' => '9009',
-        'Unknown' => '9010'
-      }
+      options: YEARS,
     },
     application_quality: {
       key: '1009',
@@ -107,6 +110,18 @@ class ClubApplication < ApplicationRecord
 
   def spam?
     ClubApplicationSpamService.new.spam? self
+  end
+
+  def mail_address
+    expected = Mail::Address.new email
+    expected.display_name = full_name
+
+    expected
+  end
+
+  # Convert the Streak key into a human readable string, conversions as defined in pretty_year.
+  def pretty_year
+    YEARS.select {|_, v| v == year }.first[0]
   end
 end
 # rubocop:enable Metrics/ClassLength
