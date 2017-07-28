@@ -8,6 +8,7 @@ import hamburgerIcon from './hamburger.svg'
 
 const styles = {
   container: {
+    height: '100%',
     [mediaQueries.mediumUp]: {
       display: 'none'
     }
@@ -39,8 +40,9 @@ const styles = {
   menu: {
     textAlign: 'center',
     width: '100%',
-    backgroundColor: colors.primary,
-    fontSize: '2em'
+    fontSize: '2em',
+    position: 'relative',
+    bottom: '0.9em'
   }
 }
 
@@ -95,8 +97,8 @@ class MobileMenu extends Component {
     return(
       <div style={styles.container}>
         <div onClick={this.toggleMenuVisibility} style={styles.hamburger}>
-        <img src={hamburgerIcon} style={styles.hamburgerIcon} alt="Hamburger" />
-        { this.renderMenu() }
+          <img src={hamburgerIcon} style={styles.hamburgerIcon} alt="Hamburger" />
+          { this.renderMenu() }
         </div>
       </div>
     )
