@@ -34,7 +34,7 @@ const styles = {
     textDecoration: 'none'
   },
   li: {
-    marginTop: '20px'
+    marginBottom: '20px'
   },
   menu: {
     textAlign: 'center',
