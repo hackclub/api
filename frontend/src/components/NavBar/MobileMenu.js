@@ -1,105 +1,102 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
+import PropTypes from 'prop-types'
 import { mediaQueries } from '../../styles/common'
 import colors from '../../styles/colors'
 import { Link } from '../../components'
 
-import hamburgerIcon from './hamburger.svg'
+import burgerIcon from './burger.svg'
+import logo from './logo.svg'
 
 const styles = {
-  container: {
-    height: '100%',
+  wrapper: {
+    minHeight: '4.3em',
+    textAlign: 'center',
     [mediaQueries.mediumUp]: {
       display: 'none'
     }
   },
-  hamburger: {
-    height: '100%'
-  },
-  hamburgerIcon: {
-    borderStyle: 'solid',
-    borderWidth: '1px',
-    borderColor: colors.white,
-    borderRadius: '5px',
+  burgerButton: {
+    position: 'absolute',
+    top: '0',
+    left: '0',
     height: '1.8em',
-    margin: '10px',
-    padding: '10px'
-  },
-  image: {
-    height: '40%'
-  },
-  links: {
-    color: colors.white,
-    marginBottom: '20px',
-    marginTop: '20px',
-    textDecoration: 'none'
-  },
-  li: {
-    marginBottom: '20px'
+    width: '1.8em',
+    padding: '0.2em',
+    margin: '1em',
+    borderColor: colors.white,
+    borderRadius: '3px',
+    borderStyle: 'solid',
+    borderWidth: '0.05em'
   },
   menu: {
     textAlign: 'center',
-    width: '100%',
+    paddingTop: '1em',
+    paddingBottom: '1em',
+  },
+  links: {
     fontSize: '2em',
-    position: 'relative',
-    bottom: '0.9em'
+    color: 'white',
+    textDecoration: 'none',
+    display: 'block',
+    width: '100%',
+    paddingTop: '0.5em',
+    paddingBottom: '0.5em'
+  },
+  logo: {
+    height: '1.5em',
+    margin: '1.4em auto',
   }
 }
 
 class MobileMenu extends Component {
+  static propTypes = {
+    navigationButtons: PropTypes.array
+  }
+
   constructor(props) {
     super(props)
 
-    this.state = {
-      isMenuVisible: false
-    }
+    this.state = { isMenuVisible: false }
 
     this.toggleMenuVisibility = this.toggleMenuVisibility.bind(this)
   }
 
-  renderButton(button, i) {
-    return (
-      <li style={styles.li} key={i}>
-        <Link to={button.to} style={[styles.links, button.style]}>
-        {button.title}
-        </Link>
-      </li>
-    )
+  toggleMenuVisibility() {
+    this.setState({ isMenuVisible: !this.state.isMenuVisible })
   }
 
   renderMenu() {
-    let btns = this.props.navigationButtons
+    let { isMenuVisible } = this.state
+    let { navigationButtons } = this.props
 
-    if (!this.state.isMenuVisible) {
-      return
+    if (!isMenuVisible) {
+        return (<img src={logo} alt="Hack Club logo" style={styles.logo} />)
     }
 
-    return (
-      <div style={styles.menu}>
-        <ul>
-          {
-            btns.map((btn, i) => {
-              return this.renderButton(btn, i)
-            })
-          }
-        </ul>
-      </div>
-    )
-  }
-
-  toggleMenuVisibility() {
-    this.setState({
-      isMenuVisible: !this.state.isMenuVisible
-    })
-  }
-
-  render(){
-    return(
-      <div style={styles.container}>
-        <div onClick={this.toggleMenuVisibility} style={styles.hamburger}>
-          <img src={hamburgerIcon} style={styles.hamburgerIcon} alt="Hamburger" />
-          { this.renderMenu() }
+    return (navigationButtons.map((btn, i) => {
+      return (
+        <div style={styles.menu}>
+          <Link key={i}
+                to={btn.to}
+                style={[styles.links,btn.style]}
+          >
+            {btn.title}
+          </Link>
         </div>
+      )
+    }))
+  }
+
+  render() {
+    return (
+      <div style={styles.wrapper}>
+        <img src={burgerIcon}
+             style={styles.burgerButton}
+             onClick={this.toggleMenuVisibility}
+             alt="menu button"
+        />
+        {this.renderMenu()}
       </div>
     )
   }
