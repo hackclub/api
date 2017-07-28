@@ -20,7 +20,7 @@ class ClubApplication < ApplicationRecord
     'Graduated' => '9008',
     'Teacher' => '9009',
     'Unknown' => '9010'
-  }
+  }.freeze
 
   streak_field_mappings(
     first_name: '1010',
@@ -36,7 +36,7 @@ class ClubApplication < ApplicationRecord
     year: {
       key: '1020',
       type: 'DROPDOWN',
-      options: YEARS,
+      options: YEARS
     },
     application_quality: {
       key: '1009',
@@ -119,9 +119,10 @@ class ClubApplication < ApplicationRecord
     expected
   end
 
-  # Convert the Streak key into a human readable string, conversions as defined in pretty_year.
+  # Convert the Streak key into a human readable string, conversions as
+  # defined in pretty_year.
   def pretty_year
-    YEARS.select {|_, v| v == year }.first[0]
+    YEARS.select { |_, v| v == year }.first[0]
   end
 end
 # rubocop:enable Metrics/ClassLength
