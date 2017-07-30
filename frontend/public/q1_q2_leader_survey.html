@@ -146,17 +146,17 @@ textarea {
         return decodeURIComponent(results[2].replace(/\+/g, " "));
       }
 
-      const valuesUrl = 'https://hooks.zapier.com/hooks/catch/507705/5z3vu9/'
-      const markSentUrl = 'https://hooks.zapier.com/hooks/catch/507705/5z29gd/'
+      var valuesUrl = 'https://hooks.zapier.com/hooks/catch/507705/5z3vu9/'
+      var markSentUrl = 'https://hooks.zapier.com/hooks/catch/507705/5z29gd/'
 
-      let form = document.getElementById('form')
+      var form = document.getElementById('form')
 
       form.addEventListener('submit', function (e) {
         e.preventDefault()
 
-        let formData = new FormData(form)
+        var formData = new FormData(form)
 
-        const values = {
+        var values = {
           secret: getParameterByName('s'),
           oneThingToImprove: formData.get('one_thing_to_improve'),
           whatWeDidWell: formData.get('what_we_did_well'),
@@ -164,16 +164,16 @@ textarea {
           misc: formData.get('misc')
         }
 
-        const required = ['oneThingToImprove', 'whatWeDidWell', 'nps']
+        var required = ['oneThingToImprove', 'whatWeDidWell', 'nps']
 
         if (!values.secret) {
           alert('You are missing your secret! Make sure to click the link you got in the email to get to this page.')
           return
         }
 
-        for(let i = 0; i < required.length; i++) {
-          let key = required[i]
-          let val = values[key]
+        for(var i = 0; i < required.length; i++) {
+          var key = required[i]
+          var val = values[key]
 
           if (!val) {
             alert('You are missing a required form field! Not submitting.')
@@ -182,7 +182,7 @@ textarea {
         }
 
         // Submit values
-        const valuesWithoutSecret = Object.assign({}, values)
+        var valuesWithoutSecret = Object.assign({}, values)
         delete valuesWithoutSecret.secret
         fetch(valuesUrl, {
           method: 'POST',
