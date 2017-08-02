@@ -30,7 +30,10 @@ class Club < ApplicationRecord
     },
     activation_date: '1015',
     reason_of_death: '1018',
-    time_of_death: '1023'
+    time_of_death: {
+      key: '1023',
+      type: 'DATE'
+    }
   )
 
   streak_read_only point_of_contact_name: '1012'
