@@ -3,6 +3,8 @@ import Radium from 'radium'
 import Helmet from 'react-helmet'
 import { NavBar, Heading, Card, HorizontalRule, DonationForm } from '../../components'
 
+import image from './piano.jpg'
+
 const styles = {
   card: {
     marginTop: '80px',
@@ -12,17 +14,21 @@ const styles = {
     maxWidth: '1000px'
   },
   heading: {
-    fontSize: '2rem'
+    fontSize: '2.5rem'
   },
   subheading: {
+    marginTop: '15px',
     fontSize: '1.5rem'
   },
   info: {
-    marginBottom: '30px'
+    marginBottom: '15px'
   },
   rule: {
     marginBottom: '20px',
     marginTop: '10px'
+  },
+  banner: {
+    width: '100%'
   }
 }
 
@@ -38,6 +44,8 @@ class Donations extends Component {
         <Card style={styles.card}>
           <div style={styles.info}>
             <Heading style={styles.heading}>Hack Club brings free coding clubs to high schools worldwide</Heading>
+
+            <img style={styles.banner} src={image} />
 
             <p style={styles.subheading}>It costs us just $3 each month to support a student in Hack Club.</p>
           </div>

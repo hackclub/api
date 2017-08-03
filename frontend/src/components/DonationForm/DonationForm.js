@@ -60,9 +60,10 @@ const styles = {
     paddingBottom: '10px'
   },
   donateButton: {
-    marginTop: '30px'
+    marginTop: '15px'
   },
   isMonthly: {
+    marginTop: '5px',
     marginBottom: '10px'
   }
 }
