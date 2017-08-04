@@ -67,11 +67,12 @@ GOOGLE_MAPS_API_KEY
 # API key for Streak API. Must be an admin's key.
 STREAK_API_KEY
 
-# Keys for club, leader, letter, and fundraising pipelines in Streak
+# Keys for application, club, leader, letter, and fundraising pipelines in Streak
+STREAK_CLUB_APPLICATIONS_PIPELINE_KEY
 STREAK_CLUB_PIPELINE_KEY
+STREAK_FUNDRAISING_PIPELINE_KEY
 STREAK_LEADER_PIPELINE_KEY
 STREAK_LETTER_PIPELINE_KEY
-STREAK_FUNDRAISING_PIPELINE_KEY
 
 # DSN for Sentry (https://sentry.io) (only needed for production)
 SENTRY_DSN
