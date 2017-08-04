@@ -67,11 +67,12 @@ GOOGLE_MAPS_API_KEY
 # API key for Streak API. Must be an admin's key.
 STREAK_API_KEY
 
-# Keys for club, leader, letter, and fundraising pipelines in Streak
+# Keys for application, club, leader, letter, and fundraising pipelines in Streak
+STREAK_CLUB_APPLICATIONS_PIPELINE_KEY
 STREAK_CLUB_PIPELINE_KEY
+STREAK_FUNDRAISING_PIPELINE_KEY
 STREAK_LEADER_PIPELINE_KEY
 STREAK_LETTER_PIPELINE_KEY
-STREAK_FUNDRAISING_PIPELINE_KEY
 
 # DSN for Sentry (https://sentry.io) (only needed for production)
 SENTRY_DSN
@@ -89,6 +90,9 @@ STREAK_OUTREACH_TEACHER_PIPELINE_KEY
 # For Slack authentication
 SLACK_CLIENT_ID
 SLACK_CLIENT_SECRET
+
+# For Slack invitation authentication (https://api.slack.com/custom-integrations/legacy-tokens) (make sure this is an admin's legacy-token)
+SLACK_ADMIN_ACCESS_TOKEN
 
 # For Slack stats authentication
 SLACK_ADMIN_EMAIL
@@ -124,6 +128,13 @@ GITHUB_BOT_ACCESS_TOKEN
 # Credentials to a Stripe account
 STRIPE_PUBLISHABLE_KEY
 STRIPE_SECRET_KEY
+
+# SMTP settings for sending emails like application confirmations
+SMTP_ADDRESS
+SMTP_PORT
+SMTP_USERNAME
+SMTP_PASSWORD
+SMTP_DOMAIN
 ```
 
 ### Setting up the Slack App
