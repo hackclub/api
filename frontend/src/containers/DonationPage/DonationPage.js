@@ -45,7 +45,7 @@ class Donations extends Component {
           <div style={styles.info}>
             <Heading style={styles.heading}>Hack Club brings free coding clubs to high schools worldwide</Heading>
 
-            <img style={styles.banner} src={image} />
+            <img alt="Hackers being happy" style={styles.banner} src={image} />
 
             <p style={styles.subheading}>It costs us just $3 each month to support a student in Hack Club.</p>
           </div>
