@@ -3,6 +3,10 @@ module StreakClient
     def self.all
       StreakClient.request(:get, '/v1/boxes')
     end
+    
+    def self.get(box_key)
+      StreakClient.request(:get, "/v1/boxes/#{box_key}")
+    end
 
     def self.all_in_pipeline(pipeline_key, chunk_size = 1000)
       Enumerator.new do |y|
