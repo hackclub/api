@@ -91,6 +91,9 @@ STREAK_OUTREACH_TEACHER_PIPELINE_KEY
 SLACK_CLIENT_ID
 SLACK_CLIENT_SECRET
 
+# For Slack invitation authentication (https://api.slack.com/custom-integrations/legacy-tokens) (make sure this is an admin's legacy-token)
+SLACK_ADMIN_ACCESS_TOKEN
+
 # For Slack stats authentication
 SLACK_ADMIN_EMAIL
 SLACK_ADMIN_PASSWORD
