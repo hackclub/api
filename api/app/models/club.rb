@@ -77,4 +77,15 @@ class Club < ApplicationRecord
 
     save
   end
+
+  def time_of_death=(ts)
+    # Streak stores dates as milliseconds since epoch, so we want to handle
+    # integers coming from UpdateFromStreakJob
+
+    if ts.is_a? Integer
+      super DateTime.strptime(ts.to_s, '%Q')
+    else
+      super ts
+    end
+  end
 end
