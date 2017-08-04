@@ -128,6 +128,13 @@ GITHUB_BOT_ACCESS_TOKEN
 # Credentials to a Stripe account
 STRIPE_PUBLISHABLE_KEY
 STRIPE_SECRET_KEY
+
+# SMTP settings for sending emails like application confirmations
+SMTP_ADDRESS
+SMTP_PORT
+SMTP_USERNAME
+SMTP_PASSWORD
+SMTP_DOMAIN
 ```
 
 ### Setting up the Slack App
