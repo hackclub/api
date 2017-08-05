@@ -3,7 +3,7 @@ import Radium from 'radium'
 import pattern from '../../styles/pattern.png'
 
 const styles = {
-  minHeight: '100%',
+  height: '100%',
   minWidth: '100%',
   backgroundImage: `url(${pattern})`,
   backgroundSize: '450px'
