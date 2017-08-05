@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
 import Helmet from 'react-helmet'
-import { NavBar, Heading, Card, HorizontalRule, DonationForm } from '../../components'
+import { mediaQueries } from '../../styles/common'
+import { Card, DonationForm, Heading, HorizontalRule, NavBar, } from '../../components'
 
 const styles = {
   card: {
-    marginTop: '80px',
     marginLeft: 'auto',
     marginRight: 'auto',
+    marginTop: '40px',
+    marginBottom: '40px',
 
     maxWidth: '1000px'
   },
