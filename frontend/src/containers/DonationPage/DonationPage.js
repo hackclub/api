@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
 import Helmet from 'react-helmet'
-import { mediaQueries } from '../../styles/common'
 import { Card, DonationForm, Heading, HorizontalRule, NavBar, } from '../../components'
 
 const styles = {
@@ -27,7 +26,6 @@ const styles = {
     marginTop: '10px'
   }
 }
-
 
 class Donations extends Component {
   render() {
