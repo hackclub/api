@@ -20,7 +20,7 @@ class Emoji extends Component {
     const { type } = this.props
 
     const backgroundStyle = {
-      backgroundImage: `url(${require(`./images/${type}.png`)})`
+      backgroundImage: `url('emoji/${type}.png')`
     }
 
     return (
