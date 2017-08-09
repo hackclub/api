@@ -3,5 +3,6 @@
   "clean_urls": false,
   "routes": {
     "/**": "index.html"
-  }
+  },
+  "https_only": true
 }
