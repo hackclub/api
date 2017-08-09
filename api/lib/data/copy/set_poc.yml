@@ -24,7 +24,7 @@ letter_decision:
         text: Alright then. <%= statement %>
     invalid: I didn't quite understand what you just said. Would you mind repeating that, with either "yes" or "no" as an answer?
     nice_statements:
-        - "Have a nice day! :sunflour:"
+        - "Have a nice day! :sunflower:"
         - "I hope you're having an above average hour! :hourglass:"
         - "Thanks for stopping by! :walking:"
         - "Before I go, just wanted to say you're looking great today! :hot_pepper:"
