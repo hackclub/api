@@ -31,7 +31,14 @@ Create a file called `./frontend/.env` with the following contents, replacing "R
 
 ```
 REACT_APP_API_BASE_URL=REPLACEME
+
+# For building the "og:image" meta tag
+REACT_APP_FRONTEND_BASE_URL=REPLACEME
+
+# For Hackbot new team auth
 REACT_APP_SLACK_CLIENT_ID=REPLACEME
+
+# For the donations page
 REACT_APP_STRIPE_PUBLISHABLE_KEY=REPLACEME
 ```
 
