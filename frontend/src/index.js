@@ -2,7 +2,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import createStore from './redux/create'
 import ApiClient from './helpers/ApiClient'
-import Raven from 'raven-js'
 import { Provider } from 'react-redux'
 import { Router, browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
@@ -24,8 +23,6 @@ const styleRootStyles = {
   height: '100%',
   width: '100%'
 }
-
-Raven.config(process.env.REACT_APP_SENTRY_DSN).install()
 
 ReactDOM.render(
   <Provider store={store} key="provider">

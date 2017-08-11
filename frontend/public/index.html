@@ -12,6 +12,9 @@
     <meta property="og:url" content="https://hackclub.com" />
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+
+    <script src="https://cdn.ravenjs.com/3.4.0/raven.min.js"></script>
+    <script>Raven.config('%REACT_APP_SENTRY_DSN%').install()</script>
   </head>
   <body>
     <div id="root"></div>
