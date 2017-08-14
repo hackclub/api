@@ -76,5 +76,15 @@ module StreakClient
         "/v1/boxes/#{box_key}"
       )
     end
+
+    def self.comment(box_key, message)
+      StreakClient.request(
+        :put,
+        "/v1/boxes/#{box_key}/comments",
+        {
+          message: message
+        }
+      )
+    end
   end
 end
