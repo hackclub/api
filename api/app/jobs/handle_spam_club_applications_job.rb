@@ -11,7 +11,7 @@ class HandleSpamClubApplicationsJob < ApplicationJob
     ClubApplication
       .where(stage_key: INBOX_STAGE)
       .select(&:spam?)
-      .ca do |ca|
+      .each do |ca|
         StreakClient::Box.comment(ca, SPAM_COMMENT_MESSAGE)
 
         ca.stage_key = REJECTED_STAGE
