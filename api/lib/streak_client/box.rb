@@ -81,9 +81,7 @@ module StreakClient
       StreakClient.request(
         :put,
         "/v1/boxes/#{box_key}/comments",
-        {
-          message: message
-        }
+        message: message
       )
     end
   end
