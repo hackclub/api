@@ -30,7 +30,9 @@ And then `api` and `frontend` should be live!
 Create a file called `./frontend/.env` with the following contents, replacing "REPLACEME" with actual values:
 
 ```
-REACT_APP_API_BASE_URL=REPLACEME
+REACT_APP_META_TITLE=REPLACEME
+REACT_APP_META_DESCRIPTION=REPLACEME
+REACT_APP_META_OG_IMAGE=REPLACEME
 
 # For building the "og:image" meta tag
 REACT_APP_FRONTEND_BASE_URL=REPLACEME
