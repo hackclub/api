@@ -19,7 +19,7 @@ class FullPageIframe extends Component {
       iframe.style.height = iframeScrollHeight
     }
 
-    window.addEventListener('resize', resizeFrame)
+    iframe.addEventListener('resize', resizeFrame)
     iframe.addEventListener('load', resizeFrame)
   }
 
