@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { reduxForm, Field } from 'redux-form'
-import { Button, Emoji, TextField, TextAreaField, SelectField } from '../../components'
+import { Button, Emoji, Link, TextField, TextAreaField, SelectField } from '../../components'
 import applicationValidation from './applicationValidation'
 
 const monthNames = [
@@ -128,7 +128,7 @@ class ApplicationForm extends Component {
 
         <Field name="interesting_project" label="Please tell us about an interesting project, preferably outside of class, that you created or worked on." component={TextAreaField} />
 
-        <Field name="systems_hacked" label="Please tell us about the time you most successfully hacked some (non-computer) system to your advantage. Click here for the sorts of responses we're looking for." component={TextAreaField} />
+        <Field name="systems_hacked" label={<span>Please tell us about the time you most successfully hacked some (non-computer) system to your advantage. <Link href="https://www.quora.com/When-have-you-most-successfully-hacked-a-non-computer-system-to-your-advantage">Click here</Link> for the sorts of responses we're looking for.</span>} component={TextAreaField} />
 
         <Field name="steps_taken" label="What steps have you taken so far in starting your club?" component={TextAreaField} />
 
