@@ -83,7 +83,7 @@ class ApplicationForm extends Component {
     case "error":
       return (<span>Shucks <Emoji type="face_with_open_mouth_and_cold_sweat" /></span>)
     case "success":
-      return (<span>You're all set! <Emoji type="balloon" /></span>)
+      return (<span>Submitted. You're all set! <Emoji type="balloon" /></span>)
     default:
       return "Submit"
     }
