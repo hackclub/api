@@ -30,9 +30,13 @@ And then `api` and `frontend` should be live!
 Create a file called `./frontend/.env` with the following contents, replacing "REPLACEME" with actual values:
 
 ```
+# For server-rendered meta tags
 REACT_APP_META_TITLE=REPLACEME
 REACT_APP_META_DESCRIPTION=REPLACEME
 REACT_APP_META_OG_IMAGE=REPLACEME
+
+# For requests to the API used in workshops, slack invites, etc.
+REACT_APP_API_BASE_URL
 
 # For Hackbot new team auth
 REACT_APP_SLACK_CLIENT_ID=REPLACEME
