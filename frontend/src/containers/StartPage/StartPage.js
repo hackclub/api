@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Helmet from 'react-helmet'
 import {
   HorizontalRule,
   NavBar,
@@ -29,6 +30,8 @@ class Start extends Component {
   render() {
     return (
       <div>
+        <Helmet title="Start" />
+
         <NavBar />
         <StepsHeader />
         <HorizontalRule style={styles.hr} />
