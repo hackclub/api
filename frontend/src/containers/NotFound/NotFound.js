@@ -27,6 +27,10 @@ const styles = {
 }
 
 class NotFound extends Component {
+  componentDidMount() {
+    window.Raven.captureException(new Error(`Not Found: ${window.location.href}`))
+  }
+
   render() {
     return (
       <div style={styles.wrapper}>
