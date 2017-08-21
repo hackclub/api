@@ -60,10 +60,14 @@ const styles = {
     paddingBottom: '10px'
   },
   donateButton: {
+    marginBottom: '30px',
     marginTop: '30px'
   },
   isMonthly: {
     marginBottom: '10px'
+  },
+  einInfo: {
+    color: colors.gray
   }
 }
 
@@ -121,9 +125,11 @@ class DonationForm extends Component {
           />
         </div>
 
-        <p style={styles.taxDeductible}>Your contribution is tax deductible!</p>
+        <p>Your contribution is tax deductible!</p>
 
         <Button style={styles.donateButton} onClick={this.startStripe} type='link'>{this.buttonText()}</Button>
+
+        <p style={styles.einInfo}>Hack Club's nonprofit EIN is 81-290849.</p>
       </div>
     );
   }
