@@ -41,9 +41,16 @@ Marked.setOptions({
 class Workshop extends Component {
   createWorkshop() {
     var { imagesUrl, location, markdown } = this.props
-    var pathname = location.pathname
 
     renderer.link = (href, title, text) => {
+      var pathname = location.pathname
+
+      /* Links in the root /workshops directory need a trailing slash to generate
+       * correctly */
+      if (pathname === '/workshops') {
+        pathname = '/workshops/'
+      }
+
       var isRelativeLink = !/^(http|https):\/\//.test(href)
       var isHashLink = /^#/.test(href)
 

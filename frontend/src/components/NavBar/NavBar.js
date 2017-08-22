@@ -30,7 +30,7 @@ const navigationButtons = [
   },
   {
     title: 'Workshops',
-    to: '/workshops/README.md'
+    to: '/workshops'
   },
   {
     title: 'Donate',
