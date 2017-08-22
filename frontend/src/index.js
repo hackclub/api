@@ -1,13 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import ReactGA from 'react-ga'
 import createStore from './redux/create'
 import ApiClient from './helpers/ApiClient'
 import { Provider } from 'react-redux'
 import { Router, browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import { StyleRoot } from 'radium'
-import config from './config'
 
 import getRoutes from './routes'
 
@@ -26,11 +24,8 @@ const styleRootStyles = {
   width: '100%'
 }
 
-ReactGA.initialize(config.googleAnalyticsId)
-
 function logPageView() {
-  ReactGA.set({ page: window.location.pathname + window.location.search })
-  ReactGA.pageview(window.location.pathname + window.location.search)
+  window.analytics.page()
 }
 
 ReactDOM.render(
