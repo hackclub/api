@@ -7,7 +7,9 @@ class CreateProjects < ActiveRecord::Migration[5.0]
       t.text :git_url
       t.text :live_url
 
-      t.json :workspace
+      t.json :data
+
+      t.integer :source
 
       t.timestamps
     end
