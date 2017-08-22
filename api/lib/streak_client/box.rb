@@ -4,6 +4,10 @@ module StreakClient
       StreakClient.request(:get, '/v1/boxes')
     end
 
+    def self.get(box_key)
+      StreakClient.request(:get, "/v1/boxes/#{box_key}")
+    end
+
     def self.all_in_pipeline(pipeline_key, chunk_size = 1000)
       Enumerator.new do |y|
         page = 0
@@ -70,6 +74,14 @@ module StreakClient
       StreakClient.request(
         :delete,
         "/v1/boxes/#{box_key}"
+      )
+    end
+
+    def self.comment(box_key, message)
+      StreakClient.request(
+        :put,
+        "/v1/boxes/#{box_key}/comments",
+        message: message
       )
     end
   end

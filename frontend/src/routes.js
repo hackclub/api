@@ -25,7 +25,6 @@ export default (store) => {
       <IndexRoute components={HomePage} />
       <Route path="start" component={StartPage} />
       <Route path="apply" component={ApplyPage} />
-      <Route path="donate" component={DonationPage} />
 
       <Route path="team" component={TeamPage} />
 
@@ -33,6 +32,7 @@ export default (store) => {
       <Route path="workshops/*" component={WorkshopWrapper} />
 
       <Route component={OneOffFormWrapper}>
+        <Route path="donate" component={DonationPage} />
         <Route path="slack_invite" component={SlackInvite} />
         <Route path="cloud9_setup" component={Cloud9Setup} />
         <Route path="hackbot/teams/new" component={HackbotNewTeam} />

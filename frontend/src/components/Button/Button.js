@@ -79,7 +79,7 @@ class Button extends Component {
                   styles.state[state],
                   givenStyle
                 ]}
-                disabled={state === "disabled"}
+                disabled={state === "disabled" || state === "loading"}
                 onClick={onClick}>
           {buttonContents}
         </button>

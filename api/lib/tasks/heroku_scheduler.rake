@@ -13,4 +13,14 @@ namespace :heroku_scheduler do
   task queue_record_slack_stats: :environment do
     RecordSlackStatsJob.perform_later
   end
+
+  desc 'Schedule RecordSlackStatsJob'
+  task queue_record_slack_stats: :environment do
+    RecordSlackStatsJob.perform_later
+  end
+
+  desc 'Schedule HandleSpamClubApplicationsJob'
+  task queue_handle_spam_club_applications_job: :environment do
+    HandleSpamClubApplicationsJob.perform_later
+  end
 end

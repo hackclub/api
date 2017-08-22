@@ -60,10 +60,14 @@ const styles = {
     paddingBottom: '10px'
   },
   donateButton: {
+    marginBottom: '30px',
     marginTop: '30px'
   },
   isMonthly: {
     marginBottom: '10px'
+  },
+  einInfo: {
+    color: colors.gray
   }
 }
 
@@ -96,6 +100,7 @@ class DonationForm extends Component {
   }
 
   render() {
+    const { custom, recurring } = this.state
     return (
       <div>
         <div style={styles.donateAmountOptions}>
@@ -105,7 +110,7 @@ class DonationForm extends Component {
           { this.renderDonationTier(300) }
 
           <button
-            style={[styles.donateTier, this.state.custom ? styles.donateTierActive : {}]}
+            style={[styles.donateTier, custom ? styles.donateTierActive : {}]}
             onClick={this.enableCustom}>
             Custom
           </button>
@@ -115,12 +120,16 @@ class DonationForm extends Component {
 
         <div style={styles.isMonthly}>
           <label style={[styles.label, styles.inlineLabel]} htmlFor="recurring">Monthly payment?</label>
-          <input name="recurring" type="checkbox" value={this.state.recurring} onChange={this.handleRecurringChange} />
+          <input name="recurring" type="checkbox" checked={recurring}
+                 onChange={this.handleRecurringChange}
+          />
         </div>
 
-        <p style={styles.taxDeductible}>Your contribution is tax deductible!</p>
+        <p>Your contribution is tax deductible!</p>
 
         <Button style={styles.donateButton} onClick={this.startStripe} type='link'>{this.buttonText()}</Button>
+
+        <p style={styles.einInfo}>Hack Club's nonprofit EIN is 81-290849.</p>
       </div>
     );
   }

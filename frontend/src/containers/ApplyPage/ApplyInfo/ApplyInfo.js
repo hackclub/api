@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 
-import { Link } from '../../../components'
-
 class ApplyInfo extends Component {
   render() {
     return (

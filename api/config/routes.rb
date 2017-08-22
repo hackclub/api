@@ -3,6 +3,8 @@ Rails.application.routes.draw do
     get 'ping', to: 'ping#ping'
     get 'workshops/*all', constraints: { all: /.*/ }, to: 'workshops#workshops'
 
+    get 'clubs/to_be_onboarded', to: 'clubs_to_be_onboarded#show'
+
     post 'leaders/intake'
     post 'cloud9/send_invite'
     post 'slack/send_invite'

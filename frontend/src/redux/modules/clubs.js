@@ -41,6 +41,6 @@ export function isLoaded(globalState) {
 export function load() {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: client => client.get('/v1/clubs')
+    promise: client => client.get('/v1/clubs/to_be_onboarded')
   }
 }

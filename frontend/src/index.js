@@ -14,7 +14,7 @@ const store = createStore(browserHistory, client, window.__data)
 const history = syncHistoryWithStore(browserHistory, store)
 
 const component = (
-  <Router history={history}>
+  <Router history={history} onUpdate={logPageView}>
     {getRoutes(store)}
   </Router>
 )
@@ -22,6 +22,10 @@ const component = (
 const styleRootStyles = {
   height: '100%',
   width: '100%'
+}
+
+function logPageView() {
+  window.analytics.page()
 }
 
 ReactDOM.render(
