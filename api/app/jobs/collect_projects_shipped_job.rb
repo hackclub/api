@@ -8,8 +8,8 @@ class CollectProjectsShippedJob < ApplicationJob
   def perform
     projects = []
 
-    projects << cloud9_projects
     projects << github_projects
+    projects << cloud9_projects
 
     projects
       .flatten
@@ -29,17 +29,12 @@ class CollectProjectsShippedJob < ApplicationJob
   end
 
   # Get projects from Cloud9
-  # rubocop:disable Style/EmptyElse
   def cloud9_projects(workspaces = cloud9_workspaces)
     workspaces.map do |ws|
       if cloud9_workshop_project? ws
         cloud9_workshop_projects(ws)
       elsif cloud9_scm_project? ws
         cloud9_scm_project(ws)
-      else
-        # TODO: Handle this case, where there is a Cloud9 workspace without a
-        # git repo associated with it
-        nil
       end
     end
   end
@@ -93,6 +88,7 @@ class CollectProjectsShippedJob < ApplicationJob
         title: repo['name'],
         description: repo['description'],
         git_url: info[:git_url],
+        live_url: workshop_live_url(info[:repo], f['path']),
         local_dir: f['name'],
         data: repo,
         source: :github_workshop
@@ -155,6 +151,7 @@ class CollectProjectsShippedJob < ApplicationJob
         description: ws[:descr],
         git_url: info[:git_url],
         local_dir: f['name'],
+        live_url: workshop_live_url(info[:repo], f['name']),
         data: ws,
         source: :cloud9
       )
@@ -208,7 +205,8 @@ class CollectProjectsShippedJob < ApplicationJob
   # rubocop:enable Metrics/MethodLength
 
   def github_api_request(path, headers = {})
-    headers = { params: { access_token: GITHUB_ACCESS_TOKEN } }
+    headers = { accept: 'application/vnd.github.v3+json',
+                params: { access_token: GITHUB_ACCESS_TOKEN } }
               .merge(headers)
 
     path = GITHUB_API_ROOT + path
@@ -220,6 +218,10 @@ class CollectProjectsShippedJob < ApplicationJob
     JSON.parse(resp)
   rescue RestClient::NotFound
     nil
+  end
+
+  def workshop_live_url(repo, local_url)
+    URI.join("https://#{repo}", URI.escape(local_url))
   end
 end
 # rubocop:enable Metrics/ClassLength
