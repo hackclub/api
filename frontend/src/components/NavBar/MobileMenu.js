@@ -76,11 +76,8 @@ class MobileMenu extends Component {
 
     return (navigationButtons.map((btn, i) => {
       return (
-        <div style={styles.menu}>
-          <Link key={i}
-                to={btn.to}
-                style={[styles.links,btn.style]}
-          >
+        <div style={styles.menu} key={i}>
+          <Link to={btn.to} style={[styles.links,btn.style]} >
             {btn.title}
           </Link>
         </div>
