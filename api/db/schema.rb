@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170731155412) do
-
+ActiveRecord::Schema.define(version: 20170806002227) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -186,6 +185,18 @@ ActiveRecord::Schema.define(version: 20170731155412) do
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.index ["leader_id"], name: "index_net_promoter_score_surveys_on_leader_id", using: :btree
+  end
+
+  create_table "projects", force: :cascade do |t|
+    t.text     "title"
+    t.text     "description"
+    t.text     "local_dir"
+    t.text     "git_url"
+    t.text     "live_url"
+    t.json     "data"
+    t.integer  "source"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "slack_analytic_logs", force: :cascade do |t|
