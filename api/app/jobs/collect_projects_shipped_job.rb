@@ -212,7 +212,7 @@ class CollectProjectsShippedJob < ApplicationJob
     path = GITHUB_API_ROOT + path
 
     resp = Rails.cache.fetch(path, expires_in: 5.minutes) do
-      RestClient.get(path, headers)
+      RestClient.get(path, headers).to_s
     end
 
     JSON.parse(resp)
