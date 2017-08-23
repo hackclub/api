@@ -98,7 +98,7 @@ class ApplicationForm extends Component {
 
         <Field name="first_name" label="First name" placeholder="Fiona" component={TextField} />
         <Field name="last_name" label="Last name" placeholder="Hackworth" component={TextField} />
-        <Field name="email" type="email" label="Preferred email" placeholder="fiona@hackworth.com" component={TextField} />
+        <Field name="email" type="email" label="Preferred email" placeholder="fiona@hackclub.com" component={TextField} />
         <Field name="phone_number" label="Phone number" placeholder="(555) 555 5555" component={TextField} />
         <Field name="high_school" label="High school" placeholder="Atlantis High School" component={TextField} />
 
