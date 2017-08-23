@@ -62,9 +62,6 @@ class ApplyInfo extends Component {
           Your answers to this application will determine how we’ll work with you. They'll tell us what kind of person you are, who you'll work with at Hack Club, and how we should help you get your club off the ground.
         </Text>
         <Text>
-          We hope you'll understand what this application means to us.
-        </Text>
-        <Text>
           Sincerely,
         </Text>
         <img alt="Zach Latta" src={signature} style={styles.signature} />
