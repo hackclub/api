@@ -7,6 +7,7 @@ const styles = {
   fontSize: '16px',
   color: colors.userInput,
 
+  height: '6em',
   width: '100%',
   boxSizing: 'border-box',
   display: 'block',
