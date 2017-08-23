@@ -5,7 +5,7 @@ import colors from '../../styles/colors'
 const styles = {
   marginBottom: '16px',
   fontSize: '18px',
-  lineHeight: '130%',
+  lineHeight: '27px',
   color: colors.text
 }
 

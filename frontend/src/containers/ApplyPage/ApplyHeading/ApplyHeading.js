@@ -7,7 +7,7 @@ const styles = {
   fontWeight: 'bolder',
   fontSize: '26px',
   [mediaQueries.mediumUp]: {
-    fontSize: '36px'
+    display: 'none'
   }
 }
 
