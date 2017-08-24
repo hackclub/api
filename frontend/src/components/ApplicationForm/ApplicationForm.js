@@ -21,11 +21,6 @@ const monthNames = [
 ]
 
 const styles = {
-  subtitle: {
-    fontWeight: 300,
-    paddingBottom: '8px',
-    float: 'right',
-  },
   shortResponseWrapper: {
       display: 'flex',
       flexFlow: 'row wrap',
@@ -37,20 +32,6 @@ const styles = {
     [mediaQueries.mediumUp]: {
       width: '49%'
     }
-  }
-}
-
-class Subtitle extends Component {
-  render() {
-    return (
-      <div>
-        <div style={{ height: '10px'}} />
-
-        <p style={styles.subtitle}>{this.props.children}</p>
-
-        <div style={{float: 'clear'}}/>
-      </div>
-    )
   }
 }
 
