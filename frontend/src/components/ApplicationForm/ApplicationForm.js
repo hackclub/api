@@ -108,6 +108,10 @@ class ApplicationForm extends Component {
           <ShortResponseField name="last_name" label="Last name" placeholder="Hackworth" component={TextField} isRight />
           <ShortResponseField name="email" type="email" label="Preferred email" placeholder="fiona@hackclub.com" component={TextField} />
           <ShortResponseField name="phone_number" label="Phone number" placeholder="(555) 555 5555" component={TextField} isRight />
+
+          <ShortResponseField name="github" label="GitHub" placeholder="FionaHackworth" component={TextField} />
+          <ShortResponseField name="twitter" label="Twitter" placeholder="fionahack" component={TextField} isRight />
+
           <ShortResponseField name="high_school" label="High school" placeholder="Atlantis High School" component={TextField} />
 
           <ShortResponseField name="year" label="When do you graduate high school?" component={SelectField} isRight>
@@ -123,16 +127,13 @@ class ApplicationForm extends Component {
             <option value="9008">Graduated</option>
           </ShortResponseField>
 
-          <ShortResponseField name="github" label="GitHub" placeholder="FionaHackworth" component={TextField} />
-          <ShortResponseField name="twitter" label="Twitter" placeholder="fionahack" component={TextField} isRight />
-
-          <ShortResponseField name="referer" label="How did you hear about us?" component={TextField} placeholder="" isRight />
-
           <ShortResponseField name="start_date" label="When do you want to start your club?" component={SelectField}>
             { this.next12Months().map(month => {
               return (<option value={month.iso} key={month.iso}>{month.label}</option>)
             })}
           </ShortResponseField>
+
+          <ShortResponseField name="referer" label="How did you hear about us?" component={TextField} placeholder="" isRight />
         </div>
 
         <Field name="interesting_project" label="Please tell us about an interesting project, preferably outside of class, that you created or worked on." component={TextAreaField} />
