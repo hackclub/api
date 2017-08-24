@@ -22,10 +22,10 @@ const monthNames = [
 
 const styles = {
   shortResponseWrapper: {
-      display: 'flex',
-      flexFlow: 'row wrap',
-      alignItems: 'baseline',
-      justifyContent: 'space-between',
+    display: 'flex',
+    flexFlow: 'row wrap',
+    alignItems: 'baseline',
+    justifyContent: 'space-between',
   },
   shortResponse: {
     width: '100%',
