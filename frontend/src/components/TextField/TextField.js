@@ -6,6 +6,7 @@ const styles = {
   fontFamily: 'inherit',
   fontSize: '16px',
   color: colors.userInput,
+  height: '35px',
   width: '100%',
   boxSizing: 'border-box',
   display: 'block',
