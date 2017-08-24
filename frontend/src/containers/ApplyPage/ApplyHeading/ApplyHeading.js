@@ -6,6 +6,7 @@ import { mediaQueries } from '../../../styles/common'
 const styles = {
   fontWeight: 'bolder',
   fontSize: '26px',
+  marginBottom: 0,
   [mediaQueries.mediumUp]: {
     display: 'none'
   }
