@@ -11,9 +11,9 @@ import Arrow from './Arrow'
 
 import pattern from '../../../styles/pattern.png'
 
-import pencilAndPaper from './pencil_and_paper.svg'
 import chatBubbles from './chat_bubbles.svg'
-import numberedPaper from './numbered_paper.svg'
+import communityOfHackers from './community_of_hackers.svg'
+import pencilAndPaper from './pencil_and_paper.svg'
 
 const styles = {
   wrapper: {
@@ -72,15 +72,15 @@ class StepsHeader extends Component {
           <div style={styles.steps}>
             <Step icon={pencilAndPaper}
                   iconAlt="Pencil and paper"
-                  text="Application" />
+                  text="Submit an application" />
             <Arrow style={styles.arrow} />
             <Step icon={chatBubbles}
                   iconAlt="Chat bubbles"
-                  text="Interview" />
+                  text="Training call" />
             <Arrow style={styles.arrow} />
-            <Step icon={numberedPaper}
-                  iconAlt="Numbered piece of paper"
-                  text="Training" />
+            <Step icon={communityOfHackers}
+                  iconAlt="Community of hackers"
+                  text="Run your club" />
           </div>
         </Container>
       </div>
