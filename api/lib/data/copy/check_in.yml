@@ -5,6 +5,10 @@ greeting:
         I'll be reaching out to you every week, typically on Fridays, to check in and see how your club's doing. I'll be in the loop every step of the way :slightly_smiling_face:
 
         To start, did you have a club meeting this week?
+    if_first_check_in_of_semester: |
+      Hey <%= first_name %>! Hackbot here, hope you've had a great break.
+
+      Did you have a meeting this week?
     default: Hey <%= first_name %>! Let's get started — please be sure to complete this check-in by <%= deadline %>. Did your club meet this week?
     restart: Let's start again! Did your club meet this week?
     dormant:

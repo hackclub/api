@@ -16,26 +16,28 @@ module Hackbot
       end
 
       # rubocop:disable Metrics/MethodLength
+      # rubocop:disable Metrics/LineLength
       # rubocop:disable Metrics/AbcSize
       def start
-        if @dormant.nil?
-          msg_channel(
-            text: copy('greeting.dormant.text'),
-            attachments: [
-              actions: copy('greeting.dormant.actions')
-            ]
-          )
-
-          default_follow_up 'wait_for_is_dormant'
-
-          return :wait_for_is_dormant
-        end
+        #         if @dormant.nil?
+        #           msg_channel(
+        #             text: copy('greeting.dormant.text'),
+        #             attachments: [
+        #               actions: copy('greeting.dormant.actions')
+        #             ]
+        #           )
+        #
+        #           default_follow_up 'wait_for_is_dormant'
+        #
+        #           return :wait_for_is_dormant
+        #         end
 
         first_name = leader.name.split(' ').first
         deadline = formatted_deadline leader
         key = 'greeting.' + (first_check_in? ? 'if_first_check_in' : 'default')
+        key = 'greeting.if_first_check_in_of_semester' if first_check_in_of_semester
         key = 'greeting.restart' if @restart
-        key = 'greeting.not_dormant' unless @dormant
+        # key = 'greeting.not_dormant' unless @dormant
         actions = []
 
         if previous_meeting_day
@@ -61,6 +63,7 @@ module Hackbot
       end
       # rubocop:enable Metrics/MethodLength
       # rubocop:enable Metrics/AbcSize
+      # rubocop:enable Metrics/LineLength
 
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/AbcSize
@@ -532,7 +535,17 @@ module Hackbot
       end
 
       def first_check_in?
-        CheckIn.where("data->>'channel' = ?", data['channel']).empty?
+        Hackbot::Interactions::CheckIn.where("data->>'channel' = ?", data['channel']).empty?
+      end
+
+      def first_check_in_of_semester
+        !first_check_in? &&
+          Hackbot::Interactions::CheckIn
+            .where("data->>'channel' = ?", data['channel'])
+            .where(
+              'created_at > ?',
+              Time.zone.now.change(month: 6, day: 1, minute: 0, hour: 0)
+            ).empty?
       end
 
       def integer?(str)
