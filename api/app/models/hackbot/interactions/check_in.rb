@@ -535,7 +535,8 @@ module Hackbot
       end
 
       def first_check_in?
-        Hackbot::Interactions::CheckIn.where("data->>'channel' = ?", data['channel']).empty?
+        Hackbot::Interactions::CheckIn
+          .where("data->>'channel' = ?", data['channel']).empty?
       end
 
       def first_check_in_of_semester
