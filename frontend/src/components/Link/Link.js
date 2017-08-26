@@ -6,7 +6,12 @@ import colors from '../../styles/colors'
 const RadiumRouterLink = Radium(RouterLink)
 
 const styles = {
-  color: colors.offBrandEmphasis
+  color: colors.primary,
+  textDecoration: 'none',
+  ':hover': {
+    color: colors.fadedPrimary,
+    textDecoration: 'underline',
+  }
 }
 
 class Link extends Component {
