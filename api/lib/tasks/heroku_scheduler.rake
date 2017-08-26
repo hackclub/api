@@ -23,4 +23,9 @@ namespace :heroku_scheduler do
   task queue_handle_spam_club_applications_job: :environment do
     HandleSpamClubApplicationsJob.perform_later
   end
+
+  desc 'Schedule ActivateClubsJob'
+  task queue_activate_clubs_job: :environment do
+    ActivateClubsJob.perform_later
+  end
 end
