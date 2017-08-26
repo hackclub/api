@@ -6,6 +6,7 @@ const styles = {
   },
   label: {
     display: 'block',
+    lineHeight: '140%',
     marginBottom: '5px',
     fontSize: '18px',
     fontWeight: '600'

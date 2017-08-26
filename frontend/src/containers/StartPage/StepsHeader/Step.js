@@ -13,7 +13,8 @@ const iconMaxHeightRatio = 0.85
 
 const styles = {
   base: {
-    display: 'inline-block'
+    display: 'inline-block',
+    width: '150px',
   },
   icon: {
     width: `${iconSmallWidth}px`,
