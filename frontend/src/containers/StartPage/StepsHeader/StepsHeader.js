@@ -80,7 +80,7 @@ class StepsHeader extends Component {
             <Arrow style={styles.arrow} />
             <Step icon={communityOfHackers}
                   iconAlt="Community of hackers"
-                  text="Run your club" />
+                  text="Lead your club" />
           </div>
         </Container>
       </div>
