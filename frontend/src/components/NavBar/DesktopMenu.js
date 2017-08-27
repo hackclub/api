@@ -28,7 +28,8 @@ const styles = {
     paddingRight: '20px',
     paddingLeft: '20px',
     ':hover': {
-      background: 'rgba(0,0,0,0.2)'
+      color: 'white',
+      background: 'rgba(0,0,0,0.2)',
     }
   },
   logo: {

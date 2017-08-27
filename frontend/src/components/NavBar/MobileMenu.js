@@ -41,7 +41,10 @@ const styles = {
     display: 'block',
     width: '100%',
     paddingTop: '0.5em',
-    paddingBottom: '0.5em'
+    paddingBottom: '0.5em',
+    ':hover': {
+      color: 'white',
+    }
   },
   logo: {
     height: '1.5em',
