@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
-import { Button, Emoji } from '../../components'
+import { Button, Emoji, Subtitle } from '../../components'
 import { ThreeBounce } from 'better-react-spinkit'
 
 import colors from '../../styles/colors'
@@ -66,9 +66,6 @@ const styles = {
   isMonthly: {
     marginBottom: '10px'
   },
-  einInfo: {
-    color: colors.gray
-  }
 }
 
 class DonationForm extends Component {
@@ -129,7 +126,7 @@ class DonationForm extends Component {
 
         <Button style={styles.donateButton} onClick={this.startStripe} type='link'>{this.buttonText()}</Button>
 
-        <p style={styles.einInfo}>Hack Club's nonprofit EIN is 81-290849.</p>
+        <Subtitle>Hack Club's nonprofit EIN is 81-290849.</Subtitle>
       </div>
     );
   }
