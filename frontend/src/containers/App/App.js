@@ -4,7 +4,7 @@ import config from '../../config'
 
 const styles = {
   height: '100%',
-  fontFamily: "'Open Sans', sans-serif"
+  fontFamily: "'Open Sans', -apple-system, BlinkMacSystemFont, 'Avenir Next', 'Helvetica Neue', Roboto, 'Segoe UI', sans-serif"
 }
 
 class App extends Component {
