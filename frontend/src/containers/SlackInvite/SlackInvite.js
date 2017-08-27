@@ -9,19 +9,23 @@ import { connect } from 'react-redux'
 import * as slackInviteActions from '../../redux/modules/slackInvite'
 import { SubmissionError } from 'redux-form'
 
-
 import {
   Card,
+  Emoji,
   Header,
   Heading,
-  Emoji,
+  Link,
   Text,
-  SlackInviteForm
+  SlackInviteForm,
+  Subtitle,
 } from '../../components'
 
 const styles = {
   heading: {
     color: colors.bg,
+  },
+  subtitle: {
+    marginTop: '15px',
   },
   instructions: {
     fontSize: '22px',
@@ -83,6 +87,7 @@ class SlackInvite extends Component {
           <SlackInviteForm
             status={status}
             onSubmit={values => this.handleSubmit(values)} />
+          <Subtitle style={styles.subtitle}>Already have an account? Go directly to <Link href="//hackclub.slack.com">Slack</Link>.</Subtitle>
         </Card>
       </div>
     )

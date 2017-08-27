@@ -3,7 +3,7 @@ import Radium, { Style } from 'radium'
 import Marked from 'marked'
 import Hljs from 'highlight.js'
 
-import brandPreferences from '../../../styles/colors'
+import colors from '../../../styles/colors'
 import './githubMarkdown.css'
 import './highlightjs.css'
 
@@ -13,10 +13,10 @@ const styles = {
     fontWeight: 'inherit',
   },
   '.markdown-body a': {
-    color: brandPreferences.primary,
+    color: colors.primary,
   },
   '.markdown-body a:hover': {
-    color: brandPreferences.fadedPrimary,
+    color: colors.fadedPrimary,
     textDecoration: 'line',
   },
   '.markdown-body ul': {
