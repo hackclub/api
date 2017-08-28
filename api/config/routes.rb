@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     post 'cloud9/send_invite'
     post 'slack/send_invite'
 
-    resources :clubs
+    resources :clubs, only: [:index, :show]
     resources :club_applications, only: [:create]
     resources :tech_domain_redemptions, only: [:create]
     resources :donations, only: [:create]
