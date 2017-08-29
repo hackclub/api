@@ -1,16 +1,18 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Radium from 'radium'
 import Helmet from 'react-helmet'
-import { Card, DonationForm, Heading, HorizontalRule, NavBar, } from '../../components'
+import { Card, DonationForm, Heading, HorizontalRule, NavBar } from '../../components'
 
 const styles = {
   card: {
+    boxSizing: 'border-box',
+
     marginLeft: 'auto',
     marginRight: 'auto',
-    marginTop: '40px',
-    marginBottom: '40px',
+    marginTop: '3rem',
+    marginBottom: '3rem',
 
-    maxWidth: '1000px'
+    maxWidth: '48rem'
   },
   heading: {
     fontSize: '2rem'
@@ -19,36 +21,35 @@ const styles = {
     fontSize: '1.5rem'
   },
   info: {
-    marginBottom: '30px'
+    lineHeight: '1.5',
+    marginBottom: '2rem'
   },
   rule: {
-    marginBottom: '20px',
-    marginTop: '10px'
+    marginBottom: '2rem'
   }
 }
 
-class Donations extends Component {
-  render() {
-    return (
-      <div>
-        <Helmet title="Donations" />
+const Donations = () =>
+  <div>
+    <Helmet title="Donations" />
 
-        <NavBar />
+    <NavBar />
 
-        <Card style={styles.card}>
-          <div style={styles.info}>
-            <Heading style={styles.heading}>Hack Club brings free coding clubs to high schools worldwide</Heading>
+    <Card style={styles.card}>
+      <div style={styles.info}>
+        <Heading style={styles.heading}>
+          Hack Club brings free coding clubs to high schools worldwide
+        </Heading>
 
-            <p style={styles.subheading}>It costs us just $3 each month to support a student in Hack Club.</p>
-          </div>
-
-          <HorizontalRule style={styles.rule} />
-
-          <DonationForm />
-        </Card>
+        <p style={styles.subheading}>
+          It costs us just $3 each month to support a student in Hack Club.
+        </p>
       </div>
-    )
-  }
-}
+
+      <HorizontalRule style={styles.rule} />
+
+      <DonationForm />
+    </Card>
+  </div>
 
 export default Radium(Donations)
