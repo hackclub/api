@@ -53,29 +53,24 @@ const resetForm = (results, dispatch) => {
 
 class ApplicationForm extends Component {
   buttonState() {
-    const { dirty, submitting, invalid, status } = this.props
+    const { submitting, invalid, status } = this.props
 
-    if (status === 'success' && !dirty) {
-      return "success"
-    } else if (invalid) {
+    if (invalid) {
       return "disabled"
-    } else if (status === 'error') {
-      return "error"
+    } else if (submitting) {
+      return "loading"
     } else {
-      return null
+      return status
     }
   }
 
-  buttonText() {
-    const { dirty, submitting, invalid, status } = this.props
-
-    if (status === 'success' && !dirty) {
-      return (<span>Submitted. You're all set! <Emoji type="balloon" /></span>)
-    } else if (invalid) {
-      return "Submit"
-    } else if (status === 'error') {
+  buttonText(status) {
+    switch(status) {
+    case "error":
       return (<span>Shucks <Emoji type="face_with_open_mouth_and_cold_sweat" /></span>)
-    } else {
+    case "success":
+      return (<span>Submitted. You're all set! <Emoji type="balloon" /></span>)
+    default:
       return "Submit"
     }
   }
@@ -152,7 +147,7 @@ class ApplicationForm extends Component {
         <Field name="steps_taken" label="What steps have you taken so far in starting your club?" component={TextAreaField} />
 
         <Button type="form"
-                state={this.buttonState()}>{this.buttonText()}</Button>
+                state={this.buttonState()}>{this.buttonText(status)}</Button>
 
       </form>
     )
