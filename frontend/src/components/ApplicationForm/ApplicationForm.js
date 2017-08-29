@@ -55,7 +55,9 @@ class ApplicationForm extends Component {
   buttonState() {
     const { submitting, invalid, status } = this.props
 
-    if (invalid) {
+    if (status === "success") {
+      return "success"
+    } else if (invalid) {
       return "disabled"
     } else if (submitting) {
       return "loading"

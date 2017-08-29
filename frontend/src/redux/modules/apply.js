@@ -1,6 +1,7 @@
 const SUBMIT = 'hackclub/apply/SUBMIT'
 const SUBMIT_SUCCESS = 'hackclub/apply/SUBMIT_SUCCESS'
 const SUBMIT_FAIL = 'hackclub/apply/SUBMIT_FAIL'
+const FORM_CHANGE = '@@redux-form/CHANGE'
 
 const initialState = {
   status: null
@@ -19,6 +20,11 @@ export default function reducer(state=initialState, action={}) {
     return {
       ...state,
       status: "error"
+    }
+  case FORM_CHANGE:
+    return {
+      ...state,
+      status: null
     }
   default:
     return state
