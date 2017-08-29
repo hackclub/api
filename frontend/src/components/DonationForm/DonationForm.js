@@ -75,7 +75,7 @@ class DonationForm extends Component {
     this.state = {
       loading: true,
       stripeLoading: true,
-      amount: 9,
+      amount: 6,
       recurring: true,
       custom: false
     };
@@ -102,7 +102,7 @@ class DonationForm extends Component {
       <div>
         <div style={styles.donateAmountOptions}>
           { this.renderDonationTier(3) }
-          { this.renderDonationTier(9) }
+          { this.renderDonationTier(6) }
           { this.renderDonationTier(15) }
           { this.renderDonationTier(30) }
           { this.renderDonationTier(90) }
