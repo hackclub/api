@@ -39,37 +39,6 @@ RSpec.describe 'V1::Clubs', type: :request do
     end
   end
 
-  describe 'POST /v1/clubs' do
-    let(:location_attrs) { attributes_for(:club).except(:latitude, :longitude) }
-
-    context 'with valid attributes' do
-      before { post '/v1/clubs', params: location_attrs }
-
-      it 'creates the club' do
-        expect(response.status).to eq(201)
-
-        # Check to make sure every attribute we provided is set
-        location_attrs.except(:streak_key, :stage_key).each do |k, v|
-          expect(json[k.to_s]).to eq(v)
-        end
-      end
-
-      it 'geocodes the address' do
-        # These are really decimals, but are encoded as strings in JSON to
-        # preserve accuracy.
-        expect(json['latitude']).to be_a String
-        expect(json['longitude']).to be_a String
-      end
-    end
-
-    it "doesn't create a club with invalid attributes" do
-      post '/v1/clubs', params: location_attrs.except(:name)
-
-      expect(response.status).to eq(422)
-      expect(json['errors']['name']).to eq(["can't be blank"])
-    end
-  end
-
   describe 'GET /v1/clubs/:id' do
     before { get "/v1/clubs/#{id}" }
 
@@ -102,58 +71,6 @@ RSpec.describe 'V1::Clubs', type: :request do
         expect(response).to have_http_status(404)
         expect(json['error']).to eq('Club not found')
       end
-    end
-  end
-
-  describe 'PATCH /v1/clubs/:id' do
-    before { patch "/v1/clubs/#{id}", params: body }
-
-    let(:club) { create(:club) }
-    let(:id) { club.id }
-
-    context 'with valid attributes' do
-      let(:body) { { name: 'Foo bar' } }
-
-      it 'successfully updates the club' do
-        expect(response).to have_http_status(200)
-        expect(json['name']).to eq('Foo bar')
-      end
-    end
-
-    context 'with invalid attributes' do
-      let(:body) { { name: nil } }
-
-      it 'fails' do
-        expect(response).to have_http_status(422)
-        expect(json['errors']['name']).to eq(["can't be blank"])
-      end
-    end
-
-    context 'with invalid id' do
-      let(:id) { club.id + 1 }
-
-      it 'receives a 404' do
-        expect(response).to have_http_status(404)
-        expect(json['error']).to eq('Club not found')
-      end
-    end
-  end
-
-  describe 'DELETE /v1/clubs/:id' do
-    let!(:club) { create(:club) }
-
-    it 'deletes successfully with valid id' do
-      expect { delete "/v1/clubs/#{club.id}" }.to change { Club.count }.by(-1)
-
-      expect(response).to have_http_status(200)
-      expect(json['status']).to eq('success')
-    end
-
-    it 'throws a 404 and fails to delete with invalid id' do
-      expect { delete "/v1/clubs/#{club.id + 1}" }.to_not change { Club.count }
-
-      expect(response).to have_http_status(404)
-      expect(json['error']).to eq('Club not found')
     end
   end
 end
