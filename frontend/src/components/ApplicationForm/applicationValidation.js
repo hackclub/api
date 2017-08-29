@@ -7,6 +7,6 @@ export default createValidator({
   year: [required],
   interesting_project: [required],
   systems_hacked: [required],
-  first_steps: [required],
+  steps_taken: [required],
   referer: [required]
 })

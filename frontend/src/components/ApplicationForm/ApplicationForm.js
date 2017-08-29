@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
-import { reduxForm, Field } from 'redux-form'
+import { reset, reduxForm, Field } from 'redux-form'
 import { Button, Emoji, Link, TextField, TextAreaField, SelectField } from '../../components'
 import applicationValidation from './applicationValidation'
 import { mediaQueries } from '../../styles/common.js'
@@ -47,16 +47,33 @@ class ShortResponseField extends Component {
 // We do this to wrap our component in Radium for our mediaQueries
 ShortResponseField = Radium(ShortResponseField)
 
+const resetForm = (results, dispatch) => {
+  dispatch(reset('applicationForm'))
+}
+
 class ApplicationForm extends Component {
   buttonState() {
     const { submitting, invalid, status } = this.props
 
-    if (invalid) {
+    if (status === "success") {
+      return "success"
+    } else if (invalid) {
       return "disabled"
     } else if (submitting) {
       return "loading"
     } else {
       return status
+    }
+  }
+
+  buttonText(status) {
+    switch(status) {
+    case "error":
+      return (<span>Shucks <Emoji type="face_with_open_mouth_and_cold_sweat" /></span>)
+    case "success":
+      return (<span>Submitted. You're all set! <Emoji type="balloon" /></span>)
+    default:
+      return "Submit"
     }
   }
 
@@ -85,17 +102,6 @@ class ApplicationForm extends Component {
     }
 
     return months
-  }
-
-  buttonText(status) {
-    switch(status) {
-    case "error":
-      return (<span>Shucks <Emoji type="face_with_open_mouth_and_cold_sweat" /></span>)
-    case "success":
-      return (<span>Submitted. You're all set! <Emoji type="balloon" /></span>)
-    default:
-      return "Submit"
-    }
   }
 
   render() {
@@ -152,5 +158,6 @@ class ApplicationForm extends Component {
 
 export default reduxForm({
   form: 'applicationForm',
-  validate: applicationValidation
+  validate: applicationValidation,
+  onSubmitSuccess: resetForm
 })(ApplicationForm)

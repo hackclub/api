@@ -63,6 +63,9 @@ class Button extends Component {
     const givenStyle = this.props.style
     const href = this.props.href
     const onClick = this.props.onClick
+    const disabled = state === "disabled" ||
+                     state === "loading" ||
+                     state === "success"
 
     let button = null
     let buttonContents = state === "loading" ?
@@ -79,7 +82,7 @@ class Button extends Component {
                   styles.state[state],
                   givenStyle
                 ]}
-                disabled={state === "disabled" || state === "loading"}
+                disabled={disabled}
                 onClick={onClick}>
           {buttonContents}
         </button>
