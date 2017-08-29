@@ -3,8 +3,6 @@ import Radium from 'radium'
 
 import colors from '../../styles/colors'
 
-import { Text } from '../../components'
-
 const styles = {
   color: colors.gray,
   fontStyle: 'italic',
