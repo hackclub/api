@@ -31,9 +31,9 @@ class WorkshopWrapper extends Component {
   constructor(props) {
     super(props)
 
-    var rootUrl = baseUrl + 'README.md'
-    var extendedUrl = baseUrl + props.routeParams.splat
-    var url = (props.routeParams.splat ? extendedUrl : rootUrl)
+    const rootUrl = baseUrl + 'README.md'
+    const extendedUrl = baseUrl + props.routeParams.splat
+    const url = (props.routeParams.splat ? extendedUrl : rootUrl)
 
     this.requestWorkshop(url)
   }
@@ -53,8 +53,8 @@ class WorkshopWrapper extends Component {
   }
 
   handleError(e, url) {
-    var isNotFound = e.request && e.request.status === 404
-    var isNotReadme = !/README.md$/.test(url)
+    const isNotFound = e.request && e.request.status === 404
+    const isNotReadme = !/README.md$/.test(url)
 
     if (isNotFound && isNotReadme) {
       url = `${url}/README.md`
@@ -74,8 +74,8 @@ class WorkshopWrapper extends Component {
   }
 
   content() {
-    var { notFound, markdown, imagesUrl } = this.state
-      var { location } = this.props
+    const { notFound, markdown, imagesUrl } = this.state
+    const { location } = this.props
 
     if (notFound === true) {
       return (<NotFound />)

@@ -40,43 +40,41 @@ Marked.setOptions({
 
 class Workshop extends Component {
   createWorkshop() {
-    var { imagesUrl, location, markdown } = this.props
+    const { imagesUrl, location, markdown } = this.props
 
     renderer.link = (href, title, text) => {
-      var pathname = location.pathname
+      const pathname = location.pathname
 
       /* Links in the root /workshops directory need a trailing slash to generate
        * correctly */
-      if (pathname === '/workshops') {
-        pathname = '/workshops/'
-      }
+      const safePathname = (pathname === '/workshops' ? '/workshops/' : pathname)
 
-      var isRelativeLink = !/^(http|https):\/\//.test(href)
-      var isHashLink = /^#/.test(href)
+      const isRelativeLink = !/^(http|https):\/\//.test(href)
+      const isHashLink = /^#/.test(href)
 
       if (isHashLink) {
-        href = pathname + href
+        href = safePathname + href
       } else if (isRelativeLink) {
-        var folderName = /.*\//.exec(pathname)[0]
+        const folderName = /.*\//.exec(safePathname)[0]
         href = folderName + href
       }
 
-      var titleAttr = (title ? `title="${title}"` : '')
+      const titleAttr = (title ? `title="${title}"` : '')
 
       return `<a href="${href}"${titleAttr}>${text}</a>`
     }
 
     renderer.image = (href, title, text) => {
-      var isRelativeLink = !/^(http|https):\/\//.test(href)
+      const isRelativeLink = !/^(http|https):\/\//.test(href)
       if (isRelativeLink) {
         href = imagesUrl.replace(/([^/]*)$/, href)
       }
-      var titleAttr =  title ? `title="${title}"` : ''
-      var altAttr = text ? ` alt="${text}"` : ''
+      const titleAttr =  title ? `title="${title}"` : ''
+      const altAttr = text ? ` alt="${text}"` : ''
       return `<img src="${href}"${titleAttr}${altAttr} />`
     }
 
-    var html = Marked(markdown, { renderer: renderer })
+    const html = Marked(markdown, { renderer: renderer })
 
     return {__html: html}
   }
