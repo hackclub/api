@@ -11,25 +11,21 @@
     - [Scheduled Jobs](#scheduled-jobs)
     - [Deployment on Heroku](#deployment-on-heroku)
 
-## Setup
+## How to get it set up
+
+Go through the [frontend setup](#frontend-setup) and [api setup](#api-setup). Once you've got that done you can spin up both at the same time with this command:
 
 ```sh
-git submodule init
-git submodule update
-docker-compose build
-docker-compose run api bundle
-docker-compose run api rails db:create db:migrate
-docker-compose run frontend yarn
 docker-compose up
 ```
 
 And then `api` and `frontend` should be live!
 
-## Frontend Configuration
+## Frontend Setup
 
-Create a file called `./frontend/.env` with the following contents, replacing "REPLACEME" with actual values:
+Create a file called `frontend/.env` with the following contents, replacing "REPLACEME" with actual values:
 
-```
+```sh
 # For server-rendered meta tags
 REACT_APP_META_TITLE=REPLACEME
 REACT_APP_META_DESCRIPTION=REPLACEME
@@ -54,11 +50,23 @@ REACT_APP_SENTRY_DSN=REPLACEME
 REACT_APP_STRIPE_PUBLISHABLE_KEY=REPLACEME
 ```
 
-## API Configuration
+Right now we only maintian the frontend running on docker. While just spinning up the server with node on your own machine should work, milage may vary.
+
+```sh
+docker-compose build frontend
+docker-compose run frontend yarn
+```
+
+```sh
+# Now you can start up the frontend anytime you want
+docker-compose up frontend
+```
+
+## API Setup
 
 ### Environmental Variables
 
-Create a file called `./api/.env`. The following configuration options are available to set in it:
+Create a file called `api/.env`. The following configuration options are available to set in it:
 
 ```
 # Number of Rails threads to run per server instance. One database connection is
@@ -154,6 +162,16 @@ SMTP_PORT
 SMTP_USERNAME
 SMTP_PASSWORD
 SMTP_DOMAIN
+```
+
+### Build the container
+
+```sh
+git submodule init
+git submodule update
+docker-compose build api
+docker-compose run api bundle
+docker-compose run api rails db:create db:migrate
 ```
 
 ### Setting up the Slack App
