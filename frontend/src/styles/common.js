@@ -1,13 +1,11 @@
-function buildMediaQuery(lowerBound) {
-  return `@media only screen and (min-width:${lowerBound})`
-}
+const mq = lowerBound => `@media only screen and (min-width: ${lowerBound}em)`
 
 export const mediaQueries = {
-  smallUp: buildMediaQuery("0px"),
-  mediumUp: buildMediaQuery("640px"),
-  largeUp: buildMediaQuery("1024px"),
-  extraLargeUp: buildMediaQuery("1440px"),
-  extraExtraLargeUp: buildMediaQuery("1920px")
+  smallUp: mq(0),
+  mediumUp: mq(52),
+  largeUp: mq(64),
+  extraLargeUp: mq(90),
+  extraExtraLargeUp: mq(120)
 }
 
 export default {
