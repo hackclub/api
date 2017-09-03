@@ -31,7 +31,7 @@ const styles = {
 
 const Donations = () =>
   <div>
-    <Helmet title="Donations" />
+    <Helmet title="Donate" />
 
     <NavBar />
 
