@@ -53,7 +53,7 @@ class DesktopMenu extends Component {
     return (
       <div style={styles.container}>
         <Link to="/" style={[styles.links,styles.logo]}>
-        <img src={logo} alt="Hack Club logo" style={styles.image} />
+        <img src={logo} alt="Hack Club" style={styles.image} />
         </Link>
 
         { this.renderMenu() }
