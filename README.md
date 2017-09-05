@@ -4,7 +4,7 @@
 
 - [Monolith](#monolith)
   - [Setup](#setup)
-  - [Frontend Configuration](#frontend-configuration)
+  - [Web Configuration](#web-configuration)
   - [API Configuration](#api-configuration)
     - [Environmental Variables](#environmental-variables)
     - [Setting up the Slack App](#setting-up-the-slack-app)
@@ -19,15 +19,15 @@ git submodule update
 docker-compose build
 docker-compose run api bundle
 docker-compose run api rails db:create db:migrate
-docker-compose run frontend yarn
+docker-compose run web yarn
 docker-compose up
 ```
 
-And then `api` and `frontend` should be live!
+And then `api` and `web` should be live!
 
-## Frontend Configuration
+## Web Configuration
 
-Create a file called `./frontend/.env` with the following contents, replacing "REPLACEME" with actual values:
+Create a file called `./web/.env` with the following contents, replacing "REPLACEME" with actual values:
 
 ```
 # For server-rendered meta tags
