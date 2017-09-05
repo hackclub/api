@@ -4,9 +4,17 @@
 <head>
   <link type="text/css" rel="stylesheet" href="./css">
   <link href="./application-ae266df37af95b94d44b454bf3284422.css" media="all" rel="stylesheet">
+  <script>
+    var hideLinksOnFirefox = function() {
+      isFirefox = /Firefox/i.test(navigator.userAgent)
+      if (isFirefox) {
+        document.querySelector('.links.lead').style.display = 'none'
+      }
+    }
+  </script>
 </head>
 
-<body>
+<body onload="hideLinksOnFirefox()">
   <div class="off-canvas-wrap" data-offcanvas="">
     <div class="inner-wrap">
       <div id="introduction">
