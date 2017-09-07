@@ -9,7 +9,9 @@ class OpsAccountabilityJob < ApplicationJob
 
   # rubocop:disable Metrics/MethodLength
   # rubocop:disable Style/GuardClause
-  def perform
+  def perform(channel = SLACK_CHANNEL)
+    @channel = channel
+
     ua = unassigned_applications
     oua = old_unreviewed_applications
     aa = not_scheduled_applications
@@ -75,7 +77,7 @@ class OpsAccountabilityJob < ApplicationJob
     throw 'Fuck this' unless team
 
     SlackClient::Chat.send_msg(
-      SLACK_CHANNEL,
+      @channel,
       msg,
       team.bot_access_token,
       as_user: true
