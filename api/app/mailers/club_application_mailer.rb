@@ -17,7 +17,7 @@ class ClubApplicationMailer < ApplicationMailer
     to.display_name = 'Hack Club Team'
 
     subject = "Hack Club Application (#{@application.full_name}, "\
-      "#{@application.high_school})"
+      "#{@application.high_school}, #{@application.id})"
 
     mail(to: to.format, reply_to: @application.mail_address.format,
          subject: subject)

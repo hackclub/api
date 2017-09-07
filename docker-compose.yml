@@ -33,12 +33,12 @@ services:
     command: echo "I'm a little data volume, short and stout"
     volumes:
       - /bundle
-  frontend:
-    build: ./frontend
+  web:
+    build: ./web
     environment:
       - PORT=3001
     command: yarn start
     volumes:
-      - ./frontend:/usr/src/app
+      - ./web:/usr/src/app
     ports:
       - "3001:3001"

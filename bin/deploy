@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# must be run from repository root. deploys api/ and frontend/ to heroku.
+# must be run from repository root. deploys api/ and web/ to heroku.
 #
 # couple notes:
 #
@@ -13,7 +13,7 @@ giant_notice() {
   local text="$1"
 
   local text_len=${#text}
-  
+
   # see https://stackoverflow.com/a/5799353
   local hr=$(printf "%-${text_len}s" "=" | sed 's/ /=/g')
 
@@ -60,8 +60,8 @@ get_submodule_url() {
   git config --file .gitmodules --get "submodule.${submodule_name}.url"
 }
 
-# must include trailing slash for dir (ex. "frontend/", not "frontend"). also do
-# "frontend/", not "./frontend/".
+# must include trailing slash for dir (ex. "web/", not "web"). also do
+# "web/", not "./web/".
 deploy_dir() {
   local dir="$1"
   local remote="$2"
@@ -114,7 +114,7 @@ EOT
 
   # unfortunately must use force because we write new history each time we
   # generate .gitmodules
-  git push "$remote" "$ref" --force 
+  git push "$remote" "$ref" --force
 
   popd
 
@@ -132,5 +132,5 @@ giant_notice "Deploying API"
 deploy_dir "api/" "git@heroku.com:api-hackclub.git" "master"
 heroku run rake db:migrate --app api-hackclub
 
-giant_notice "Deploying Frontend"
-deploy_dir "frontend/" "git@heroku.com:frontend-hackclub.git" "master"
+giant_notice "Deploying Web"
+deploy_dir "web/" "git@heroku.com:web-hackclub.git" "master"

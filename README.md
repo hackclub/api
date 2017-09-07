@@ -4,7 +4,7 @@
 
 - [Monolith](#monolith)
   - [Setup](#setup)
-  - [Frontend Configuration](#frontend-configuration)
+  - [Web Configuration](#web-configuration)
   - [API Configuration](#api-configuration)
     - [Environmental Variables](#environmental-variables)
     - [Setting up the Slack App](#setting-up-the-slack-app)
@@ -15,15 +15,12 @@
 
 Go through the [frontend setup](#frontend-setup) and [api setup](#api-setup). Once you've got that done you can spin up both at the same time with this command:
 
-```sh
-docker-compose up
-```
+And then `api` and `web` should be live!
 
-And then `api` and `frontend` should be live!
+## Web Setup
 
-## Frontend Setup
+Create a file called `web/.env` with the following contents, replacing "REPLACEME" with actual values:
 
-Create a file called `frontend/.env` with the following contents, replacing "REPLACEME" with actual values:
 
 ```sh
 # For server-rendered meta tags
