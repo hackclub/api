@@ -19,7 +19,7 @@ module Hackbot
       private
 
       def try_sending_gif(query)
-        gif = GiphyClient.translate query
+        gif = GuggyClient.translate query
 
         if gif.nil?
           msg_channel copy('start.not_found')
