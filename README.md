@@ -141,6 +141,10 @@ STREAK_DEMO_USER_BOX_KEY
 # public beta key (see https://github.com/Giphy/GiphyAPI) for details.
 GIPHY_API_KEY
 
+# The API key for our giffing engine. Can be requested from http://docs.guggy.com/,
+# otherwise stealing the one from production will probably be find.
+GUGGY_API_KEY
+
 # Access token with all scopes enabled for the GitHub account to use as a bot.
 GITHUB_BOT_ACCESS_TOKEN
 
