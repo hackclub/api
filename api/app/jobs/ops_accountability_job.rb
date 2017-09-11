@@ -44,7 +44,9 @@ class OpsAccountabilityJob < ApplicationJob
   end
 
   def unassigned_applications
-    unreviewed_applications.select do |a|
+    unreviewed_applications
+      .select { |a| !been_in_stage_for(a, 1.hour.ago) }
+      .select do |a|
       assignees = a[:assigned_to_sharing_entries]
 
       assignees.find { |user| user[:email] == 'api@hackclub.com' } &&
