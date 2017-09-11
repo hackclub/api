@@ -1,16 +1,17 @@
 module GuggyClient
   class << self
-    TRANSLATE_URL = 'http://text2gif.guggy.com/v2/guggify'
+    TRANSLATE_URL = 'http://text2gif.guggy.com/v2/guggify'.freeze
 
+    # rubocop:disable Metrics/MethodLength
     def translate(message)
       headers = {
-        'Content-Type': 'application/json',
-        'apiKey': Rails.application.secrets.guggy_api_key,
+        'Content-Type' => 'application/json',
+        'apiKey' => Rails.application.secrets.guggy_api_key
       }
 
       body = {
-        'sentence': message,
-        'lang': 'en'
+        sentence: message,
+        lang: 'en'
       }
 
       resp = SentryRequestClient.execute(
@@ -24,5 +25,6 @@ module GuggyClient
 
       data[:animated].first.nil? ? nil : data[:animated].first[:gif][:hires]
     end
+    # rubocop:enable Metrics/MethodLength
   end
 end
