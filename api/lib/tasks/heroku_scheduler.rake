@@ -38,4 +38,14 @@ namespace :heroku_scheduler do
   task queue_collect_projects_shipped_job: :environment do
     CollectProjectsShippedJob.perform_later
   end
+
+  desc 'Schedule check-ins'
+  task queue_schedule_check_ins: :environment do
+    ScheduleLeaderCheckInsJob.perform_now true
+  end
+
+  desc 'Close check-ins'
+  task queue_close_check_ins: :environment do
+    CloseCheckInsJob.perform_now
+  end
 end
