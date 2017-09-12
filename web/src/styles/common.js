@@ -5,7 +5,8 @@ export const mediaQueries = {
   mediumUp: mq(52),
   largeUp: mq(64),
   extraLargeUp: mq(90),
-  extraExtraLargeUp: mq(120)
+  extraExtraLargeUp: mq(120),
+  print: '@media print'
 }
 
 export default {
