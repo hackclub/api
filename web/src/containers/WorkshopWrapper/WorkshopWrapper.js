@@ -9,6 +9,7 @@ import { NavBar, LoadingSpinner } from '../../components'
 import { NotFound } from '../../containers'
 
 import Workshop from './Workshop/Workshop'
+import ExportButtons from './ExportButtons'
 
 const baseUrl = config.apiBaseUrl + '/v1/workshops/'
 
@@ -80,7 +81,12 @@ class WorkshopWrapper extends Component {
     if (notFound === true) {
       return (<NotFound />)
     } else if(notFound === false) {
-        return (<Workshop markdown={markdown} imagesUrl={imagesUrl} location={location} />)
+        return (
+          <div>
+            <Workshop markdown={markdown} imagesUrl={imagesUrl} location={location} />
+            <ExportButtons />
+          </div>
+        )
     } else {
       return (<LoadingSpinner />)
     }

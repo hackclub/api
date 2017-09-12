@@ -14,6 +14,9 @@ const styles = {
     },
     [mediaQueries.mediumUp]: {
       display: 'flex'
+    },
+    [mediaQueries.print]: {
+      display: 'none'
     }
   },
   image: {

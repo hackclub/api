@@ -14,6 +14,9 @@ const styles = {
     textAlign: 'center',
     [mediaQueries.mediumUp]: {
       display: 'none'
+    },
+    [mediaQueries.print]: {
+      display: 'none'
     }
   },
   burgerButton: {
