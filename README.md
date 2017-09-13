@@ -21,7 +21,6 @@ And then `api` and `web` should be live!
 
 Create a file called `web/.env` with the following contents, replacing "REPLACEME" with actual values:
 
-
 ```sh
 # For server-rendered meta tags
 REACT_APP_META_TITLE=REPLACEME
@@ -46,6 +45,8 @@ REACT_APP_SENTRY_DSN=REPLACEME
 # For Stripe donations
 REACT_APP_STRIPE_PUBLISHABLE_KEY=REPLACEME
 ```
+
+All these values are mandatory.
 
 Right now we only maintian the frontend running on docker. While just spinning up the server with node on your own machine should work, milage may vary.
 
