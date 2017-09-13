@@ -11,25 +11,17 @@
     - [Scheduled Jobs](#scheduled-jobs)
     - [Deployment on Heroku](#deployment-on-heroku)
 
-## Setup
+## How to get it set up
 
-```sh
-git submodule init
-git submodule update
-docker-compose build
-docker-compose run api bundle
-docker-compose run api rails db:create db:migrate
-docker-compose run web yarn
-docker-compose up
-```
+Go through the [frontend setup](#frontend-setup) and [api setup](#api-setup). Once you've got that done you can spin up both at the same time with this command:
 
 And then `api` and `web` should be live!
 
-## Web Configuration
+## Web Setup
 
-Create a file called `./web/.env` with the following contents, replacing "REPLACEME" with actual values:
+Create a file called `web/.env` with the following contents, replacing "REPLACEME" with actual values:
 
-```
+```sh
 # For server-rendered meta tags
 REACT_APP_META_TITLE=REPLACEME
 REACT_APP_META_DESCRIPTION=REPLACEME
@@ -56,11 +48,23 @@ REACT_APP_STRIPE_PUBLISHABLE_KEY=REPLACEME
 
 All these values are mandatory.
 
-## API Configuration
+Right now we only maintian the frontend running on docker. While just spinning up the server with node on your own machine should work, milage may vary.
+
+```sh
+docker-compose build frontend
+docker-compose run frontend yarn
+```
+
+```sh
+# Now you can start up the frontend anytime you want
+docker-compose up frontend
+```
+
+## API Setup
 
 ### Environmental Variables
 
-Create a file called `./api/.env`. The following configuration options are available to set in it:
+Create a file called `api/.env`. The following configuration options are available to set in it:
 
 ```
 # Number of Rails threads to run per server instance. One database connection is
@@ -143,6 +147,10 @@ STREAK_DEMO_USER_BOX_KEY
 # public beta key (see https://github.com/Giphy/GiphyAPI) for details.
 GIPHY_API_KEY
 
+# The API key for our giffing engine. Can be requested from http://docs.guggy.com/,
+# otherwise stealing the one from production will probably be find.
+GUGGY_API_KEY
+
 # Access token with all scopes enabled for the GitHub account to use as a bot.
 GITHUB_BOT_ACCESS_TOKEN
 
@@ -156,6 +164,16 @@ SMTP_PORT
 SMTP_USERNAME
 SMTP_PASSWORD
 SMTP_DOMAIN
+```
+
+### Build the container
+
+```sh
+git submodule init
+git submodule update
+docker-compose build api
+docker-compose run api bundle
+docker-compose run api rails db:create db:migrate
 ```
 
 ### Setting up the Slack App

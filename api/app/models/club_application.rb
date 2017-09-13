@@ -95,13 +95,17 @@ class ClubApplication < ApplicationRecord
     legacy_year: '1023'
   )
 
-  streak_read_only spam: '1021'
+  streak_read_only spam: '1021', g_id: '1024'
 
   validates :first_name, :last_name, :email, :high_school, :interesting_project,
             :systems_hacked, :steps_taken, :referer, presence: true
 
   def full_name
     "#{first_name} #{last_name}"
+  end
+
+  def g_id
+    id
   end
 
   def spam
