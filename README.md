@@ -54,6 +54,8 @@ REACT_APP_SENTRY_DSN=REPLACEME
 REACT_APP_STRIPE_PUBLISHABLE_KEY=REPLACEME
 ```
 
+All these values are mandatory.
+
 ## API Configuration
 
 ### Environmental Variables
