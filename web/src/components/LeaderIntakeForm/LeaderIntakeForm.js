@@ -39,7 +39,7 @@ class LeaderIntakeForm extends Component {
     return (
       <form onSubmit={handleSubmit}>
         <Field name="name" label="First and last name" component={TextField} />
-        <Field name="email" type="email" label="Preferred email" component={TextField} />
+        <Field name="email" type="email" label="Email Address" description="The email you used when signing up for Slack" placeholder="Preferred Email" component={TextField} />
         <Field name="club_id" label="School" component={SelectField}>
           <option></option>
           {clubOptions}
@@ -61,7 +61,6 @@ class LeaderIntakeForm extends Component {
           <option value="9010">2016</option>
         </Field>
         <Field name="phone_number" label="Phone number" component={TextField} />
-        <Field name="slack_username" label="Slack username" component={TextField} />
         <Field name="github_username" label="GitHub username" component={TextField} />
         <Field name="twitter_username" label="Twitter username (if you have one)" component={TextField} />
         <Field name="address" label="Full address (include state and zip code)" component={TextAreaField} />
