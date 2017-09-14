@@ -61,7 +61,6 @@ class LeaderIntakeForm extends Component {
           <option value="9010">2016</option>
         </Field>
         <Field name="phone_number" label="Phone number" component={TextField} />
-        <Field name="slack_username" label="Slack username" component={TextField} />
         <Field name="github_username" label="GitHub username" component={TextField} />
         <Field name="twitter_username" label="Twitter username (if you have one)" component={TextField} />
         <Field name="address" label="Full address (include state and zip code)" component={TextAreaField} />

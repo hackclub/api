@@ -7,7 +7,6 @@ export default createValidator({
   gender: [required],
   year: [required],
   phone_number: [required],
-  slack_username: [required],
   github_username: [required],
   address: [required]
 })
