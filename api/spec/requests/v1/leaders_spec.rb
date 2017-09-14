@@ -10,12 +10,42 @@ RSpec.describe 'V1::Leaders', type: :request do
         gender: 'Other',
         year: '2016',
         phone_number: '444-444-4444',
-        slack_username: 'foo_bar',
         github_username: 'foo_bar',
         twitter_username: 'foobar',
         address: '4242 Fake St, Some City, CA 90210',
         club_id: club.id
       }
+    end
+
+    let(:mock_users) do
+      {
+        members: [
+          {
+            profile: {
+              email: 'foo@bar.com',
+              id: 'foo_bar'
+            }
+          }
+        ]
+      }
+    end
+
+    let(:team) do
+      instance_double(Hackbot::Team)
+    end
+
+    let (:cteam) do
+      class_double(Hackbot::Team).as_stubbed_const
+    end
+
+    let (:users) do
+      class_double(SlackClient::Users).as_stubbed_const
+    end
+
+    before do
+      allow(team).to receive(:bot_access_token)
+      allow(cteam).to receive(:find_by).with(team_id: 'T0266FRGM').and_return(team)
+      allow(users).to receive(:list).with(nil).and_return(mock_users)
     end
 
     context 'with valid attributes' do
@@ -27,6 +57,7 @@ RSpec.describe 'V1::Leaders', type: :request do
         # Mock the leader welcome interaction so we're not trying to send a
         # Slack message every time the test is run.
         allow(welcome).to receive(:trigger)
+
         post '/v1/leaders/intake', params: req_body
       end
 
@@ -37,7 +68,8 @@ RSpec.describe 'V1::Leaders', type: :request do
         #
         # We don't check for club_id because leaders can have multiple clubs and
         # the intake form doesn't support creating a leader with multiple clubs.
-        req_body.except(:club_id).each do |k, v|
+
+        req_body.except(:club_id, :slack_id).each do |k, v|
           expect(json[k.to_s]).to eq(v)
         end
       end
