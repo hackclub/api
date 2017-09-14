@@ -44,8 +44,9 @@ RSpec.describe 'V1::Leaders', type: :request do
 
     before do
       allow(team).to receive(:bot_access_token)
-      allow(cteam).to receive(:find_by).with(team_id: 'T0266FRGM')
-        .and_return(team)
+      allow(cteam).to receive(:find_by).with(
+        team_id: Rails.application.secrets.default_slack_team_id
+      ).and_return(team)
       allow(users).to receive(:list).with(nil).and_return(mock_users)
     end
 
