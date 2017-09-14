@@ -39,7 +39,7 @@ class LeaderIntakeForm extends Component {
     return (
       <form onSubmit={handleSubmit}>
         <Field name="name" label="First and last name" component={TextField} />
-        <Field name="email" type="email" label="Preferred email" component={TextField} />
+        <Field name="email" type="email" label="Email Address" tooltip="The email you used when signing up for Slack" placeholder="Preferred Email" component={TextField} />
         <Field name="club_id" label="School" component={SelectField}>
           <option></option>
           {clubOptions}

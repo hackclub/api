@@ -11,6 +11,11 @@ const styles = {
     fontSize: '18px',
     fontWeight: '600'
   },
+  tooltip: {
+    fontSize: '14px',
+    fontWeight: '300',
+    marginBottom: '5px'
+  },
   error: {
     fontSize: '14px',
     marginTop: '5px',
@@ -23,6 +28,14 @@ class Field extends Component {
     throw new TypeError("Cannot construct Field instances directly")
   }
 
+  tooltip() {
+    const { tooltip } = this.props
+
+    if (tooltip) {
+      return (<p style={styles.tooltip}>{tooltip}</p>)
+    }
+  }
+
   render() {
     const { label, meta={} } = this.props
     const { touched, error } = meta
@@ -30,6 +43,7 @@ class Field extends Component {
     return (
       <div style={styles.formGroup}>
         <label style={styles.label}>{label}</label>
+        {this.tooltip()}
         <div>
           { this.renderInput() }
           { touched && error && <div style={styles.error}>{error}</div> }
