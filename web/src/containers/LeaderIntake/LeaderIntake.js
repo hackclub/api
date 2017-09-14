@@ -42,8 +42,6 @@ class LeaderIntake extends Component {
   handleSubmit(values) {
     const { submit } = this.props
 
-    values = { ...values, slack_username: values.slack_username.toLowerCase() }
-
     return submit(values)
       .catch(error => {
 	throw new SubmissionError(error.errors)
