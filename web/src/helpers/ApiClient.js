@@ -1,5 +1,5 @@
 import superagent from 'superagent';
-import config from '../config.js'
+import config from 'config'
 
 const baseUrl = config.apiBaseUrl
 const methods = ['get', 'post', 'put', 'patch', 'del'];

@@ -15,9 +15,9 @@ import {
   StartPage,
   TeamPage,
   WorkshopWrapper,
-} from './containers'
+} from 'containers'
 
-import './styles'
+import 'styles'
 
 export default (store) => {
   return (
