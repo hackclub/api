@@ -44,7 +44,7 @@ class LeaderIntake extends Component {
 
     return submit(values)
       .catch(error => {
-	throw new SubmissionError(error.errors)
+        throw new SubmissionError(error.errors)
       })
   }
 
