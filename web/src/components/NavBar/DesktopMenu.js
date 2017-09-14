@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
-import { mediaQueries } from '../../styles/common'
-import { Link } from '../../components'
+import { mediaQueries } from 'styles/common'
+import { Link } from 'components'
 
 import logo from './logo.svg'
 

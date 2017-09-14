@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Helmet from 'react-helmet'
 
-import { NavBar } from '../../components'
+import { NavBar } from 'components'
 
 const styles = {
   iframe: {

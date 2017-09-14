@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
-import { Button, Emoji, Subtitle } from '../../components'
+import { Button, Emoji, Subtitle } from 'components'
 import { ThreeBounce } from 'better-react-spinkit'
 
-import colors from '../../styles/colors'
-import config from '../../config'
+import colors from 'styles/colors'
+import config from 'config'
 
 import logo from './logo.png'
 

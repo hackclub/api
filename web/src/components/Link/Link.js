@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
 import { Link as RouterLink } from 'react-router'
-import colors from '../../styles/colors'
+import colors from 'styles/colors'
 
 const RadiumRouterLink = Radium(RouterLink)
 

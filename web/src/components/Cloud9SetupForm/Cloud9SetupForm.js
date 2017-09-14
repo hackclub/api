@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { reduxForm, Field } from 'redux-form'
-import { Button, Emoji, TextField } from '../../components'
+import { Button, Emoji, TextField } from 'components'
 import cloud9SetupValidation from './cloud9SetupValidation'
 
 class Cloud9SetupForm extends Component {

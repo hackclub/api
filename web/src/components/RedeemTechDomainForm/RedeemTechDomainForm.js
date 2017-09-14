@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { reduxForm, Field } from 'redux-form'
-import { Button, Emoji, TextField } from '../../components'
+import { Button, Emoji, TextField } from 'components'
 import redeemTechDomainValidation from './redeemTechDomainValidation'
 
 class RedeemTechDomainForm extends Component {
@@ -29,7 +29,6 @@ class RedeemTechDomainForm extends Component {
     default:
       return "Get your .TECH domain!"
     }
-    
   }
 
   render() {
