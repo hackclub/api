@@ -6,7 +6,8 @@ module V1
 
     def intake
       leader = Leader.new(
-        leader_params.merge(club_ids: [club_id], slack_team_id: TEAM_ID)
+        leader_params.merge(club_ids: [club_id], slack_team_id: TEAM_ID,
+                            slack_id: slack_id)
       )
 
       if leader.save
@@ -24,6 +25,14 @@ module V1
       params[:club_id]
     end
 
+    def slack_id
+      token = ::Hackbot::Team.find_by(team_id: TEAM_ID).bot_access_token
+
+      SlackClient::Users
+        .list(token)[:members]
+        .find { |u| u[:profile][:email] == params[:email] }[:id]
+    end
+
     def verify_club_id
       return unless club_id.nil?
       render json: { errors: { club_id: ["can't be blank"] } }, status: 422
@@ -31,8 +40,8 @@ module V1
 
     def leader_params
       params.permit(
-        :name, :email, :gender, :year, :phone_number, :slack_username,
-        :github_username, :twitter_username, :address
+        :name, :email, :gender, :year, :phone_number, :github_username,
+        :twitter_username, :address
       )
     end
 
