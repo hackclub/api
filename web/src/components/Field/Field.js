@@ -12,9 +12,10 @@ const styles = {
     fontWeight: '600'
   },
   description: {
-    fontSize: '14px',
+    fontSize: '16px',
+    lineHeight: '140%',
     fontWeight: '300',
-    marginBottom: '5px'
+    marginBottom: '7px'
   },
   error: {
     fontSize: '14px',
