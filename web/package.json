@@ -6,6 +6,7 @@
     "react-scripts": "1.0.10"
   },
   "dependencies": {
+    "axios": "^0.16.2",
     "better-react-spinkit": "^2.0.0-4",
     "color": "^0.11.3",
     "cross-env": "^5.0.5",
