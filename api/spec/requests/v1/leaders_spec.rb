@@ -34,17 +34,18 @@ RSpec.describe 'V1::Leaders', type: :request do
       instance_double(Hackbot::Team)
     end
 
-    let (:cteam) do
+    let(:cteam) do
       class_double(Hackbot::Team).as_stubbed_const
     end
 
-    let (:users) do
+    let(:users) do
       class_double(SlackClient::Users).as_stubbed_const
     end
 
     before do
       allow(team).to receive(:bot_access_token)
-      allow(cteam).to receive(:find_by).with(team_id: 'T0266FRGM').and_return(team)
+      allow(cteam).to receive(:find_by).with(team_id: 'T0266FRGM')
+        .and_return(team)
       allow(users).to receive(:list).with(nil).and_return(mock_users)
     end
 
