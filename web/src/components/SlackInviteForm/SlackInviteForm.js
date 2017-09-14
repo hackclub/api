@@ -4,7 +4,7 @@ import {
   Button,
   Emoji,
   TextField
-} from '../../components'
+} from 'components'
 
 import slackInviteValidation from './slackInviteValidation'
 

@@ -3,11 +3,11 @@ import {
   Text,
   Button,
   SelectField,
-} from '../../../components'
-import { createValidator, required } from '../../../utils/validation'
+} from 'components'
+import { createValidator, required } from 'utils/validation'
 
 import { reduxForm, Field } from 'redux-form'
-import { personTypes } from '../../../redux/modules/application'
+import { personTypes } from 'redux/modules/application'
 
 class PreApplicationForm extends Component {
   render() {

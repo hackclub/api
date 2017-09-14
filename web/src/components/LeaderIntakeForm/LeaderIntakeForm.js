@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { reduxForm, Field } from 'redux-form'
 import { sortBy } from 'lodash'
-import { Button, Emoji, TextField, TextAreaField, SelectField } from '../../components'
+import { Button, Emoji, TextField, TextAreaField, SelectField } from 'components'
 import leaderIntakeValidation from './leaderIntakeValidation'
 
 class LeaderIntakeForm extends Component {

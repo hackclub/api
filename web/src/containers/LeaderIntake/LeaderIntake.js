@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 import Radium from 'radium'
 import Helmet from 'react-helmet'
 import { connect } from 'react-redux'
-import * as intakeActions from '../../redux/modules/leaderIntake'
-import { load as loadClubs } from '../../redux/modules/clubs'
+import * as intakeActions from 'redux/modules/leaderIntake'
+import { load as loadClubs } from 'redux/modules/clubs'
 import { SubmissionError } from 'redux-form'
-import { Card, Header, Heading, LeaderIntakeForm, Link } from '../../components'
-import colors from '../../styles/colors'
+import { Card, Header, Heading, LeaderIntakeForm, Link } from 'components'
+import colors from 'styles/colors'
 
 const styles = {
   headerLink: {

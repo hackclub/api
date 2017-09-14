@@ -3,7 +3,7 @@ import Radium, { Style } from 'radium'
 import Marked from 'marked'
 import Hljs from 'highlight.js'
 
-import colors from '../../../styles/colors'
+import colors from 'styles/colors'
 import './githubMarkdown.css'
 import './highlightjs.css'
 

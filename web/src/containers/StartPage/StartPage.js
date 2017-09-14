@@ -1,10 +1,7 @@
 import React, { Component } from 'react'
 import Helmet from 'react-helmet'
-import {
-  HorizontalRule,
-  NavBar,
-} from '../../components'
-import { mediaQueries } from '../../styles/common'
+import { HorizontalRule, NavBar } from 'components'
+import { mediaQueries } from 'styles/common'
 
 import StepsHeader from './StepsHeader/StepsHeader'
 import StepsDescription from './StepsDescription/StepsDescription'

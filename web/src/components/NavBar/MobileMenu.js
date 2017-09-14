@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
 import PropTypes from 'prop-types'
-import { mediaQueries } from '../../styles/common'
-import colors from '../../styles/colors'
-import { Link } from '../../components'
+import { mediaQueries } from 'styles/common'
+import colors from 'styles/colors'
+import { Link } from 'components'
 
 import burgerIcon from './burger.svg'
 import logo from './logo.svg'

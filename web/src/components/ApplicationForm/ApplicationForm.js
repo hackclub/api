@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
 import { reset, reduxForm, Field } from 'redux-form'
-import { Button, Emoji, Link, TextField, TextAreaField, SelectField } from '../../components'
+import { Button, Emoji, Link, TextField, TextAreaField, SelectField } from 'components'
 import applicationValidation from './applicationValidation'
-import { mediaQueries } from '../../styles/common.js'
+import { mediaQueries } from 'styles/common'
 
 const monthNames = [
   'January',

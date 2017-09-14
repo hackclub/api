@@ -1,10 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import * as hackbotActions from '../../redux/modules/hackbot'
-import {
-  Link,
-  Text
-} from '../../components'
+import * as hackbotActions from 'redux/modules/hackbot'
+import { Link, Text } from 'components'
 
 const { STATUS_SUCCESS, STATUS_ERROR } = hackbotActions
 

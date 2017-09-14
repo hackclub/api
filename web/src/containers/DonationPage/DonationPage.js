@@ -1,7 +1,7 @@
 import React from 'react'
 import Radium from 'radium'
 import Helmet from 'react-helmet'
-import { Card, DonationForm, Heading, HorizontalRule, NavBar } from '../../components'
+import { Card, DonationForm, Heading, HorizontalRule, NavBar } from 'components'
 
 const styles = {
   card: {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
-import { mediaQueries } from '../../../styles/common'
+import { mediaQueries } from 'styles/common'
 
 import arrow from './arrow.svg'
 

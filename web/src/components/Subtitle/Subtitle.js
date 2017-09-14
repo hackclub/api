@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
 
-import colors from '../../styles/colors'
+import colors from 'styles/colors'
 
 const styles = {
   color: colors.gray,

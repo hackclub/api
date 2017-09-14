@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
-import {
-  Link,
-  Text,
-} from '../../../components'
-import { personTypes } from '../../../redux/modules/application'
+import { Link, Text } from 'components'
+import { personTypes } from 'redux/modules/application'
 
 class PreAppResults extends Component {
   customNotes(personType) {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import config from '../../config'
-import { Button } from '../../components'
+import config from 'config'
+import { Button } from 'components'
 
 class LoginPrompt extends Component {
   render() {

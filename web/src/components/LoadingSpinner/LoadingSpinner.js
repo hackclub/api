@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
-import { Emoji, Text } from '../../components'
+import { Emoji, Text } from 'components'
 
 const rotateKeyframes = Radium.keyframes({
   '0%': {transform: 'rotate(0deg)'},

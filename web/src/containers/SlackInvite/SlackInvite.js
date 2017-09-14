@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import Radium from 'radium'
 import Helmet from 'react-helmet'
 
-import colors from '../../styles/colors'
+import colors from 'styles/colors'
 
 import { connect } from 'react-redux'
-import * as slackInviteActions from '../../redux/modules/slackInvite'
+import * as slackInviteActions from 'redux/modules/slackInvite'
 import { SubmissionError } from 'redux-form'
 
 import {

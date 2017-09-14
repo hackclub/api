@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Radium from 'radium'
 import { ThreeBounce } from 'better-react-spinkit'
-import colors from '../../styles/colors'
+import colors from 'styles/colors'
 
 const styles = {
   base: {

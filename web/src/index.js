@@ -1,14 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import createStore from './redux/create'
-import ApiClient from './helpers/ApiClient'
+import createStore from 'redux/create'
+import ApiClient from 'helpers/ApiClient'
 import { Provider } from 'react-redux'
 import { Router, browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import { StyleRoot } from 'radium'
-import analytics from './utils/analytics'
+import analytics from 'utils/analytics'
 
-import getRoutes from './routes'
+import getRoutes from 'routes'
 
 const client = new ApiClient()
 const store = createStore(browserHistory, client, window.__data)

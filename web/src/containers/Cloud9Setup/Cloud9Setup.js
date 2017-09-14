@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Radium from 'radium'
 import Helmet from 'react-helmet'
-import { Card, Cloud9SetupForm, Emoji, Header, Heading, Text } from '../../components'
-import colors from '../../styles/colors'
+import { Card, Cloud9SetupForm, Emoji, Header, Heading, Text } from 'components'
+import colors from 'styles/colors'
 
 import { connect } from 'react-redux'
-import * as cloud9SetupActions from '../../redux/modules/cloud9Setup'
+import * as cloud9SetupActions from 'redux/modules/cloud9Setup'
 import { SubmissionError } from 'redux-form'
 
 const styles = {

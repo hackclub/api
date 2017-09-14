@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
-import colors from '../../styles/colors'
+import colors from 'styles/colors'
 
 const styles = {
   fontSize: '28px',

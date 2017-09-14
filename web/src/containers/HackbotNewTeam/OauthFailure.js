@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
-import {
-  Text,
-  Link
-} from '../../components'
+import { Text, Link } from 'components'
 
 class OauthFailure extends Component {
   render() {

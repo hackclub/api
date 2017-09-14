@@ -1,4 +1,4 @@
-import config from '../config.js'
+import config from 'config'
 
 class Analytics {
   // This is a modified version of Segment's snippet

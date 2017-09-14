@@ -1,4 +1,4 @@
-import { createValidator, required, email, techDomain } from '../../utils/validation'
+import { createValidator, required, email, techDomain } from 'utils/validation'
 
 export default createValidator({
   name: [required],

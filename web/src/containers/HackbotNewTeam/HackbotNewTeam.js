@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
 import Helmet from 'react-helmet'
-import {
-  Card
-} from '../../components'
+import { Card } from 'components'
 import LoginPrompt from './LoginPrompt'
 import OauthSuccess from './OauthSuccess'
 import OauthFailure from './OauthFailure'

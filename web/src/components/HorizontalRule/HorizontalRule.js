@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
-import colors from '../../styles/colors'
-import { mediaQueries } from '../../styles/common'
+import colors from 'styles/colors'
+import { mediaQueries } from 'styles/common'
 
 const styles = {
   border: 'none',

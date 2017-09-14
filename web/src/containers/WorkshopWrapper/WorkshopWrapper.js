@@ -3,10 +3,10 @@ import Radium from 'radium'
 import Helmet from 'react-helmet'
 import Axios from 'axios'
 
-import config from '../../config'
-import { mediaQueries } from '../../styles/common'
-import { NavBar, LoadingSpinner } from '../../components'
-import { NotFound } from '../../containers'
+import config from 'config'
+import { mediaQueries } from 'styles/common'
+import { LoadingSpinner, NavBar } from 'components'
+import { NotFound } from 'containers'
 
 import Workshop from './Workshop/Workshop'
 
