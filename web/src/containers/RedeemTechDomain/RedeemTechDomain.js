@@ -11,10 +11,10 @@ import {
   Heading,
   RedeemTechDomainForm,
   Text,
-} from '../../components'
-import * as techDomainRedemptionActions from '../../redux/modules/techDomainRedemption'
+} from 'components'
+import * as techDomainRedemptionActions from 'redux/modules/techDomainRedemption'
 
-import colors from '../../styles/colors'
+import colors from 'styles/colors'
 
 const styles = {
   heading: {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { FullPageIframe } from '../../components'
+import { FullPageIframe } from 'components'
 
 class TeamPage extends Component {
   render() {

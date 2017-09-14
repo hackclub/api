@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
-import { Heading } from '../../../components'
-import { mediaQueries } from '../../../styles/common'
+import { Heading } from 'components'
+import { mediaQueries } from 'styles/common'
 
 const styles = {
   fontWeight: 'bolder',

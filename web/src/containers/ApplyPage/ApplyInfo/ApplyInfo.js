@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
 import signature from './signature.png'
-import { mediaQueries } from '../../../styles/common.js'
-import { Card, Text } from '../../../components'
+import { mediaQueries } from 'styles/common'
+import { Card, Text } from 'components'
 
 const styles = {
   card: {

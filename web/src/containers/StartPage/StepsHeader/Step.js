@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
-import {
-  Text,
-} from '../../../components'
-import colors from '../../../styles/colors'
-import { mediaQueries } from '../../../styles/common'
+import { Text } from 'components'
+import colors from 'styles/colors'
+import { mediaQueries } from 'styles/common'
 
 const iconSmallWidth = 85
 const iconMediumWidth = 115

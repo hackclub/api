@@ -1,18 +1,14 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
-import {
-  Button,
-  Card,
-  Heading,
-} from '../../../components'
-import colors from '../../../styles/colors'
+import { Button, Card, Heading } from 'components'
+import colors from 'styles/colors'
 
 import { connect } from 'react-redux'
 import {
   personTypes,
   preAppSubmitPersonType,
   preAppReset,
-} from '../../../redux/modules/application'
+} from 'redux/modules/application'
 
 import PreAppResults from './PreAppResults'
 import PreApplicationForm from './PreApplicationForm'

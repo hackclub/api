@@ -7,7 +7,7 @@ import {
   Emoji,
   Heading,
   Text
-} from '../../components'
+} from 'components'
 import dinosaur from './dinosaur.png'
 
 const styles = {

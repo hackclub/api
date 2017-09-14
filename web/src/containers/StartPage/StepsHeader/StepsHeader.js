@@ -1,15 +1,12 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
-import {
-  Container,
-  Heading,
-} from '../../../components'
-import { mediaQueries } from '../../../styles/common'
+import { Container, Heading } from 'components'
+import { mediaQueries } from 'styles/common'
 
 import Step from './Step'
 import Arrow from './Arrow'
 
-import pattern from '../../../styles/pattern.png'
+import pattern from 'styles/pattern.png'
 
 import chatBubbles from './chat_bubbles.svg'
 import communityOfHackers from './community_of_hackers.svg'

@@ -1,12 +1,8 @@
 import React, { Component } from 'react'
-import {
-  Container,
-  Heading,
-  Text,
-} from '../../../components'
+import { Container, Heading, Text, } from 'components'
 import StepDescription from './StepDescription'
-import colors from '../../../styles/colors'
-import { mediaQueries } from '../../../styles/common'
+import colors from 'styles/colors'
+import { mediaQueries } from 'styles/common'
 
 import michaelReachingOut from './michael_reaching_out.svg'
 

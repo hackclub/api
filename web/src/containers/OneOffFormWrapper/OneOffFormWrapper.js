@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
-import pattern from '../../styles/pattern.png'
+import pattern from 'styles/pattern.png'
 
 const styles = {
   height: '100%',

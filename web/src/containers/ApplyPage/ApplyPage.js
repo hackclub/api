@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Radium from 'radium'
 import Helmet from 'react-helmet'
 import { connect } from 'react-redux'
-import * as applyActions from '../../redux/modules/apply'
+import * as applyActions from 'redux/modules/apply'
 import { SubmissionError } from 'redux-form'
 
 import ApplyInfo from './ApplyInfo/ApplyInfo'
@@ -14,9 +14,9 @@ import {
   Container,
   ApplicationForm,
   Card
-} from '../../components'
+} from 'components'
 
-import { mediaQueries } from '../../styles/common'
+import { mediaQueries } from 'styles/common'
 
 const styles = {
   wrapper: {
