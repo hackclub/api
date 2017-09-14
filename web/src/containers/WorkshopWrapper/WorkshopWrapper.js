@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
 import Helmet from 'react-helmet'
-import Axios from 'axios'
 
 import config from 'config'
 import { mediaQueries } from 'styles/common'
@@ -39,8 +38,9 @@ class WorkshopWrapper extends Component {
   }
 
   requestWorkshop(url) {
-    Axios.get(url)
-      .then(resp => this.placeWorkshop(resp.data, url))
+    fetch(url)
+      .then(resp => {return resp.text()})
+      .then(data => this.placeWorkshop(data, url))
       .catch(e => this.handleError(e, url))
   }
 
