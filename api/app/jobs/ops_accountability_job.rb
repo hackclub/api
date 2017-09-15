@@ -8,6 +8,7 @@ class OpsAccountabilityJob < ApplicationJob
   SLACK_CHANNEL = 'C0C78SG9L'.freeze
 
   # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
   # rubocop:disable Style/GuardClause
   def perform(channel = SLACK_CHANNEL)
     @channel = channel
@@ -15,20 +16,32 @@ class OpsAccountabilityJob < ApplicationJob
     ua = unassigned_applications
     oua = old_unreviewed_applications
     aa = not_scheduled_applications
+    succ = true
 
-    notify "There are #{ua.count} unassigned applications." unless ua.empty?
+    unless ua.empty?
+      notify "There are #{ua.count} unassigned applications."
+      succ = false
+    end
 
     unless oua.empty?
       notify "There are #{oua.count} applications that have been around for "\
         "like two days... and STILL haven't been reviewed"
+      succ = false
     end
 
     unless aa.empty?
       notify "#{aa.count} clubs have been accepted, but haven't had their "\
         'onboarding calls schedule after a week!'
+      succ = false
+    end
+
+    if succ
+      notify "Congratulations <!subteam^S0DJXPY14|staff>! You've zeroed out the club "\
+        "application pipeline! Good job."
     end
   end
   # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/AbcSize
   # rubocop:enable Style/GuardClause
 
   def not_scheduled_applications
