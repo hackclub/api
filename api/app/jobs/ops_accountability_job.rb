@@ -36,8 +36,8 @@ class OpsAccountabilityJob < ApplicationJob
     end
 
     if succ
-      notify "Congratulations <!subteam^S0DJXPY14|staff>! You've zeroed out the club "\
-        "application pipeline! Good job."
+      notify "Congratulations <!subteam^S0DJXPY14|staff>! You've zeroed out "\
+        'the club application pipeline! Good job.'
     end
   end
   # rubocop:enable Metrics/MethodLength
