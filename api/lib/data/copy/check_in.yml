@@ -6,10 +6,10 @@ greeting:
 
         To start, did you have a club meeting this week?
     if_first_check_in_of_semester: |
-      Hey <%= first_name %>! Hackbot here, hope you've had a great week!
+      Hey <%= first_name %>! Hackbot here, hope you've had a great break!
       
-      There was a bug yesterday with my scheduling and I forgot to send out check-ins. Sorry for any inconvenience this may have caused.
-
+      You've been scheduled to restart your club this week, if this is no longer true (or there's some other issue) you should message <@U0C7BTKLG> to get it resolved.
+      
       OK, time for the check-in: Did you have a meeting this week?
     default: Hey <%= first_name %>! Let's get started — please be sure to complete this check-in by <%= deadline %>. Did your club meet this week?
     restart: Let's start again! Did your club meet this week?
