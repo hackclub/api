@@ -7,7 +7,6 @@ Rails.application.routes.draw do
 
     post 'leaders/intake'
     post 'cloud9/send_invite'
-    post 'slack/send_invite'
 
     resources :clubs, only: [:index, :show]
     resources :club_applications, only: [:create]
@@ -21,6 +20,11 @@ Rails.application.routes.draw do
         post 'interactive_messages'
         post 'events'
       end
+    end
+
+    namespace :slack_invitation do
+      resources :invite, only: [:create]
+      resources :webhook, only: [:create]
     end
   end
 end
