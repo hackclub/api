@@ -1,8 +1,12 @@
 class SlackInvite < ApplicationRecord
-  ACCESS_TOKEN = "xoxs-243218758359-242269063989-242324771522-a1e1939aa4" # Rails.application.secrets.slack_admin_access_token
+  ACCESS_TOKEN = Rails.application.secrets.slack_admin_access_token
+
+  STATE_INVITED = 'invited'
 
   def send
     resp = SlackClient::Team.invite_user(temp_email, ACCESS_TOKEN)
+
+    self.state = STATE_INVITED
 
     return if resp[:ok]
 

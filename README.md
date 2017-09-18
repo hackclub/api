@@ -158,6 +158,9 @@ GITHUB_BOT_ACCESS_TOKEN
 STRIPE_PUBLISHABLE_KEY
 STRIPE_SECRET_KEY
 
+# A list of channel IDs (comma separated) of channels which should have all new messages deleted from them.
+CHANNELS_TO_CLEAR
+
 # SMTP settings for sending emails like application confirmations
 SMTP_ADDRESS
 SMTP_PORT

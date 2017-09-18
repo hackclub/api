@@ -47,7 +47,7 @@ class SlackInvite extends Component {
   handleSubmit(values) {
     const { submit } = this.props
 
-    return submit(values.email)
+    return submit(values.email, values.username, values.full_name, values.password)
       .catch(error => {
         throw new SubmissionError(error.errors)
       })
@@ -79,7 +79,7 @@ class SlackInvite extends Component {
           <Heading style={styles.heading}>Join the Hack Club Slack!</Heading>
 
           <Text style={styles.instructions}>
-            All we need is your email, and we'll be on our way.
+            Provide us with some information, and we'll generate an account for you!
           </Text>
         </Header>
 

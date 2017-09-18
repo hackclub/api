@@ -23,6 +23,7 @@ module V1
 
         @invite.slack_invite_id = slack_invite_id
 
+        @invite.state = 'invite_received'
         @invite.save
 
         resp = sign_up
@@ -38,9 +39,13 @@ module V1
 
         go_to_channel(DEFAULT_CHANNEL_ID)
 
+        @invite.state = 'client_configured'
+        @invite.save
+
         change_email
 
-        puts "fuck you"
+        @invite.state = 'email_changed'
+        @invite.save
       end
 
       private
@@ -130,7 +135,7 @@ module V1
       end
 
       def change_email
-        resp = RestClient.post(
+        RestClient.post(
           SLACK_CHANGE_EMAIL_URL,
           {
             change_email: 1,
@@ -151,7 +156,7 @@ module V1
       end
 
       def change_email_crumb
-        resp = RestClient.get("https://hc-testing-20170915.slack.com/account/settings", cookies: @jar)
+        resp = RestClient.get("https://hackclub.slack.com/account/settings", cookies: @jar)
 
         Nokogiri::HTML(resp).at_css("input[name=\"crumb\"]")[:value]
       end
