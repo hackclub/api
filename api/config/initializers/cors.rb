@@ -11,7 +11,9 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
   BASE_ORIGINS = ['https://new.hackclub.com',
                   'http://new.hackclub.com',
                   'https://hackclub.com',
-                  'http://hackclub.com'].freeze
+                  'http://hackclub.com',
+                  'https://bulckcah.com',
+                  'http://bulckcah.com'].freeze
 
   allow do
     origins do |source, _env|
