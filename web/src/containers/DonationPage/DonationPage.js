@@ -38,11 +38,11 @@ const Donations = () =>
     <Card style={styles.card}>
       <div style={styles.info}>
         <Heading style={styles.heading}>
-          Hack Club brings free coding clubs to high schools worldwide
+          Hack Club brings free coding clubs to high schools worldwide.
         </Heading>
 
         <p style={styles.subheading}>
-          It costs us just $3 each month to support a student in Hack Club.
+          It costs us just $5 each month to support a student in Hack Club.
         </p>
       </div>
 
