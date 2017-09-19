@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170918023540) do
+ActiveRecord::Schema.define(version: 20170919073505) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -222,6 +222,7 @@ ActiveRecord::Schema.define(version: 20170918023540) do
     t.text     "username"
     t.text     "password"
     t.text     "state"
+    t.text     "token"
   end
 
   create_table "tech_domain_redemptions", force: :cascade do |t|

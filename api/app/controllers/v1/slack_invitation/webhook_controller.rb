@@ -2,7 +2,7 @@ module V1
   module SlackInvitation
     class WebhookController < ApplicationController
       def create
-        @invite = SlackInvite.find invitation_id
+        @invite = SlackInvite.find_by(token: invite_token)
         if @invite.nil?
           render json: {invite: nil}, status: 422
           return
@@ -33,8 +33,8 @@ module V1
           .try { |l| l['href'] }
       end
 
-      def invitation_id
-        recipient.match(/slack\+(\d+)\@mail\.hackclub\.com/)[1].to_i
+      def invite_token
+        recipient.match(/slack\+(\w+)\@mail\.hackclub\.com/)[1]
       end
 
       def body_html

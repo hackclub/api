@@ -8,7 +8,7 @@ module V1
           return render json: invite.errors
         end
 
-        invite.send
+        invite.dispatch
 
         render json: strip(invite), status: 200
       end
@@ -26,7 +26,7 @@ module V1
       end
 
       def strip(inv)
-        inv.to_json( :only => [:id, :state, :temp_email] )
+        inv.to_json( methods: [:temp_email], only: [:id, :state] )
       end
     end
   end

@@ -7,7 +7,11 @@ class SlackInvite < ApplicationRecord
   STATE_CONFIGURED_CLIENT = 'configured_client'
   STATE_EMAIL_CHANGED = 'changed_email'
 
-  def send
+  TOKEN_LENGTH=24
+
+  after_initialize :defaults
+
+  def dispatch
     resp = SlackClient::Team.invite_user(temp_email, ACCESS_TOKEN)
 
     self.state = STATE_INVITED
@@ -19,10 +23,16 @@ class SlackInvite < ApplicationRecord
   end
 
   def temp_email
-    "slack+#{self.id}@mail.hackclub.com"
+    "slack+#{self.token}@mail.hackclub.com"
   end
 
   def slack_invite_url
     "https://join.slack.com/t/hackclub/invite/#{slack_invite_id}"
+  end
+
+  private
+
+  def defaults
+    self.token ||= rand(36**TOKEN_LENGTH-1).to_s(36)
   end
 end
