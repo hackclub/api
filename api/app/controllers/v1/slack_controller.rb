@@ -15,7 +15,7 @@ module V1
 
       invite.send
 
-      render json: {params: account_params, invite: invite}
+      render json: { params: account_params, invite: invite }
     end
 
     private

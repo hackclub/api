@@ -1,36 +1,39 @@
 module V1
   module SlackInvitation
     class WebhookController < ApplicationController
+      # rubocop:disable Metrics/MethodLength
       def create
         @invite = SlackInvite.find_by(token: invite_token)
         if @invite.nil?
-          render json: {invite: nil}, status: 422
+          render json: { invite: nil }, status: 422
           return
         end
 
         unless slack_invite_url
-          render json: {invite: nil}, status: 422
+          render json: { invite: nil }, status: 422
           return
         end
 
-        @invite.slack_invite_id = slack_invite_id
-
-        @invite.update({state: @invite.class::STATE_INVITE_RECEIVED })
+        @invite.update(
+          slack_invite_id: slack_invite_id,
+          state: @invite.class::STATE_INVITE_RECEIVED
+        )
 
         SlackSignUpJob.perform_now(@invite.id)
       end
+      # rubocop:enable Metrics/MethodLength
 
       private
 
       def slack_invite_id
-        slack_invite_url.match(/\/invite\/(\w+)\?/)[1]
+        slack_invite_url.match(%r{\/invite\/(\w+)\?})[1]
       end
 
       def slack_invite_url
         Nokogiri::HTML(body_html)
-          .xpath('//a')
-          .find {|l| l.text.strip == "Join Now"}
-          .try { |l| l['href'] }
+                .xpath('//a')
+                .find { |l| l.text.strip == 'Join Now' }
+                .try { |l| l['href'] }
       end
 
       def invite_token
@@ -38,11 +41,11 @@ module V1
       end
 
       def body_html
-        params["body-html"]
+        params['body-html']
       end
 
       def recipient
-        params["recipient"]
+        params['recipient']
       end
     end
   end

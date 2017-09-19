@@ -1,13 +1,13 @@
 class SlackInvite < ApplicationRecord
   ACCESS_TOKEN = Rails.application.secrets.slack_admin_access_token
 
-  STATE_INVITED = 'invited'
-  STATE_INVITE_RECEIVED = 'invite_received'
-  STATE_SIGNED_UP = 'signed_up'
-  STATE_CONFIGURED_CLIENT = 'configured_client'
-  STATE_EMAIL_CHANGED = 'changed_email'
+  STATE_INVITED = 'invited'.freeze
+  STATE_INVITE_RECEIVED = 'invite_received'.freeze
+  STATE_SIGNED_UP = 'signed_up'.freeze
+  STATE_CONFIGURED_CLIENT = 'configured_client'.freeze
+  STATE_EMAIL_CHANGED = 'changed_email'.freeze
 
-  TOKEN_LENGTH=24
+  TOKEN_LENGTH = 24
 
   after_initialize :defaults
 
@@ -23,7 +23,7 @@ class SlackInvite < ApplicationRecord
   end
 
   def temp_email
-    "slack+#{self.token}@mail.hackclub.com"
+    "slack+#{token}@mail.hackclub.com"
   end
 
   def slack_invite_url
@@ -33,6 +33,6 @@ class SlackInvite < ApplicationRecord
   private
 
   def defaults
-    self.token ||= rand(36**TOKEN_LENGTH-1).to_s(36)
+    self.token ||= rand(36**TOKEN_LENGTH - 1).to_s(36)
   end
 end

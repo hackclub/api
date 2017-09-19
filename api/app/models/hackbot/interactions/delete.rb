@@ -1,7 +1,8 @@
 module Hackbot
   module Interactions
     class Delete < TextConversation
-      CHANNELS_TO_DELETE = ['C745G5N2Y'] # Rails.application.secrets.channels_to_clear.split(',')
+      CHANNELS_TO_DELETE = Rails.application.secrets.channels_to_clear
+                                .split(',')
       def should_start?
         event[:type] == 'message' &&
           event[:subtype].nil? &&
@@ -21,7 +22,8 @@ module Hackbot
       private
 
       def admin_token
-        @admin_token ||= AdminUser.find_by(team: team.team_id).try(:access_token)
+        @admin_token ||= AdminUser.find_by(team: team.team_id)
+                                  .try(:access_token)
       end
     end
   end

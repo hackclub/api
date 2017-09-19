@@ -4,9 +4,7 @@ module V1
       def create
         invite = SlackInvite.create(invite_params)
 
-        if !invite.save
-          return render json: invite.errors
-        end
+        return render json: invite.errors unless invite.save
 
         invite.dispatch
 
@@ -26,7 +24,7 @@ module V1
       end
 
       def strip(inv)
-        inv.to_json( methods: [:temp_email], only: [:id, :state] )
+        inv.to_json(methods: [:temp_email], only: [:id, :state])
       end
     end
   end
