@@ -6,6 +6,7 @@ import {
   Card,
   Emoji,
   Heading,
+  Link,
   Text,
 } from 'components'
 import exampleSlackEmail from './example_slack_email.gif'
@@ -38,13 +39,13 @@ class SlackInviteInstructions extends Component {
     return (
       <Card style={[styles.card,styles.wideCard]}>
         <Button type="form" state="success">Success! <Emoji type="party_popper"/></Button>
-        <Text style={styles.text}>We're generating an account on Slack for you. Once we get it set up, we'll transfer it to your account email.</Text>
+        <Text style={styles.text}>Now that we've created an account on Slack for you, we need to transfer the account to you.</Text>
         <Heading>Here's the next step to join:</Heading>
         <Text style={styles.text}>You'll get an email in the next few minutes from Slack. Click this button:</Text>
         <img style={styles.image} src={exampleSlackEmail} alt="Slack email" />
-        <Text style={styles.text}>You'll get taken to a page that looks like this:</Text>
+        <Text style={styles.text}>The button will link to page that looks like this:</Text>
         <img style={styles.image} src={slackValidationPage} alt="Slack validation webpage" />
-        <Text style={styles.text}>To sign in the first time, you'll need to type in <span style={styles.email}>{inviteEmail}</span> as your email.</Text>
+        <Text style={styles.text}>In the future you can sign in with your own account, but to get the account transfered to you this first time, you'll need to use this as your email: <span style={styles.email}>{inviteEmail}</span> (use your regular password with it). Once you sign in, you should have access to <Link href="https://hackclub.slack.com">hackclub.slack.com</Link>.</Text>
       </Card>
     )
   }
