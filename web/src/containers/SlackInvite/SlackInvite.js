@@ -4,50 +4,31 @@ import Radium from 'radium'
 import Helmet from 'react-helmet'
 
 import colors from 'styles/colors'
+import config from 'config'
 
 import { connect } from 'react-redux'
 import * as slackInviteActions from 'redux/modules/slackInvite'
 import { SubmissionError } from 'redux-form'
 
-import exampleSlackEmail from './example_slack_email.gif'
-import slackValidationPage from './slack_validation_page.jpg'
-
 import {
-  Button,
-  Card,
   Emoji,
   Header,
   Heading,
-  Link,
   Text,
-  SlackInviteForm,
-  Subtitle,
-} from '../../components'
+} from 'components'
+
+import SlackInviteInstructions from './SlackInviteInstructions/SlackInviteInstructions'
+import SlackInviteFormWrapper from './SlackInviteFormWrapper/SlackInviteFormWrapper'
+import SlackInviteLoading from './SlackInviteLoading/SlackInviteLoading'
 
 const styles = {
   heading: {
     color: colors.bg,
   },
-  subtitle: {
-    marginTop: '15px',
-  },
   instructions: {
     fontSize: '22px',
     marginTop: '20px',
     color: colors.bg,
-  },
-  card: {
-    marginTop: '20px',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  },
-  wideCard: {
-    maxWidth: '700px',
-  },
-  image: {
-    width: '100%',
-    boxShadow: `0px 1px 50px -15px ${colors.gray}`,
-    border: `1px solid ${colors.outline}`,
   }
 }
 
@@ -62,7 +43,9 @@ class SlackInvite extends Component {
     return submit(values.email, values.username, values.full_name, values.password)
       .then(response => {
         this.setState({
-          slackInviteID: response
+          inviteID: response.id,
+          email: response.email,
+          inviteState: response.state,
         })
       })
       .catch(error => {
@@ -70,32 +53,33 @@ class SlackInvite extends Component {
       })
   }
 
+  pollForUpdate() {
+    const { inviteID } = this.state
+
+    fetch(`${config.apiBaseUrl}/v1/slack_invitation/invite/${inviteID}`)
+      .then(response => {
+        return response.json()
+      })
+      .then(json => {
+        this.setState({
+          inviteState: json.state
+        })
+      })
+      .catch(error => console.error(error))
+  }
+
   content() {
     const { status } = this.props
+    const { inviteEmail, inviteState } = this.state
 
-    if (status !== "success") {
-      return (
-        <Card style={styles.card}>
-          <SlackInviteForm
-            status={status}
-            onSubmit={values => this.handleSubmit(values)} />
-          <Subtitle style={styles.subtitle}>
-            Already have an account? Go directly to <Link href="//hackclub.slack.com">Slack</Link>.
-          </Subtitle>
-        </Card>
-      )
-    } else {
-      return (
-        <Card style={[styles.card,styles.wideCard]}>
-          <Button type="form" state={status}>Success! <Emoji type="party_popper"/></Button>
-          <Text>We're generating an account on Slack for you. Once we get it set up, we'll transfer it to your account email.</Text>
-          <Heading>Here's the next step to join:</Heading>
-          <Text>You'll get an email in the next few minutes from Slack. Click this button:</Text>
-          <img style={styles.image} src={exampleSlackEmail}/>
-          <Text>You'll get taken to a page that looks like this:</Text>
-          <img style={styles.image} src={slackValidationPage}/>
-        </Card>
-      )
+    switch(inviteState) {
+      case 'invited':
+        return (<SlackInviteLoading interval={this.pollForUpdate} />)
+      case 'changed_email':
+        return (<SlackInviteInstructions inviteEmail={inviteEmail} />)
+      default:
+        return (<SlackInviteFormWrapper status={status}
+                                        onSubmit={values => this.handleSubmit(values)}/>)
     }
   }
 
