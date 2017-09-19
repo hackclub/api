@@ -1,6 +1,7 @@
 module Hackbot
   class Dispatcher
     INTERACTION_TYPES = [
+      Hackbot::Interactions::Greeter,
       Hackbot::Interactions::Accountability,
       Hackbot::Interactions::AddAdminUser,
       Hackbot::Interactions::CheckIn,
