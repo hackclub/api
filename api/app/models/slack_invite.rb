@@ -7,7 +7,7 @@ class SlackInvite < ApplicationRecord
   STATE_CONFIGURED_CLIENT = 'configured_client'.freeze
   STATE_EMAIL_CHANGED = 'changed_email'.freeze
 
-  TOKEN_LENGTH = 24
+  TOKEN_LENGTH = 6
 
   after_initialize :defaults
 
