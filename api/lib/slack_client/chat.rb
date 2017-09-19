@@ -15,5 +15,9 @@ module SlackClient
 
       SlackClient.rpc('chat.postMessage', access_token, extra_params)
     end
+
+    def self.delete(channel, ts, access_token)
+      SlackClient.rpc('chat.delete', access_token, channel: channel, ts: ts)
+    end
   end
 end

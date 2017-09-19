@@ -30,9 +30,9 @@ class SlackInviteForm extends Component {
     case "error":
       return (<Emoji type="thinking_face" />)
     case "success":
-      return (<span>Invite Sent! Check your email <Emoji type="fisted_hand_sign" /></span>)
+      return (<span>Check your email for an invitation to your Slack account! <Emoji type="fisted_hand_sign" /></span>)
     default:
-      return "Get Your Hack Club Slack Invite"
+      return "Get Your Hack Club Slack Account"
     }
   }
 
@@ -42,6 +42,10 @@ class SlackInviteForm extends Component {
     return (
       <form style={style} onSubmit={handleSubmit}>
         <Field name="email" label="Email" placeholder="fiona@hackworth.com" component={TextField} />
+        <Field name="username" label="Username" placeholder="fiona" component={TextField}/>
+        <Field name="full_name" label="Full name" placeholder="Fiona Hackworth" component={TextField}/>
+        <Field name="password" label="Password" placeholder="Dinosaur" component={TextField} type="password"/>
+
         <Button type="form" state={this.buttonState()}>
           {this.buttonText(status)}
         </Button>
