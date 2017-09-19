@@ -3,9 +3,8 @@ class SlackSignUpJob < ApplicationJob
 
   DEFAULT_CHANNEL_ID="C756EH6VA".freeze
 
-  def perform(invite_id, team="hackclub")
+  def perform(invite_id)
     @invite = SlackInvite.find invite_id
-    @team = team
 
     resp = sign_up
     @jar = resp.cookies
@@ -100,18 +99,22 @@ class SlackSignUpJob < ApplicationJob
   end
 
   def url_sign_up
-    "https://#{@team}.slack.com/api/signup.createUser"
+    "https://#{team_subdomain}.slack.com/api/signup.createUser"
   end
 
   def url_user_prefs
-    "https://#{@team}.slack.com/api/users.prefs.set"
+    "https://#{team_subdomain}.slack.com/api/users.prefs.set"
   end
 
   def url_conversations_read
-    "https://#{@team}.slack.com/api/conversations.mark"
+    "https://#{team_subdomain}.slack.com/api/conversations.mark"
   end
 
   def url_change_email
-    "https://#{@team}.slack.com/account/settings".freeze
+    "https://#{team_subdomain}.slack.com/account/settings".freeze
+  end
+
+  def team_subdomain
+    @team_subdomain ||= SlackClient::Team.info(Rails.application.secrets.slack_admin_access_token)[:team][:domain]
   end
 end
