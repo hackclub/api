@@ -37,14 +37,20 @@ class SlackInvite extends Component {
     submit: PropTypes.func.isRequired,
   }
 
+  constructor(props) {
+    super(props)
+
+    this.pollForUpdate = this.pollForUpdate.bind(this)
+  }
+
   handleSubmit(values) {
     const { submit } = this.props
 
     return submit(values.email, values.username, values.full_name, values.password)
       .then(response => {
         this.setState({
-          inviteID: response.id,
-          email: response.email,
+          id: response.id,
+          email: response.temp_email,
           inviteState: response.state,
         })
       })
@@ -54,9 +60,8 @@ class SlackInvite extends Component {
   }
 
   pollForUpdate() {
-    const { inviteID } = this.state
-
-    fetch(`${config.apiBaseUrl}/v1/slack_invitation/invite/${inviteID}`)
+    const { id } = this.state
+    fetch(`${config.apiBaseUrl}/v1/slack_invitation/invite/${id}`)
       .then(response => {
         return response.json()
       })
@@ -65,21 +70,21 @@ class SlackInvite extends Component {
           inviteState: json.state
         })
       })
-      .catch(error => console.error(error))
+      .catch(err => console.error(err))
   }
 
   content() {
     const { status } = this.props
-    const { inviteEmail, inviteState } = this.state
+    const { email, inviteState } = this.state
 
     switch(inviteState) {
-      case 'invited':
-        return (<SlackInviteLoading interval={this.pollForUpdate} />)
-      case 'changed_email':
-        return (<SlackInviteInstructions inviteEmail={inviteEmail} />)
-      default:
+      case undefined:
         return (<SlackInviteFormWrapper status={status}
                                         onSubmit={values => this.handleSubmit(values)}/>)
+      case 'changed_email':
+        return (<SlackInviteInstructions inviteEmail={email} />)
+      default:
+        return (<SlackInviteLoading poll={this.pollForUpdate} inviteState={inviteState} />)
     }
   }
 
@@ -113,7 +118,7 @@ class SlackInvite extends Component {
           </Text>
         </Header>
 
-          {this.content()}
+        {this.content()}
       </div>
     )
   }
