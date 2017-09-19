@@ -1,6 +1,8 @@
 class SlackSignUpJob < ApplicationJob
   DEFAULT_CHANNEL_ID = 'C74HZS5A5'.freeze
 
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/MethodLength
   def perform(invite_id)
     @invite = SlackInvite.find invite_id
 
@@ -18,6 +20,8 @@ class SlackSignUpJob < ApplicationJob
 
     @invite.update(password: '')
   end
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/MethodLength
 
   # rubocop:disable Metrics/MethodLength
   def sign_up
