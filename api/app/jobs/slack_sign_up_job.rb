@@ -1,5 +1,5 @@
 class SlackSignUpJob < ApplicationJob
-  DEFAULT_CHANNEL_ID = 'C756EH6VA'.freeze
+  DEFAULT_CHANNEL_ID = 'C74HZS5A5'.freeze
 
   def perform(invite_id)
     @invite = SlackInvite.find invite_id

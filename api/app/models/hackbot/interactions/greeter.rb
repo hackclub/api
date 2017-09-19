@@ -1,7 +1,7 @@
 module Hackbot
   module Interactions
     class Greeter < TextConversation
-      DEFAULT_CHANNEL = 'C756EH6VA'.freeze
+      DEFAULT_CHANNEL = 'C74HZS5A5'.freeze
 
       def should_start?
         event[:channel] == DEFAULT_CHANNEL &&

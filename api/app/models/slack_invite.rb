@@ -14,7 +14,7 @@ class SlackInvite < ApplicationRecord
   def dispatch
     resp = SlackClient::Team.invite_user(temp_email, ACCESS_TOKEN)
 
-    self.update(state: STATE_INVITED)
+    update(state: STATE_INVITED)
 
     return if resp[:ok]
 
