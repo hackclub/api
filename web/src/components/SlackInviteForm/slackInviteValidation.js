@@ -1,8 +1,8 @@
-import { createValidator, required, email } from 'utils/validation'
+import { createValidator, required, email, slackPassword } from 'utils/validation'
 
 export default createValidator({
   email: [required, email],
   username: [required],
   full_name: [required],
-  password: [required]
+  password: [required, slackPassword]
 })
