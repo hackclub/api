@@ -13,6 +13,7 @@ class SlackSignUpJob < ApplicationJob
 
     set_user_pref('seen_welcome_2', 'true')
     set_user_pref('onboarding_cancelled', 'true')
+    go_to_channel(DEFAULT_CHANNEL_ID)
     @invite.update(state: @invite.class::STATE_CONFIGURED_CLIENT)
 
     change_email
