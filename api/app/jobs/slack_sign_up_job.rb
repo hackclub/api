@@ -15,6 +15,8 @@ class SlackSignUpJob < ApplicationJob
 
     change_email
     @invite.update(state: @invite.class::STATE_EMAIL_CHANGED)
+
+    @invite.update(password: '')
   end
 
   # rubocop:disable Metrics/MethodLength
