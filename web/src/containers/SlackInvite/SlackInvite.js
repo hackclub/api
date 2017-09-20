@@ -37,11 +37,11 @@ class SlackInvite extends Component {
   }
 
   handleSubmit(values) {
-    const { submit } = this.props
+    const { router, submit } = this.props
 
     return submit(values.email, values.username, values.full_name, values.password)
       .then(response => {
-        this.props.router.push(`/slack_invite/${response.id}`)
+        router.push(`/slack_invite/${response.id}`)
       })
       .catch(error => {
         throw new SubmissionError(error.errors)
