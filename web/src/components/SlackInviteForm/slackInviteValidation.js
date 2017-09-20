@@ -31,7 +31,9 @@ function createSlackValidator(value, endpoint, param, errorDescriptions={}, fiel
 export function asyncValidate(data) {
   return Promise.all(
     [
-      createSlackValidator(data.email, 'checkEmail', 'email'),
+      createSlackValidator(data.email, 'checkEmail', 'email', {
+        invalid_email: 'Invalid email'
+      }),
       createSlackValidator(data.username, 'checkUsername', 'username', {
         long_username: 'Username is too long',
         bad_username: 'Username can only contain lowercase letters, numbers, and underscores'
