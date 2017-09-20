@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
 import colors from 'styles/colors'
+import { mediaQueries } from 'styles/common'
 import {
   Button,
   Card,
@@ -26,7 +27,16 @@ const styles = {
     marginTop: '16px',
   },
   image: {
-    width: '100%',
+    [mediaQueries.smallUp]: {
+      width: '100%',
+      marginLeft: 0,
+      marginRight: 0,
+    },
+    [mediaQueries.mediumUp]: {
+      width: '50%',
+      marginLeft: '25%',
+      marginRight: '25%',
+    },
     boxShadow: `0px 1px 50px -15px ${colors.gray}`,
     border: `1px solid ${colors.outline}`,
   }
