@@ -10,6 +10,8 @@ module Hackbot
       end
 
       def start
+        delete_event
+
         im = SlackClient::Chat.open_im(event[:user], access_token)
 
         return unless im[:ok]
@@ -22,8 +24,6 @@ module Hackbot
           access_token,
           as_user: true
         )
-
-        delete_event
       end
 
       private
