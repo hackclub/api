@@ -8,7 +8,6 @@ import {
   Card,
   Emoji,
   Heading,
-  Link,
   Text,
 } from 'components'
 import exampleSlackEmail from './example_slack_email.gif'
