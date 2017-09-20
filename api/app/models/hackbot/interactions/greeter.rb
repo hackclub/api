@@ -22,6 +22,21 @@ module Hackbot
           access_token,
           as_user: true
         )
+
+        delete_event
+      end
+
+      private
+
+      def delete_event
+        interaction = Hackbot::Interactions::DeleteJoins.create(
+          event: event,
+          team: team
+        )
+
+        interaction.handle
+        interaction.save!
+        interaction
       end
     end
   end

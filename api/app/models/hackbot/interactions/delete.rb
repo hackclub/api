@@ -3,6 +3,7 @@ module Hackbot
     class Delete < TextConversation
       CHANNELS_TO_DELETE = Rails.application.secrets.channels_to_clear
                                 .split(',')
+
       def should_start?
         event[:type] == 'message' &&
           event[:subtype].nil? &&

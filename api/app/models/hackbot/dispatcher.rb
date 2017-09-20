@@ -7,6 +7,7 @@ module Hackbot
       Hackbot::Interactions::CheckIn,
       Hackbot::Interactions::DemoCheckIn,
       Hackbot::Interactions::Delete,
+      Hackbot::Interactions::DeleteJoins,
       Hackbot::Interactions::DiceRoll,
       Hackbot::Interactions::Gifs,
       Hackbot::Interactions::Help,
