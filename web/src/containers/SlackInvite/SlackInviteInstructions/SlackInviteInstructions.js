@@ -100,7 +100,7 @@ class SlackInviteInstructions extends Component {
     return (
       <Card style={[styles.card,styles.wideCard]}>
         <Button type="form" state="success">Success! <Emoji type="party_popper"/></Button>
-        <Text style={styles.text}>Your temporary email address is <span style={styles.email}>{email}</span>. We've created an account for you using the temporary email address and transfered it to your preferred email as. You'll need to use the temporary email the first time you sign into your account. After that, you'll use your preferred email to sign up.</Text>
+        <Text style={styles.text}>Your temporary email address is <span style={styles.email}>{email}</span>. We've created an account for you using the temporary email address and transferred it to your preferred email as. You'll need to use the temporary email the first time you sign into your account. After that, you'll use your preferred email to sign up.</Text>
         <Heading>Here's the next step to join:</Heading>
         <Text style={styles.text}>You'll get an email in the next few minutes from Slack. Click this button:</Text>
         <img style={styles.image} src={exampleSlackEmail} alt="Slack email" />
