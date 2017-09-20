@@ -58,5 +58,5 @@ export default reduxForm({
   form: 'slackInviteForm',
   validate,
   asyncValidate,
-  asyncBlurFields: ['password']
+  asyncBlurFields: ['email', 'username', 'password']
 })(SlackInviteForm)

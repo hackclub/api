@@ -7,13 +7,12 @@ export const validate = createValidator({
   password: [required]
 })
 
-export function asyncValidate(data) {
-  const value = data.password
-  if (!value) {
-    return Promise.resolve({})
-  }
 
-  return fetch(`https://slack.com/api/signup.checkPasswordComplexity?password=${value}`)
+function createSlackValidator(value, endpoint, param, errorDescriptions={}, field) {
+  if (!value) {
+    return
+  }
+  return fetch(`https://slack.com/api/signup.${endpoint}?${param}=${value}`)
     .then(response => {
       return response.json()
     })
@@ -21,20 +20,36 @@ export function asyncValidate(data) {
       if (json.ok) {
         Promise.resolve()
       } else {
-        const descriptions = {
-          repeated: "Password can't just be a repeated character",
-          common: "Password can't be a common word",
-          too_short: 'Password must be at least 6 characters',
-        }
-        return {password: descriptions[json.error] || json.error}
+        return {[field || param]: errorDescriptions[json.error] || json.error}
       }
     })
     .catch(e => {
-      console.log(`Password couldn't be validated: ${e}`)
+      console.log(`${field} couldn't be validated: ${e}`)
     })
-  return new Promise(resolve => {setTimeout(resolve, 1000)}).then(() => {
-    if(value === 'password') {
-      throw {password: 'that password sucks'}
+}
+
+export function asyncValidate(data) {
+  return Promise.all(
+    [
+      createSlackValidator(data.email, 'checkEmail', 'email'),
+      createSlackValidator(data.username, 'checkUsername', 'username', {
+        long_username: 'Username is too long'
+      }),
+      createSlackValidator(data.password, 'checkPasswordComplexity', 'password', {
+        repeated: "Password can't just be a repeated character",
+        common: "Password can't be a common word",
+        too_short: 'Password must be at least 6 characters',
+      })
+    ]
+  ).then(arr => {
+    var results = {}
+    arr.forEach(result => {
+      results = {...results, ...result}
+    })
+    if (results === {}) {
+      Promise.resolve()
+    } else {
+      return results
     }
   })
 }
