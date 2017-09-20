@@ -55,7 +55,8 @@ class SlackInviteInstructions extends Component {
         <img style={styles.image} src={exampleSlackEmail} alt="Slack email" />
         <Text style={styles.text}>The button will link to a page that looks like this:</Text>
         <img style={styles.image} src={slackValidationPage} alt="Slack validation webpage" />
-        <Text style={styles.text}>Sign in with your temporary email address (<span style={styles.email}>{inviteEmail}</span>) and your password. Once you've done that, you can hop on Slack with your own email address at <Link href="https://hackclub.slack.com">hackclub.slack.com</Link>.</Text>
+        <Text style={styles.text}>Sign in with your temporary email address (<span style={styles.email}>{inviteEmail}</span>) and your password. Once you've done that, can use your preferred email address in the future.</Text>
+        <Button type="link" href="https://hackclub.slack.com">Head to Slack</Button>
       </Card>
     )
   }
