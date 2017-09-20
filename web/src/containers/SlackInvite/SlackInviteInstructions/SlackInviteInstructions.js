@@ -39,13 +39,13 @@ class SlackInviteInstructions extends Component {
     return (
       <Card style={[styles.card,styles.wideCard]}>
         <Button type="form" state="success">Success! <Emoji type="party_popper"/></Button>
-        <Text style={styles.text}>Now that we've created an account on Slack for you, we need to transfer the account to you.</Text>
+        <Text style={styles.text}>Your temporary email address is <span style={styles.email}>{inviteEmail}</span>. We've created an account for you using the temporary email address and transfered it to your preferred email as. You'll need to use the temporary email the first time you sign into your account. After that, you'll use your preferred email to sign up.</Text>
         <Heading>Here's the next step to join:</Heading>
         <Text style={styles.text}>You'll get an email in the next few minutes from Slack. Click this button:</Text>
         <img style={styles.image} src={exampleSlackEmail} alt="Slack email" />
-        <Text style={styles.text}>The button will link to page that looks like this:</Text>
+        <Text style={styles.text}>The button will link to a page that looks like this:</Text>
         <img style={styles.image} src={slackValidationPage} alt="Slack validation webpage" />
-        <Text style={styles.text}>In the future you can sign in with your own account, but to get the account transfered to you this first time, you'll need to use this as your email: <span style={styles.email}>{inviteEmail}</span> (use your regular password with it). Once you sign in, you will have access to <Link href="https://hackclub.slack.com">hackclub.slack.com</Link>.</Text>
+        <Text style={styles.text}>Sign in with your temporary email address (<span style={styles.email}>{inviteEmail}</span>) and your password. Once you've done that, you can hop on Slack with your own email address at <Link href="https://hackclub.slack.com">hackclub.slack.com</Link>.</Text>
       </Card>
     )
   }
