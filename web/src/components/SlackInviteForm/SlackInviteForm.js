@@ -6,7 +6,7 @@ import {
   TextField
 } from 'components'
 
-import slackInviteValidation from './slackInviteValidation'
+import {validate, asyncValidate} from './slackInviteValidation'
 
 class SlackInviteForm extends Component {
   buttonState() {
@@ -56,5 +56,7 @@ class SlackInviteForm extends Component {
 
 export default reduxForm({
   form: 'slackInviteForm',
-  validate: slackInviteValidation
+  validate,
+  asyncValidate,
+  asyncBlurFields: ['password']
 })(SlackInviteForm)
