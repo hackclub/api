@@ -12,6 +12,10 @@ module Hackbot
       def start
         im = SlackClient::Chat.open_im(event[:user], access_token)
 
+        return unless im[:ok]
+
+        return if im[:already_open]
+
         SlackClient::Chat.send_msg(
           im[:channel][:id],
           copy('greeting'),
