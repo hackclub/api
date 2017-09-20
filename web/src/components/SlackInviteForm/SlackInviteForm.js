@@ -41,10 +41,10 @@ class SlackInviteForm extends Component {
 
     return (
       <form style={style} onSubmit={handleSubmit}>
-        <Field name="email" label="Email" placeholder="fiona@hackworth.com" component={TextField} />
-        <Field name="username" label="Username" placeholder="fiona" component={TextField}/>
-        <Field name="full_name" label="Full name" placeholder="Fiona Hackworth" component={TextField}/>
-        <Field name="password" label="Password" placeholder="Dinosaur" component={TextField} type="password"/>
+        <Field name="email" label="Email" placeholder="orpheus@hackclub.com" component={TextField} />
+        <Field name="username" label="Username" placeholder="proforpheus" component={TextField} />
+        <Field name="full_name" label="Full name" placeholder="Prophet Orpheus" component={TextField} />
+        <Field name="password" label="Password" placeholder="LastDinosaur" component={TextField} type="password"/>
 
         <Button type="form" state={this.buttonState()}>
           {this.buttonText(status)}
