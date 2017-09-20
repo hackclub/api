@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 class SlackSignUpJob < ApplicationJob
   DEFAULT_CHANNEL_ID = 'C74HZS5A5'.freeze
 
@@ -14,6 +15,7 @@ class SlackSignUpJob < ApplicationJob
     set_user_pref('seen_welcome_2', 'true')
     set_user_pref('onboarding_cancelled', 'true')
     go_to_channel(DEFAULT_CHANNEL_ID)
+    change_username
     @invite.update(state: @invite.class::STATE_CONFIGURED_CLIENT)
 
     change_email
@@ -81,6 +83,26 @@ class SlackSignUpJob < ApplicationJob
   # rubocop:enable Metrics/MethodLength
 
   # rubocop:disable Metrics/MethodLength
+  def change_username
+    RestClient.post(
+      url_change_email,
+      {
+        change_username: 1,
+        crumb: change_email_crumb,
+        username: @invite.username
+      },
+      cookies: @jar
+    )
+
+    raise Exception('Expected a 302, did not get a 302.')
+  rescue RestClient::Found => e
+    # We want Slack to give us a 302 (NotFound)
+
+    e.response
+  end
+  # rubocop:enable Metrics/MethodLength
+
+  # rubocop:disable Metrics/MethodLength
   def go_to_channel(channel_id)
     RestClient.post(
       url_conversations_read,
@@ -129,3 +151,4 @@ class SlackSignUpJob < ApplicationJob
     )[:team][:domain]
   end
 end
+# rubocop:enable Metrics/ClassLength
