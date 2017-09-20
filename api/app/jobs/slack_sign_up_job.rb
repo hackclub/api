@@ -1,7 +1,7 @@
 # rubocop:disable Metrics/ClassLength
 class SlackSignUpJob < ApplicationJob
   DEFAULT_CHANNEL_ID = 'C74HZS5A5'.freeze
-  SLACK_THEME='&sidebar_theme=custom_theme&sidebar_theme_custom_values='\
+  SLACK_THEME = '&sidebar_theme=custom_theme&sidebar_theme_custom_values='\
   '{"column_bg":"#ffffff","menu_bg":"#f9d5d9","active_item":"#e42d42",'\
   '"active_item_text":"#ffffff","hover_item":"#f9d5d9","text_color":"#e42d42",'\
   '"active_presence":"#28ce68","badge":"#2d9ee4"}'.freeze
@@ -20,7 +20,7 @@ class SlackSignUpJob < ApplicationJob
     set_user_pref('onboarding_cancelled', 'true')
     go_to_channel(DEFAULT_CHANNEL_ID)
     change_username
-    set_theme(SLACK_THEME)
+    change_theme(SLACK_THEME)
     @invite.update(state: @invite.class::STATE_CONFIGURED_CLIENT)
 
     change_email
@@ -66,7 +66,7 @@ class SlackSignUpJob < ApplicationJob
     )
   end
 
-  def set_theme(theme)
+  def change_theme(theme)
     RestClient.post(
       url_user_prefs,
       {
