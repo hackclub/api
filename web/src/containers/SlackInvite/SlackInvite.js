@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Radium from 'radium'
 import Helmet from 'react-helmet'
+import { withRouter } from 'react-router'
 
 import colors from 'styles/colors'
-import config from 'config'
 
 import { connect } from 'react-redux'
 import * as slackInviteActions from 'redux/modules/slackInvite'
@@ -19,7 +19,6 @@ import {
 
 import SlackInviteInstructions from './SlackInviteInstructions/SlackInviteInstructions'
 import SlackInviteFormWrapper from './SlackInviteFormWrapper/SlackInviteFormWrapper'
-import SlackInviteLoading from './SlackInviteLoading/SlackInviteLoading'
 
 const styles = {
   heading: {
@@ -37,54 +36,26 @@ class SlackInvite extends Component {
     submit: PropTypes.func.isRequired,
   }
 
-  constructor(props) {
-    super(props)
-
-    this.pollForUpdate = this.pollForUpdate.bind(this)
-  }
-
   handleSubmit(values) {
     const { submit } = this.props
 
     return submit(values.email, values.username, values.full_name, values.password)
       .then(response => {
-        this.setState({
-          id: response.id,
-          email: response.temp_email,
-          inviteState: response.state,
-        })
+        this.props.router.push(`/slack_invite/${response.id}`)
       })
       .catch(error => {
         throw new SubmissionError(error.errors)
       })
   }
 
-  pollForUpdate() {
-    const { id } = this.state
-    fetch(`${config.apiBaseUrl}/v1/slack_invitation/invite/${id}`)
-      .then(response => {
-        return response.json()
-      })
-      .then(json => {
-        this.setState({
-          inviteState: json.state
-        })
-      })
-      .catch(err => console.error(err))
-  }
-
   content() {
-    const { status } = this.props
-    const { email, inviteState } = this.state
+    const { params, status } = this.props
 
-    switch(inviteState) {
-      case undefined:
-        return (<SlackInviteFormWrapper status={status}
-                                        onSubmit={values => this.handleSubmit(values)}/>)
-      case 'changed_email':
-        return (<SlackInviteInstructions inviteEmail={email} />)
-      default:
-        return (<SlackInviteLoading poll={this.pollForUpdate} inviteState={inviteState} />)
+    if (params.id) {
+      return (<SlackInviteInstructions id={params.id} />)
+    } else {
+      return (<SlackInviteFormWrapper status={status}
+                                      onSubmit={values => this.handleSubmit(values)}/>)
     }
   }
 
@@ -131,4 +102,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   {...slackInviteActions}
-)(Radium(SlackInvite))
+)(withRouter(Radium(SlackInvite)))
