@@ -1,8 +1,8 @@
-import { createValidator, required, email/*, slackPassword*/ } from 'utils/validation'
+import { createValidator, required, email, slackUsername } from 'utils/validation'
 
 export const validate = createValidator({
   email: [required, email],
-  username: [required],
+  username: [required, slackUsername],
   full_name: [required],
   password: [required]
 })
@@ -33,7 +33,8 @@ export function asyncValidate(data) {
     [
       createSlackValidator(data.email, 'checkEmail', 'email'),
       createSlackValidator(data.username, 'checkUsername', 'username', {
-        long_username: 'Username is too long'
+        long_username: 'Username is too long',
+        bad_username: 'Username can only contain lowercase letters, numbers, and underscores'
       }),
       createSlackValidator(data.password, 'checkPasswordComplexity', 'password', {
         repeated: "Password can't just be a repeated character",
