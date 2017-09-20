@@ -12,7 +12,7 @@ function createSlackValidator(value, endpoint, param, errorDescriptions={}, fiel
   if (!value) {
     return
   }
-  return fetch(`https://slack.com/api/signup.${endpoint}?${param}=${value}`)
+  return fetch(`https://slack.com/api/signup.${endpoint}?${param}=${encodeURIComponent(value)}`)
     .then(response => {
       return response.json()
     })
