@@ -1,16 +1,5 @@
 # Monolith
 
-**Table of Contents**
-
-- [Monolith](#monolith)
-  - [Setup](#setup)
-  - [Web Configuration](#web-configuration)
-  - [API Configuration](#api-configuration)
-    - [Environmental Variables](#environmental-variables)
-    - [Setting up the Slack App](#setting-up-the-slack-app)
-    - [Scheduled Jobs](#scheduled-jobs)
-    - [Deployment on Heroku](#deployment-on-heroku)
-
 ## How to get it set up
 
 Go through the [web setup](#web-setup) and [api setup](#api-setup). Once you've got that done you can spin up both at the same time with this command:
