@@ -2,9 +2,9 @@
 class SlackSignUpJob < ApplicationJob
   DEFAULT_CHANNEL_ID = 'C74HZS5A5'.freeze
   SLACK_THEME = '&sidebar_theme=custom_theme&sidebar_theme_custom_values='\
-  '{"column_bg":"#ffffff","menu_bg":"#f9d5d9","active_item":"#e42d42",'\
-  '"active_item_text":"#ffffff","hover_item":"#f9d5d9","text_color":"#e42d42",'\
-  '"active_presence":"#28ce68","badge":"#2d9ee4"}'.freeze
+  '{"column_bg":"#f8f8fa","menu_bg":"#f8f8fa","active_item":"#2d9ee0",'\
+  '"active_item_text":"#ffffff","hover_item":"#ffffff","text_color":"#383f45",'\
+  '"active_presence":"#60d156","badge":"#dc5960"}'.freeze
 
   # rubocop:disable Metrics/AbcSize
   # rubocop:disable Metrics/MethodLength
