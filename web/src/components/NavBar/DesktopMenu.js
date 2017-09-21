@@ -47,7 +47,7 @@ class DesktopMenu extends Component {
 
     return (btns.map((btn, i) => {
       return (
-        <Link key={i} to={btn.to} style={[styles.links,btn.style]}>{btn.title}</Link>
+        <Link key={i} to={btn.to} href={btn.href} style={[styles.links,btn.style]}>{btn.title}</Link>
       )
     }))
   }

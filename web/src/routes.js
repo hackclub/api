@@ -28,8 +28,7 @@ export default (store) => {
 
       <Route path="team" component={TeamPage} />
 
-      <Route path="workshops" component={WorkshopWrapper} />
-      <Route path="workshops/*" component={WorkshopWrapper} />
+      <Route path="workshops*" component={WorkshopWrapper} />
 
       <Route component={OneOffFormWrapper}>
         <Route path="donate" component={DonationPage} />
