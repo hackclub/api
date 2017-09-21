@@ -1,17 +1,20 @@
 greeting:
     if_first_check_in: |
-        Hey <%= first_name %>! I'm Hackbot, Hack Club's friendly robot helper.
+        Hey <%= first_name %>! I'm Orpheus, Hack Club's friendly robot dinosaur.
 
         I'll be reaching out to you every week, typically on Fridays, to check in and see how your club's doing. I'll be in the loop every step of the way :slightly_smiling_face:
 
         To start, did you have a club meeting this week?
     if_first_check_in_of_semester: |
-      Hey <%= first_name %>! Hackbot here, hope you've had a great break!
+      Hey <%= first_name %>! Orpheus here (I've just changed my name from Hackbot :P), hope you've had a great break!
       
       You've been scheduled to restart your club this week, if this is no longer true (or there's some other issue) you should message <@U0C7BTKLG> to get it resolved.
       
       OK, time for the check-in: Did you have a meeting this week?
-    default: Hey <%= first_name %>! Let's get started — please be sure to complete this check-in by <%= deadline %>. Did your club meet this week?
+    default: |
+      Hey <%= first_name %>... Notice anything different about me? Yep, that's right -- I changed my name! You can call me Orpheus now :)
+
+      Let's get started — please be sure to complete this check-in by <%= deadline %>. Did your club meet this week?
     restart: Let's start again! Did your club meet this week?
     dormant:
         text: Hey! We've been getting feedback that a lot of schools are heading into summer and/or exams right now, and are no longer planning on meeting this school year. Basically, if you're one of these leaders, we'd like to give you a way to opt-out of check-ins. So, are you on a school break right now and not planning on meeting until the next school year?
