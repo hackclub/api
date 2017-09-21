@@ -23,15 +23,17 @@ Create a file called `web/.env` with the following contents, replacing "REPLACEM
 
 ```sh
 # For server-rendered meta tags
-REACT_APP_META_TITLE=REPLACEME
-REACT_APP_META_DESCRIPTION=REPLACEME
-REACT_APP_META_OG_IMAGE=REPLACEME
+REACT_APP_META_TITLE="Start your own Hack Club!"
+REACT_APP_META_DESCRIPTION="Learn in your own environment, your own way. Join a network of club leaders around the world who can help you every step of the way."
+# In production this is set to "https://hackclub.com/meta_og_image.png"
+REACT_APP_META_OG_IMAGE="localhost:3001/meta_og_image.png"
 
 # For Segment analytics
 REACT_APP_SEGMENT_KEY=REPLACEME
 
 # For requests to the API used in workshops, slack invites, etc.
-REACT_APP_API_BASE_URL=REPLACEME
+# In production this is set to "https://api.hackclub.com"
+REACT_APP_API_BASE_URL=localhost:3000
 
 # For Hackbot new team auth
 REACT_APP_SLACK_CLIENT_ID=REPLACEME
