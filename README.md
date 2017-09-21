@@ -13,7 +13,7 @@
 
 ## How to get it set up
 
-Go through the [frontend setup](#frontend-setup) and [api setup](#api-setup). Once you've got that done you can spin up both at the same time with this command:
+Go through the [web setup](#web-setup) and [api setup](#api-setup). Once you've got that done you can spin up both at the same time with this command:
 
 And then `api` and `web` should be live!
 
@@ -48,16 +48,16 @@ REACT_APP_STRIPE_PUBLISHABLE_KEY=REPLACEME
 
 All these values are mandatory.
 
-Right now we only maintian the frontend running on docker. While just spinning up the server with node on your own machine should work, milage may vary.
+Right now we only maintain web running on docker. While just spinning up the server with node on your own machine should work, milage may vary.
 
 ```sh
-docker-compose build frontend
-docker-compose run frontend yarn
+docker-compose build web
+docker-compose run web yarn
 ```
 
 ```sh
-# Now you can start up the frontend anytime you want
-docker-compose up frontend
+# Now you can start up web anytime you want
+docker-compose up web
 ```
 
 ## API Setup
