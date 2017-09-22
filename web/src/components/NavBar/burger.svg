@@ -1,21 +1,21 @@
 <svg width="80" height="74" viewBox="0 0 80 74" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <title>Group</title>
 <desc>Created using Figma</desc>
-<g id="Canvas" transform="translate(206 131)">
+<g id="Canvas" transform="translate(328 141)">
 <g id="Group">
-<g id="Hamburg">
-<g id="Hamburg">
-<use xlink:href="#path0_fill" transform="translate(-206 -131)" fill="#FFFFFF"/>
+<g id="Rectangle">
+<g id="Rectangle">
+<use xlink:href="#path0_fill" transform="translate(-328 -77)" fill="#FFFFFF"/>
 </g>
 </g>
-<g id="Hamburg">
-<g id="Hamburg">
-<use xlink:href="#path0_fill" transform="translate(-206 -99)" fill="#FFFFFF"/>
+<g id="Rectangle">
+<g id="Rectangle">
+<use xlink:href="#path0_fill" transform="translate(-328 -109)" fill="#FFFFFF"/>
 </g>
 </g>
-<g id="Hamburg">
-<g id="Hamburg">
-<use xlink:href="#path0_fill" transform="translate(-206 -67)" fill="#FFFFFF"/>
+<g id="Rectangle">
+<g id="Rectangle">
+<use xlink:href="#path0_fill" transform="translate(-328 -141)" fill="#FFFFFF"/>
 </g>
 </g>
 </g>

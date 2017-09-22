@@ -10,7 +10,6 @@ import logo from './logo.svg'
 
 const styles = {
   wrapper: {
-    minHeight: '4.3em',
     textAlign: 'center',
     [mediaQueries.mediumUp]: {
       display: 'none'
@@ -23,14 +22,9 @@ const styles = {
     position: 'absolute',
     top: '0',
     left: '0',
-    height: '1.8em',
-    width: '1.8em',
-    padding: '0.2em',
+    height: '1.5em',
+    width: '1.5em',
     margin: '1em',
-    borderColor: colors.white,
-    borderRadius: '3px',
-    borderStyle: 'solid',
-    borderWidth: '0.05em'
   },
   menu: {
     textAlign: 'center',
@@ -51,7 +45,7 @@ const styles = {
   },
   logo: {
     height: '1.5em',
-    margin: '1.4em auto',
+    margin: '1em auto',
   }
 }
 
