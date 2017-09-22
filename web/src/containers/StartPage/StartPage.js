@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Helmet from 'react-helmet'
 import { HorizontalRule, NavBar } from 'components'
 import { mediaQueries } from 'styles/common'
@@ -23,20 +23,15 @@ const styles = {
   }
 }
 
-class Start extends Component {
-  render() {
-    return (
-      <div>
-        <Helmet title="Start" />
-
-        <NavBar />
-        <StepsHeader />
-        <HorizontalRule style={styles.hr} />
-        <StepsDescription />
-        <StartForm />
-      </div>
-    )
-  }
-}
+const Start = () => (
+  <div>
+    <Helmet title="Start" />
+    <NavBar />
+    <StepsHeader />
+    <HorizontalRule style={styles.hr} />
+    <StepsDescription />
+    <StartForm />
+  </div>
+);
 
 export default Start

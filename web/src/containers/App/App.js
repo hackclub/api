@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Helmet from 'react-helmet'
 import config from 'config'
 
@@ -7,15 +7,13 @@ const styles = {
   fontFamily: "'Open Sans', -apple-system, BlinkMacSystemFont, 'Avenir Next', 'Helvetica Neue', Roboto, 'Segoe UI', sans-serif"
 }
 
-class App extends Component {
-  render() {
-    return (
-      <div style={styles}>
-        <Helmet {...config.head} />
-        {this.props.children}
-      </div>
-    )
-  }
+const App = (props) => {
+  return (
+    <div style={styles}>
+      <Helmet {...config.head} />
+      {props.children}
+    </div>
+  )
 }
 
 export default App

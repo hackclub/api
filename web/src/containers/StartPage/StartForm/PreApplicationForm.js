@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import {
   Text,
   Button,
@@ -9,25 +9,24 @@ import { createValidator, required } from 'utils/validation'
 import { reduxForm, Field } from 'redux-form'
 import { personTypes } from 'redux/modules/application'
 
-class PreApplicationForm extends Component {
-  render() {
-    const { handleSubmit, invalid } = this.props
-    const buttonState = invalid ? "disabled" : null
+const PreApplicationForm = (props) => {
+  const { handleSubmit, invalid } = props
+  const buttonState = invalid ? "disabled" : null
 
-    return (
-      <form onSubmit={handleSubmit}>
-        <Text>I am a...</Text>
-        <Field name="person_type" component={SelectField}>
-          <option></option>
-          <option value={personTypes.student}>Student</option>
-          <option value={personTypes.teacher}>Teacher</option>
-          <option value={personTypes.parent}>Parent</option>
-          <option value={personTypes.other}>Other</option>
-        </Field>
-        <Button type="form" state={buttonState}>Continue</Button>
-      </form>
-    )
-  }
+  return (
+    <form onSubmit={handleSubmit}>
+      <Text>I am a...</Text>
+      <Field name="person_type" component={SelectField}>
+        <option></option>
+        <option value={personTypes.student}>Student</option>
+        <option value={personTypes.teacher}>Teacher</option>
+        <option value={personTypes.parent}>Parent</option>
+        <option value={personTypes.other}>Other</option>
+      </Field>
+      <Button type="form" state={buttonState}>Continue</Button>
+    </form>
+  )
+
 }
 
 export default reduxForm({
