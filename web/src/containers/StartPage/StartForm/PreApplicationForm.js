@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import {
   Text,
   Button,
@@ -9,9 +9,8 @@ import { createValidator, required } from 'utils/validation'
 import { reduxForm, Field } from 'redux-form'
 import { personTypes } from 'redux/modules/application'
 
-class PreApplicationForm extends Component {
-  render() {
-    const { handleSubmit, invalid } = this.props
+const PreApplicationForm = (props) => {
+    const { handleSubmit, invalid } = props
     const buttonState = invalid ? "disabled" : null
 
     return (
@@ -27,7 +26,7 @@ class PreApplicationForm extends Component {
         <Button type="form" state={buttonState}>Continue</Button>
       </form>
     )
-  }
+
 }
 
 export default reduxForm({
