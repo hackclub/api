@@ -1,6 +1,5 @@
 # rubocop:disable Metrics/ClassLength
 class SlackSignUpJob < ApplicationJob
-  DEFAULT_CHANNEL_ID = 'C74HZS5A5'.freeze
   SLACK_THEME = '&sidebar_theme=custom_theme&sidebar_theme_custom_values='\
   '{"column_bg":"#f6f6f6","menu_bg":"#eeeeee","active_item":"#fa3649",'\
   '"active_item_text":"#ffffff","hover_item":"#ffffff","text_color":"#444444",'\
@@ -18,7 +17,6 @@ class SlackSignUpJob < ApplicationJob
 
     set_user_pref('seen_welcome_2', 'true')
     set_user_pref('onboarding_cancelled', 'true')
-    go_to_channel(DEFAULT_CHANNEL_ID)
     change_username
     change_theme(SLACK_THEME)
     @invite.update(state: @invite.class::STATE_CONFIGURED_CLIENT)
@@ -165,7 +163,7 @@ class SlackSignUpJob < ApplicationJob
 
   def team_subdomain
     @team_subdomain ||= SlackClient::Team.info(
-      Rails.application.secrets.slack_admin_access_token
+      @invite.team.bot_access_token
     )[:team][:domain]
   end
 end

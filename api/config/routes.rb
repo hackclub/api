@@ -25,6 +25,7 @@ Rails.application.routes.draw do
     namespace :slack_invitation do
       resources :invite, only: [:create, :show]
       resources :webhook, only: [:create]
+      resources :strategies, only: [:show]
     end
   end
 end

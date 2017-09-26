@@ -1,6 +1,4 @@
 class SlackInvite < ApplicationRecord
-  ACCESS_TOKEN = Rails.application.secrets.slack_admin_access_token
-
   STATE_INVITED = 'invited'.freeze
   STATE_INVITE_RECEIVED = 'invite_received'.freeze
   STATE_SIGNED_UP = 'signed_up'.freeze
@@ -11,8 +9,17 @@ class SlackInvite < ApplicationRecord
 
   after_initialize :defaults
 
+  belongs_to :team,
+    foreign_key: 'hackbot_team_id',
+    class_name: ::Hackbot::Team
+
+  belongs_to :slack_invite_strategy
+
+  validates :team, presence: true
+  validates :username, uniqueness: true
+
   def dispatch
-    resp = SlackClient::Team.invite_user(temp_email, ACCESS_TOKEN)
+    resp = SlackClient::Team.invite_user(temp_email, admin_access_token)
 
     update(state: STATE_INVITED)
 
@@ -34,5 +41,9 @@ class SlackInvite < ApplicationRecord
 
   def defaults
     self.token ||= rand(36**TOKEN_LENGTH - 1).to_s(36)
+  end
+
+  def admin_access_token
+    AdminUser.find_by(team: team.team_id).try(:access_token)
   end
 end
