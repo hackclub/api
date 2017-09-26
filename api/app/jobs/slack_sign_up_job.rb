@@ -140,7 +140,7 @@ class SlackSignUpJob < ApplicationJob
 
   def join_user_groups
     admin_access_token = AdminUser.find_by(team: @invite.team.team_id)
-      .try(:access_token)
+                                  .try(:access_token)
 
     @invite.slack_invite_strategy.user_groups.each do |ug|
       SlackClient::Usergroups.users_add(ug, @slack_id, admin_access_token)
