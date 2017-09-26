@@ -6,7 +6,7 @@ import Axios from 'axios'
 import config from 'config'
 import { mediaQueries } from 'styles/common'
 import { LoadingSpinner, NavBar } from 'components'
-import { NotFound } from 'containers'
+import { NotFound } from 'components'
 
 import Workshop from './Workshop/Workshop'
 import PrintButton from './PrintButton'

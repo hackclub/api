@@ -1,6 +1,7 @@
 module Hackbot
   module Interactions
     class Greeter < TextConversation
+      # The lobby channel
       DEFAULT_CHANNEL = 'C74HZS5A5'.freeze
 
       def should_start?
@@ -20,7 +21,7 @@ module Hackbot
 
         SlackClient::Chat.send_msg(
           im[:channel][:id],
-          copy('greeting'),
+          greeting,
           access_token,
           as_user: true
         )
@@ -37,6 +38,23 @@ module Hackbot
         interaction.handle
         interaction.save!
         interaction
+      end
+
+      def greeting
+        profile = SlackClient::Users.info(event[:user], access_token)
+
+        return unless profile[:ok]
+
+        email = profile[:user][:profile][:email]
+
+        token = email.match(/slack\+(\w+)\@.*/)[1]
+
+        invite = SlackInvite.find_by(
+          token: token,
+          team: team
+        )
+
+        invite.slack_invite_strategy.greeting
       end
     end
   end

@@ -7,5 +7,9 @@ module SlackClient
     def self.list(access_token)
       SlackClient.rpc('users.list', access_token, presence: true)
     end
+
+    def self.identity(access_token)
+      SlackClient.rpc('users.identity', access_token)
+    end
   end
 end
