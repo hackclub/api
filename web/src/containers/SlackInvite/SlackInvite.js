@@ -47,7 +47,7 @@ class SlackInvite extends Component {
       nameParam: params.name || 'default'
     })
 
-    fetch(endpoint + params.name)
+    fetch(endpoint + this.state.nameParam)
       .then(response => {
         if (!response.ok) {
           throw Error(response.statusText);
