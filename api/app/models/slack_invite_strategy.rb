@@ -8,6 +8,6 @@ class SlackInviteStrategy < ApplicationRecord
              class_name: ::Hackbot::Team
 
   def url
-    "https://hackclub.com/slack/#{name}"
+    "https://hackclub.com/slack_invite/#{name}"
   end
 end
