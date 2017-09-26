@@ -44,17 +44,8 @@ class SlackInvite extends Component {
 
     this.setState({
       loading: true,
-      nameParam: params.name || 'hc'
+      nameParam: params.name || 'default'
     })
-
-    if (!params.name) {
-      this.setState({
-        clubName: 'Hack Club',
-        primaryColor: colors.primary,
-        loading: false
-      })
-      return
-    }
 
     fetch(endpoint + params.name)
       .then(response => {
