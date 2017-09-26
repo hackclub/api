@@ -22,7 +22,6 @@ module Hackbot
             club_name: name,
             greeting: 'Welcome to the Slack!',
             primary_color: 'E42D40',
-            channels: [],
             user_groups: [],
             theme: DEFAULT_THEME,
             team: team
