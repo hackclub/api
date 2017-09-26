@@ -1,6 +1,11 @@
 module Hackbot
   module Interactions
     class CreateSlackInviteStrategy < Command
+      DEFAULT_THEME = '&sidebar_theme=custom_theme&sidebar_theme_custom_values'\
+        '={"column_bg":"#f6f6f6","menu_bg":"#eeeeee","active_item":"#fa3649",'\
+        '"active_item_text":"#ffffff","hover_item":"#ffffff","text_color":'\
+        '"#444444","active_presence":"#60d156","badge":"#fa3649"}'.freeze
+
       TRIGGER = /create-slack-invite-strategy (?<name>.*)/
 
       USAGE = 'create-slack-invite-strategy <strategy-name>'.freeze
@@ -19,6 +24,7 @@ module Hackbot
             primary_color: 'E42D40',
             channels: [],
             user_groups: [],
+            theme: DEFAULT_THEME,
             team: team
           )
         end

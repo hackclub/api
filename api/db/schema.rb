@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170925085422) do
+ActiveRecord::Schema.define(version: 20170926032611) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -223,6 +223,7 @@ ActiveRecord::Schema.define(version: 20170925085422) do
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.integer  "hackbot_team_id"
+    t.text     "theme"
     t.index ["hackbot_team_id"], name: "index_slack_invite_strategies_on_hackbot_team_id", using: :btree
   end
 

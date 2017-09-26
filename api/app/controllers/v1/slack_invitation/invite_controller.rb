@@ -2,7 +2,7 @@ module V1
   module SlackInvitation
     class InviteController < ApplicationController
       def create
-        invite = SlackInvite.create(
+        invite = ::SlackInvite.create(
           invite_params.merge(team: team)
         )
 
@@ -14,7 +14,7 @@ module V1
       end
 
       def show
-        invite = SlackInvite.find(params[:id])
+        invite = ::SlackInvite.find(params[:id])
 
         render json: strip(invite), status: 200
       end
@@ -31,7 +31,7 @@ module V1
       end
 
       def team
-        Hackbot::Team.find_by(
+        ::Hackbot::Team.find_by(
           team_id: Rails.application.secrets.default_slack_team_id
         )
       end
