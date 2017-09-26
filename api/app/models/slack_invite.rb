@@ -10,8 +10,8 @@ class SlackInvite < ApplicationRecord
   after_initialize :defaults
 
   belongs_to :team,
-    foreign_key: 'hackbot_team_id',
-    class_name: ::Hackbot::Team
+             foreign_key: 'hackbot_team_id',
+             class_name: ::Hackbot::Team
 
   belongs_to :slack_invite_strategy
 

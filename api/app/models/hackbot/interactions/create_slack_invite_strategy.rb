@@ -3,14 +3,15 @@ module Hackbot
     class CreateSlackInviteStrategy < Command
       TRIGGER = /create-slack-invite-strategy (?<name>.*)/
 
-      USAGE='create-slack-invite-strategy <strategy-name>'
-      DESCRIPTION='a handy command to create a slack invite strategy'
+      USAGE = 'create-slack-invite-strategy <strategy-name>'.freeze
+      DESCRIPTION = 'a handy command to create a slack invite strategy'.freeze
 
+      # rubocop:disable Metrics/MethodLength
       def start
         name = captured[:name]
         strat = SlackInviteStrategy.find_by(name: name)
 
-        if !strat 
+        unless strat
           strat = SlackInviteStrategy.create(
             name: name,
             club_name: name,
@@ -18,7 +19,7 @@ module Hackbot
             primary_color: 'E42D40',
             channels: [],
             user_groups: [],
-            team: team,
+            team: team
           )
         end
 
@@ -35,14 +36,13 @@ module Hackbot
 
         :wait_for_club_name
       end
+      # rubocop:enable Metrics/MethodLength
 
       def wait_for_club_name
-        unless skipped?
-          strategy.update(club_name: event[:text])
-        end
+        strategy.update(club_name: event[:text]) unless skipped?
 
         msg_channel(
-          text: "How should your Slack members be greeted?",
+          text: 'How should your Slack members be greeted?',
           attachments: [
             actions: [
               { text: 'Skip :fast_forward:', value: 'skip' }
@@ -54,12 +54,10 @@ module Hackbot
       end
 
       def wait_for_greeting
-        unless skipped?
-          strategy.update(greeting: event[:text])
-        end
+        strategy.update(greeting: event[:text]) unless skipped?
 
         msg_channel(
-          text: "What color should the theme of your form be?",
+          text: 'What color should the theme of your form be?',
           attachments: [
             actions: [
               { text: 'Skip :fast_forward:', value: 'skip' }
@@ -71,11 +69,11 @@ module Hackbot
       end
 
       def wait_for_color
-        unless skipped?
-          strategy.update(primary_color: event[:text])
-        end
+        strategy.update(primary_color: event[:text]) unless skipped?
 
-        msg_channel("Alright! Thanks for filling out this little form. You can see your Slack invite strategy live at #{strategy.url}")
+        msg_channel('Alright! Thanks for filling out this little form. You '\
+                    'can see your Slack invite strategy live at '\
+                    "#{strategy.url}")
       end
 
       private

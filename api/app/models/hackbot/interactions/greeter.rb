@@ -51,7 +51,7 @@ module Hackbot
 
         invite = SlackInvite.find_by(
           token: token,
-          team: team,
+          team: team
         )
 
         invite.slack_invite_strategy.greeting

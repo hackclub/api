@@ -22,7 +22,8 @@ module V1
       private
 
       def invite_params
-        params.permit(:email, :username, :full_name, :password, :slack_invite_strategy_id)
+        params.permit(:email, :username, :full_name, :password,
+                      :slack_invite_strategy_id)
       end
 
       def strip(inv)
@@ -30,7 +31,9 @@ module V1
       end
 
       def team
-        Hackbot::Team.find_by(team_id: Rails.application.secrets.default_slack_team_id)
+        Hackbot::Team.find_by(
+          team_id: Rails.application.secrets.default_slack_team_id
+        )
       end
     end
   end
