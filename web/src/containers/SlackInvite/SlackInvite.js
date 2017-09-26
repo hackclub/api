@@ -41,13 +41,14 @@ class SlackInvite extends Component {
   componentDidMount() {
     const { params } = this.props
     const endpoint = `${config.apiBaseUrl}/v1/slack_invitation/strategies/`
+    const nameParam = params.name || 'default'
 
     this.setState({
       loading: true,
-      nameParam: params.name || 'default'
+      nameParam
     })
 
-    fetch(endpoint + this.state.nameParam)
+    fetch(endpoint + nameParam)
       .then(response => {
         if (!response.ok) {
           throw Error(response.statusText);
