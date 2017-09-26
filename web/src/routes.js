@@ -12,6 +12,7 @@ import {
   OneOffFormWrapper,
   RedeemTechDomain,
   SlackInvite,
+  SlackInviteInstructions,
   StartPage,
   TeamPage,
   WorkshopWrapper,
@@ -30,10 +31,12 @@ export default (store) => {
 
       <Route path="workshops*" component={WorkshopWrapper} />
 
+      <Route path="slack_invite/:name/:id" component={SlackInviteInstructions} />
+
       <Route component={OneOffFormWrapper}>
         <Route path="donate" component={DonationPage} />
         <Route path="slack_invite" component={SlackInvite} />
-        <Route path="slack_invite/:id" component={SlackInvite} />
+        <Route path="slack_invite/:name" component={SlackInvite} />
         <Route path="cloud9_setup" component={Cloud9Setup} />
         <Route path="hackbot/teams/new" component={HackbotNewTeam} />
         <Route path="intake" component={LeaderIntake} />

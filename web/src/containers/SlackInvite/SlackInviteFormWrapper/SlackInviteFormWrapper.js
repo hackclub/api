@@ -23,6 +23,7 @@ const styles = {
 class SlackInviteFormWrapper extends Component {
   render() {
     const { status, onSubmit } = this.props
+
     return (
       <Card style={styles.card}>
         <Subtitle style={styles.subtitleTop}>
