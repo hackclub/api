@@ -11,14 +11,17 @@ class SlackSignUpJob < ApplicationJob
     @invite = SlackInvite.find invite_id
 
     resp = sign_up
+    data = JSON.parse(resp)
     @jar = resp.cookies
-    @token = JSON.parse(resp)['api_token']
+    @token = data['api_token']
+    @slack_id = data['user_id']
     @invite.update(state: @invite.class::STATE_SIGNED_UP)
 
     set_user_pref('seen_welcome_2', 'true')
     set_user_pref('onboarding_cancelled', 'true')
     change_username
     change_theme(SLACK_THEME)
+    join_user_groups
     @invite.update(state: @invite.class::STATE_CONFIGURED_CLIENT)
 
     change_email
@@ -134,6 +137,15 @@ class SlackSignUpJob < ApplicationJob
     )
   end
   # rubocop:enable Metrics/MethodLength
+
+  def join_user_groups
+    admin_access_token = AdminUser.find_by(team: @invite.team.team_id)
+      .try(:access_token)
+
+    @invite.slack_invite_strategy.user_groups.each do |ug|
+      SlackClient::Usergroups.users_add(ug, @slack_id, admin_access_token)
+    end
+  end
 
   def sign_up_crumb
     RestClient.get(@invite.slack_invite_url).cookies['b']
