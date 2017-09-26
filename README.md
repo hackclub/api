@@ -1,4 +1,4 @@
-# Monolith
+# Monolith <img src="https://i.imgur.com/45d3krP.jpg" alt="Monolith icon" align="right" width="40%" />
 
 ## How to get it set up
 
