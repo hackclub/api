@@ -21,7 +21,7 @@ class StatsService
   end
 
   def average_attendance
-    @check_ins.average :attendance
+    @check_ins.average(:attendance).round 1
   end
 
   def days_alive
