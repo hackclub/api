@@ -6,5 +6,9 @@ module SlackClient
     def self.invite_user(email, access_token)
       SlackClient.rpc('users.admin.invite', access_token, email: email)
     end
+
+    def self.info(access_token)
+      SlackClient.rpc('team.info', access_token)
+    end
   end
 end

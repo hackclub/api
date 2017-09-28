@@ -82,7 +82,7 @@ class Analytics {
 
     // Load Analytics.js with your key, which will automatically
     // load the tools you've enabled for your account. Boosh!
-    analytics.load(config.segmentAnalyticsKey);
+    analytics.load(config.segmentKey);
   }
 
   internal() {

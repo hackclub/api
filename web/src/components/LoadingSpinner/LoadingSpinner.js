@@ -18,6 +18,7 @@ const styles = {
     height: '100%',
     display: 'flex',
     alignItems: 'center',
+    flexDirection: 'column',
     justifyContent: 'center'
   },
   spinner: {
@@ -33,11 +34,12 @@ const styles = {
 class LoadingSpinner extends Component {
   render() {
     return(
-      <div style={styles.wrapper}>
+      <div style={[styles.wrapper,this.props.style]}>
         <div style={styles.spinner}>
           <Emoji type="thinking_face" style={styles.emoji}/>
           <Text>Loading...</Text>
         </div>
+        {this.props.children}
       </div>
     )
   }

@@ -3,11 +3,10 @@ Rails.application.routes.draw do
     get 'ping', to: 'ping#ping'
     get 'workshops/*all', constraints: { all: /.*/ }, to: 'workshops#workshops'
 
-    get 'clubs/to_be_onboarded', to: 'clubs_to_be_onboarded#show'
+    get 'clubs/intake', to: 'intake#show'
 
     post 'leaders/intake'
     post 'cloud9/send_invite'
-    post 'slack/send_invite'
 
     resources :clubs, only: [:index, :show]
     resources :club_applications, only: [:create]
@@ -21,6 +20,12 @@ Rails.application.routes.draw do
         post 'interactive_messages'
         post 'events'
       end
+    end
+
+    namespace :slack_invitation do
+      resources :invite, only: [:create, :show]
+      resources :webhook, only: [:create]
+      resources :strategies, only: [:show]
     end
   end
 end

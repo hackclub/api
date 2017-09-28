@@ -10,10 +10,18 @@ module V1
       end
     end
 
+    def create_account
+      invite = SlackInvite.create
+
+      invite.send
+
+      render json: { params: account_params, invite: invite }
+    end
+
     private
 
-    def invite_params
-      params.permit(:email)
+    def account_params
+      params.permit(:email, :username, :password)
     end
   end
 end

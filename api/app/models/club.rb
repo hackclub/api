@@ -1,6 +1,7 @@
 class Club < ApplicationRecord
   ACTIVE_STAGE = '5003'.freeze
   DORMANT_STAGE = '5014'.freeze
+  DEAD_STAGE = '5007'.freeze
 
   include Streakable
   include Geocodeable
@@ -51,6 +52,10 @@ class Club < ApplicationRecord
   # This getter returns the point_of_contact_name.
   def point_of_contact_name
     point_of_contact.name if point_of_contact
+  end
+
+  def dead?
+    stage_key == DEAD_STAGE
   end
 
   def alive?

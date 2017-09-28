@@ -25,12 +25,16 @@ export default function reducer(state=initialState, action={}) {
   }
 }
 
-export function submit(email) {
+export function submit(email, username, full_name, password, id) {
   return {
     types: [SUBMIT, SUBMIT_SUCCESS, SUBMIT_FAIL],
-    promise: client => client.post('/v1/slack/send_invite', {
+    promise: client => client.post('/v1/slack_invitation/invite', {
       data: {
-        email: email
+        email: email,
+        username: username,
+        full_name: full_name,
+        password: password,
+        slack_invite_strategy_id: id
       }
     })
   }

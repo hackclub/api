@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import Radium from 'radium'
 import PropTypes from 'prop-types'
 import { mediaQueries } from 'styles/common'
-import colors from 'styles/colors'
 import { Link } from 'components'
 
 import burgerIcon from './burger.svg'
@@ -10,7 +9,6 @@ import logo from './logo.svg'
 
 const styles = {
   wrapper: {
-    minHeight: '4.3em',
     textAlign: 'center',
     [mediaQueries.mediumUp]: {
       display: 'none'
@@ -23,14 +21,9 @@ const styles = {
     position: 'absolute',
     top: '0',
     left: '0',
-    height: '1.8em',
-    width: '1.8em',
-    padding: '0.2em',
+    height: '1.5em',
+    width: '1.5em',
     margin: '1em',
-    borderColor: colors.white,
-    borderRadius: '3px',
-    borderStyle: 'solid',
-    borderWidth: '0.05em'
   },
   menu: {
     textAlign: 'center',
@@ -51,7 +44,7 @@ const styles = {
   },
   logo: {
     height: '1.5em',
-    margin: '1.4em auto',
+    margin: '1em auto',
   }
 }
 
@@ -83,7 +76,7 @@ class MobileMenu extends Component {
     return (navigationButtons.map((btn, i) => {
       return (
         <div style={styles.menu} key={i}>
-          <Link to={btn.to} style={[styles.links,btn.style]} >
+          <Link to={btn.to} href={btn.href} style={[styles.links,btn.style]} >
             {btn.title}
           </Link>
         </div>

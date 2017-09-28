@@ -38,6 +38,7 @@ machine:
     STRIPE_SECRET_KEY: fake_secret_key
 
     DATABASE_URL: postgresql://ubuntu:@127.0.0.1:5432/circle_test
+    CHANNELS_TO_CLEAR: ''
 dependencies:
   override:
     - git submodule init

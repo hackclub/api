@@ -18,6 +18,13 @@ export function email(value) {
   }
 }
 
+const slackUsernameRegex = /^\w*$/
+export function slackUsername(value) {
+  if (!isEmpty(value) && !slackUsernameRegex.test(value)) {
+    return 'Username can only contain lowercase letters, numbers, and underscores'
+  }
+}
+
 const techDomainRegex = /^[A-Z0-9.-]+\.tech$/i
 export function techDomain(value) {
   if (!isEmpty(value) && !techDomainRegex.test(value)) {

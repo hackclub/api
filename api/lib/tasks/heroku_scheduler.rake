@@ -41,11 +41,13 @@ namespace :heroku_scheduler do
 
   desc 'Schedule check-ins'
   task queue_schedule_check_ins: :environment do
-    ScheduleLeaderCheckInsJob.perform_now true
+    # Heroku does not allow you to choose what day to run a job
+    ScheduleLeaderCheckInsJob.perform_now true && Time.zone.now.thursday?
   end
 
   desc 'Close check-ins'
   task queue_close_check_ins: :environment do
-    CloseCheckInsJob.perform_now
+    # Heroku does not allow you to choose what day to run a job
+    CloseCheckInsJob.perform_now && Time.zone.now.monday?
   end
 end

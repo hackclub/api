@@ -5,6 +5,7 @@ import colors from 'styles/colors'
 
 const styles = {
   color: colors.gray,
+  lineHeight: '140%',
   fontStyle: 'italic',
 }
 

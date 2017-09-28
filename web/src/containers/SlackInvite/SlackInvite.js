@@ -2,40 +2,34 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Radium from 'radium'
 import Helmet from 'react-helmet'
+import { withRouter } from 'react-router'
 
 import colors from 'styles/colors'
+import config from 'config'
 
 import { connect } from 'react-redux'
 import * as slackInviteActions from 'redux/modules/slackInvite'
 import { SubmissionError } from 'redux-form'
 
 import {
-  Card,
   Emoji,
   Header,
   Heading,
-  Link,
+  LoadingSpinner,
+  NotFound,
   Text,
-  SlackInviteForm,
-  Subtitle,
-} from '../../components'
+} from 'components'
+
+import SlackInviteFormWrapper from './SlackInviteFormWrapper/SlackInviteFormWrapper'
 
 const styles = {
   heading: {
     color: colors.bg,
   },
-  subtitle: {
-    marginTop: '15px',
-  },
   instructions: {
     fontSize: '22px',
     marginTop: '20px',
     color: colors.bg,
-  },
-  card: {
-    marginTop: '20px',
-    marginLeft: 'auto',
-    marginRight: 'auto',
   }
 }
 
@@ -44,51 +38,81 @@ class SlackInvite extends Component {
     submit: PropTypes.func.isRequired,
   }
 
-  handleSubmit(values) {
-    const { submit } = this.props
+  componentDidMount() {
+    const { params } = this.props
+    const endpoint = `${config.apiBaseUrl}/v1/slack_invitation/strategies/`
+    const nameParam = params.name || 'default'
 
-    return submit(values.email)
+    this.setState({
+      loading: true,
+      nameParam
+    })
+
+    fetch(endpoint + nameParam)
+      .then(response => {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+        return response.json()
+      })
+      .then(json => {
+        this.setState({
+          clubName: json.club_name,
+          primaryColor: json.primary_color,
+          stratId: json.id,
+          loading: false
+        })
+      })
+      .catch(e => {
+        this.setState({ notFound: true })
+      })
+  }
+
+  handleSubmit(values) {
+    const { router, submit } = this.props
+    const { nameParam, stratId } = this.state
+
+    return submit(values.email, values.username, values.full_name, values.password, stratId)
+      .then(response => {
+        router.push(`/slack_invite/${nameParam}/${response.id}`)
+      })
       .catch(error => {
         throw new SubmissionError(error.errors)
       })
   }
 
-  render() {
+  content() {
     const { status } = this.props
+    const { notFound, loading } = this.state
 
-    const emoji = (function() {
-      switch(status) {
-        case "success":
-          return "slightly_smiling_face"
-        case "error":
-          return "slightly_frowning_face"
-        default:
-          return "face_without_mouth"
-      }
-    })()
+    if (notFound) {
+      return <NotFound />
+    } else if (loading) {
+      return <LoadingSpinner />
+    } else {
+      return (<SlackInviteFormWrapper status={status}
+                                      onSubmit={values => this.handleSubmit(values)}/>)
+    }
+  }
 
+  render() {
     return (
       <div>
         <Helmet title="Slack Invite" />
 
         <Header>
           <Heading>
-            <Emoji type={emoji} />
+            <Emoji type="waving_hand_sign" />
           </Heading>
 
           <Heading style={styles.heading}>Join the Hack Club Slack!</Heading>
 
           <Text style={styles.instructions}>
-            All we need is your email, and we'll be on our way.
+            Provide us with some information, and we'll generate an account for you!
           </Text>
         </Header>
 
-        <Card style={styles.card}>
-          <SlackInviteForm
-            status={status}
-            onSubmit={values => this.handleSubmit(values)} />
-          <Subtitle style={styles.subtitle}>Already have an account? Go directly to <Link href="//hackclub.slack.com">Slack</Link>.</Subtitle>
-        </Card>
+        {this.content()}
       </div>
     )
   }
@@ -101,4 +125,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   {...slackInviteActions}
-)(Radium(SlackInvite))
+)(withRouter(Radium(SlackInvite)))
