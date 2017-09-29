@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Radium from 'radium'
 import { Emoji, Text } from 'components'
 
@@ -34,18 +34,16 @@ const styles = {
   }
 }
 
-class LoadingSpinner extends Component {
-  render() {
-    return (
-      <div style={[styles.wrapper, this.props.style]}>
-        <div style={styles.spinner}>
-          <Emoji type="thinking_face" style={styles.emoji} />
-          <Text>Loading...</Text>
-        </div>
-        {this.props.children}
+const LoadingSpinner = props => {
+  return (
+    <div style={[styles.wrapper, props.style]}>
+      <div style={styles.spinner}>
+        <Emoji type="thinking_face" style={styles.emoji} />
+        <Text>Loading...</Text>
       </div>
-    )
-  }
+      {props.children}
+    </div>
+  )
 }
 
 export default Radium(LoadingSpinner)

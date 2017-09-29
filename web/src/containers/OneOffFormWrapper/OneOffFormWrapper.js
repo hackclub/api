@@ -9,10 +9,8 @@ const styles = {
   backgroundSize: '450px'
 }
 
-class OneOffFormWrapper extends Component {
-  render() {
-    return <div style={styles}>{this.props.children}</div>
-  }
+const OneOffFormWrapper = props => {
+  return <div style={styles}>{props.children}</div>
 }
 
 export default Radium(OneOffFormWrapper)
