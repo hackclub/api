@@ -127,7 +127,7 @@ class DonationForm extends Component {
 
         <Button style={styles.donateButton} onClick={this.startStripe} type='link'>{this.buttonText()}</Button>
 
-        <Subtitle>Hack Club's nonprofit EIN is 81-290849.</Subtitle>
+        <Subtitle>Hack Club's nonprofit EIN is 81-2908499.</Subtitle>
       </div>
     );
   }
