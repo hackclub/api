@@ -2,10 +2,13 @@ import React, { Component } from 'react'
 import Radium from 'radium'
 import { Emoji, Text } from 'components'
 
-const rotateKeyframes = Radium.keyframes({
-  '0%': {transform: 'rotate(0deg)'},
-  '100%': {transform: 'rotate(359deg)'},
-}, 'linear')
+const rotateKeyframes = Radium.keyframes(
+  {
+    '0%': { transform: 'rotate(0deg)' },
+    '100%': { transform: 'rotate(359deg)' }
+  },
+  'linear'
+)
 
 const styles = {
   emoji: {
@@ -27,16 +30,16 @@ const styles = {
     animationName: rotateKeyframes,
     animationDuration: '1.25s',
     animationTimingFunction: 'linear',
-    animationIterationCount: 'infinite',
+    animationIterationCount: 'infinite'
   }
 }
 
 class LoadingSpinner extends Component {
   render() {
-    return(
-      <div style={[styles.wrapper,this.props.style]}>
+    return (
+      <div style={[styles.wrapper, this.props.style]}>
         <div style={styles.spinner}>
-          <Emoji type="thinking_face" style={styles.emoji}/>
+          <Emoji type="thinking_face" style={styles.emoji} />
           <Text>Loading...</Text>
         </div>
         {this.props.children}

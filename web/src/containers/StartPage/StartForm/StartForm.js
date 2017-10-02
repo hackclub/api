@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import {
   personTypes,
   preAppSubmitPersonType,
-  preAppReset,
+  preAppReset
 } from 'redux/modules/application'
 
 import PreAppResults from './PreAppResults'
@@ -49,11 +49,15 @@ class ApplyForm extends Component {
       return (
         <div>
           <PreAppResults personType={personType} />
-          <Button type="link" onClick={reset}>← Go back</Button>
+          <Button type="link" onClick={reset}>
+            ← Go back
+          </Button>
         </div>
       )
     } else {
-      return <PreApplicationForm onSubmit={vals => this.handlePreAppSubmit(vals)} />
+      return (
+        <PreApplicationForm onSubmit={vals => this.handlePreAppSubmit(vals)} />
+      )
     }
   }
 
@@ -69,9 +73,7 @@ class ApplyForm extends Component {
     return (
       <div style={styles.wrapper}>
         <Heading style={styles.heading}>Start Your Application</Heading>
-        <Card style={styles.card}>
-          {this.contentsOfCard()}
-        </Card>
+        <Card style={styles.card}>{this.contentsOfCard()}</Card>
       </div>
     )
   }

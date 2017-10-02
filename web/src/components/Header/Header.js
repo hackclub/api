@@ -12,11 +12,7 @@ const styles = {
 
 class Header extends Component {
   render() {
-    return (
-      <div style={[styles, this.props.style]}>
-        {this.props.children}
-      </div>
-    )
+    return <div style={[styles, this.props.style]}>{this.props.children}</div>
   }
 }
 

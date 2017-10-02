@@ -9,12 +9,7 @@ import { SubmissionError } from 'redux-form'
 import ApplyInfo from './ApplyInfo/ApplyInfo'
 import ApplyHeading from './ApplyHeading/ApplyHeading'
 
-import {
-  NavBar,
-  Container,
-  ApplicationForm,
-  Card
-} from 'components'
+import { NavBar, Container, ApplicationForm, Card } from 'components'
 
 import { mediaQueries } from 'styles/common'
 
@@ -59,10 +54,9 @@ class Apply extends Component {
   handleSubmit(values) {
     const { submit } = this.props
 
-    return submit(values)
-      .catch(error => {
-        throw new SubmissionError(error.errors)
-      })
+    return submit(values).catch(error => {
+      throw new SubmissionError(error.errors)
+    })
   }
 
   render() {
@@ -80,7 +74,10 @@ class Apply extends Component {
         </Container>
 
         <Card style={[styles.card]}>
-          <ApplicationForm onSubmit={values => this.handleSubmit(values)} status={status} />
+          <ApplicationForm
+            onSubmit={values => this.handleSubmit(values)}
+            status={status}
+          />
         </Card>
       </div>
     )
@@ -91,7 +88,4 @@ const mapStateToProps = state => ({
   status: state.apply.status
 })
 
-export default connect(
-  mapStateToProps,
-  {...applyActions}
-)(Radium(Apply))
+export default connect(mapStateToProps, { ...applyActions })(Radium(Apply))

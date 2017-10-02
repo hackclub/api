@@ -5,16 +5,12 @@ import cloud9SetupValidation from './cloud9SetupValidation'
 
 class Cloud9SetupForm extends Component {
   buttonState() {
-    const {
-      submitting,
-      invalid,
-      status
-    } = this.props
+    const { submitting, invalid, status } = this.props
 
     if (invalid) {
-      return "disabled"
+      return 'disabled'
     } else if (submitting) {
-      return "loading"
+      return 'loading'
     } else {
       return status
     }
@@ -22,12 +18,16 @@ class Cloud9SetupForm extends Component {
 
   buttonText(status) {
     switch (status) {
-    case "error":
-      return (<Emoji type="thinking_face" />)
-    case "success":
-      return (<span>Invite Sent! Check your email <Emoji type="fisted_hand_sign" /></span>)
-    default:
-      return "Get Your Cloud9 Invite"
+      case 'error':
+        return <Emoji type="thinking_face" />
+      case 'success':
+        return (
+          <span>
+            Invite Sent! Check your email <Emoji type="fisted_hand_sign" />
+          </span>
+        )
+      default:
+        return 'Get Your Cloud9 Invite'
     }
   }
 

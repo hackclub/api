@@ -5,7 +5,13 @@ import InviteInfo from './InviteInfo/InviteInfo'
 import InviteLoading from './InviteLoading/InviteLoading'
 import { NotFound } from 'components'
 
-const inviteStates = ['invited', 'invite_received', 'signed_up', 'configured_client', 'changed_email']
+const inviteStates = [
+  'invited',
+  'invite_received',
+  'signed_up',
+  'configured_client',
+  'changed_email'
+]
 
 class SlackInviteInstructions extends Component {
   constructor(props) {
@@ -27,7 +33,7 @@ class SlackInviteInstructions extends Component {
       .then(json => {
         const state = {
           inviteState: json.state,
-          tempEmail: json.temp_email,
+          tempEmail: json.temp_email
         }
 
         if (json.state === 'changed_email') {
@@ -69,7 +75,13 @@ class SlackInviteInstructions extends Component {
     } else if (inviteState === 'changed_email') {
       return <InviteInfo tempEmail={tempEmail} />
     } else {
-      return <InviteLoading inviteState={inviteState} inviteStates={inviteStates} tempEmail={tempEmail} />
+      return (
+        <InviteLoading
+          inviteState={inviteState}
+          inviteStates={inviteStates}
+          tempEmail={tempEmail}
+        />
+      )
     }
   }
 }

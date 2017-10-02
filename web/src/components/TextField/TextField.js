@@ -23,11 +23,12 @@ class TextField extends Field {
     const { input, label, type, placeholder } = this.props
 
     return (
-      <input {...input}
+      <input
+        {...input}
         placeholder={placeholder === undefined ? label : placeholder}
         type={type}
         style={styles}
-        />
+      />
     )
   }
 }

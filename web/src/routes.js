@@ -15,12 +15,12 @@ import {
   SlackInviteInstructions,
   StartPage,
   TeamPage,
-  WorkshopWrapper,
+  WorkshopWrapper
 } from 'containers'
 
 import 'styles'
 
-export default (store) => {
+export default store => {
   return (
     <Route path="/" component={App}>
       <IndexRoute components={HomePage} />
@@ -31,7 +31,10 @@ export default (store) => {
 
       <Route path="workshops*" component={WorkshopWrapper} />
 
-      <Route path="slack_invite/:name/:id" component={SlackInviteInstructions} />
+      <Route
+        path="slack_invite/:name/:id"
+        component={SlackInviteInstructions}
+      />
 
       <Route component={OneOffFormWrapper}>
         <Route path="donate" component={DonationPage} />

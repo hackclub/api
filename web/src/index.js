@@ -27,9 +27,7 @@ const styleRootStyles = {
 
 ReactDOM.render(
   <Provider store={store} key="provider">
-    <StyleRoot style={styleRootStyles}>
-      {component}
-    </StyleRoot>
+    <StyleRoot style={styleRootStyles}>{component}</StyleRoot>
   </Provider>,
   document.getElementById('root')
 )

@@ -6,13 +6,15 @@ import colors from 'styles/colors'
 const styles = {
   color: colors.gray,
   lineHeight: '140%',
-  fontStyle: 'italic',
+  fontStyle: 'italic'
 }
 
 class Subtitle extends Component {
   render() {
     return (
-      <p {...this.props} style={[styles,this.props.style]}>{this.props.children}</p>
+      <p {...this.props} style={[styles, this.props.style]}>
+        {this.props.children}
+      </p>
     )
   }
 }

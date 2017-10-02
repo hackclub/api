@@ -10,7 +10,7 @@ import {
   Header,
   Heading,
   RedeemTechDomainForm,
-  Text,
+  Text
 } from 'components'
 import * as techDomainRedemptionActions from 'redux/modules/techDomainRedemption'
 
@@ -41,10 +41,14 @@ class RedeemTechDomain extends Component {
   handleSubmit(values) {
     const { submit } = this.props
 
-    return submit(values.name, values.email, values.requested_domain, values.secret_code)
-      .catch(error => {
-        throw new SubmissionError(error.errors)
-      })
+    return submit(
+      values.name,
+      values.email,
+      values.requested_domain,
+      values.secret_code
+    ).catch(error => {
+      throw new SubmissionError(error.errors)
+    })
   }
 
   render() {
@@ -71,9 +75,9 @@ class RedeemTechDomain extends Component {
 
         <Card style={styles.card}>
           <RedeemTechDomainForm
-             onSubmit={values => this.handleSubmit(values)}
+            onSubmit={values => this.handleSubmit(values)}
             status={status}
-            />
+          />
         </Card>
       </div>
     )
@@ -81,10 +85,9 @@ class RedeemTechDomain extends Component {
 }
 
 const mapStateToProps = state => ({
-    status: state.techDomainRedemption.status
+  status: state.techDomainRedemption.status
 })
 
-export default connect(
-  mapStateToProps,
-  {...techDomainRedemptionActions}
-)(Radium(RedeemTechDomain))
+export default connect(mapStateToProps, { ...techDomainRedemptionActions })(
+  Radium(RedeemTechDomain)
+)

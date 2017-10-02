@@ -13,11 +13,7 @@ const styles = {
 
 class Container extends Component {
   render() {
-    return (
-      <div style={[styles,this.props.style]}>
-        {this.props.children}
-      </div>
-    )
+    return <div style={[styles, this.props.style]}>{this.props.children}</div>
   }
 }
 

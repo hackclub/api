@@ -26,19 +26,19 @@ const styles = {
 
 class Field extends Component {
   renderInput() {
-    throw new TypeError("Cannot construct Field instances directly")
+    throw new TypeError('Cannot construct Field instances directly')
   }
 
   description() {
     const { description } = this.props
 
     if (description) {
-      return (<p style={styles.description}>{description}</p>)
+      return <p style={styles.description}>{description}</p>
     }
   }
 
   render() {
-    const { label, meta={} } = this.props
+    const { label, meta = {} } = this.props
     const { touched, error } = meta
 
     return (
@@ -46,8 +46,8 @@ class Field extends Component {
         <label style={styles.label}>{label}</label>
         {this.description()}
         <div>
-          { this.renderInput() }
-          { touched && error && <div style={styles.error}>{error}</div> }
+          {this.renderInput()}
+          {touched && error && <div style={styles.error}>{error}</div>}
         </div>
       </div>
     )

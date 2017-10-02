@@ -12,20 +12,20 @@ const iconMaxHeightRatio = 0.85
 const styles = {
   base: {
     display: 'inline-block',
-    width: '150px',
+    width: '150px'
   },
   icon: {
     width: `${iconSmallWidth}px`,
-    maxHeight: `${iconSmallWidth*iconMaxHeightRatio}px`,
+    maxHeight: `${iconSmallWidth * iconMaxHeightRatio}px`,
     marginBottom: '5px',
     [mediaQueries.mediumUp]: {
       width: `${iconMediumWidth}px`,
-      maxHeight: `${iconMediumWidth*iconMaxHeightRatio}px`,
+      maxHeight: `${iconMediumWidth * iconMaxHeightRatio}px`,
       marginBottom: '20px'
     },
     [mediaQueries.largeUp]: {
       width: `${iconLargeWidth}px`,
-      maxHeight: `${iconLargeWidth*iconMaxHeightRatio}px`,
+      maxHeight: `${iconLargeWidth * iconMaxHeightRatio}px`
     }
   },
   text: {
@@ -33,7 +33,7 @@ const styles = {
     color: colors.offBlack,
     fontSize: '18px',
     [mediaQueries.mediumUp]: {
-      fontSize: '28px',
+      fontSize: '28px'
     }
   }
 }

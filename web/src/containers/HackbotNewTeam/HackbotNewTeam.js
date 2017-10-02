@@ -37,11 +37,9 @@ class SlackAuth extends Component {
     const component = this.componentToRender()
 
     return (
-      <div style={[styles.wrapper,this.props.style]}>
+      <div style={[styles.wrapper, this.props.style]}>
         <Helmet title="Slack Auth" />
-        <Card style={styles.card}>
-          {component}
-        </Card>
+        <Card style={styles.card}>{component}</Card>
       </div>
     )
   }

@@ -34,7 +34,7 @@ class WorkshopWrapper extends Component {
 
     const rootUrl = baseUrl + 'README.md'
     const extendedUrl = baseUrl + props.routeParams.splat
-    const url = (props.routeParams.splat ? extendedUrl : rootUrl)
+    const url = props.routeParams.splat ? extendedUrl : rootUrl
 
     this.requestWorkshop(url)
   }
@@ -63,7 +63,7 @@ class WorkshopWrapper extends Component {
       this.requestWorkshop(url)
     } else {
       this.setState({
-          notFound: true
+        notFound: true
       })
     }
   }
@@ -79,27 +79,29 @@ class WorkshopWrapper extends Component {
     const { location } = this.props
 
     if (notFound === true) {
-      return (<NotFound />)
-    } else if(notFound === false) {
-        return (
-          <div>
-            <Workshop markdown={markdown} imagesUrl={imagesUrl} location={location} />
-            <PrintButton />
-          </div>
-        )
+      return <NotFound />
+    } else if (notFound === false) {
+      return (
+        <div>
+          <Workshop
+            markdown={markdown}
+            imagesUrl={imagesUrl}
+            location={location}
+          />
+          <PrintButton />
+        </div>
+      )
     } else {
-      return (<LoadingSpinner />)
+      return <LoadingSpinner />
     }
   }
 
   render() {
-    return(
+    return (
       <div style={styles.pageWrapper}>
         <Helmet title={this.state.path || 'Workshops'} />
         <NavBar />
-        <div style={styles.workshopWrapper}>
-          {this.content()}
-        </div>
+        <div style={styles.workshopWrapper}>{this.content()}</div>
       </div>
     )
   }

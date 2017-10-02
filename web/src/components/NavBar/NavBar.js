@@ -16,7 +16,7 @@ const styles = {
       minHeight: '45px',
       height: '60px'
     }
-  },
+  }
 }
 
 const navigationButtons = [
@@ -48,7 +48,7 @@ const navigationButtons = [
 class NavBar extends Component {
   render() {
     return (
-      <div style={[styles.wrapper,this.props.style]}>
+      <div style={[styles.wrapper, this.props.style]}>
         <DesktopMenu navigationButtons={navigationButtons} />
         <MobileMenu navigationButtons={navigationButtons} />
       </div>

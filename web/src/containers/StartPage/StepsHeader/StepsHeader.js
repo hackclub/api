@@ -55,7 +55,7 @@ const styles = {
     },
     [mediaQueries.largeUp]: {
       marginLeft: '50px',
-      marginRight: '50px',
+      marginRight: '50px'
     }
   }
 }
@@ -63,21 +63,27 @@ const styles = {
 class StepsHeader extends Component {
   render() {
     return (
-      <div style={[styles.wrapper,this.props.style]}>
+      <div style={[styles.wrapper, this.props.style]}>
         <Container>
           <Heading style={styles.heading}>Start a Hack Club</Heading>
           <div style={styles.steps}>
-            <Step icon={pencilAndPaper}
-                  iconAlt="Pencil and paper"
-                  text="Submit an application" />
+            <Step
+              icon={pencilAndPaper}
+              iconAlt="Pencil and paper"
+              text="Submit an application"
+            />
             <Arrow style={styles.arrow} />
-            <Step icon={chatBubbles}
-                  iconAlt="Chat bubbles"
-                  text="Training call" />
+            <Step
+              icon={chatBubbles}
+              iconAlt="Chat bubbles"
+              text="Training call"
+            />
             <Arrow style={styles.arrow} />
-            <Step icon={communityOfHackers}
-                  iconAlt="Community of hackers"
-                  text="Lead your club" />
+            <Step
+              icon={communityOfHackers}
+              iconAlt="Community of hackers"
+              text="Lead your club"
+            />
           </div>
         </Container>
       </div>

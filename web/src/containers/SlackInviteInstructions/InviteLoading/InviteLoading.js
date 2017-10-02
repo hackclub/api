@@ -10,7 +10,12 @@ class InviteLoading extends Component {
     const { inviteStates, inviteState } = this.props
 
     if (inviteState) {
-      return <Text>Working on step {inviteStates.indexOf(inviteState) + 1} / {inviteStates.length}</Text>
+      return (
+        <Text>
+          Working on step {inviteStates.indexOf(inviteState) + 1} /{' '}
+          {inviteStates.length}
+        </Text>
+      )
     }
   }
 
@@ -23,7 +28,7 @@ class InviteLoading extends Component {
   }
 
   render() {
-    return(
+    return (
       <div style={styles}>
         <LoadingSpinner>
           {this.loadingSteps()}

@@ -10,30 +10,30 @@ import './highlightjs.css'
 const styles = {
   '.markdown-body': {
     fontFamily: 'inherit',
-    fontWeight: 'inherit',
+    fontWeight: 'inherit'
   },
   '.markdown-body a': {
-    color: colors.primary,
+    color: colors.primary
   },
   '.markdown-body a:hover': {
     color: colors.fadedPrimary,
-    textDecoration: 'line',
+    textDecoration: 'line'
   },
   '.markdown-body ul': {
-    listStyleType: 'disc',
+    listStyleType: 'disc'
   },
   '.markdown-body ol': {
-    listStyleType: 'decimal',
+    listStyleType: 'decimal'
   },
   '.markdown-body em': {
-    fontStyle: 'italic',
+    fontStyle: 'italic'
   }
 }
 
-const renderer = new Marked.Renderer();
+const renderer = new Marked.Renderer()
 
 Marked.setOptions({
-  highlight: (code) => {
+  highlight: code => {
     return Hljs.highlightAuto(code).value
   }
 })
@@ -47,7 +47,7 @@ class Workshop extends Component {
 
       /* Links in the root /workshops directory need a trailing slash to generate
        * correctly */
-      const safePathname = (pathname === '/workshops' ? '/workshops/' : pathname)
+      const safePathname = pathname === '/workshops' ? '/workshops/' : pathname
 
       const isRelativeLink = !/^(http|https):\/\//.test(href)
       const isHashLink = /^#/.test(href)
@@ -59,7 +59,7 @@ class Workshop extends Component {
         href = folderName + href
       }
 
-      const titleAttr = (title ? `title="${title}"` : '')
+      const titleAttr = title ? `title="${title}"` : ''
 
       return `<a href="${href}"${titleAttr}>${text}</a>`
     }
@@ -69,21 +69,24 @@ class Workshop extends Component {
       if (isRelativeLink) {
         href = imagesUrl.replace(/([^/]*)$/, href)
       }
-      const titleAttr =  title ? `title="${title}"` : ''
+      const titleAttr = title ? `title="${title}"` : ''
       const altAttr = text ? ` alt="${text}"` : ''
       return `<img src="${href}"${titleAttr}${altAttr} />`
     }
 
     const html = Marked(markdown, { renderer: renderer })
 
-    return {__html: html}
+    return { __html: html }
   }
 
   render() {
-    return(
+    return (
       <div>
         <Style rules={styles} />
-        <div className='markdown-body' dangerouslySetInnerHTML={this.createWorkshop()} />
+        <div
+          className="markdown-body"
+          dangerouslySetInnerHTML={this.createWorkshop()}
+        />
       </div>
     )
   }

@@ -10,7 +10,7 @@ const styles = {
   textDecoration: 'none',
   ':hover': {
     color: colors.fadedPrimary,
-    textDecoration: 'underline',
+    textDecoration: 'underline'
   }
 }
 
@@ -22,10 +22,18 @@ class Link extends Component {
     const { to, href } = this.props
 
     if (to) {
-      return <RadiumRouterLink to={to} style={[styles,this.props.style]}>{this.props.children}</RadiumRouterLink>
+      return (
+        <RadiumRouterLink to={to} style={[styles, this.props.style]}>
+          {this.props.children}
+        </RadiumRouterLink>
+      )
     }
 
-    return <a href={href} style={[styles,this.props.style]}>{this.props.children}</a>
+    return (
+      <a href={href} style={[styles, this.props.style]}>
+        {this.props.children}
+      </a>
+    )
   }
 }
 

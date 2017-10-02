@@ -38,18 +38,15 @@ class Cloud9Setup extends Component {
   handleSubmit(values) {
     const { submit } = this.props
 
-    return submit(values.email)
-      .catch(error => {
-        throw new SubmissionError(error.errors)
-      })
+    return submit(values.email).catch(error => {
+      throw new SubmissionError(error.errors)
+    })
   }
 
   render() {
     const { status } = this.props
 
-    const emoji = status === "success" ?
-                  "sun_behind_cloud" :
-                  "cloud"
+    const emoji = status === 'success' ? 'sun_behind_cloud' : 'cloud'
 
     return (
       <div>
@@ -58,16 +55,18 @@ class Cloud9Setup extends Component {
           <Heading style={styles.cloud}>
             <Emoji type={emoji} />
           </Heading>
-          <Heading style={styles.heading}>Welcome to Hack Club! Let's get you on Cloud9.</Heading>
+          <Heading style={styles.heading}>
+            Welcome to Hack Club! Let's get you on Cloud9.
+          </Heading>
           <Text style={styles.instructions}>
             Just fill out the form below and check your email.
           </Text>
         </Header>
         <Card style={styles.card}>
           <Cloud9SetupForm
-             status={status}
-             onSubmit={values => this.handleSubmit(values)}
-            />
+            status={status}
+            onSubmit={values => this.handleSubmit(values)}
+          />
         </Card>
       </div>
     )
@@ -78,7 +77,6 @@ const mapStateToProps = state => ({
   status: state.cloud9Setup.status
 })
 
-export default connect(
-  mapStateToProps,
-  {...cloud9SetupActions}
-)(Radium(Cloud9Setup))
+export default connect(mapStateToProps, { ...cloud9SetupActions })(
+  Radium(Cloud9Setup)
+)

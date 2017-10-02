@@ -6,10 +6,16 @@ export { default as HackbotNewTeam } from './HackbotNewTeam/HackbotNewTeam'
 export { default as HomePage } from './HomePage/HomePage'
 export { default as LeaderIntake } from './LeaderIntake/LeaderIntake'
 export { default as NotFoundPage } from './NotFoundPage/NotFoundPage'
-export { default as OneOffFormWrapper } from './OneOffFormWrapper/OneOffFormWrapper'
-export { default as RedeemTechDomain } from './RedeemTechDomain/RedeemTechDomain'
+export {
+  default as OneOffFormWrapper
+} from './OneOffFormWrapper/OneOffFormWrapper'
+export {
+  default as RedeemTechDomain
+} from './RedeemTechDomain/RedeemTechDomain'
 export { default as SlackInvite } from './SlackInvite/SlackInvite'
-export { default as SlackInviteInstructions } from './SlackInviteInstructions/SlackInviteInstructions'
+export {
+  default as SlackInviteInstructions
+} from './SlackInviteInstructions/SlackInviteInstructions'
 export { default as StartPage } from './StartPage/StartPage'
 export { default as TeamPage } from './TeamPage/TeamPage'
 export { default as WorkshopWrapper } from './WorkshopWrapper/WorkshopWrapper'

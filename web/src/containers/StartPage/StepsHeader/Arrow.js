@@ -14,9 +14,7 @@ const styles = {
 
 class Arrow extends Component {
   render() {
-    return (
-      <img src={arrow} alt="Arrow" style={[styles,this.props.style]} />
-    )
+    return <img src={arrow} alt="Arrow" style={[styles, this.props.style]} />
   }
 }
 

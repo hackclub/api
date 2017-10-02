@@ -17,25 +17,25 @@ import {
   Heading,
   LoadingSpinner,
   NotFound,
-  Text,
+  Text
 } from 'components'
 
 import SlackInviteFormWrapper from './SlackInviteFormWrapper/SlackInviteFormWrapper'
 
 const styles = {
   heading: {
-    color: colors.bg,
+    color: colors.bg
   },
   instructions: {
     fontSize: '22px',
     marginTop: '20px',
-    color: colors.bg,
+    color: colors.bg
   }
 }
 
 class SlackInvite extends Component {
   static propTypes = {
-    submit: PropTypes.func.isRequired,
+    submit: PropTypes.func.isRequired
   }
 
   componentDidMount() {
@@ -51,7 +51,7 @@ class SlackInvite extends Component {
     fetch(endpoint + nameParam)
       .then(response => {
         if (!response.ok) {
-          throw Error(response.statusText);
+          throw Error(response.statusText)
         }
         return response.json()
       })
@@ -72,7 +72,13 @@ class SlackInvite extends Component {
     const { router, submit } = this.props
     const { nameParam, stratId } = this.state
 
-    return submit(values.email, values.username, values.full_name, values.password, stratId)
+    return submit(
+      values.email,
+      values.username,
+      values.full_name,
+      values.password,
+      stratId
+    )
       .then(response => {
         router.push(`/slack_invite/${nameParam}/${response.id}`)
       })
@@ -90,8 +96,12 @@ class SlackInvite extends Component {
     } else if (loading) {
       return <LoadingSpinner />
     } else {
-      return (<SlackInviteFormWrapper status={status}
-                                      onSubmit={values => this.handleSubmit(values)}/>)
+      return (
+        <SlackInviteFormWrapper
+          status={status}
+          onSubmit={values => this.handleSubmit(values)}
+        />
+      )
     }
   }
 
@@ -108,7 +118,8 @@ class SlackInvite extends Component {
           <Heading style={styles.heading}>Join the Hack Club Slack!</Heading>
 
           <Text style={styles.instructions}>
-            Provide us with some information, and we'll generate an account for you!
+            Provide us with some information, and we'll generate an account for
+            you!
           </Text>
         </Header>
 
@@ -122,7 +133,6 @@ const mapStateToProps = state => ({
   status: state.slackInvite.status
 })
 
-export default connect(
-  mapStateToProps,
-  {...slackInviteActions}
-)(withRouter(Radium(SlackInvite)))
+export default connect(mapStateToProps, { ...slackInviteActions })(
+  withRouter(Radium(SlackInvite))
+)
