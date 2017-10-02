@@ -139,7 +139,7 @@ class DonationForm extends Component {
           {this.buttonText()}
         </Button>
 
-        <Subtitle>Hack Club's nonprofit EIN is 81-290849.</Subtitle>
+        <Subtitle>Hack Club's nonprofit EIN is 81-2908499.</Subtitle>
       </div>
     )
   }

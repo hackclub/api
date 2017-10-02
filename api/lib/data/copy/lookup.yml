@@ -73,7 +73,7 @@ club_attachment:
       value: '<%= stats.meeting_count %>'
       short: true,
     - title: Average Attendance
-      value: '<%= stats.average_attendance %>'
+      value: '<%= "%.2f" % stats.average_attendance %>'
       short: true,
     - title: Leadership Team
       value: "<%= leaders.join(', ') %>"
