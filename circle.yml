@@ -1,4 +1,6 @@
 machine:
+  node:
+    version: 8.1.2
   services:
     - postgresql
   environment:
@@ -45,7 +47,7 @@ dependencies:
   override:
     - git submodule init
     - git submodule update
-    - cd web && yarn install
+    - cd web && yarn install --production=false
     - cd api && bundle install --path bundler_cache
 test:
   override:
