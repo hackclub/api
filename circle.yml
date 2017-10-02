@@ -44,6 +44,7 @@ dependencies:
     - git submodule init
     - git submodule update
     - cd api && bundle install
+    - cd web && yarn install
 test:
   override:
     - cd web && yarn lint
