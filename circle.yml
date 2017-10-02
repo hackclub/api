@@ -46,6 +46,7 @@ dependencies:
     - cd api && bundle install
 test:
   override:
+    - cd web && yarn lint
     - cd api && bundle exec rubocop
     - cd api && bundle exec rspec
 deployment:
