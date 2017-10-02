@@ -10,7 +10,7 @@ class UpdateHackbotSlackUsernameJob < ApplicationJob
         logger.info("Slack returned 'account_inactive' in team " \
                     "'#{team.team_name}'")
       else
-        team.update(bot_username: info[:user][:profile][:display_name)
+        team.update(bot_username: info[:user][:profile][:display_name])
       end
     end
   end
