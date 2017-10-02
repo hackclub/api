@@ -6,6 +6,7 @@ AllCops:
     # Some people may choose to install gems into vendor/bundle/, which will
     # break Rubocop. Ignore it.
     - 'vendor/**/*'
+    - 'bundler_cache/**/*'
 
 # Don't do method length checks on database migrations. No need to make sure our
 # migrations fit any sort of method line limit goal.
