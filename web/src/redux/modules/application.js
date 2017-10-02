@@ -1,4 +1,5 @@
-const PREAPP_SUBMIT_PERSON_TYPE = 'hackclub/application/PREAPP_SUBMIT_PERSON_TYPE'
+const PREAPP_SUBMIT_PERSON_TYPE =
+  'hackclub/application/PREAPP_SUBMIT_PERSON_TYPE'
 const PREAPP_RESET = 'hackclub/application/PREAPP_RESET'
 
 const initialState = {
@@ -7,23 +8,23 @@ const initialState = {
   }
 }
 
-export default function reducer(state=initialState, action={}) {
-  switch(action.type) {
-  case PREAPP_SUBMIT_PERSON_TYPE:
-    return {
-      ...state,
-      preApplication: {
-        ...state.preApplication,
-        personType: action.personType
+export default function reducer(state = initialState, action = {}) {
+  switch (action.type) {
+    case PREAPP_SUBMIT_PERSON_TYPE:
+      return {
+        ...state,
+        preApplication: {
+          ...state.preApplication,
+          personType: action.personType
+        }
       }
-    }
-  case PREAPP_RESET:
-    return {
-      ...state,
-      preApplication: initialState.preApplication
-    }
-  default:
-    return state
+    case PREAPP_RESET:
+      return {
+        ...state,
+        preApplication: initialState.preApplication
+      }
+    default:
+      return state
   }
 }
 

@@ -9,16 +9,16 @@ const styles = {
   },
   wrapper: {
     [mediaQueries.smallUp]: {
-      display: 'none',
+      display: 'none'
     },
     [mediaQueries.print]: {
-      display: 'none',
+      display: 'none'
     },
     [mediaQueries.mediumUp]: {
       display: 'initial',
       position: 'fixed',
       bottom: '1em',
-      right: '1em',
+      right: '1em'
     }
   }
 }
@@ -28,7 +28,9 @@ class PrintButton extends Component {
     return (
       <div style={styles.spacer}>
         <div style={styles.wrapper}>
-          <Button type="link" onClick={window.print}>Print this page</Button>
+          <Button type="link" onClick={window.print}>
+            Print this page
+          </Button>
         </div>
       </div>
     )

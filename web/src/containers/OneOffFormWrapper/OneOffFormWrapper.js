@@ -11,11 +11,7 @@ const styles = {
 
 class OneOffFormWrapper extends Component {
   render() {
-    return (
-      <div style={styles}>
-        {this.props.children}
-      </div>
-    )
+    return <div style={styles}>{this.props.children}</div>
   }
 }
 

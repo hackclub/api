@@ -10,10 +10,13 @@ export default function createStore(history, client, data) {
   const middleware = [createMiddleware(client), reduxRouterMiddleware]
 
   // Allow usage of the Chrome Redux devtools
-  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-  const store = _createStore(reducer, data, composeEnhancers(
-    applyMiddleware(...middleware)
-  ))
+  const composeEnhancers =
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+  const store = _createStore(
+    reducer,
+    data,
+    composeEnhancers(applyMiddleware(...middleware))
+  )
 
   return store
 }

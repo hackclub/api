@@ -5,7 +5,7 @@ import { NavBar } from 'components'
 
 const styles = {
   iframe: {
-    width: '100%',
+    width: '100%'
   }
 }
 
@@ -14,7 +14,8 @@ class FullPageIframe extends Component {
     const iframe = this.refs.iframe
 
     const resizeFrame = () => {
-      const iframeScrollHeight = iframe.contentWindow.document.body.scrollHeight + 'px'
+      const iframeScrollHeight =
+        iframe.contentWindow.document.body.scrollHeight + 'px'
 
       iframe.style.height = iframeScrollHeight
     }

@@ -5,8 +5,10 @@ class OauthFailure extends Component {
   render() {
     return (
       <div>
-        <Text>Oh snap! You didn't give us permission to add hackbot to your Slack.</Text>
-        <Link to='/hackbot/teams/new'>Try again?</Link>
+        <Text>
+          Oh snap! You didn't give us permission to add hackbot to your Slack.
+        </Text>
+        <Link to="/hackbot/teams/new">Try again?</Link>
       </div>
     )
   }

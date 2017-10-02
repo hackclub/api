@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "prettier": "1.7.3",
     "react-scripts": "1.0.10"
   },
   "dependencies": {
@@ -32,6 +33,12 @@
     "start": "cross-env NODE_PATH=./src react-scripts start",
     "build": "cross-env NODE_PATH=./src react-scripts build",
     "test": "cross-env NODE_PATH=./src react-scripts test --env=jsdom",
-    "eject": "cross-env NODE_PATH=./src react-scripts eject"
+    "eject": "cross-env NODE_PATH=./src react-scripts eject",
+    "lint": "prettier -l src/**/*.js",
+    "lint-fix": "prettier --write 'src/**/*.js'"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
   }
 }

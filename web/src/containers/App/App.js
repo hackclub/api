@@ -4,10 +4,11 @@ import config from 'config'
 
 const styles = {
   height: '100%',
-  fontFamily: "'Open Sans', -apple-system, BlinkMacSystemFont, 'Avenir Next', 'Helvetica Neue', Roboto, 'Segoe UI', sans-serif"
+  fontFamily:
+    "'Open Sans', -apple-system, BlinkMacSystemFont, 'Avenir Next', 'Helvetica Neue', Roboto, 'Segoe UI', sans-serif"
 }
 
-const App = (props) => {
+const App = props => {
   return (
     <div style={styles}>
       <Helmet {...config.head} />

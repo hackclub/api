@@ -24,7 +24,7 @@ class Emoji extends Component {
     }
 
     return (
-      <span style={[styles,backgroundStyle,this.props.style]}>
+      <span style={[styles, backgroundStyle, this.props.style]}>
         {`:${type}:`}
       </span>
     )

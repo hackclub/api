@@ -63,45 +63,43 @@ class Button extends Component {
     const givenStyle = this.props.style
     const href = this.props.href
     const onClick = this.props.onClick
-    const disabled = state === "disabled" ||
-                     state === "loading" ||
-                     state === "success"
+    const disabled =
+      state === 'disabled' || state === 'loading' || state === 'success'
 
     let button = null
-    let buttonContents = state === "loading" ?
-                           <ThreeBounce size={15} color={colors.bg} /> :
-                           this.props.children
+    let buttonContents =
+      state === 'loading' ? (
+        <ThreeBounce size={15} color={colors.bg} />
+      ) : (
+        this.props.children
+      )
 
-    switch(type) {
-    case 'form':
-      button =
-        <button type="submit"
-                style={[
-                  styles.base,
-                  styles.form,
-                  styles.state[state],
-                  givenStyle
-                ]}
-                disabled={disabled}
-                onClick={onClick}>
-          {buttonContents}
-        </button>
+    switch (type) {
+      case 'form':
+        button = (
+          <button
+            type="submit"
+            style={[styles.base, styles.form, styles.state[state], givenStyle]}
+            disabled={disabled}
+            onClick={onClick}
+          >
+            {buttonContents}
+          </button>
+        )
         break
-    case 'link':
-      button =
-        <a href={href}
-           style={[
-             styles.base,
-             styles.link,
-             styles.state[state],
-             givenStyle
-           ]}
-           onClick={onClick}>
-          {buttonContents}
-        </a>
+      case 'link':
+        button = (
+          <a
+            href={href}
+            style={[styles.base, styles.link, styles.state[state], givenStyle]}
+            onClick={onClick}
+          >
+            {buttonContents}
+          </a>
+        )
         break
-    default:
-      throw new Error('Invalid type')
+      default:
+        throw new Error('Invalid type')
     }
 
     return button

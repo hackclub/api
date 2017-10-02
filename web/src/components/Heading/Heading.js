@@ -13,11 +13,7 @@ const styles = {
 
 class Heading extends Component {
   render() {
-    return (
-      <h1 style={[styles,this.props.style]}>
-        {this.props.children}
-      </h1>
-    )
+    return <h1 style={[styles, this.props.style]}>{this.props.children}</h1>
   }
 }
 

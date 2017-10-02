@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Heading, Text, } from 'components'
+import { Heading, Text } from 'components'
 
 class StepDescription extends Component {
   getStyles() {

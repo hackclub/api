@@ -32,7 +32,7 @@ const styles = {
     paddingLeft: '20px',
     ':hover': {
       color: 'white',
-      background: 'rgba(0,0,0,0.2)',
+      background: 'rgba(0,0,0,0.2)'
     }
   },
   logo: {
@@ -45,21 +45,28 @@ class DesktopMenu extends Component {
   renderMenu() {
     let btns = this.props.navigationButtons
 
-    return (btns.map((btn, i) => {
+    return btns.map((btn, i) => {
       return (
-        <Link key={i} to={btn.to} href={btn.href} style={[styles.links,btn.style]}>{btn.title}</Link>
+        <Link
+          key={i}
+          to={btn.to}
+          href={btn.href}
+          style={[styles.links, btn.style]}
+        >
+          {btn.title}
+        </Link>
       )
-    }))
+    })
   }
 
   render() {
     return (
       <div style={styles.container}>
-        <Link to="/" style={[styles.links,styles.logo]}>
-        <img src={logo} alt="Hack Club" style={styles.image} />
+        <Link to="/" style={[styles.links, styles.logo]}>
+          <img src={logo} alt="Hack Club" style={styles.image} />
         </Link>
 
-        { this.renderMenu() }
+        {this.renderMenu()}
       </div>
     )
   }

@@ -32,6 +32,6 @@ const Start = () => (
     <StepsDescription />
     <StartForm />
   </div>
-);
+)
 
 export default Start

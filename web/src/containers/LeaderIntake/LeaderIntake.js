@@ -42,10 +42,9 @@ class LeaderIntake extends Component {
   handleSubmit(values) {
     const { submit } = this.props
 
-    return submit(values)
-      .catch(error => {
-	throw new SubmissionError(error.errors)
-      })
+    return submit(values).catch(error => {
+      throw new SubmissionError(error.errors)
+    })
   }
 
   componentDidMount() {
@@ -61,15 +60,19 @@ class LeaderIntake extends Component {
       <div>
         <Helmet title="Leader Intake" />
         <Header>
-          <Link style={styles.headerLink} to="/">← Back to Home Page</Link>
-          <Heading style={styles.headerText}>Welcome to Hack Club! Let's get you set up.</Heading>
+          <Link style={styles.headerLink} to="/">
+            ← Back to Home Page
+          </Link>
+          <Heading style={styles.headerText}>
+            Welcome to Hack Club! Let's get you set up.
+          </Heading>
         </Header>
         <Card style={styles.card}>
           <LeaderIntakeForm
-              onSubmit={values => this.handleSubmit(values)}
-              status={status}
-              clubs={clubs}
-            />
+            onSubmit={values => this.handleSubmit(values)}
+            status={status}
+            clubs={clubs}
+          />
         </Card>
       </div>
     )
@@ -81,7 +84,6 @@ const mapStateToProps = state => ({
   clubs: state.clubs.data
 })
 
-export default connect(
-  mapStateToProps,
-  {...intakeActions, loadClubs}
-)(Radium(LeaderIntake))
+export default connect(mapStateToProps, { ...intakeActions, loadClubs })(
+  Radium(LeaderIntake)
+)

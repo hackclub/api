@@ -47,11 +47,11 @@ const styles = {
 
     border: 'none',
 
-    cursor: 'pointer',
+    cursor: 'pointer'
   },
   donateTierActive: {
     color: colors.bg,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.primary
   },
   customTier: {
     marginBottom: '5px'
@@ -65,12 +65,12 @@ const styles = {
   },
   isMonthly: {
     marginBottom: '10px'
-  },
+  }
 }
 
 class DonationForm extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       loading: true,
@@ -78,21 +78,21 @@ class DonationForm extends Component {
       amount: 10,
       recurring: true,
       custom: false
-    };
+    }
 
     // Have to bind our handlers to this because of how JavaScript's scope works.
-    this.onStripeUpdate = this.onStripeUpdate.bind(this);
-    this.startStripe = this.startStripe.bind(this);
-    this.loadStripe = this.loadStripe.bind(this);
-    this.handleToken = this.handleToken.bind(this);
-    this.handleAmountChange = this.handleAmountChange.bind(this);
+    this.onStripeUpdate = this.onStripeUpdate.bind(this)
+    this.startStripe = this.startStripe.bind(this)
+    this.loadStripe = this.loadStripe.bind(this)
+    this.handleToken = this.handleToken.bind(this)
+    this.handleAmountChange = this.handleAmountChange.bind(this)
     this.handleRecurringChange = this.handleRecurringChange.bind(this)
     this.enableCustom = this.enableCustom.bind(this)
   }
 
   componentWillUnmount() {
-    if(this.stripeHandler) {
-      this.stripeHandler.close();
+    if (this.stripeHandler) {
+      this.stripeHandler.close()
     }
   }
 
@@ -101,72 +101,88 @@ class DonationForm extends Component {
     return (
       <div>
         <div style={styles.donateAmountOptions}>
-          { this.renderDonationTier(5) }
-          { this.renderDonationTier(10) }
-          { this.renderDonationTier(15) }
-          { this.renderDonationTier(25) }
-          { this.renderDonationTier(50) }
+          {this.renderDonationTier(5)}
+          {this.renderDonationTier(10)}
+          {this.renderDonationTier(15)}
+          {this.renderDonationTier(25)}
+          {this.renderDonationTier(50)}
 
           <button
             style={[styles.donateTier, custom ? styles.donateTierActive : {}]}
-            onClick={this.enableCustom}>
+            onClick={this.enableCustom}
+          >
             Custom
           </button>
         </div>
 
-        { this.renderCustomAmount() }
+        {this.renderCustomAmount()}
 
         <div style={styles.isMonthly}>
-          <label style={[styles.label, styles.inlineLabel]} htmlFor="recurring">Monthly payment?</label>
-          <input name="recurring" type="checkbox" checked={recurring}
-                 onChange={this.handleRecurringChange}
+          <label style={[styles.label, styles.inlineLabel]} htmlFor="recurring">
+            Monthly payment?
+          </label>
+          <input
+            name="recurring"
+            type="checkbox"
+            checked={recurring}
+            onChange={this.handleRecurringChange}
           />
         </div>
 
         <p>Your contribution is tax deductible!</p>
 
-        <Button style={styles.donateButton} onClick={this.startStripe} type='link'>{this.buttonText()}</Button>
+        <Button
+          style={styles.donateButton}
+          onClick={this.startStripe}
+          type="link"
+        >
+          {this.buttonText()}
+        </Button>
 
         <Subtitle>Hack Club's nonprofit EIN is 81-2908499.</Subtitle>
       </div>
-    );
+    )
   }
 
   renderCustomAmount() {
     if (this.state.custom) {
-      return <input
-        name="amount"
-        type="number"
-        value={this.state.amount}
-        onChange={this.handleAmountChange}
-        style={[styles.input, styles.customTier]}
-        min="1" />
+      return (
+        <input
+          name="amount"
+          type="number"
+          value={this.state.amount}
+          onChange={this.handleAmountChange}
+          style={[styles.input, styles.customTier]}
+          min="1"
+        />
+      )
     }
   }
 
   renderDonationTier(amount) {
     const active = this.state.amount === amount && !this.state.custom
 
-    return <button
-              style={[styles.donateTier, active ? styles.donateTierActive : {}]}
-              onClick={this.setAmount(amount)}>
-
-           ${amount}
-
-           </button>
+    return (
+      <button
+        style={[styles.donateTier, active ? styles.donateTierActive : {}]}
+        onClick={this.setAmount(amount)}
+      >
+        ${amount}
+      </button>
+    )
   }
 
   loadStripe(onload) {
-    if(!window.StripeCheckout) {
-      const script = document.createElement('script');
-      script.onload = function () {
-        onload();
-      };
+    if (!window.StripeCheckout) {
+      const script = document.createElement('script')
+      script.onload = function() {
+        onload()
+      }
 
-      script.src = 'https://checkout.stripe.com/checkout.js';
-      document.head.appendChild(script);
+      script.src = 'https://checkout.stripe.com/checkout.js'
+      document.head.appendChild(script)
     } else {
-      onload();
+      onload()
     }
   }
 
@@ -178,16 +194,16 @@ class DonationForm extends Component {
         locale: 'auto',
         amount: this.amountInCents(),
         token: this.handleToken
-      });
+      })
 
       this.setState({
         stripeLoading: false,
         // loading needs to be explicitly set false so component will render in 'loaded' state.
-        loading: false,
-      });
+        loading: false
+      })
 
       this.onStripeUpdate(e)
-    });
+    })
   }
 
   onStripeUpdate(e) {
@@ -195,10 +211,10 @@ class DonationForm extends Component {
       name: 'Hack Club',
       description: 'Hack Club contribution.',
       panelLabel: 'Donate',
-      allowRememberMe: false,
-    });
+      allowRememberMe: false
+    })
 
-    e.preventDefault();
+    e.preventDefault()
   }
 
   handleToken(token) {
@@ -206,24 +222,26 @@ class DonationForm extends Component {
 
     var data = new FormData()
 
-    data.append("stripe_email", token.email)
-    data.append("stripe_token", token.id)
-    data.append("recurring", this.state.recurring)
+    data.append('stripe_email', token.email)
+    data.append('stripe_token', token.id)
+    data.append('recurring', this.state.recurring)
     data.append('amount', this.amountInCents())
 
-    this.setState({status: 'loading'})
+    this.setState({ status: 'loading' })
 
     fetch(config.apiBaseUrl + '/v1/donations', { method: 'post', body: data })
       .then(resp => {
         return resp.json()
-      }).then(data => {
+      })
+      .then(data => {
         if (data.donation_successful) {
-          this.setState({status: 'done'})
+          this.setState({ status: 'done' })
         } else {
-          this.setState({status: 'error'})
+          this.setState({ status: 'error' })
         }
-      }).catch(() => {
-        this.setState({status: 'error'})
+      })
+      .catch(() => {
+        this.setState({ status: 'error' })
       })
   }
 
@@ -231,9 +249,9 @@ class DonationForm extends Component {
     // This regex looks for any string which does not match out definition of a
     // number (1, 1.0, 1.66, etc.) and removes it. If the value is non-existant
     // then it gets set to 1.
-    var num = v.target.value.replace( /^\D+.\D*/g, '') || "1";
+    var num = v.target.value.replace(/^\D+.\D*/g, '') || '1'
 
-    this.setState({ amount: parseFloat(num)})
+    this.setState({ amount: parseFloat(num) })
   }
 
   handleRecurringChange(v) {
@@ -242,25 +260,29 @@ class DonationForm extends Component {
 
   buttonText() {
     switch (this.state.status) {
-    case "done":
-      return <span><Emoji type="grinning_face"/>Done! Thanks for your donation</span>
-    case "loading":
-      return <ThreeBounce size={15} color={colors.bg} />
-    case "error":
-      return 'Something went wrong! Try again soon.'
-    default:
-      let msg = `Donate $${this.state.amount}`
+      case 'done':
+        return (
+          <span>
+            <Emoji type="grinning_face" />Done! Thanks for your donation
+          </span>
+        )
+      case 'loading':
+        return <ThreeBounce size={15} color={colors.bg} />
+      case 'error':
+        return 'Something went wrong! Try again soon.'
+      default:
+        let msg = `Donate $${this.state.amount}`
 
-      if (this.state.recurring) {
-        msg = `${msg} a month`
-      }
+        if (this.state.recurring) {
+          msg = `${msg} a month`
+        }
 
-      return msg + '!'
+        return msg + '!'
     }
   }
 
   setAmount(amount) {
-    return (v) => {
+    return v => {
       this.setState({ amount, custom: false })
     }
   }
@@ -270,7 +292,7 @@ class DonationForm extends Component {
   }
 
   amountInCents() {
-    return this.state.amount * 100;
+    return this.state.amount * 100
   }
 }
 

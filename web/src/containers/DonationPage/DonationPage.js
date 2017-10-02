@@ -29,7 +29,7 @@ const styles = {
   }
 }
 
-const Donations = () =>
+const Donations = () => (
   <div>
     <Helmet title="Donate" />
 
@@ -51,5 +51,6 @@ const Donations = () =>
       <DonationForm />
     </Card>
   </div>
+)
 
 export default Radium(Donations)

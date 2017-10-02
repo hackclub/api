@@ -25,9 +25,7 @@ class TextAreaField extends Field {
   renderInput() {
     const { input, placeholder } = this.props
 
-    return (
-      <textarea {...input} style={styles} placeholder={placeholder} />
-    )
+    return <textarea {...input} style={styles} placeholder={placeholder} />
   }
 }
 

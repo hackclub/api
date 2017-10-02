@@ -1,13 +1,7 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
 import Helmet from 'react-helmet'
-import {
-  Button,
-  Card,
-  Emoji,
-  Heading,
-  Text
-} from 'components'
+import { Button, Card, Emoji, Heading, Text } from 'components'
 import dinosaur from './dinosaur.png'
 
 const styles = {
@@ -28,7 +22,9 @@ const styles = {
 
 class NotFound extends Component {
   componentDidMount() {
-    window.Raven.captureException(new Error(`Not Found: ${window.location.href}`))
+    window.Raven.captureException(
+      new Error(`Not Found: ${window.location.href}`)
+    )
   }
 
   render() {
@@ -41,12 +37,8 @@ class NotFound extends Component {
             Looks like you're trying to reach a page that doesn't exist. Here's
             a dinosaur instead:
           </Text>
-          <img style={styles.img}
-               src={dinosaur}
-               alt="Dinosaur" />
-          <Button type="link"
-                  href="/"
-                  style={styles.btn}>
+          <img style={styles.img} src={dinosaur} alt="Dinosaur" />
+          <Button type="link" href="/" style={styles.btn}>
             <Emoji type="leftwards_black_arrow" /> Go to back to home page
           </Button>
         </Card>

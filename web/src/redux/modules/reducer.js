@@ -21,5 +21,5 @@ export default combineReducers({
   techDomainRedemption,
   apply,
   slackInvite,
-  form,
+  form
 })

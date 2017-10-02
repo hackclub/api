@@ -17,7 +17,9 @@ const colors = {
 
 const brandPreferences = {
   primary: colors.red,
-  fadedPrimary: color(colors.red).darken(0.5).hexString(),
+  fadedPrimary: color(colors.red)
+    .darken(0.5)
+    .hexString(),
 
   warning: colors.yellow,
   success: colors.green,

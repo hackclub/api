@@ -11,11 +11,7 @@ const styles = {
 
 class Text extends Component {
   render() {
-    return (
-      <p style={[styles,this.props.style]}>
-        {this.props.children}
-      </p>
-    )
+    return <p style={[styles, this.props.style]}>{this.props.children}</p>
   }
 }
 

@@ -10,12 +10,16 @@ export { default as FullPageIframe } from './FullPageIframe/FullPageIframe'
 export { default as Header } from './Header/Header'
 export { default as Heading } from './Heading/Heading'
 export { default as HorizontalRule } from './HorizontalRule/HorizontalRule'
-export { default as LeaderIntakeForm } from './LeaderIntakeForm/LeaderIntakeForm'
+export {
+  default as LeaderIntakeForm
+} from './LeaderIntakeForm/LeaderIntakeForm'
 export { default as Link } from './Link/Link'
 export { default as LoadingSpinner } from './LoadingSpinner/LoadingSpinner'
 export { default as NavBar } from './NavBar/NavBar'
 export { default as NotFound } from './NotFound/NotFound'
-export { default as RedeemTechDomainForm } from './RedeemTechDomainForm/RedeemTechDomainForm'
+export {
+  default as RedeemTechDomainForm
+} from './RedeemTechDomainForm/RedeemTechDomainForm'
 export { default as SelectField } from './SelectField/SelectField'
 export { default as SlackInviteForm } from './SlackInviteForm/SlackInviteForm'
 export { default as Subtitle } from './Subtitle/Subtitle'

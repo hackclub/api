@@ -14,9 +14,7 @@ const styles = {
 
 class HorizontalRule extends Component {
   render() {
-    return (
-      <hr style={[styles,this.props.style]} />
-    )
+    return <hr style={[styles, this.props.style]} />
   }
 }
 
