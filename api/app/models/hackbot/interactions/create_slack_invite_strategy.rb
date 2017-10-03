@@ -6,35 +6,61 @@ module Hackbot
         '"active_item_text":"#ffffff","hover_item":"#ffffff","text_color":'\
         '"#444444","active_presence":"#60d156","badge":"#fa3649"}'.freeze
 
-      TRIGGER = /create-slack-invite-strategy (?<name>.*)/
+      TRIGGER = /create-slack-invite-strategy/
 
-      USAGE = 'create-slack-invite-strategy <strategy-name>'.freeze
+      USAGE = 'create-slack-invite-strategy'.freeze
       DESCRIPTION = 'a handy command to create a slack invite strategy'.freeze
 
       # rubocop:disable Metrics/MethodLength
       def start
-        name = captured[:name]
-        strat = SlackInviteStrategy.find_by(name: name)
+        unless leader
+          msg_channel(copy('introduction.not_a_leader'))
 
-        unless strat
-          strat = SlackInviteStrategy.create(
-            name: name,
-            club_name: name,
-            greeting: 'Welcome to the Slack!',
-            primary_color: 'E42D40',
-            user_groups: [],
-            theme: DEFAULT_THEME,
-            team: team
-          )
+          return
         end
 
-        data['strategy_id'] = strat.id
+        if leader.clubs.empty?
+          msg_channel(copy('introduction.no_clubs'))
+
+          return
+        end
+
+        msg_channel(copy('introduction.description'))
 
         msg_channel(
-          text: "What's the name of your club?",
+          text: copy('choose_name', name: default_name),
           attachments: [
             actions: [
-              { text: 'Skip :fast_forward:', value: 'skip' }
+              { text: 'Use default :fast_forward:', value: 'skip' }
+            ]
+          ]
+        )
+
+        :wait_for_name
+      end
+      # rubocop:enable Metrics/MethodLength
+
+      # rubocop:disable Metrics/MethodLength
+      def wait_for_name
+        name = skipped? ? default_name : event[:text]
+
+        if ::SlackInviteStrategy.exists?(name: name)
+          msg_channel(copy('introduction.already_a_strategy'))
+
+          return :finish
+        end
+
+        create_new_strategy(name)
+
+        key = skipped? ? 'use_default' : 'use_custom'
+
+        msg_channel(copy(key, key: 'name', val: name))
+
+        msg_channel(
+          text: copy('choose_club_name', club_name: default_club_name),
+          attachments: [
+            actions: [
+              { text: 'Use default :fast_forward:', value: 'skip' }
             ]
           ]
         )
@@ -44,51 +70,60 @@ module Hackbot
       # rubocop:enable Metrics/MethodLength
 
       def wait_for_club_name
-        strategy.update(club_name: event[:text]) unless skipped?
+        club_name = skipped? ? default_club_name : event[:text]
+        strategy.update(club_name: club_name)
 
-        msg_channel(
-          text: 'How should your Slack members be greeted?',
-          attachments: [
-            actions: [
-              { text: 'Skip :fast_forward:', value: 'skip' }
-            ]
-          ]
-        )
+        key = skipped? ? 'use_default' : 'use_custom'
 
-        :wait_for_greeting
-      end
+        msg_channel(copy(key, key: 'club name', val: club_name))
 
-      def wait_for_greeting
-        strategy.update(greeting: event[:text]) unless skipped?
-
-        msg_channel(
-          text: 'What color should the theme of your form be?',
-          attachments: [
-            actions: [
-              { text: 'Skip :fast_forward:', value: 'skip' }
-            ]
-          ]
-        )
-
-        :wait_for_color
-      end
-
-      def wait_for_color
-        strategy.update(primary_color: event[:text]) unless skipped?
-
-        msg_channel('Alright! Thanks for filling out this little form. You '\
-                    'can see your Slack invite strategy live at '\
-                    "#{strategy.url}")
+        msg_channel(copy('finish', url: strategy.url))
       end
 
       private
+
+      def default_club_name
+        l = Leader.find_by(slack_id: event[:user])
+
+        l.clubs.first.name
+      end
+
+      def default_name
+        default_club_name.downcase.gsub(/[^a-z0-9]/i, '')
+      end
+
+      def default_greeting
+        'Hey! Welcome to the Slack :)'
+      end
 
       def skipped?
         action.try(:[], :value) == 'skip'
       end
 
+      # rubocop:disable Metrics/MethodLength
+      def create_new_strategy(name)
+        strat = SlackInviteStrategy.create(
+          name: name,
+          club_name: default_club_name,
+          greeting: default_greeting,
+          primary_color: 'E42D40',
+          user_groups: [],
+          theme: DEFAULT_THEME,
+          team: team
+        )
+
+        data['strategy_id'] = strat.id
+
+        strat
+      end
+      # rubocop:enable Metrics/MethodLength
+
       def strategy
         @strategy ||= SlackInviteStrategy.find data['strategy_id']
+      end
+
+      def leader
+        Leader.find_by(slack_id: event[:user])
       end
     end
   end
