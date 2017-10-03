@@ -29,7 +29,7 @@ const PosterCard = props => {
   const src = `${config.apiBaseUrl}/v1/repo/clubs/posters/${props.src}`
 
   return (
-    <Link href={props.src}>
+    <Link href={src}>
       <Card style={styles.card}>
         <img
           alt={props.src}
