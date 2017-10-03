@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
+import Helmet from 'react-helmet'
 import ApiClient from 'helpers/ApiClient'
 import mediaQueries from 'styles/common'
 import { LoadingSpinner, NavBar, NotFound } from 'components'
@@ -58,6 +59,7 @@ class PostersPage extends Component {
   render() {
     return (
       <div style={styles.wrapper}>
+        <Helmet title="Posters" />
         <NavBar />
         {this.content()}
       </div>
