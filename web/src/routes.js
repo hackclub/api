@@ -32,7 +32,7 @@ export default store => {
 
       <Route path="workshops*" component={WorkshopWrapper} />
 
-      <Route path="posters*" component={PostersPage} />
+      <Route path="posters" component={PostersPage} />
 
       <Route
         path="slack_invite/:name/:id"
