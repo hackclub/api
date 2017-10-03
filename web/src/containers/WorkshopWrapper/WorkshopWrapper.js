@@ -11,7 +11,7 @@ import { NotFound } from 'components'
 import Workshop from './Workshop/Workshop'
 import PrintButton from './PrintButton'
 
-const baseUrl = config.apiBaseUrl + '/v1/workshops/'
+const baseUrl = config.apiBaseUrl + '/v1/repo/workshops/'
 
 const styles = {
   pageWrapper: {

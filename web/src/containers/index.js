@@ -9,6 +9,7 @@ export { default as NotFoundPage } from './NotFoundPage/NotFoundPage'
 export {
   default as OneOffFormWrapper
 } from './OneOffFormWrapper/OneOffFormWrapper'
+export { default as PostersPage } from './PostersPage/PostersPage'
 export {
   default as RedeemTechDomain
 } from './RedeemTechDomain/RedeemTechDomain'
