@@ -20,10 +20,15 @@ export default class ApiClient {
               request.send(data)
             }
 
-            request.end(
-              (err, { body } = {}) =>
-                err ? reject(body || err) : resolve(body)
-            )
+            request.end((err, res) => {
+              const body = res.body || res.text
+
+              if (err) {
+                reject(body || err)
+              } else {
+                resolve(body)
+              }
+            })
           }))
     )
   }
