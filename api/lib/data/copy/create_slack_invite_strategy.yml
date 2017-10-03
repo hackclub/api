@@ -10,7 +10,7 @@ introduction:
 choose_name: |
   What would you like to name this invite strategy?
 
-  It'll be used in a URL (in the format hackclub.com/slack_invite/${NAME_GOES_HERE}), so you want to make it short and rememberable.
+  It'll be used in a URL (in the format hackclub.com/slack_invite/${NAME_GOES_HERE}), so you want to make it short and memorable.
 
   The default is "<%= name %>".
 choose_club_name: What's the name of your club? (default is "<%= club_name %>")
