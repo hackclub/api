@@ -1,5 +1,6 @@
 module Hackbot
   module Interactions
+    # rubocop:disable Metrics/ClassLength
     class CreateSlackInviteStrategy < Command
       DEFAULT_THEME = '&sidebar_theme=custom_theme&sidebar_theme_custom_values'\
         '={"column_bg":"#f6f6f6","menu_bg":"#eeeeee","active_item":"#fa3649",'\
@@ -69,6 +70,7 @@ module Hackbot
       end
       # rubocop:enable Metrics/MethodLength
 
+      # rubocop:disable Metrics/MethodLength
       def wait_for_club_name
         club_name = skipped? ? default_club_name : event[:text]
         strategy.update(club_name: club_name)
@@ -77,7 +79,75 @@ module Hackbot
 
         msg_channel(copy(key, key: 'club name', val: club_name))
 
+        msg_channel(
+          text: copy('choose_greeting', greeting: default_greeting),
+          attachments: [
+            actions: [
+              { text: 'Use default :fast_forward:', value: 'skip' }
+            ]
+          ]
+        )
+
+        :wait_for_greeting
+      end
+      # rubocop:enable Metrics/MethodLength
+
+      # rubocop:disable Metrics/MethodLength
+      def wait_for_greeting
+        greeting = skipped? ? default_greeting : event[:text]
+        strategy.update(greeting: greeting)
+
+        key = skipped? ? 'use_default' : 'use_custom'
+
+        msg_channel(copy(key, key: 'greeting', val: greeting))
+
+        msg_channel(
+          text: copy('should_add_user_group'),
+          attachments: [
+            actions: [
+              { text: 'Yes!', value: 'yes' },
+              { text: 'No.', value: 'no' }
+            ]
+          ]
+        )
+
+        :wait_for_should_add_user_group
+      end
+      # rubocop:enable Metrics/MethodLength
+
+      def wait_for_should_add_user_group
+        case action[:value]
+        when 'yes'
+          msg_channel(copy('add_user_group.add'))
+
+          :wait_for_user_group
+        when 'no'
+          finish
+        else
+          :wait_for_should_add_user_group
+        end
+      end
+
+      def wait_for_user_group
+        m = msg.match(/<!subteam\^(\w*)\|.*\>/)
+
+        if m
+          strategy.user_groups << m[1]
+          strategy.save
+
+          msg_channel(copy('add_user_group.save'))
+
+          finish
+        else
+          msg_channel(copy('add_user_group.error'))
+
+          :wait_for_user_group
+        end
+      end
+
+      def finish
         msg_channel(copy('finish', url: strategy.url))
+        :finish
       end
 
       private
@@ -126,5 +196,6 @@ module Hackbot
         Leader.find_by(slack_id: event[:user])
       end
     end
+    # rubocop:enable Metrics/ClassLength
   end
 end
