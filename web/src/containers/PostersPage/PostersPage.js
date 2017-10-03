@@ -3,7 +3,6 @@ import Radium from 'radium'
 import ApiClient from 'helpers/ApiClient'
 import mediaQueries from 'styles/common'
 import { LoadingSpinner, NavBar, NotFound } from 'components'
-
 import PosterCard from './PosterCard/PosterCard'
 
 const client = new ApiClient()
