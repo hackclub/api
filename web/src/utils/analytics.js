@@ -83,7 +83,10 @@ class Analytics {
 
     // Load Analytics.js with your key, which will automatically
     // load the tools you've enabled for your account. Boosh!
-    analytics.load(config.segmentKey)
+    // (only load in production)
+    if (process.env.PROCESS_ENV === 'production') {
+      analytics.load(config.segmentKey)
+    }
   }
 
   internal() {
