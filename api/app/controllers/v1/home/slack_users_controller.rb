@@ -8,7 +8,7 @@ module V1
 
         render json: {
           current_page: @page,
-          pages_remaining: @page,
+          pages_remaining: pages_remaining,
           profile_pictures: most_active_users_profile_pictures
         }
       end
@@ -32,10 +32,10 @@ module V1
         log.data['users'][slack_id]
       end
 
-      def remaining_pages
-        pages = log.data['stats'].count / @page
+      def pages_remaining
+        pages = log.data['stats'].count / @inc
 
-        pages - page
+        pages - @page
       end
 
       def log
