@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/BlockLength
 Rails.application.routes.draw do
   namespace :v1 do
     get 'ping', to: 'ping#ping'
@@ -12,6 +13,10 @@ Rails.application.routes.draw do
     resources :club_applications, only: [:create]
     resources :tech_domain_redemptions, only: [:create]
     resources :donations, only: [:create]
+
+    namespace :home do
+      resources :slack_users, only: [:index]
+    end
 
     namespace :hackbot do
       post 'auth', to: 'auth#create'
@@ -29,3 +34,4 @@ Rails.application.routes.draw do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength
