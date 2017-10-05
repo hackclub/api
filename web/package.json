@@ -27,7 +27,8 @@
     "redux": "^3.6.0",
     "redux-form": "^6.1.0",
     "redux-thunk": "^2.1.0",
-    "superagent": "^2.3.0"
+    "superagent": "^2.3.0",
+    "snyk": "^1.42.3"
   },
   "scripts": {
     "start": "cross-env NODE_PATH=./src react-scripts start",
@@ -35,10 +36,13 @@
     "test": "cross-env NODE_PATH=./src react-scripts test --env=jsdom",
     "eject": "cross-env NODE_PATH=./src react-scripts eject",
     "lint": "prettier -l src/**/*.js",
-    "lint-fix": "prettier --write 'src/**/*.js'"
+    "lint-fix": "prettier --write 'src/**/*.js'",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "prettier": {
     "semi": false,
     "singleQuote": true
-  }
+  },
+  "snyk": true
 }
