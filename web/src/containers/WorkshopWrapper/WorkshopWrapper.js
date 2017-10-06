@@ -42,12 +42,13 @@ class WorkshopWrapper extends Component {
   }
 
   titleize(str) {
-    return str.replace(/[^-_a-zA-Z0-9]+/g, '')
-              .split('_')
-              .map(txt => {
-                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
-              })
-              .join(' ')
+    return str
+      .replace(/[^-_a-zA-Z0-9]+/g, '')
+      .split('_')
+      .map(txt => {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+      })
+      .join(' ')
   }
 
   requestWorkshop(url) {
@@ -99,9 +100,7 @@ class WorkshopWrapper extends Component {
             imagesUrl={imagesUrl}
             location={location}
           />
-          <PrintButton
-            titleizedName={this.titleizedName}
-          />
+          <PrintButton titleizedName={this.titleizedName} />
         </div>
       )
     } else {

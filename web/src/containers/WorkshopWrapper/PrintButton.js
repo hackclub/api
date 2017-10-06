@@ -30,15 +30,19 @@ class PrintButton extends Component {
     return (
       <div style={styles.spacer}>
         <div style={styles.wrapper}>
-          <Button type="link" onClick={() => window.html2pdf(document.querySelector('.markdown-body'), {
-              filename: `${titleizedName || 'Workshop'}.pdf`,
-              margin: 10,
-              html2canvas: {
-                useCORS: true,
-                image: { type: 'png' },
-                dpi: 192
-              }
-              })}>
+          <Button
+            type="link"
+            onClick={() =>
+              window.html2pdf(document.querySelector('.markdown-body'), {
+                filename: `${titleizedName || 'Workshop'}.pdf`,
+                margin: 10,
+                html2canvas: {
+                  useCORS: true,
+                  image: { type: 'png' },
+                  dpi: 192
+                }
+              })}
+          >
             Download
           </Button>
           <Button type="link" onClick={window.print}>
