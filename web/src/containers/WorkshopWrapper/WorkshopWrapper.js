@@ -9,7 +9,7 @@ import { LoadingSpinner, NavBar } from 'components'
 import { NotFound } from 'components'
 
 import Workshop from './Workshop/Workshop'
-import PrintButton from './PrintButton'
+import ExportButtons from './ExportButtons'
 
 const baseUrl = config.apiBaseUrl + '/v1/repo/workshops/'
 
@@ -36,7 +36,19 @@ class WorkshopWrapper extends Component {
     const extendedUrl = baseUrl + props.routeParams.splat
     const url = props.routeParams.splat ? extendedUrl : rootUrl
 
+    this.titleizedName = this.titleize(props.routeParams.splat)
+
     this.requestWorkshop(url)
+  }
+
+  titleize(str) {
+    return str
+      .replace(/[^-_a-zA-Z0-9]+/g, '')
+      .split('_')
+      .map(txt => {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+      })
+      .join(' ')
   }
 
   requestWorkshop(url) {
@@ -88,7 +100,7 @@ class WorkshopWrapper extends Component {
             imagesUrl={imagesUrl}
             location={location}
           />
-          <PrintButton />
+          <ExportButtons titleizedName={this.titleizedName} />
         </div>
       )
     } else {
@@ -99,7 +111,7 @@ class WorkshopWrapper extends Component {
   render() {
     return (
       <div style={styles.pageWrapper}>
-        <Helmet title={this.state.path || 'Workshops'} />
+        <Helmet title={this.titleizedName || 'Workshops'} />
         <NavBar />
         <div style={styles.workshopWrapper}>{this.content()}</div>
       </div>
