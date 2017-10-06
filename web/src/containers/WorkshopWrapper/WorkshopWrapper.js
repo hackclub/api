@@ -9,7 +9,7 @@ import { LoadingSpinner, NavBar } from 'components'
 import { NotFound } from 'components'
 
 import Workshop from './Workshop/Workshop'
-import PrintButton from './PrintButton'
+import ExportButtons from './ExportButtons'
 
 const baseUrl = config.apiBaseUrl + '/v1/repo/workshops/'
 
@@ -100,7 +100,7 @@ class WorkshopWrapper extends Component {
             imagesUrl={imagesUrl}
             location={location}
           />
-          <PrintButton titleizedName={this.titleizedName} />
+          <ExportButtons titleizedName={this.titleizedName} />
         </div>
       )
     } else {
