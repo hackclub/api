@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Radium from 'radium'
 import { Button } from 'components'
 import mediaQueries from 'styles/common'
@@ -26,38 +26,53 @@ const styles = {
   }
 }
 
-const ExportButtons = Radium(props => {
-  const { titleizedName } = props
-  const pdfOptions = {
-    filename: `${titleizedName || 'Workshop'}.pdf`,
-    margin: 10,
-    html2canvas: {
-      useCORS: true,
-      image: { type: 'png' },
-      dpi: 192
+class ExportButtons extends Component {
+  componentDidUpdate(_, previousState) {
+    if (!previousState.downloadState && this.state.downloadState === 'loading') {
+      this.downloadPdf()
     }
   }
 
-  return (
-    <div style={styles.spacer}>
-      <div style={styles.wrapper}>
-        <Button
-          style={styles.topButton}
-          type="link"
-          onClick={() =>
-            window.html2pdf(
-              document.querySelector('.markdown-body'),
-              pdfOptions
-            )}
-        >
-          Download
-        </Button>
-        <Button type="link" onClick={window.print}>
-          Print
-        </Button>
-      </div>
-    </div>
-  )
-})
+  downloadPdf() {
+    const { titleizedName } = this.props
+    const pdfOptions = {
+      filename: `${titleizedName || 'Workshop'}.pdf`,
+      margin: 10,
+      html2canvas: {
+        useCORS: true,
+        image: { type: 'png' },
+        dpi: 192
+      }
+    }
 
-export default ExportButtons
+    window.html2pdf(document.querySelector('.markdown-body'), pdfOptions)
+
+    setTimeout(() => {
+      this.setState({ downloadState: null })
+    }, 6000)
+  }
+
+  render() {
+    const { downloadState } = this.state
+
+    return (
+      <div style={styles.spacer}>
+        <div style={styles.wrapper}>
+          <Button
+            state={downloadState}
+            style={styles.topButton}
+            type="form"
+            onClick={() => this.setState({ downloadState: 'loading' })}
+          >
+            Download
+          </Button>
+          <Button type="link" onClick={window.print}>
+            Print
+          </Button>
+        </div>
+      </div>
+    )
+  }
+}
+
+export default Radium(ExportButtons)
