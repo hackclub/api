@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
-/* import html2pdf from './html2pdf'*/
 import { Button } from 'components'
 import mediaQueries from 'styles/common'
 
@@ -26,13 +25,13 @@ const styles = {
 
 class PrintButton extends Component {
   render() {
-    const { filename } = this.props
+    const { titleizedName } = this.props
 
     return (
       <div style={styles.spacer}>
         <div style={styles.wrapper}>
           <Button type="link" onClick={() => window.html2pdf(document.querySelector('.markdown-body'), {
-              filename: `${filename || 'workshop'}.pdf`,
+              filename: `${titleizedName || 'Workshop'}.pdf`,
               margin: 10,
               html2canvas: {
                 useCORS: true,

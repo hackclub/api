@@ -36,7 +36,18 @@ class WorkshopWrapper extends Component {
     const extendedUrl = baseUrl + props.routeParams.splat
     const url = props.routeParams.splat ? extendedUrl : rootUrl
 
+    this.titleizedName = this.titleize(props.routeParams.splat)
+
     this.requestWorkshop(url)
+  }
+
+  titleize(str) {
+    return str.replace(/[^-_a-zA-Z0-9]+/g, '')
+              .split('_')
+              .map(txt => {
+                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+              })
+              .join(' ')
   }
 
   requestWorkshop(url) {
@@ -89,6 +100,7 @@ class WorkshopWrapper extends Component {
             location={location}
           />
           <PrintButton
+            titleizedName={this.titleizedName}
             filename={path}
           />
         </div>
