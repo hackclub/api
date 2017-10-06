@@ -75,7 +75,7 @@ class WorkshopWrapper extends Component {
   }
 
   content() {
-    const { notFound, markdown, imagesUrl } = this.state
+    const { path, notFound, markdown, imagesUrl } = this.state
     const { location } = this.props
 
     if (notFound === true) {
@@ -88,7 +88,9 @@ class WorkshopWrapper extends Component {
             imagesUrl={imagesUrl}
             location={location}
           />
-          <PrintButton />
+          <PrintButton
+            filename={path}
+          />
         </div>
       )
     } else {
