@@ -86,7 +86,7 @@ class WorkshopWrapper extends Component {
   }
 
   content() {
-    const { path, notFound, markdown, imagesUrl } = this.state
+    const { notFound, markdown, imagesUrl } = this.state
     const { location } = this.props
 
     if (notFound === true) {
@@ -101,7 +101,6 @@ class WorkshopWrapper extends Component {
           />
           <PrintButton
             titleizedName={this.titleizedName}
-            filename={path}
           />
         </div>
       )
@@ -113,7 +112,7 @@ class WorkshopWrapper extends Component {
   render() {
     return (
       <div style={styles.pageWrapper}>
-        <Helmet title={this.state.path || 'Workshops'} />
+        <Helmet title={this.titleizedName || 'Workshops'} />
         <NavBar />
         <div style={styles.workshopWrapper}>{this.content()}</div>
       </div>
