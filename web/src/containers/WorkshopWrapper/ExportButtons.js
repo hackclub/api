@@ -20,6 +20,9 @@ const styles = {
       bottom: '1em',
       right: '1em'
     }
+  },
+  topButton: {
+    marginBottom: '0.5em'
   }
 }
 
@@ -39,6 +42,7 @@ const ExportButtons = Radium(props => {
     <div style={styles.spacer}>
       <div style={styles.wrapper}>
         <Button
+          style={styles.topButton}
           type="link"
           onClick={() =>
             window.html2pdf(
