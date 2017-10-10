@@ -193,7 +193,14 @@ Here are the buildpacks that need to be configured (they must be in the given or
 
 ```
 https://github.com/heroku/heroku-buildpack-apt
+https://github.com/dscout/wkhtmltopdf-buildpack
 heroku/ruby
 ```
 
 Refer to https://devcenter.heroku.com/articles/buildpacks for instructions on configuring buildpacks.
+
+Make sure to configure the wkhtmltopdf buildpack:
+
+```
+heroku config:set WKHTMLTOPDF_VERSION="0.12.4"
+```
