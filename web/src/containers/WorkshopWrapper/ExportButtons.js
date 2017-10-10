@@ -8,21 +8,24 @@ const styles = {
     height: '5em'
   },
   wrapper: {
-    [mediaQueries.smallUp]: {
-      display: 'none'
-    },
     [mediaQueries.print]: {
       display: 'none'
     },
+    bottom: '1em',
     [mediaQueries.mediumUp]: {
-      display: 'initial',
       position: 'fixed',
-      bottom: '1em',
       right: '1em'
     }
   },
+  button: {
+    [mediaQueries.smallUp]: {
+      marginBottom: '0.5em'
+    },
+    paddingLeft: '15px',
+    paddingRight: '15px'
+  },
   topButton: {
-    marginBottom: '0.5em'
+    marginTop: '0.5em'
   }
 }
 
@@ -33,14 +36,14 @@ class ExportButtons extends Component {
       <div style={styles.spacer}>
         <div style={styles.wrapper}>
           <Button
-            style={styles.topButton}
+            style={[styles.button, styles.topButton]}
             type="link"
             href={pdfDownloadHref}
             download={`${titleizedName}.pdf`}
           >
             Download as PDF
           </Button>
-          <Button type="link" onClick={window.print}>
+          <Button type="link" style={styles.button} onClick={window.print}>
             Print
           </Button>
         </div>
