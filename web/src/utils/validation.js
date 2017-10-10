@@ -14,23 +14,27 @@ export function required(value) {
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
 const hcAddressRegex = /@hackclub\.com/
 export function email(value) {
-  if (!isEmpty(value)) {
-    if (!emailRegex.test(value) || hcAddressRegex.test(value)) {
-      return 'Invalid email address'
-    }
+  if (isEmpty(value)) return
+
+  if (!emailRegex.test(value) || hcAddressRegex.test(value)) {
+    return 'Invalid email address'
   }
 }
 
 const slackUsernameRegex = /^\w*$/
 export function slackUsername(value) {
-  if (!isEmpty(value) && !slackUsernameRegex.test(value)) {
+  if (isEmpty(value)) return
+
+  if (!slackUsernameRegex.test(value)) {
     return 'Username can only contain lowercase letters, numbers, and underscores'
   }
 }
 
 const techDomainRegex = /^[A-Z0-9.-]+\.tech$/i
 export function techDomain(value) {
-  if (!isEmpty(value) && !techDomainRegex.test(value)) {
+  if (isEmpty(value)) return
+
+  if (!techDomainRegex.test(value)) {
     return 'Invalid domain'
   }
 }
