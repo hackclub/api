@@ -38,7 +38,7 @@ class ExportButtons extends Component {
             href={pdfDownloadHref}
             download={`${titleizedName}.pdf`}
           >
-            Download
+            Download as PDF
           </Button>
           <Button type="link" onClick={window.print}>
             Print
