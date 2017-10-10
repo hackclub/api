@@ -23,6 +23,7 @@ gem 'sentry-raven', '~> 2.4'
 gem 'stripe', '~> 3.0'
 gem 'terminal-table', '~> 1.7'
 gem 'timezone', '~> 1.0'
+gem 'pdfkit'
 
 group :development, :test do
   gem 'listen', '~> 3.0.5'

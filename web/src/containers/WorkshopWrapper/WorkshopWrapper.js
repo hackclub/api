@@ -61,7 +61,7 @@ class WorkshopWrapper extends Component {
     this.setState({
       notFound: false,
       markdown: data,
-      imagesUrl: url
+      assetsUrl: url
     })
   }
 
@@ -87,7 +87,7 @@ class WorkshopWrapper extends Component {
   }
 
   content() {
-    const { notFound, markdown, imagesUrl } = this.state
+    const { notFound, markdown, assetsUrl } = this.state
     const { location } = this.props
 
     if (notFound === true) {
@@ -97,10 +97,13 @@ class WorkshopWrapper extends Component {
         <div>
           <Workshop
             markdown={markdown}
-            imagesUrl={imagesUrl}
+            imagesUrl={assetsUrl}
             location={location}
           />
-          <ExportButtons titleizedName={this.titleizedName} />
+          <ExportButtons
+            titleizedName={this.titleizedName}
+            pdfDownloadHref={assetsUrl.replace('.md', '.pdf')}
+          />
         </div>
       )
     } else {
