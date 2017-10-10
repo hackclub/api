@@ -6,7 +6,8 @@ class ClubApplicationSpamService
                     application.systems_hacked.nil?
 
     word_count(application.interesting_project) <= WORD_CUTOFF ||
-      word_count(application.systems_hacked) <= WORD_CUTOFF
+      word_count(application.systems_hacked) <= WORD_CUTOFF ||
+      /@hackclub\.com$/.match application.email
   end
 
   private
