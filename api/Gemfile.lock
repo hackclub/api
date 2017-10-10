@@ -305,7 +305,7 @@ DEPENDENCIES
   listen (~> 3.0.5)
   mimemagic (~> 0.3)
   octokit (~> 4.7)
-  pdfkit
+  pdfkit (~> 0.8.2)
   pg (~> 0.18.4)
   puma (~> 3.0)
   rack-cors
