@@ -12,9 +12,12 @@ export function required(value) {
 }
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
+const hcAddressRegex = /@hackclub\.com/
 export function email(value) {
-  if (!isEmpty(value) && !emailRegex.test(value)) {
-    return 'Invalid email address'
+  if (!isEmpty(value)) {
+    if (!emailRegex.test(value) || hcAddressRegex.test(value)) {
+      return 'Invalid email address'
+    }
   }
 }
 
