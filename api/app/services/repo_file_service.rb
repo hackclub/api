@@ -18,7 +18,8 @@ class RepoFileService
   end
 
   def handle
-    return markdown if markdown_as_html?
+    return html if markdown_as_html?
+    return pdf if markdown_as_pdf?
 
     raise Errno::ENOENT unless File.file? @path
 
@@ -27,13 +28,24 @@ class RepoFileService
 
   private
 
+  def markdown_as_pdf?
+    md_path = @path.ext('.md')
+
+    File.extname(@path) == '.pdf' && File.file?(md_path)
+  end
+
   def markdown_as_html?
     md_path = @path.ext('.md')
 
     File.extname(@path) == '.html' && File.file?(md_path)
   end
 
-  def markdown
+  def pdf
+    kit = PDFKit.new(html)
+    kit.to_pdf
+  end
+
+  def html
     md = IO.read(@path.ext('.md'))
     renderer = Redcarpet::Markdown.new(Redcarpet::Render::HTML,
                                        MARKDOWN_RENDERER_OPTIONS)

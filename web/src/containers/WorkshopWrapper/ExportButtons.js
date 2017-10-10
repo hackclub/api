@@ -27,44 +27,18 @@ const styles = {
 }
 
 class ExportButtons extends Component {
-  componentDidUpdate(_, previousState) {
-    if (!previousState.downloadState && this.state.downloadState === 'loading') {
-      this.downloadPdf()
-    }
-  }
-
-  downloadPdf() {
-    const { titleizedName } = this.props
-    const pdfOptions = {
-      filename: `${titleizedName || 'Workshop'}.pdf`,
-      margin: 10,
-      html2canvas: {
-        useCORS: true,
-        image: { type: 'png' },
-        dpi: 192
-      }
-    }
-
-    window.html2pdf(document.querySelector('.markdown-body'), pdfOptions)
-
-    setTimeout(() => {
-      this.setState({ downloadState: null })
-    }, 6000)
-  }
-
   render() {
-    const { downloadState } = this.state
-
+    const { pdfDownloadHref, titleizedName } = this.props
     return (
       <div style={styles.spacer}>
         <div style={styles.wrapper}>
           <Button
-            state={downloadState}
             style={styles.topButton}
-            type="form"
-            onClick={() => this.setState({ downloadState: 'loading' })}
+            type="link"
+            href={pdfDownloadHref}
+            download={`${titleizedName}.pdf`}
           >
-            Download
+            Download as PDF
           </Button>
           <Button type="link" onClick={window.print}>
             Print
