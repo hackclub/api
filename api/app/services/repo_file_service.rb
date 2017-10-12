@@ -40,8 +40,13 @@ class RepoFileService
     File.extname(@path) == '.html' && File.file?(md_path)
   end
 
+  def pdf_stylesheet
+    File.expand_path('pdf_stylesheet.css', File.dirname(__FILE__))
+  end
+
   def pdf
     kit = PDFKit.new(html)
+    kit.stylesheets << pdf_stylesheet
     kit.to_pdf
   end
 
