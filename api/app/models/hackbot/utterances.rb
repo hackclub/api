@@ -7,11 +7,11 @@ module Hackbot
     end
 
     def self.yes
-      /^(yes|yea|yup|yep|ya|sure|ok|yeah|yah|y)$/i
+      /^(yes|yea|yup|yep|ya|sure|ok|yeah|yah)/i
     end
 
     def self.no
-      /^(no|nope|nah|negative|n)$/i
+      /^(no|nope|nah|negative)/i
     end
   end
 end
