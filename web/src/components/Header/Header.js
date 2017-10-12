@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Radium from 'radium'
 import colors from 'styles/colors'
 
@@ -10,10 +10,8 @@ const styles = {
   padding: '40px'
 }
 
-class Header extends Component {
-  render() {
-    return <div style={[styles, this.props.style]}>{this.props.children}</div>
-  }
+const Header = props => {
+  return <div style={[styles, props.style]}>{props.children}</div>
 }
 
 export default Radium(Header)

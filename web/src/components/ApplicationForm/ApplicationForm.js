@@ -42,14 +42,12 @@ const styles = {
   }
 }
 
-class ShortResponseField extends Component {
-  render() {
-    return (
-      <div style={styles.shortResponse}>
-        <Field {...this.props} />
-      </div>
-    )
-  }
+const ShortResponseField = props => {
+  return (
+    <div style={styles.shortResponse}>
+      <Field {...props} />
+    </div>
+  )
 }
 // We do this to wrap our component in Radium for our mediaQueries
 ShortResponseField = Radium(ShortResponseField)

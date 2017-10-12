@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Radium from 'radium'
 import colors from 'styles/colors'
 
@@ -11,10 +11,8 @@ const styles = {
   borderRadius: '5px'
 }
 
-class Card extends Component {
-  render() {
-    return <div style={[styles, this.props.style]}>{this.props.children}</div>
-  }
+const Card = props => {
+  return <div style={[styles, props.style]}>{props.children}</div>
 }
 
 export default Radium(Card)

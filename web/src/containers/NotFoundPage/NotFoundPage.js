@@ -10,15 +10,13 @@ const styles = {
   backgroundSize: '450px'
 }
 
-class NotFoundPage extends Component {
-  render() {
-    return (
-      <div style={styles}>
-        <NavBar />
-        <NotFound />
-      </div>
-    )
-  }
+const NotFoundPage = () => {
+  return (
+    <div style={styles}>
+      <NavBar />
+      <NotFound />
+    </div>
+  )
 }
 
 export default Radium(NotFoundPage)

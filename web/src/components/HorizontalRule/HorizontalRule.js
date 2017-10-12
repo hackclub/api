@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Radium from 'radium'
 import colors from 'styles/colors'
 import { mediaQueries } from 'styles/common'
@@ -12,10 +12,8 @@ const styles = {
   }
 }
 
-class HorizontalRule extends Component {
-  render() {
-    return <hr style={[styles, this.props.style]} />
-  }
+const HorizontalRule = props => {
+  return <hr style={[styles, props.style]} />
 }
 
 export default Radium(HorizontalRule)
