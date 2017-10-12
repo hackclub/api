@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Radium from 'radium'
 import colors from 'styles/colors'
 
@@ -8,11 +8,8 @@ const styles = {
   lineHeight: '27px',
   color: colors.text
 }
-
-class Text extends Component {
-  render() {
-    return <p style={[styles, this.props.style]}>{this.props.children}</p>
-  }
+const Text = props => {
+  return <p style={[styles, props.style]}>{props.children}</p>
 }
 
 export default Radium(Text)

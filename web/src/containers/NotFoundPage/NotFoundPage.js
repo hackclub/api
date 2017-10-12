@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Radium from 'radium'
 import pattern from 'styles/pattern.png'
 import { NavBar, NotFound } from 'components'
@@ -10,15 +10,13 @@ const styles = {
   backgroundSize: '450px'
 }
 
-class NotFoundPage extends Component {
-  render() {
-    return (
-      <div style={styles}>
-        <NavBar />
-        <NotFound />
-      </div>
-    )
-  }
+const NotFoundPage = () => {
+  return (
+    <div style={styles}>
+      <NavBar />
+      <NotFound />
+    </div>
+  )
 }
 
 export default Radium(NotFoundPage)

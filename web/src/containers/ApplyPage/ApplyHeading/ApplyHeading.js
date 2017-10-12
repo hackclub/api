@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 import { Heading } from 'components'
 import { mediaQueries } from 'styles/common'
@@ -12,14 +12,12 @@ const styles = {
   }
 }
 
-class ApplyHeading extends Component {
-  render() {
-    return (
-      <div>
-        <Heading style={styles}>Apply to Start a Hack Club</Heading>
-      </div>
-    )
-  }
+const ApplyHeading = () => {
+  return (
+    <div>
+      <Heading style={styles}>Apply to Start a Hack Club</Heading>
+    </div>
+  )
 }
 
 export default ApplyHeading

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Radium from 'radium'
 
 import colors from 'styles/colors'
@@ -9,14 +9,12 @@ const styles = {
   fontStyle: 'italic'
 }
 
-class Subtitle extends Component {
-  render() {
-    return (
-      <p {...this.props} style={[styles, this.props.style]}>
-        {this.props.children}
-      </p>
-    )
-  }
+const Subtitle = props => {
+  return (
+    <p {...props} style={[styles, props.style]}>
+      {props.children}
+    </p>
+  )
 }
 
 export default Radium(Subtitle)

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Radium from 'radium'
 
 const styles = {
@@ -15,20 +15,15 @@ const styles = {
   textIndent: '100%'
 }
 
-class Emoji extends Component {
-  render() {
-    const { type } = this.props
-
-    const backgroundStyle = {
-      backgroundImage: `url('/emoji/${type}.png')`
-    }
-
-    return (
-      <span style={[styles, backgroundStyle, this.props.style]}>
-        {`:${type}:`}
-      </span>
-    )
+const Emoji = props => {
+  const { type } = props
+  const backgroundStyle = {
+    backgroundImage: `url('/emoji/${type}.png')`
   }
+
+  return (
+    <span style={[styles, backgroundStyle, props.style]}>{`:${type}:`}</span>
+  )
 }
 
 export default Radium(Emoji)
