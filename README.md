@@ -134,10 +134,6 @@ HACKBOT_ADMINS
 # Streak box to use for demo check-ins
 STREAK_DEMO_USER_BOX_KEY
 
-# API key to use with Giphy. Will probably be "dc6zaTOxFJmzC", which is their
-# public beta key (see https://github.com/Giphy/GiphyAPI) for details.
-GIPHY_API_KEY
-
 # The API key for our giffing engine. Can be requested from http://docs.guggy.com/,
 # otherwise stealing the one from production will probably be find.
 GUGGY_API_KEY
