@@ -37,8 +37,8 @@
     "eject": "cross-env NODE_PATH=./src react-scripts eject",
     "lint": "prettier -l src/**/*.js",
     "lint-fix": "prettier --write 'src/**/*.js'",
-    "snyk-protect": "snyk protect",
-    "prepublish": "npm run snyk-protect"
+    "snyk": "snyk test",
+    "snyk-fix": "snyk protect"
   },
   "prettier": {
     "semi": false,
