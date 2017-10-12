@@ -42,15 +42,13 @@ const styles = {
   }
 }
 
-const ShortResponseField = props => {
+const ShortResponseField = Radium(props => {
   return (
     <div style={styles.shortResponse}>
       <Field {...props} />
     </div>
   )
-}
-// We do this to wrap our component in Radium for our mediaQueries
-ShortResponseField = Radium(ShortResponseField)
+})
 
 const resetForm = (results, dispatch) => {
   dispatch(reset('applicationForm'))

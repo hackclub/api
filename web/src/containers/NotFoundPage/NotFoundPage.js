@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Radium from 'radium'
 import pattern from 'styles/pattern.png'
 import { NavBar, NotFound } from 'components'

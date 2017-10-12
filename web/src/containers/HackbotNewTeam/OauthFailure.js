@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Text, Link } from 'components'
 
 const OauthFailure = () => {

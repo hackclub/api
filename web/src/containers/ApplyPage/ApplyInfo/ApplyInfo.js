@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Radium from 'radium'
 import signature from './signature.png'
 import { mediaQueries } from 'styles/common'
