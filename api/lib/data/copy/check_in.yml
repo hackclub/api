@@ -2,7 +2,7 @@ greeting:
     if_first_check_in: |
         Hey <%= first_name %>! I'm Orpheus, Hack Club's friendly robot dinosaur.
 
-        I'll be reaching out to you every week, typically on Fridays, to check in and see how your club's doing. I'll be in the loop every step of the way :slightly_smiling_face:
+        I'll be reaching out to you every week, typically on Fridays, to check in and see how your club's doing. I'll be in the loop every step of the way 🙂
 
         To start, did you have a club meeting this week?
     if_first_check_in_of_semester: |
@@ -28,9 +28,9 @@ greeting:
 is_dormant:
     positive:
         text: That's cool. When will your break end? (Say something like "in two months")
-        action_result: ":black_square_for_stop: Stop sending check-ins until break is over."
+        action_result: "⬛️ Stop sending check-ins until break is over."
     negative:
-        action_result: ":pencil: Keep sending me check-ins! We're still meeting"
+        action_result: "✏️ Keep sending me check-ins! We're still meeting"
 
 resurrection_date:
     unknown: I'm not that smart and couldn't understand that date. Try saying something like "in three months" or "twelve weeks".
@@ -38,12 +38,12 @@ resurrection_date:
 
 meeting_confirmation:
     had_meeting:
-        action_result: ":white_check_mark: You had a meeting"
+        action_result: "✅ You had a meeting"
         ask_day_of_week: Okay, sweet! On which day was it? (say something like "monday" or "today" – I'm not very clever)
     no_meeting:
-        action_result: ":no_entry: You did not have a meeting"
+        action_result: "⛔️ You did not have a meeting"
         ask_why: That's a shame! Why didn't you meet?
-    previous_meeting_day: ":white_check_mark: You had a meeting on <%= day %>"
+    previous_meeting_day: "✅ You had a meeting on <%= day %>"
 
 no_meeting_reason: Gotcha. Are you planning on having a club meeting in the future?
 
@@ -53,7 +53,7 @@ meeting_in_the_future:
     invalid: I'm not very smart yet and had trouble understanding you :-/. Try saying something like 'yes' or 'no'
 
 day_of_week:
-    unknown: ":disappointed: I'm not very smart yet and had trouble understanding you. Try saying something simpler, like \"tuesday\" or \"thursday\"."
+    unknown: "😔 I'm not very smart yet and had trouble understanding you. Try saying something simpler, like \"tuesday\" or \"thursday\"."
     invalid: Hmm, that date didn't happen in the past week (although I may be misunderstanding you). Can you try giving me the day of the week of your meeting again?
     valid: How many people would you estimate came? (I'm not very smart, I'll need you to give me a single number, something like "25" – give your best estimate)
 
@@ -73,22 +73,22 @@ attendance:
 
 notes_confirmation:
     has_notes:
-        action_result: ":white_check_mark: You could use help from the Hack Club team"
+        action_result: "✅ You could use help from the Hack Club team"
         ask: What should I send to them?
     no_notes:
-        action_result: ":no_entry: You don't need any help right now"
+        action_result: "⛔️ You don't need any help right now"
 
 submit_confirmation:
     text: Just to confirm, this is what I'll send to the team
     wants_to_be_dead: Club is ending
     submit:
-        action_result: ":airplane_departure: Check in submitted"
+        action_result: "✈️ Check in submitted"
     restart:
-        action_result: ":leftwards_arrow_with_hook: You want to start over"
+        action_result: "🔄 You want to start over"
 
 submit_check_in: Gotcha, I'll pass that on to the Hack Club team! Hope you have a hack-tastic weekend!
 
 follow_ups:
-    first: "Hey! Just wanted to follow-up on this. :wink:"
-    second: "Ping. :wave:"
-    third: "Just a heads up – this is the last ping I'll send. :airplane_departure:"
+    first: "Hey! Just wanted to follow-up on this. 😉"
+    second: "Ping. 👋"
+    third: "Just a heads up – this is the last ping I'll send. ✈️"
