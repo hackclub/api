@@ -48,7 +48,7 @@ meeting_confirmation:
 no_meeting_reason: Gotcha. Are you planning on having a club meeting in the future?
 
 meeting_in_the_future:
-    positive: Gotcha, is there anything preventing you from having your next meeting? If not, please respond with "no".
+    positive: Great! Is there anything preventing you from having your next meeting? If not, please respond with "no".
     negative: That's a shame. I'll let the Hack Club team know.
     invalid: I'm not very smart yet and had trouble understanding you :-/. Try saying something like 'yes' or 'no'
 
@@ -79,14 +79,14 @@ notes_confirmation:
         action_result: ":no_entry: You don't need any help right now"
 
 submit_confirmation:
-    text: Just to confirm, this is what I'll send to the team
+    text: "Just to confirm, this is what I'll send to the team:"
     wants_to_be_dead: Club is ending
     submit:
         action_result: ":airplane_departure: Check in submitted"
     restart:
         action_result: ":leftwards_arrow_with_hook: You want to start over"
 
-submit_check_in: Gotcha, I'll pass that on to the Hack Club team! Hope you have a hack-tastic weekend!
+submit_check_in: Thanks, I'll pass that on to the Hack Club team! Hope you have a hack-tastic weekend!
 
 follow_ups:
     first: "Hey! Just wanted to follow-up on this. :wink:"
