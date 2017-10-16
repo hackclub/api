@@ -1,11 +1,6 @@
 FROM ruby:2.3.1
 MAINTAINER Zach Latta <zach@hackclub.com>
 
-COPY vendor/wkhtmltox /tmp
-RUN cd /tmp && tar xf wkhtmltox*.tar.xz && \
-  mkdir -p /app/bin && mv wkhtmltox/bin/wkhtmltopdf /app/bin/ && \
-  chmod 555 /app/bin/wkhtmltopdf
-
 RUN apt-get update -qq && apt-get install -y build-essential libpq-dev \
   postgresql-client ghostscript ledger zlib1g fontconfig \
   libfreetype6 libx11-6 libxext6 libxrender1 --no-install-recommends
