@@ -10,7 +10,8 @@ class RepoFileService
 
   def initialize(root, file_path)
     @root = root
-    @path = File.join(@root, file_path)
+    @requested_path = file_path
+    @path = File.join(@root, @requested_path)
   end
 
   def mime
@@ -45,8 +46,18 @@ class RepoFileService
   end
 
   def pdf
-    kit = PDFKit.new(html)
-    kit.stylesheets << pdf_stylesheet
+    host = Rails::Server.new.options[:Host]
+    port = Rails::Server.new.options[:Port]
+    path = @requested_path.ext('html')
+
+    # Something like
+    # http://0.0.0.0:3000/v1/repo/workshops/personal_website/README.html
+    # 
+    # This is a bit strange: we're telling PDFKit to render the HTML from the
+    # given URL, so it will be able to request linked assets (like images).
+    url = "http://#{host}:#{port}/v1/repo#{path}"
+
+    kit = PDFKit.new(url)
     kit.to_pdf
   end
 
