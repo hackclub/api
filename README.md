@@ -6,7 +6,11 @@
 
 Go through the [web setup](#web-setup) and [api setup](#api-setup). Once you've got that done you can spin up both at the same time with this command:
 
-And then `api` and `web` should be live!
+```sh
+docker-compose up
+```
+
+And then `api` and `web` should be live on `localhost:3000` and `localhost:3001` respectively!
 
 ## Web Setup
 
