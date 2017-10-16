@@ -1,6 +1,6 @@
 # Monolith
 
-<img src="https://i.imgur.com/J9seIVR.png" alt="Monolith icon" />
+![Monolith icon](https://i.imgur.com/J9seIVR.png)
 
 ## How to get it set up
 
