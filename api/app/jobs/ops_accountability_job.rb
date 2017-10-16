@@ -58,7 +58,7 @@ class OpsAccountabilityJob < ApplicationJob
 
   def unassigned_applications
     unreviewed_applications
-      .select { |a| !been_in_stage_for(a, 1.hour.ago) }
+      .reject { |a| been_in_stage_for(a, 1.hour.ago) }
       .select do |a|
       assignees = a[:assigned_to_sharing_entries]
 
