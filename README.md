@@ -1,4 +1,4 @@
-# Monolith
+# Monolith [![CircleCI](https://circleci.com/gh/hackclub/hackclub.svg?style=svg)](https://circleci.com/gh/hackclub/hackclub)
 
 ![Monolith icon](https://i.imgur.com/J9seIVR.png)
 
