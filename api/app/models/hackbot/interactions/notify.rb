@@ -3,7 +3,7 @@ module Hackbot
     class Notify < Hackbot::Interactions::Command
       TRIGGER = /notify (?<message>.*)/
 
-      USAGE = 'hackbot notify <message>'.freeze
+      USAGE = 'notify <message>'.freeze
       DESCRIPTION = 'Send a notification to an entire channel'.freeze
 
       def start
