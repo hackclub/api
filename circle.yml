@@ -52,7 +52,6 @@ dependencies:
 test:
   override:
     - cd web && yarn lint
-    - cd web && yarn snyk
     - cd api && bundle exec rubocop
     - cd api && bundle exec rspec
 deployment:
