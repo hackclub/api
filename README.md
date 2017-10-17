@@ -169,7 +169,7 @@ git submodule init
 git submodule update
 docker-compose build api
 docker-compose run api bundle
-docker-compose run api rails db:create db:migrate
+docker-compose run api rails db:create db:setup
 ```
 
 ### Setting up the Slack App
