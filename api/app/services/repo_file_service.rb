@@ -47,9 +47,6 @@ class RepoFileService
     port = Rails::Server.new.options[:Port]
     path = @requested_path.ext('html')
 
-    # Something like
-    # http://0.0.0.0:3000/v1/repo/workshops/personal_website/README.html
-    #
     # This is a bit strange: we're telling PDFKit to render the HTML from the
     # given URL, so it will be able to request linked assets (like images).
     url = "http://#{host}:#{port}/v1/repo#{path}?stylesheet=true"
