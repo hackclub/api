@@ -8,10 +8,11 @@ class RepoFileService
     fenced_code_blocks: true
   }.freeze
 
-  def initialize(root, file_path)
+  def initialize(root, file_path, stylesheet)
     @root = root
     @requested_path = file_path
     @path = File.join(@root, @requested_path)
+    @stylesheet = stylesheet
   end
 
   def mime
@@ -41,10 +42,6 @@ class RepoFileService
     File.extname(@path) == '.html' && File.file?(md_path)
   end
 
-  def pdf_stylesheet
-    File.expand_path('pdf_stylesheet.css', File.dirname(__FILE__))
-  end
-
   def pdf
     host = Rails::Server.new.options[:Host]
     port = Rails::Server.new.options[:Port]
@@ -52,10 +49,10 @@ class RepoFileService
 
     # Something like
     # http://0.0.0.0:3000/v1/repo/workshops/personal_website/README.html
-    # 
+    #
     # This is a bit strange: we're telling PDFKit to render the HTML from the
     # given URL, so it will be able to request linked assets (like images).
-    url = "http://#{host}:#{port}/v1/repo#{path}"
+    url = "http://#{host}:#{port}/v1/repo#{path}?stylesheet=true"
 
     kit = PDFKit.new(url)
     kit.to_pdf
@@ -65,8 +62,12 @@ class RepoFileService
     md = IO.read(@path.ext('.md'))
     renderer = Redcarpet::Markdown.new(Redcarpet::Render::HTML,
                                        MARKDOWN_RENDERER_OPTIONS)
+    html = renderer.render(md)
 
-    renderer.render(md)
+    ActionController::Base.render(
+      'repo/file.html.erb',
+      assigns: { html: html, stylesheet: @stylesheet }
+    )
   end
 
   def file
