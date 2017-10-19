@@ -377,7 +377,7 @@ module Hackbot
         # have an idea of how to make this code more clear, please do rewrite
         # it.
         fields = data.map do |key, val|
-          next if %w(channel last_message_ts).include? key
+          next if %w(channel last_message_ts club_id leader_id).include? key
 
           title = key.humanize
           value = val
@@ -426,7 +426,8 @@ module Hackbot
       private
 
       def restart_check_in
-        keys_to_delete = data.keys - %w(channel last_message_ts)
+        keys_to_save = %w(channel last_message_ts club_id leader_id)
+        keys_to_delete = data.keys - keys_to_save
         keys_to_delete.each { |key| data.delete key }
 
         @restart = true

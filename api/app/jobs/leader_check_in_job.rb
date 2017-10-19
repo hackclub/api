@@ -5,7 +5,11 @@ class LeaderCheckInJob < ApplicationJob
   def perform(streak_key)
     @streak_key = streak_key
 
-    Hackbot::Interactions::CheckIn.trigger(slack_id)
+    interaction = Hackbot::Interactions::CheckIn.trigger(slack_id)
+
+    new_data = interaction.data.merge('leader_id' => leader.id,
+                                      'club_id' => club.id)
+    interaction.update(data: new_data)
   end
 
   private
@@ -25,5 +29,9 @@ class LeaderCheckInJob < ApplicationJob
 
   def leader
     Leader.find_by(streak_key: @streak_key)
+  end
+
+  def club
+    leader.clubs.first
   end
 end
