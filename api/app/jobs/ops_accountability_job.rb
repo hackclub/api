@@ -25,8 +25,8 @@ class OpsAccountabilityJob < ApplicationJob
     end
 
     unless b.empty?
-      a = b.count == 1 ? 'application that has' : pluralize(b.count, 'application') + ' that have'
-      notify "Come on…go review the #{a} been around for like two days."
+      x = b.count == 1 ? 'application that has' : pluralize(b.count, 'application') + ' that have'
+      notify "Come on…go review the #{x} been around for like two days."
       succ = false
     end
 
