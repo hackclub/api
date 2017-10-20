@@ -63,6 +63,13 @@ class SlackInviteForm extends Component {
           component={TextField}
           type="password"
         />
+        <Field
+          name="passwordConfirm"
+          label="Confirm Password"
+          placeholder="LastDinosaur"
+          component={TextField}
+          type="password"
+        />
 
         <Button type="form" state={this.buttonState()}>
           {this.buttonText(status)}

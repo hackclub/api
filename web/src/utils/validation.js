@@ -11,6 +11,14 @@ export function required(value) {
   }
 }
 
+export function passwordsMatch(value, data) {
+  if (isEmpty(value)) return
+
+  if (value !== data.password) {
+    return 'Passwords must match'
+  }
+}
+
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
 const hcAddressRegex = /@hackclub\.com/
 export function email(value) {
