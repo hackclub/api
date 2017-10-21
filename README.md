@@ -33,9 +33,6 @@ REACT_APP_API_BASE_URL=localhost:3000
 # For Hackbot new team auth
 REACT_APP_SLACK_CLIENT_ID=REPLACEME
 
-# For the donations page
-REACT_APP_STRIPE_PUBLISHABLE_KEY=REPLACEME
-
 # For error tracking
 REACT_APP_SENTRY_DSN=REPLACEME
 
