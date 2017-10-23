@@ -13,7 +13,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
                   'https://lachlan.hackclub.com',
                   'http://lachlan.hackclub.com',
                   'https://hackclub.com',
-                  'http://hackclub.com'
+                  'http://hackclub.com',
                   'localhost'].freeze
 
   allow do
