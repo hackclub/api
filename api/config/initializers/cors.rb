@@ -10,6 +10,8 @@
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   BASE_ORIGINS = ['https://new.hackclub.com',
                   'http://new.hackclub.com',
+                  'https://legacy.hackclub.com',
+                  'http://legacy.hackclub.com',
                   'https://lachlan.hackclub.com',
                   'http://lachlan.hackclub.com',
                   'https://hackclub.com',
