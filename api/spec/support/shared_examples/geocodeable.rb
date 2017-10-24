@@ -4,8 +4,16 @@ RSpec.shared_examples 'Geocodeable' do
   let(:model) { described_class }
 
   let(:address_attr) { model.geocodeable_address_attr }
-  let(:latitude_attr) { model.geocodeable_lat_attr }
-  let(:longitude_attr) { model.geocodeable_lng_attr }
+  let(:attr_mappings) { model.geocodeable_attr_mappings }
+
+  geocoded_attrs = [
+    :latitude, :longitude,
+    :address,
+    :city,
+    :state, :state_code,
+    :postal_code,
+    :country, :country_code
+  ]
 
   def address(obj, attr = address_attr)
     obj.send(attr)
@@ -15,11 +23,7 @@ RSpec.shared_examples 'Geocodeable' do
     obj.send("#{attr}=", new_address)
   end
 
-  def latitude(obj, attr = latitude_attr)
-    obj.send(attr)
-  end
-
-  def longitude(obj, attr = longitude_attr)
+  def get_val(obj, attr)
     obj.send(attr)
   end
 
@@ -32,7 +36,14 @@ RSpec.shared_examples 'Geocodeable' do
         [
           {
             'latitude' => 42.42,
-            'longitude' => -42.42
+            'longitude' => -42.42,
+            'address' => '576 Natoma St, San Francisco, CA 94103, USA',
+            'city' => 'San Francisco',
+            'state' => 'California',
+            'state_code' => 'CA',
+            'postal_code' => '94103',
+            'country' => 'United States',
+            'country_code' => 'US'
           }
         ]
       )
@@ -41,18 +52,15 @@ RSpec.shared_examples 'Geocodeable' do
     after { Geocoder::Lookup::Test.reset }
 
     context 'when address changes' do
-      it 'saves the new latitude' do
-        expect do
-          set_address(obj, 'NEW ADDRESS')
-          obj.save
-        end.to change { latitude(obj.reload) }
-      end
+      geocoded_attrs.each do |attr|
+        it "updates #{attr}" do
+          mapped_attr = attr_mappings[attr]
 
-      it 'saves the new longitude' do
-        expect do
-          set_address(obj, 'NEW ADDRESS')
-          obj.save
-        end.to change { longitude(obj.reload) }
+          expect do
+            set_address(obj, 'NEW ADDRESS')
+            obj.save
+          end.to change { get_val(obj.reload, mapped_attr) }
+        end
       end
     end
 
