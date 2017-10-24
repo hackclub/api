@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170926211959) do
+ActiveRecord::Schema.define(version: 20171024132156) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,6 +81,13 @@ ActiveRecord::Schema.define(version: 20170926211959) do
     t.text     "activation_date"
     t.text     "reason_of_death"
     t.datetime "time_of_death"
+    t.text     "parsed_address"
+    t.text     "parsed_city"
+    t.text     "parsed_state"
+    t.text     "parsed_state_code"
+    t.text     "parsed_postal_code"
+    t.text     "parsed_country"
+    t.text     "parsed_country_code"
     t.index ["point_of_contact_id"], name: "index_clubs_on_point_of_contact_id", using: :btree
     t.index ["streak_key"], name: "index_clubs_on_streak_key", using: :btree
   end
@@ -160,13 +167,20 @@ ActiveRecord::Schema.define(version: 20170926211959) do
     t.text     "address"
     t.decimal  "latitude"
     t.decimal  "longitude"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
     t.text     "streak_key"
     t.text     "notes"
     t.text     "slack_id"
     t.text     "slack_team_id"
     t.text     "stage_key"
+    t.text     "parsed_address"
+    t.text     "parsed_city"
+    t.text     "parsed_state"
+    t.text     "parsed_state_code"
+    t.text     "parsed_postal_code"
+    t.text     "parsed_country"
+    t.text     "parsed_country_code"
     t.index ["streak_key"], name: "index_leaders_on_streak_key", using: :btree
   end
 
