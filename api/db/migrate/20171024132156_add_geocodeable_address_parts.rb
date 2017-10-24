@@ -19,12 +19,5 @@ class AddGeocodeableAddressParts < ActiveRecord::Migration[5.0]
       t.text :parsed_country
       t.text :parsed_country_code
     end
-
-    # Regeocode clubs & leaders
-    [Club, Leader].each do |model|
-      model.find_each do |instance|
-        instance.geocode && instance.save
-      end
-    end
   end
 end
