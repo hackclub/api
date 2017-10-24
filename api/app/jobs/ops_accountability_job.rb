@@ -13,25 +13,30 @@ class OpsAccountabilityJob < ApplicationJob
   def perform(channel = SLACK_CHANNEL)
     @channel = channel
 
-    ua = unassigned_applications
-    oua = old_unreviewed_applications
-    aa = not_scheduled_applications
+    a = unassigned_applications
+    b = old_unreviewed_applications
+    c = not_scheduled_applications
     succ = true
 
-    unless ua.empty?
-      notify "There are #{ua.count} unassigned applications."
+    unless a.empty?
+      notify 'Currently ' + (a.count == 1 ? "there's 1 unassigned application."
+        : "there are #{pluralize a.count, 'unassigned application'}.")
       succ = false
     end
 
-    unless oua.empty?
-      notify "There are #{oua.count} applications that have been around for "\
-        "like two days... and STILL haven't been reviewed"
+    unless b.empty?
+      x = b.count == 1 ? 'application that has' : pluralize(b.count, 'application') + ' that have'
+      notify "Come on…go review the #{x} been around for like two days."
       succ = false
     end
 
-    unless aa.empty?
-      notify "#{aa.count} clubs have been accepted, but haven't had their "\
-        'onboarding calls schedule after a week!'
+    unless c.empty?
+      if c.count == 1
+        x = "is still an accepted club that hasn't had an onboarding call"
+      else
+        x = "are #{pluralize c.count, 'accepted club'} that haven't had onboarding calls"
+      end
+      notify "There #{x} scheduled after a week!"
       succ = false
     end
 
