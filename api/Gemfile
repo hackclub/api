@@ -2,12 +2,12 @@
 # convention, not an actual technical requirement)
 source 'https://rubygems.org'
 
-gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
+gem 'rails', '~> 5.0.3'
 
 gem 'pg', '~> 0.18.4'
 gem 'puma', '~> 3.0'
 
-gem 'active_model_serializers', '~> 0.10.2'
+gem 'active_model_serializers', '~> 0.10.6'
 gem 'chronic', '~> 0.10.2'
 gem 'concurrent-ruby', require: 'concurrent'
 gem 'delayed_job_active_record', '~> 4.1', '>= 4.1.1'
@@ -35,8 +35,8 @@ group :development, :test do
 
   gem 'byebug', platform: :mri
   gem 'database_cleaner', '~> 1.5', '>= 1.5.3'
-  gem 'dotenv-rails', '~> 2.1', '>= 2.1.1'
-  gem 'factory_girl_rails', '~> 4.7', '>= 4.7.0'
+  gem 'dotenv-rails', '~> 2.2', '>= 2.2.1'
+  gem 'factory_girl_rails', '~> 4.8', '>= 4.8.0'
   gem 'letter_opener', '~> 1.4.1'
   gem 'rspec-rails', '~> 3.5', '>= 3.5.2'
   gem 'vcr', '~> 3.0'
