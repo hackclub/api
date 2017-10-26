@@ -12,7 +12,16 @@ const styles = {
     marginRight: 'auto',
     maxWidth: '700px'
   },
-  email: {
+  topEmail: {
+    color: colors.primary,
+    fontWeight: 600,
+    fontSize: '24px',
+    maxWidth: 'initial',
+    width: 'auto',
+    textAlign: 'center',
+    margin: '0 auto'
+  },
+  bottomEmail: {
     fontWeight: 600
   },
   image: {
@@ -37,15 +46,12 @@ const styles = {
 const InviteInfo = ({ tempEmail }) => {
   return (
     <Card style={[styles.card, styles.wideCard]}>
+      <Heading>Here's the next step to join</Heading>
       <Text style={styles.text}>
-        Your temporary email address is{' '}
-        <span style={styles.email}>{tempEmail}</span>. We've created an account
-        for you using the temporary email and transferred it to your preferred
-        email. You'll need to use the temporary email the first time you sign
-        into your account. After that, you'll use your preferred email to sign
-        up.
+        Copy this email address. You'll use it to sign into Slack for the first
+        time:
       </Text>
-      <Heading>Here's the next step to join:</Heading>
+      <Card style={styles.topEmail}>{tempEmail}</Card>
       <Text style={styles.text}>
         You'll get an email in the next few minutes from Slack. Click this
         button:
@@ -60,9 +66,9 @@ const InviteInfo = ({ tempEmail }) => {
         alt="Slack validation webpage"
       />
       <Text style={styles.text}>
-        Sign in with your temporary email address (<span style={styles.email}>{tempEmail}</span>)
-        and your password. Once you've done that, you can use your preferred
-        email address in the future.
+        Sign in with your temporary email address (<span style={styles.bottomEmail}>{tempEmail}</span>)
+        and your password. Once you've done that, you can use the email address
+        you signed up with in the future.
       </Text>
       <Button type="link" state="success" href="https://hackclub.slack.com">
         Head to Slack <Emoji type="rocket" />
