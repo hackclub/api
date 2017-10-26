@@ -1,4 +1,5 @@
 class AddGeocodeableAddressParts < ActiveRecord::Migration[5.0]
+  # rubocop:disable Metrics/AbcSize
   def change
     change_table :leaders do |t|
       t.text :parsed_address
@@ -20,4 +21,5 @@ class AddGeocodeableAddressParts < ActiveRecord::Migration[5.0]
       t.text :parsed_country_code
     end
   end
+  # rubocop:enable Metrics/AbcSize
 end
