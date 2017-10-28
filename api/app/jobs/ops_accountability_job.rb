@@ -28,15 +28,16 @@ class OpsAccountabilityJob < ApplicationJob
     unless oua.empty?
       one_oua = oua.count == 1
       notify "There #{one_oua ? 'is' : 'are'} #{oua.count} "\
-        "application#{one_oua ? '' : 's'} that #{one_oua ? 'has' : 'have'} been "\
-        "around for like two days... and STILL ha#{one_oua ? 's' : 've'}n't been reviewed"
+        "application#{one_oua ? '' : 's'} that #{one_oua ? 'has' : 'have'} "\
+        "been around for days... and STILL ha#{one_oua ? 's' : 've'}n't "\
+        'been reviewed.'
       succ = false
     end
 
     unless aa.empty?
       one_aa = aa.count == 1
-      notify "#{aa.count} club#{one_aa ? ' has' : 's have'} been accepted, but "\
-        "ha#{one_aa ? 's' : 've'}n't had their onboarding call "\
+      notify "#{aa.count} club#{one_aa ? ' has' : 's have'} been accepted, "\
+        "but ha#{one_aa ? 's' : 've'}n't had their onboarding call "\
         "schedule#{one_aa ? '' : 's'} after a week!"
       succ = false
     end
