@@ -96,7 +96,7 @@ class OpsAccountabilityJob < ApplicationJob
   def notify(msg)
     team = Hackbot::Team.find_by(team_id: SLACK_TEAM_ID)
 
-    throw 'Fuck this' unless team
+    throw 'No Hackbot team found for the default_slack_team_id' unless team
 
     SlackClient::Chat.send_msg(
       @channel,
