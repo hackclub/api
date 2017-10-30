@@ -1,21 +1,21 @@
 namespace :heroku_scheduler do
   desc 'Schedule UpdateFromStreakJob'
-  task queue_update_from_streak: :environment do
+  task queue_update_from_streak_job: :environment do
     UpdateFromStreakJob.perform_later
   end
 
   desc 'Schedule UpdateHackbotSlackUsernameJob'
-  task queue_update_hackbot_slack_username: :environment do
+  task queue_update_hackbot_slack_username_job: :environment do
     UpdateHackbotSlackUsernameJob.perform_later
   end
 
   desc 'Schedule RecordSlackStatsJob'
-  task queue_record_slack_stats: :environment do
+  task queue_record_slack_stats_job: :environment do
     RecordSlackStatsJob.perform_later
   end
 
   desc 'Schedule RecordSlackStatsJob'
-  task queue_record_slack_stats: :environment do
+  task queue_record_slack_stats_job: :environment do
     RecordSlackStatsJob.perform_later
   end
 
@@ -40,13 +40,13 @@ namespace :heroku_scheduler do
   end
 
   desc 'Schedule check-ins'
-  task queue_schedule_check_ins: :environment do
+  task queue_schedule_leader_check_ins_job: :environment do
     # Heroku does not allow you to choose what day to run a job
     ScheduleLeaderCheckInsJob.perform_now true && Time.zone.now.thursday?
   end
 
   desc 'Close check-ins'
-  task queue_close_check_ins: :environment do
+  task queue_close_check_ins_job: :environment do
     # Heroku does not allow you to choose what day to run a job
     CloseCheckInsJob.perform_now && Time.zone.now.monday?
   end
