@@ -9,9 +9,9 @@ module Hackbot
         class_methods do
           # This constructs a fake Slack event to start the interaction with.
           # It'll be sent to the interaction's start method.
-          def trigger(user_id, team = nil)
+          def trigger(user_id, team = nil, channel_id = nil)
             team ||= Hackbot::Team.find_by(team_id: SLACK_TEAM_ID)
-            event = FakeSlackEventService.new(team, user_id).event
+            event = FakeSlackEventService.new(team, user_id, channel_id).event
             interaction = create(event: event, team: team)
             interaction.handle
             interaction.save!
