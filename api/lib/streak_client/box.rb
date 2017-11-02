@@ -29,12 +29,8 @@ module StreakClient
       StreakClient.request(
         :get,
         "/v2/pipelines/#{pipeline_key}/boxes",
-        {
-          page: page,
-          limit: limit
-        },
-        {},
-        true
+        page: page,
+        limit: limit
       )
     end
 
