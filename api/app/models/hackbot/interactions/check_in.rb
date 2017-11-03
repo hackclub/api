@@ -19,25 +19,11 @@ module Hackbot
       # rubocop:disable Metrics/LineLength
       # rubocop:disable Metrics/AbcSize
       def start
-        #         if @dormant.nil?
-        #           msg_channel(
-        #             text: copy('greeting.dormant.text'),
-        #             attachments: [
-        #               actions: copy('greeting.dormant.actions')
-        #             ]
-        #           )
-        #
-        #           default_follow_up 'wait_for_is_dormant'
-        #
-        #           return :wait_for_is_dormant
-        #         end
-
         first_name = leader.name.split(' ').first
         deadline = formatted_deadline leader
         key = 'greeting.' + (first_check_in? ? 'if_first_check_in' : 'default')
         key = 'greeting.if_first_check_in_of_semester' if first_check_in_of_semester
         key = 'greeting.restart' if @restart
-        # key = 'greeting.not_dormant' unless @dormant
         actions = []
 
         if previous_meeting_day
