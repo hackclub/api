@@ -341,7 +341,7 @@ module Hackbot
         data['percent_racial_minority'] = percent
         msg_channel copy('demographics.confirm_recorded',
                          percent: percent,
-                         metric: 'not white or Asian')
+                         metric: 'racial minorities in the technology industry')
         msg_channel(text: copy('demographics.finished'),
                     attachments: [
                       actions: [
