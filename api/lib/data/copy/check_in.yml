@@ -100,7 +100,7 @@ submit_confirmation:
     restart:
         action_result: ":leftwards_arrow_with_hook: You want to start over"
 
-submit_check_in: Thanks, I'll pass that on to the Hack Club team! Hope you have a hack-tastic weekend!
+submit_check_in: Thanks, I'll pass that on to the Hack Club team! Hope you had a happy hack-lo-ween :jack_o_lantern::ghost::jack_o_lantern:!
 
 follow_ups:
     first: "Hey! Just wanted to follow-up on this. :wink:"
