@@ -72,7 +72,21 @@ attendance:
     not_realistic:
         negative: I'm going to need a positive number, silly. How many people came to the last meeting?
         too_large: That number is too big for our database! How many people actually came to your last meeting?
-    valid: <%= judgement %> Is there anything the Hack Club team can be helpful with?
+    valid: <%= judgement %>
+
+demographics:
+    introduction: Hack Club HQ is applying for a grant this week and the foundation is asking for demographic info from every club, so I need to ask you a couple follow-up questions. Estimates are OK.
+    women: What percentage of your members are women?
+    racial_minority: What percentage are a racial minority in the technology industry, defined as not being white or Asian?
+    confirm_recorded:
+      - Okay, *<%= percent %>%* of your attendees are <%= metric %>.
+      - Got it. I've recorded that *<%= percent %>%* of your hackers are <%= metric %>.
+      - Gotcha, *<%= percent %>%* of your club's attendees are <%= metric %>.
+      - '*<%= percent %>%* of your club members are <%= metric %>.'
+      - I'm writing down that *<%= percent %>%* of your club members are <%= metric %>.
+    not_percentage: I don't understand that too well. Can you tell me in the format `x%` where x is a number from 0 to 100? For example, `75%`.
+    out_of_bounds: <%= percent %>%? Percentages should be from 0 to 100.
+    finished: Is there anything the Hack Club team can be helpful with?
 
 notes_confirmation:
     has_notes:
