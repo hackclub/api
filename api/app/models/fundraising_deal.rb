@@ -15,15 +15,7 @@ class FundraisingDeal < ApplicationRecord
   streak_field_mappings(
     commitment_amount: '1001',
     amount_in_bank: '1003',
-    source: {
-      key: '1002',
-      type: 'DROPDOWN',
-      options: {
-        'Referral' => '9001',
-        'Self-Sourced' => '9002',
-        'Inbound' => '9003'
-      }
-    }
+    source: '1005'
   )
 
   validates :name, presence: true
