@@ -290,6 +290,8 @@ module Hackbot
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/AbcSize
       def wait_for_women_demographics
+        return :wait_for_women_demographics unless msg
+
         msg_wo_percent_sign = msg.tr('%', '')
 
         unless integer?(msg_wo_percent_sign) && msg.include?('%')
@@ -322,7 +324,10 @@ module Hackbot
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/AbcSize
       def wait_for_racial_minority_demographics
+        return :wait_for_racial_minority_demographics unless msg
+
         msg_wo_percent_sign = msg.tr('%', '')
+
         unless integer?(msg_wo_percent_sign) && msg.include?('%')
           msg_channel copy('demographics.not_percentage')
 
