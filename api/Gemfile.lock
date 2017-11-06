@@ -44,6 +44,8 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     addressable (2.4.0)
+    analytics-ruby (2.2.2)
+      commander (~> 4.4)
     arel (7.1.4)
     ast (2.3.0)
     builder (3.2.3)
@@ -54,6 +56,8 @@ GEM
     codeclimate-test-reporter (0.6.0)
       simplecov (>= 0.7.1, < 1.0.0)
     coderay (1.1.1)
+    commander (4.4.3)
+      highline (~> 1.7.2)
     concurrent-ruby (1.0.5)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
@@ -103,6 +107,7 @@ GEM
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
     hashdiff (0.3.0)
+    highline (1.7.8)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
     i18n (0.8.4)
@@ -290,6 +295,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers (~> 0.10.2)
+  analytics-ruby
   byebug
   chronic (~> 0.10.2)
   codeclimate-test-reporter (~> 0.6.0)

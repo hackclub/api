@@ -8,6 +8,7 @@ gem 'pg', '~> 0.18.4'
 gem 'puma', '~> 3.0'
 
 gem 'active_model_serializers', '~> 0.10.2'
+gem 'analytics-ruby', require: 'segment'
 gem 'chronic', '~> 0.10.2'
 gem 'concurrent-ruby', require: 'concurrent'
 gem 'delayed_job_active_record', '~> 4.1', '>= 4.1.1'

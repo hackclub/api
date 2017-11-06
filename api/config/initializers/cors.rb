@@ -16,21 +16,20 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
                   'http://lachlan.hackclub.com',
                   'https://hackclub.com',
                   'http://hackclub.com',
+                  'https://repl.it',
+                  'http://repl.it',
                   'localhost'].freeze
 
   allow do
     origins do |source, _env|
-      allowed_origins = BASE_ORIGINS.dup
-      allowed_origins << 'localhost' if Rails.env.development?
-
-      matched = allowed_origins.select do |origin|
+      matched = BASE_ORIGINS.select do |origin|
         # If the given source equals one of our origins, then we're good.
-        next true if source == origin
+        next true unless origin == source
 
         # If the given source's raw URI host equals one of our origins, then
         # we're also good.
         parsed = URI.parse(source)
-        next true if parsed.host == origin
+        next true unless origin == parsed.host
       end
 
       true if matched.any?

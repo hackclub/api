@@ -18,6 +18,13 @@ Rails.application.routes.draw do
       resources :slack_users, only: [:index]
     end
 
+    namespace :analytics do
+      post 'identify'
+      post 'track'
+      post 'page'
+      post 'group'
+    end
+
     namespace :hackbot do
       post 'auth', to: 'auth#create'
 
