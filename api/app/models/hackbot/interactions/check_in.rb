@@ -489,6 +489,8 @@ module Hackbot
         start
       end
 
+      # rubocop:disable Metrics/AbcSize
+      # rubocop:disable Metrics/MethodLength
       def submit_check_in
         task_description = data['notes'] || data['no_meeting_reason']
 
@@ -500,9 +502,46 @@ module Hackbot
 
         msg_channel copy('submit_check_in')
 
+        send_consecutive_check_in_msg
+
         return unless data['meeting_date']
         generate_check_in
         send_attendance_stats
+      end
+      # rubocop:enable Metrics/MethodLength
+      # rubocop:enable Metrics/AbcSize
+
+      def send_consecutive_check_in_msg
+        count = consecutive_check_ins_count
+
+        return unless count > 1
+
+        judgement = if count > 6
+                      copy('consecutive_check_in_streak.judgement.longer')
+                    else
+                      copy("consecutive_check_in_streak.judgement.#{count}")
+                    end
+
+        msg_channel copy('consecutive_check_in_streak.count',
+                         count: count,
+                         judgement: judgement)
+      end
+
+      def consecutive_check_ins_count
+        count = 0
+
+        id = leader.id.to_s
+
+        interactions = Hackbot::Interaction.where(type:
+                                            'Hackbot::Interactions::CheckIn')
+                                           .where("data->>'leader_id' = ?", id)
+                                           .order('created_at DESC')
+
+        interactions.each do |interaction|
+          interaction.data['failed_to_complete'] ? break : count += 1
+        end
+
+        count
       end
 
       # rubocop:disable Metrics/MethodLength
