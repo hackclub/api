@@ -11,7 +11,7 @@ module V1
     end
 
     def page
-      segment(:page, %w(user_id name))
+      segment(:page, %w(user_id name properties))
     end
 
     def group
