@@ -280,7 +280,7 @@ module Hackbot
           text: copy('attendance.valid', judgement: judgement),
           attachments: [
             actions: [
-              { text: 'Yes'},
+              { text: 'Yes' },
               { text: 'No' }
             ]
           ]
