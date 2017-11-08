@@ -15,7 +15,7 @@ module V1
     end
 
     def group
-      segment(:group, %w(user_id group_id))
+      segment(:group, %w(user_id group_id traits))
     end
 
     private
