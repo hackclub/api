@@ -2,7 +2,7 @@
 
 ![Monolith icon](https://i.imgur.com/J9seIVR.png)
 
-## How to get it set up
+## How to run it
 
 Go through the [web setup](#web-setup) and [api setup](#api-setup). Once you've got that done you can spin up both at the same time with this command:
 
