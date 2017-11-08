@@ -23,6 +23,7 @@ module V1
     def segment(method, allowed_arguments)
       analytics = Segment::Analytics.new(write_key: SEGMENT_WRITE_KEY)
       arguments = params.permit(allowed_arguments).to_h
+      logger.debug("Sending #{method} request to Segment, with params: #{arguments}")
 
       analytics.public_send(method, arguments)
 
