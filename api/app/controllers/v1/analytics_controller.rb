@@ -3,7 +3,7 @@ module V1
     SEGMENT_WRITE_KEY = Rails.application.secrets.segment_write_key
 
     def identify
-      segment(:identify, %w(user_id))
+      segment(:identify, %w(user_id traits))
     end
 
     def track
