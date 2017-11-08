@@ -276,89 +276,21 @@ module Hackbot
                       copy('judgement.amazing')
                     end
 
-        msg_channel text: copy('attendance.valid', judgement: judgement)
-        msg_channel copy('demographics.introduction')
-        msg_channel copy('demographics.women')
-
-        default_follow_up 'wait_for_women_demographics'
-        :wait_for_women_demographics
-      end
-      # rubocop:enable Metrics/AbcSize
-      # rubocop:enable Metrics/CyclomaticComplexity
-      # rubocop:enable Metrics/MethodLength
-
-      # rubocop:disable Metrics/MethodLength
-      # rubocop:disable Metrics/AbcSize
-      def wait_for_women_demographics
-        return :wait_for_women_demographics unless msg
-
-        msg_wo_percent_sign = msg.tr('%', '')
-
-        unless integer?(msg_wo_percent_sign) && msg.include?('%')
-          msg_channel copy('demographics.not_percentage')
-
-          default_follow_up 'wait_for_women_demographics'
-          return :wait_for_women_demographics
-        end
-
-        percent = msg_wo_percent_sign.to_i
-        if percent < 0 || percent > 100
-          msg_channel copy('demographics.out_of_bounds', percent: percent)
-
-          default_follow_up 'wait_for_women_demographics'
-          return :wait_for_women_demographics
-        end
-
-        data['percent_women'] = percent
-        msg_channel copy('demographics.confirm_recorded',
-                         percent: percent,
-                         metric: 'women')
-        msg_channel copy('demographics.racial_minority')
-
-        default_follow_up 'wait_for_racial_minority_demographics'
-        :wait_for_racial_minority_demographics
-      end
-      # rubocop:enable Metrics/AbcSize
-      # rubocop:enable Metrics/MethodLength
-
-      # rubocop:disable Metrics/MethodLength
-      # rubocop:disable Metrics/AbcSize
-      def wait_for_racial_minority_demographics
-        return :wait_for_racial_minority_demographics unless msg
-
-        msg_wo_percent_sign = msg.tr('%', '')
-
-        unless integer?(msg_wo_percent_sign) && msg.include?('%')
-          msg_channel copy('demographics.not_percentage')
-
-          default_follow_up 'wait_for_racial_minority_demographics'
-          return :wait_for_racial_minority_demographics
-        end
-
-        percent = msg_wo_percent_sign.to_i
-        if percent < 0 || percent > 100
-          msg_channel copy('demographics.out_of_bounds', percent: percent)
-
-          default_follow_up 'wait_for_racial_minority_demographics'
-          return :wait_for_racial_minority_demographics
-        end
-
-        data['percent_racial_minority'] = percent
-        msg_channel copy('demographics.confirm_recorded',
-                         percent: percent,
-                         metric: 'racial minorities in the technology industry')
-        msg_channel(text: copy('demographics.finished'),
-                    attachments: [
-                      actions: [
-                        { text: 'Yes' },
-                        { text: 'No' }
-                      ]
-                    ])
+        msg_channel(
+          text: copy('attendance.valid', judgement: judgement),
+          attachments: [
+            actions: [
+              { text: 'Yes' },
+              { text: 'No' }
+            ]
+          ]
+        )
 
         default_follow_up 'wait_for_notes_confirmation'
         :wait_for_notes_confirmation
       end
       # rubocop:enable Metrics/AbcSize
+      # rubocop:enable Metrics/CyclomaticComplexity
       # rubocop:enable Metrics/MethodLength
 
       # rubocop:disable Metrics/MethodLength
