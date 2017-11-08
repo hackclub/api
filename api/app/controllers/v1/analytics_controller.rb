@@ -20,7 +20,6 @@ module V1
 
     private
 
-    # rubocop:disable Metrics/AbcSize
     def segment(method, allowed_arguments)
       analytics = Segment::Analytics.new(write_key: SEGMENT_WRITE_KEY)
 
@@ -36,6 +35,5 @@ module V1
     rescue => e
       render json: { ok: false, error: e.message }
     end
-    # rubocop:enable Metrics/AbcSize
   end
 end
