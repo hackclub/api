@@ -22,9 +22,10 @@ module V1
 
     def segment(method, allowed_arguments)
       analytics = Segment::Analytics.new(write_key: SEGMENT_WRITE_KEY)
-      arguments = params.permit(allowed_arguments).to_h
-      logger.debug "Sending #{method} request to Segment, with params: " \
-                   "#{arguments}"
+      arguments = params.permit(allowed_arguments).to_unsafe_h
+      keys = params.to_unsafe_h.keys & allowed_arguments
+      arguments = {}
+      keys.each { |k| arguments[k] = params.to_unsafe_h[k] }
 
       analytics.public_send(method, arguments)
 
