@@ -23,9 +23,10 @@ module V1
     # rubocop:disable Metrics/AbcSize
     def segment(method, allowed_arguments)
       analytics = Segment::Analytics.new(write_key: SEGMENT_WRITE_KEY)
-      arguments = params.permit(allowed_arguments).to_unsafe_h
-      keys = params.to_unsafe_h.keys & allowed_arguments
+
       arguments = {}
+      keys = params.to_unsafe_h.keys & allowed_arguments
+
       keys.each { |k| arguments[k] = params.to_unsafe_h[k] }
 
       analytics.public_send(method, arguments)
