@@ -18,12 +18,11 @@ Rails.application.routes.draw do
       resources :slack_users, only: [:index]
     end
 
-    namespace :analytics do
-      post 'identify'
-      post 'track'
-      post 'page'
-      post 'group'
-    end
+    # Using 'bigbrother' as the path to get past ad-blockers
+    post 'bigbrother/identify', to: 'analytics#identify'
+    post 'bigbrother/track', to: 'analytics#track'
+    post 'bigbrother/page', to: 'analytics#page'
+    post 'bigbrother/group', to: 'analytics#group'
 
     namespace :hackbot do
       post 'auth', to: 'auth#create'
