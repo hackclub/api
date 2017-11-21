@@ -62,12 +62,10 @@ class ApplyForm extends Component {
   }
 
   render() {
-    const { dispatch, personType, router } = this.props
+    const { personType } = this.props
 
     if (personType === personTypes.student) {
-      router.push('/apply')
-      window.scrollTo(0, 0) // scroll to the top of the page
-      dispatch(preAppReset()) // clear the form
+      window.location.href = `${window.location.origin}/apply`
     }
 
     return (
