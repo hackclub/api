@@ -8,8 +8,9 @@ RSpec.describe FundraisingDeal, type: :model do
   it { should have_db_column :name }
   it { should have_db_column :streak_key }
   it { should have_db_column :stage_key }
-  it { should have_db_column :commitment_amount }
-  it { should have_db_column :amount_in_bank }
+  it { should have_db_column :actual_amount }
+  it { should have_db_column :target_amount }
+  it { should have_db_column :probability_of_close }
   it { should have_db_column :source }
   it { should have_db_column :notes }
 
