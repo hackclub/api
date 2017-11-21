@@ -8,21 +8,19 @@
 # Read more: https://github.com/cyu/rack-cors
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
-  BASE_ORIGINS = ['https://new.hackclub.com',
-                  'http://new.hackclub.com',
-                  'https://legacy.hackclub.com',
-                  'http://legacy.hackclub.com',
-                  'https://lachlan.hackclub.com',
-                  'http://lachlan.hackclub.com',
-                  'https://hackclub.com',
-                  'http://hackclub.com',
-                  'https://repl.it',
-                  'http://repl.it',
-                  'localhost'].freeze
+  DOMAINS = ['new.hackclub.com',
+             'legacy.hackclub.com',
+             'lachlan.hackclub.com',
+             'hackclub.com',
+             'bulckcah.com',
+             'repl.it'].freeze
+
+  base_origins = DOMAINS.flat_map { |d| ["http://#{d}", "https://#{d}"] }
+  base_origins << 'localhost'
 
   allow do
     origins do |source, _env|
-      matched = BASE_ORIGINS.select do |origin|
+      matched = base_origins.select do |origin|
         # If the given source equals one of our origins, then we're good.
         next true unless origin == source
 
