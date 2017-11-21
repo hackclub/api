@@ -57,7 +57,7 @@ RSpec.shared_examples 'Geocodeable' do
           mapped_attr = attr_mappings[attr]
 
           expect do
-            set_address(obj, 'NEW ADDRESS')
+            set_address(obj, 'Antarctica')
             obj.save
           end.to change { get_val(obj.reload, mapped_attr) }
         end
