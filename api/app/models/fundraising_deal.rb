@@ -13,9 +13,10 @@ class FundraisingDeal < ApplicationRecord
                                 notes: :notes
 
   streak_field_mappings(
-    commitment_amount: '1001',
-    amount_in_bank: '1003',
-    source: '1005'
+    actual_amount: '1001',
+    target_amount: '1004',
+    source: '1005',
+    probability_of_close: '1006'
   )
 
   validates :name, presence: true

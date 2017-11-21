@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171024132156) do
+ActiveRecord::Schema.define(version: 20171121085716) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -127,12 +127,13 @@ ActiveRecord::Schema.define(version: 20171024132156) do
     t.text     "name"
     t.text     "streak_key"
     t.text     "stage_key"
-    t.integer  "commitment_amount"
-    t.integer  "amount_in_bank"
     t.text     "source"
     t.text     "notes"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+    t.text     "actual_amount"
+    t.text     "target_amount"
+    t.text     "probability_of_close"
     t.index ["streak_key"], name: "index_fundraising_deals_on_streak_key", using: :btree
   end
 
