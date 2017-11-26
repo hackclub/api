@@ -26,7 +26,9 @@ namespace :heroku_scheduler do
 
   desc 'Schedule OpsAccountabilityJob'
   task queue_ops_accountability_job: :environment do
-    OpsAccountabilityJob.perform_later
+    unless Time.zone.now.saturday? || Time.zone.now.sunday?
+      OpsAccountabilityJob.perform_later
+    end
   end
 
   desc 'Schedule CollectProjectsShippedJob'
