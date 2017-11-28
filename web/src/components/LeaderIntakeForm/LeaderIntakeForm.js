@@ -100,7 +100,7 @@ class LeaderIntakeForm extends Component {
         />
         <Field
           name="address"
-          label="Full address (include state and zip code)"
+          label="Full address (include state and zip code) you can receive mail at"
           component={TextAreaField}
         />
         <Button type="form" state={this.buttonState()}>
