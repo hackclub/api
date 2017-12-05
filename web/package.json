@@ -1,0 +1,48 @@
+{
+  "name": "web-hackclub",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "prettier": "1.7.3",
+    "react-scripts": "1.0.10"
+  },
+  "dependencies": {
+    "axios": "^0.16.2",
+    "better-react-spinkit": "^2.0.0-4",
+    "color": "^0.11.3",
+    "cross-env": "^5.0.5",
+    "highlight.js": "^9.12.0",
+    "inline-style-prefixer": "^2.0.4",
+    "isomorphic-fetch": "^2.2.1",
+    "lodash": "^4.16.5",
+    "marked": "^0.3.6",
+    "prop-types": "^15.5.10",
+    "radium": "^0.18.1",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "react-helmet": "^3.1.0",
+    "react-redux": "^4.4.5",
+    "react-router": "^2.8.1",
+    "react-router-redux": "^4.0.6",
+    "redux": "^3.6.0",
+    "redux-form": "^6.1.0",
+    "redux-thunk": "^2.1.0",
+    "superagent": "^2.3.0",
+    "snyk": "^1.42.3"
+  },
+  "scripts": {
+    "start": "cross-env NODE_PATH=./src react-scripts start",
+    "build": "cross-env NODE_PATH=./src react-scripts build",
+    "test": "cross-env NODE_PATH=./src react-scripts test --env=jsdom",
+    "eject": "cross-env NODE_PATH=./src react-scripts eject",
+    "lint": "prettier -l src/**/*.js",
+    "lint-fix": "prettier --write 'src/**/*.js'",
+    "snyk": "snyk test",
+    "snyk-fix": "snyk protect"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
+  },
+  "snyk": true
+}

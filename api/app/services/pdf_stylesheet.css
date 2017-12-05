@@ -1,0 +1,7 @@
+thead, tfoot {
+  display: table-row-group;
+}
+
+tr {
+  page-break-inside: avoid;
+}

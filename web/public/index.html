@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
+
+    <meta property="title" content="%REACT_APP_META_TITLE%" />
+    <meta property="description" content="%REACT_APP_META_DESCRIPTION%" />
+
+    <meta property="og:title" content="%REACT_APP_META_TITLE%" />
+    <meta property="og:description" content="%REACT_APP_META_DESCRIPTION%" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="%REACT_APP_META_OG_IMAGE%" />
+    <meta property="og:url" content="https://hackclub.com" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@starthackclub" />
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+
+    <script src="https://cdn.ravenjs.com/3.4.0/raven.min.js"></script>
+    <script>
+     if ('%NODE_ENV%' === 'production') {
+       Raven.config('%REACT_APP_SENTRY_DSN%').install()
+     }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
