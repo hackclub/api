@@ -33,7 +33,7 @@ ActiveRecord::Migration.maintain_test_schema!
 CodeClimate::TestReporter.start
 
 RSpec.configure do |config|
-  config.include FactoryGirl::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
 
   # Include our helpers
   config.include Requests::RequestHelpers, type: :request
