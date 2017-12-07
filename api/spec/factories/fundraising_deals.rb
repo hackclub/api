@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :fundraising_deal do
     name { [Faker::Name.name, Faker::Company.name].sample }
     streak_key { HCFaker::Random.alphanumeric_string(len: 91) }

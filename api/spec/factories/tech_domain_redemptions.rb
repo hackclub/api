@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :tech_domain_redemption do
     name { Faker::Name.name }
     email { Faker::Internet.email }

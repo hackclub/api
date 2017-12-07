@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :slack_invite_strategy do
     name 'MyText'
     greeting 'MyText'
