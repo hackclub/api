@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :donor do
     email 'MyString'
     stripe_id 'MyString'

@@ -34,10 +34,10 @@ module Api
     # Used DelayedJob as our ActiveJob backend
     config.active_job.queue_adapter = :delayed_job
 
-    # Properly configure generators to use RSpec and factory_girl
+    # Properly configure generators to use RSpec and factory_bot
     config.generators do |g|
       g.test_framework :rspec, fixture: true
-      g.fixture_replacement :factory_girl, dir: 'spec/factories'
+      g.fixture_replacement :factory_bot, dir: 'spec/factories'
 
       g.view_specs false
       g.helper_specs false

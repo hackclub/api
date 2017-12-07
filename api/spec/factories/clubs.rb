@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :club do
     name { HCFaker::HighSchool.name }
     streak_key { HCFaker::Streak.key }
