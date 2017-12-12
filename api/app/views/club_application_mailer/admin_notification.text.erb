@@ -2,9 +2,5 @@ New application for Hack Club received:
 
 <%= render "club_application/club_application" %>
 
-<% if @application.spam? %>
-Suspected spam: true
-<% else %>
-Suspected spam: false
-<% end %>
+Suspected spam: <%= @application.spam? %>
 ID: <%= @application.id %>
