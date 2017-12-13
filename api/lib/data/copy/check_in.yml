@@ -82,7 +82,7 @@ submit_confirmation:
     text: Just to confirm, this is what I'll send to the team
     wants_to_be_dead: Club is ending
     submit:
-        action_result: "✈️ Check in submitted"
+        action_result: "🛫 Check in submitted"
     restart:
         action_result: "🔄 You want to start over"
 
@@ -91,4 +91,4 @@ submit_check_in: Gotcha, I'll pass that on to the Hack Club team! Hope you have 
 follow_ups:
     first: "Hey! Just wanted to follow-up on this. 😉"
     second: "Ping. 👋"
-    third: "Just a heads up – this is the last ping I'll send. ✈️"
+    third: "Just a heads up – this is the last ping I'll send. 🛫"
