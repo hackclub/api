@@ -11,6 +11,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
   DOMAINS = ['new.hackclub.com',
              'legacy.hackclub.com',
              'lachlan.hackclub.com',
+             'finder.hackclub.com',
              'hackclub.com',
              'bulckcah.com',
              'repl.it'].freeze
