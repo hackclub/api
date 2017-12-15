@@ -447,7 +447,13 @@ module Hackbot
                               "#{task_description}")
         end
 
-        msg_channel copy('submit_check_in')
+        msg_channel copy('submit_check_in.thanks')
+        unless data['meeting_date'].nil?
+          msg_channel copy('submit_check_in.dropbox')
+        end
+        if data['no_meeting_reason'] == 'Winter break'
+          msg_channel copy('submit_check_in.on_break')
+        end
 
         send_consecutive_check_in_msg
 

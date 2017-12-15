@@ -111,7 +111,10 @@ consecutive_check_in_streak:
           - You are a *check-in god*.
           - 'Party time! :parrotwave1::parrotwave2::parrotwave3::parrotwave4::parrotwave5:'
 
-submit_check_in: Thanks, I'll pass that on to the Hack Club team! If you have taken any pictures during your meeting, please submit them to https://dropbox.hackclub.com, and they might get featured on our Twitter!
+submit_check_in:
+  thanks: Thanks, I'll pass that on to the Hack Club team!
+  dropbox: If you took any pictures during your meeting, please submit them to https://dropbox.hackclub.com – they might get featured on our Twitter!
+  on_break: Have a good break!
 
 follow_ups:
     first: "Hey! Just wanted to follow-up on this. 😉"
