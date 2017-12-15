@@ -20,6 +20,7 @@ module Hackbot
       # rubocop:disable Metrics/AbcSize
       def start
         first_name = leader.name.split(' ').first
+        flavor_text = copy('greeting.flavor_text')
         deadline = formatted_deadline leader
         key = 'greeting.' + (first_check_in? ? 'if_first_check_in' : 'default')
         key = 'greeting.if_first_check_in_of_semester' if first_check_in_of_semester
@@ -34,10 +35,16 @@ module Hackbot
         end
 
         actions << { text: 'Yes' }
+        actions << {
+          text: "No, we're on break",
+          value: 'on_break'
+        }
         actions << { text: 'No' }
 
         msg_channel(
-          text: copy(key, first_name: first_name, deadline: deadline),
+          text: copy(key, first_name: first_name,
+                          deadline: deadline,
+                          flavor_text: flavor_text),
           attachments: [
             actions: actions
           ]
@@ -121,6 +128,14 @@ module Hackbot
 
           default_follow_up 'wait_for_attendance'
           :wait_for_attendance
+        when 'on_break'
+          data['no_meeting_reason'] = 'School break'
+          send_action_result copy('meeting_confirmation.on_break')
+
+          prompt_for_submit
+
+          default_follow_up 'wait_for_submit_confirmation'
+          :wait_for_submit_confirmation
         when Hackbot::Utterances.yes
           send_action_result(
             copy('meeting_confirmation.had_meeting.action_result')
@@ -421,7 +436,6 @@ module Hackbot
         start
       end
 
-      # rubocop:disable Metrics/AbcSize
       # rubocop:disable Metrics/MethodLength
       def submit_check_in
         task_description = data['notes'] || data['no_meeting_reason']
@@ -432,7 +446,7 @@ module Hackbot
                               "#{task_description}")
         end
 
-        msg_channel copy('submit_check_in')
+        send_submit_check_in_msg
 
         send_consecutive_check_in_msg
 
@@ -441,7 +455,6 @@ module Hackbot
         send_attendance_stats
       end
       # rubocop:enable Metrics/MethodLength
-      # rubocop:enable Metrics/AbcSize
 
       def send_consecutive_check_in_msg
         count = consecutive_check_ins_count
@@ -457,6 +470,15 @@ module Hackbot
         msg_channel copy('consecutive_check_in_streak.count',
                          count: count,
                          judgement: judgement)
+      end
+
+      def send_submit_check_in_msg
+        suffix = if data['no_meeting_reason'] == 'School break'
+                   copy('submit_check_in.on_break')
+                 elsif !data['meeting_date'].nil?
+                   copy('submit_check_in.dropbox')
+                 end
+        msg_channel copy('submit_check_in.thanks', suffix: suffix)
       end
 
       def consecutive_check_ins_count

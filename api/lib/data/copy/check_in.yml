@@ -12,7 +12,7 @@ greeting:
       
       OK, time for the check-in: Did you have a meeting this week?
     default: |
-      Hey <%= first_name %>, hope you've had a magnificent week!
+      Hey <%= first_name %>, <%= flavor_text %>
 
       Let's get started — please be sure to complete this check-in by <%= deadline %>. Did your club meet this week?
     restart: Let's start again! Did your club meet this week?
@@ -24,6 +24,14 @@ greeting:
             - text: "We're still meeting."
               value: "no"
     not_dormant: That's great. Back to the normal flow. Did you have a club meeting this week?
+    flavor_text:
+        - hope you've had a magnificent week!
+        - hope your day's going great!
+        - hope you're having an above-average hour!
+        - it's great to see you!
+        - I'm so glad you're here!
+        - you're a star ★️!
+        - you're looking great today! 👀
 
 is_dormant:
     positive:
@@ -44,6 +52,7 @@ meeting_confirmation:
         action_result: "⛔️ You did not have a meeting"
         ask_why: That's a shame! Why didn't you meet?
     previous_meeting_day: "✅ You had a meeting on <%= day %>"
+    on_break: "❄️ Your club didn't meet because it's winter break"
 
 no_meeting_reason: Gotcha. Are you planning on having a club meeting in the future?
 
@@ -82,7 +91,7 @@ submit_confirmation:
     text: "Just to confirm, this is what I'll send to the team:"
     wants_to_be_dead: Club is ending
     submit:
-        action_result: "🛫 Check in submitted"
+        action_result: "🛫 Check-in submitted"
     restart:
         action_result: "🔄 You want to start over"
 
@@ -102,7 +111,10 @@ consecutive_check_in_streak:
           - You are a *check-in god*.
           - 'Party time! :parrotwave1::parrotwave2::parrotwave3::parrotwave4::parrotwave5:'
 
-submit_check_in: Thanks, I'll pass that on to the Hack Club team! If you have taken any pictures during your meeting, please submit them to https://dropbox.hackclub.com, and they might get featured on our Twitter!
+submit_check_in:
+  thanks: Thanks, I'll pass that on to the Hack Club team! <%= suffix %>
+  dropbox: If you took any pictures during your meeting, please submit them to https://dropbox.hackclub.com – they might get featured on our Twitter!
+  on_break: Have a good break.
 
 follow_ups:
     first: "Hey! Just wanted to follow-up on this. 😉"
