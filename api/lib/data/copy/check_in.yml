@@ -12,7 +12,7 @@ greeting:
       
       OK, time for the check-in: Did you have a meeting this week?
     default: |
-      Hey <%= first_name %>, hope you've had a magnificent week!
+      Hey <%= first_name %>, <%= flavor_text %>
 
       Let's get started — please be sure to complete this check-in by <%= deadline %>. Did your club meet this week?
     restart: Let's start again! Did your club meet this week?
@@ -24,6 +24,14 @@ greeting:
             - text: "We're still meeting."
               value: "no"
     not_dormant: That's great. Back to the normal flow. Did you have a club meeting this week?
+    flavor_text:
+        - hope you've had a magnificent week!
+        - hope your day's going great!
+        - hope you're having an above-average hour!
+        - it's great to see you!
+        - I'm so glad you're here!
+        - you're a star ★️!
+        - you're looking great today! 👀
 
 is_dormant:
     positive:

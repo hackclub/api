@@ -20,6 +20,7 @@ module Hackbot
       # rubocop:disable Metrics/AbcSize
       def start
         first_name = leader.name.split(' ').first
+        flavor_text = copy('greeting.flavor_text')
         deadline = formatted_deadline leader
         key = 'greeting.' + (first_check_in? ? 'if_first_check_in' : 'default')
         key = 'greeting.if_first_check_in_of_semester' if first_check_in_of_semester
@@ -37,7 +38,9 @@ module Hackbot
         actions << { text: 'No' }
 
         msg_channel(
-          text: copy(key, first_name: first_name, deadline: deadline),
+          text: copy(key, first_name: first_name,
+                          deadline: deadline,
+                          flavor_text: flavor_text),
           attachments: [
             actions: actions
           ]
