@@ -35,6 +35,10 @@ module Hackbot
         end
 
         actions << { text: 'Yes' }
+        actions << {
+          text: "No, we're on break",
+          value: 'on_break'
+        }
         actions << { text: 'No' }
 
         msg_channel(
@@ -124,6 +128,14 @@ module Hackbot
 
           default_follow_up 'wait_for_attendance'
           :wait_for_attendance
+        when 'on_break'
+          data['no_meeting_reason'] = 'Winter break'
+          send_action_result copy('meeting_confirmation.on_break')
+
+          prompt_for_submit
+
+          default_follow_up 'wait_for_submit_confirmation'
+          :wait_for_submit_confirmation
         when Hackbot::Utterances.yes
           send_action_result(
             copy('meeting_confirmation.had_meeting.action_result')
