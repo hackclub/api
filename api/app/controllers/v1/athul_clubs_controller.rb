@@ -7,7 +7,8 @@ module V1
                            leader_attributes: leader_params)
 
       if !authenticated?
-        render json: { errors: 'missing / invalid authentication' }, status: 401
+        render json: { errors: { base: 'missing / invalid authentication' } },
+               status: 401
       elsif club.save
         render json: club, status: 201
       else
