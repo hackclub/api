@@ -32,6 +32,7 @@ machine:
     SLACK_ADMIN_EMAIL: fake_slack_email
     SLACK_ADMIN_PASSWORD: fake_slack_password
     SEGMENT_WRITE_KEY: fake_write_key
+    ATHUL_AUTH_TOKEN: fake_auth_token
 
     SMTP_ADDRESS: fake_smtp_address
     SMTP_PORT: fake_smtp_port
