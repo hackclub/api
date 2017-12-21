@@ -1,7 +1,4 @@
 class AthulClub < ApplicationRecord
-  INDIAN_CLUB_STAGE = '5020'
-  INDIAN_LEADER_STAGE = '5008'
-
   belongs_to :club, dependent: :destroy
   belongs_to :leader, dependent: :destroy
   belongs_to :letter, dependent: :destroy
@@ -13,9 +10,11 @@ class AthulClub < ApplicationRecord
 
   before_create :init
 
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
   def init
-    club.stage_key = INDIAN_CLUB_STAGE
-    leader.stage_key = INDIAN_LEADER_STAGE
+    club.stage_key = '5020'.freeze # Indian club stage
+    leader.stage_key = '5008'.freeze # Indian leader stage
 
     club.leaders << leader
     club.point_of_contact = leader
@@ -23,20 +22,30 @@ class AthulClub < ApplicationRecord
     letter = Letter.new(
       name: leader.name,
       # This is the type for club leaders
-      letter_type: '9002',
+      letter_type: '9002'.freeze,
       # This is the type for welcome letter + 3oz of stickers
-      what_to_send: '9005',
+      what_to_send: '9005'.freeze,
       address: leader.address
     )
 
-    unless club.save && leader.save
-      errors.add(:base, 'error configuring club and leader')
-      throw :abort
-    end
+    error_msg = 'error configuring club and leader'
+    abort_with_error(error_msg) unless club.save && leader.save
 
-    unless letter.save && self.letter = letter
-      errors.add(:base, 'error queuing stickers for leader')
-      throw :abort
-    end
+    error_msg = 'error queuing stickers for leader'
+    abort_with_error(error_msg) unless letter.save && (self.letter = letter)
+  end
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/MethodLength
+
+  private
+
+  def abort_with_error(msg)
+    club.try :destroy
+    leader.try :destroy
+    letter.try :destroy
+
+    errors.add(:base, msg)
+
+    throw :abort
   end
 end

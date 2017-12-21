@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 
     resources :clubs, only: [:index, :show]
     resources :club_applications, only: [:create]
+    resources :athul_clubs, only: [:create]
     resources :tech_domain_redemptions, only: [:create]
     resources :donations, only: [:create]
 
