@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+     body {
+       width: 500px;
+       margin: auto;
+     }
+     .form_input {
+       display: grid;
+       grid-template-columns: 120px repeat(10, 25px) 120px;
+       grid-auto-rows: 5px;
+
+       margin-top: 35px;
+       margin-bottom: 70px;
+     }
+
+     input, select, textarea {
+       margin-left: 7px;
+
+       width: 475px;
+     }
+
+     .form_guiding_text {
+       display: inline-block;
+
+       margin: 0;
+       margin-left: 5px;
+       margin-right: 5px;
+     }
+
+     textarea {
+       margin-top: -5px;
+       height: 130px;
+     }
+
+     .question {
+       margin-top: 20px;
+     }
+
+     .submit_btn {
+       margin-top: 15px;
+       margin-bottom: 25px;
+     }
+    </style>
+  </head>
+  <body>
+    <form id="form">
+      <div>
+        <p class="question">
+          What is your password?
+        </p>
+
+        <input name="auth_token"></input>
+      </div>
+
+      <div>
+        <p class="question">
+          What is the leader's full name?
+        </p>
+
+        <input name="leader_name"></input>
+      </div>
+
+      <div>
+        <p class="question">
+          What is the leader's email? Make sure this is the same one they used when signing up for Slack.
+        </p>
+
+        <input name="leader_email"></input>
+      </div>
+
+      <div>
+        <p class="question">
+          What is the leader's gender?
+        </p>
+        <select name="leader_gender">
+          <option disabled selected>Select One</option>
+          <option value="9002">Female</option>
+          <option value="9001">Male</option>
+          <option value="9003">Other</option>
+        </select>
+      </div>
+
+      <div>
+        <p class="question">
+          What year will the leader graduate?
+        </p>
+        <select name="leader_year">
+          <option disabled selected>Select One</option>
+          <option value="9009">2022</option>
+          <option value="9006">2021</option>
+          <option value="9001">2020</option>
+          <option value="9002">2019</option>
+          <option value="9003">2018</option>
+          <option value="9004">2017</option>
+          <option value="9010">2016</option>
+        </select>
+      </div>
+
+      <div>
+        <p class="question">
+          What is the leader's phone number? Make sure to include country code.
+        </p>
+
+        <input name="leader_phone_number"></input>
+      </div>
+
+      <div>
+        <p class="question">
+          What is their GitHub username?
+        </p>
+
+        <input name="leader_github_username"></input>
+      </div>
+
+      <div>
+        <p class="question">
+          What is their Twitter username?
+        </p>
+
+        <input name="leader_twitter_username"></input>
+      </div>
+
+      <div>
+        <p class="question">
+          What is the leader's address?
+        </p>
+
+        <textarea name="leader_address"></textarea>
+      </div>
+
+      <div>
+        <p class="question">
+          What is the name of their school?
+        </p>
+
+        <input name="club_name"></input>
+      </div>
+
+      <div>
+        <p class="question">
+          What is the their school's full address?
+        </p>
+
+        <textarea name="club_address"></textarea>
+      </div>
+
+      <input type="submit" id="submit" value="Submit" class="submit_btn" />
+    </form>
+    <script type="text/javascript">
+     var form = document.getElementById('form')
+     var submit = document.getElementById('submit')
+
+     form.addEventListener('submit', function (e) {
+       e.preventDefault()
+
+       var formData = new FormData(form)
+
+       var values = {
+         auth_token: formData.get('auth_token'),
+         club: {
+           name: formData.get('club_name'),
+           address: formData.get('club_address')
+         },
+         leader: {
+           name: formData.get('leader_name'),
+           email: formData.get('leader_email'),
+           gender: formData.get('leader_gender'),
+           year: formData.get('leader_year'),
+           phone_number: formData.get('leader_phone_number'),
+           github_username: formData.get('leader_github_username'),
+           twitter_username: formData.get('leader_twitter_username'),
+           address: formData.get('leader_address')
+         }
+       }
+
+       var required = [
+         'auth_token',
+         'club_name',
+         'club_address',
+         'leader_name',
+         'leader_email',
+         'leader_gender',
+         'leader_year',
+         'leader_github_username',
+         'leader_address'
+       ]
+
+       for(var i = 0; i < required.length; i++) {
+         val = formData.get(required[i])
+
+         if (!val) {
+           alert('You are missing a required field! You need to fill out "' + required[i] + '" before submitting')
+           return
+         }
+       }
+
+       /* Indicate loading */
+       submit.value = "Loading..."
+       submit.disabled = true
+
+       var endpoint = 'https://api.hacklub.com/v1/athul_clubs'
+       fetch(endpoint, {
+         method: 'POST',
+         headers: {
+           'Accept': 'application/json',
+           'Content-Type': 'application/json'
+         },
+         body: JSON.stringify(values)
+       })
+         .then(function (resp) {
+           return resp.json()
+         })
+         .then(function (resp) {
+           if (resp.errors) {
+             var err = resp.errors.base
+             console.error(err)
+             alert(err)
+           } else {
+             console.log('Successfully submitted')
+             alert('Submitted!')
+             form.reset()
+           }
+         })
+         .catch(function (err) {
+           console.log(err)
+         })
+         .then(function () {
+           /* Turn off loading indicator*/
+           submit.value = "Submit"
+           submit.disabled = false
+         })
+     })
+    </script>
+  </body>
+</html>
