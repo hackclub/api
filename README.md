@@ -160,6 +160,9 @@ SMTP_PORT
 SMTP_USERNAME
 SMTP_PASSWORD
 SMTP_DOMAIN
+
+# Auth Token used when receiving a POST request to create an Athul club
+ATHUL_AUTH_TOKEN
 ```
 
 ### Build the container

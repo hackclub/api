@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171121085716) do
+ActiveRecord::Schema.define(version: 20171221065843) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,17 @@ ActiveRecord::Schema.define(version: 20171121085716) do
     t.text     "access_token"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+  end
+
+  create_table "athul_clubs", force: :cascade do |t|
+    t.integer  "club_id"
+    t.integer  "leader_id"
+    t.integer  "letter_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["club_id"], name: "index_athul_clubs_on_club_id", using: :btree
+    t.index ["leader_id"], name: "index_athul_clubs_on_leader_id", using: :btree
+    t.index ["letter_id"], name: "index_athul_clubs_on_letter_id", using: :btree
   end
 
   create_table "check_ins", force: :cascade do |t|
@@ -266,6 +277,9 @@ ActiveRecord::Schema.define(version: 20171121085716) do
     t.datetime "updated_at",       null: false
   end
 
+  add_foreign_key "athul_clubs", "clubs"
+  add_foreign_key "athul_clubs", "leaders"
+  add_foreign_key "athul_clubs", "letters"
   add_foreign_key "check_ins", "clubs"
   add_foreign_key "check_ins", "leaders"
   add_foreign_key "clubs", "leaders", column: "point_of_contact_id"
