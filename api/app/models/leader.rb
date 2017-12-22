@@ -68,6 +68,10 @@ class Leader < ApplicationRecord
     Club
       .where(point_of_contact_id: id)
       .find_each { |c| c.update(point_of_contact: nil) }
+
+    # Remove them from any associated AthulClubs
+    a = AthulClub.find_by(leader_id: id)
+    a.update_attributes!(leader_id: nil) unless a.nil?
   end
 
   validates :name, presence: true
