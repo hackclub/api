@@ -46,11 +46,11 @@
   </head>
   <body>
     <form id="form">
-    <h1>Create a new club in India</h1>
+    <h1>Create a new club, Athul!</h1>
 
       <div>
         <p class="question">
-          What is your password?
+          What is your auth token?
         </p>
 
         <input name="auth_token"></input>
@@ -189,13 +189,19 @@
          'leader_address'
        ]
 
+       var incomplete = []
+
        for(var i = 0; i < required.length; i++) {
          val = formData.get(required[i])
 
          if (!val) {
-           alert('You are missing a required field! You need to fill out "' + required[i] + '" before submitting')
-           return
+           incomplete.push(required[i].split('_').join(' '))
          }
+       }
+
+       if (incomplete.length > 0) {
+         alert('You need to fill out ' + incomplete.join(', ') + ' before submitting')
+         return
        }
 
        /* Indicate loading */

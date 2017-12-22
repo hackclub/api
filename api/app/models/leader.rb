@@ -2,6 +2,8 @@ class Leader < ApplicationRecord
   include Streakable
   include Geocodeable
 
+  DEFAULT_SLACK_TEAM_ID = Rails.application.secrets.default_slack_team_id
+
   streak_pipeline_key Rails.application.secrets.streak_leader_pipeline_key
   streak_default_field_mappings key: :streak_key, name: :name, notes: :notes,
                                 stage: :stage_key
@@ -86,6 +88,14 @@ class Leader < ApplicationRecord
     nil
   end
 
+  def resolve_email_to_slack_id
+    user = SlackClient::Users
+               .list(access_token)[:members]
+               .find { |u| u[:profile][:email] == email }
+
+    self.slack_id = user[:id] unless user.nil?
+  end
+
   private
 
   def slack_id_sync
@@ -105,12 +115,10 @@ class Leader < ApplicationRecord
   end
 
   def access_token
-    return nil if team.nil?
-
-    team.bot_access_token
+    (team || team(DEFAULT_SLACK_TEAM_ID)).bot_access_token
   end
 
-  def team
-    Hackbot::Team.find_by(team_id: slack_team_id)
+  def team(team_id=slack_team_id)
+    Hackbot::Team.find_by(team_id: team_id)
   end
 end
