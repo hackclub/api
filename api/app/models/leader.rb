@@ -116,11 +116,14 @@ class Leader < ApplicationRecord
   end
 
   def access_token
-    (team || team(DEFAULT_SLACK_TEAM_ID)).bot_access_token
+    return nil if team.nil?
+
+    team.bot_access_token
   end
 
   def team(team_id = slack_team_id)
-    Hackbot::Team.find_by(team_id: team_id)
+    Hackbot::Team.find_by(team_id: team_id) ||
+      Hackbot::Team.find_by(team_id: DEFAULT_SLACK_TEAM_ID)
   end
 end
 # rubocop:enable Metrics/ClassLength
