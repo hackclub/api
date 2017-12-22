@@ -31,6 +31,9 @@ class AthulClub < ApplicationRecord
     error_msg = 'error configuring club and leader'
     abort_with_error(error_msg) unless club.save && leader.save
 
+    error_msg = 'error matching email to Slack user'
+    abort_with_error(error_msg) unless leader.resolve_email_to_slack_id
+
     error_msg = 'error queuing stickers for leader'
     abort_with_error(error_msg) unless letter.save && (self.letter = letter)
   end

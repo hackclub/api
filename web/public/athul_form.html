@@ -6,6 +6,103 @@
        width: 500px;
        margin: auto;
      }
+
+     /* Loading animation from */
+     /* https://codepen.io/uurrnn/pen/Kuylr */
+
+     .loading-container {
+       position: fixed;
+       text-align: justify;
+       top: -100px;
+       width: 100%;
+       text-align: right;
+     }
+
+     .loading-container img {
+       display: inline-block;
+       width: 50px;
+       transform: skew(20deg);
+       animation: falling 5s 0s infinite;
+       -webkit-animation: falling 5s 0s infinite;
+     }
+
+     .loading-container img:nth-of-type(2n) {
+       animation: falling2 5s 0s infinite;
+       -webkit-animation: falling2 5s 0s infinite;
+     }
+     .loading-container img:nth-of-type(3n) {
+       animation: falling3 5s 0s infinite;
+       -webkit-animation: falling3 5s 0s infinite;
+     }
+
+     .loading-container img:before {
+       position: absolute;
+       content: '';
+       transform: rotate(49deg);
+       z-index: 1;
+     }
+
+     .loading-container img:nth-of-type(n)   { animation-delay: 1.9s; -webkit-animation-delay: 1.9s; }
+     .loading-container img:nth-of-type(2n)  { animation-delay: 3.9s; -webkit-animation-delay: 3.9s; }
+     .loading-container img:nth-of-type(3n)  { animation-delay: 2.3s; -webkit-animation-delay: 2.3s; }
+     .loading-container img:nth-of-type(4n)  { animation-delay: 4.4s; -webkit-animation-delay: 4.4s; }
+     .loading-container img:nth-of-type(5n)  { animation-delay: 5s;   -webkit-animation-delay: 5s;   }
+     .loading-container img:nth-of-type(6n)  { animation-delay: 3.5s; -webkit-animation-delay: 3.5s; }
+     .loading-container img:nth-of-type(7n)  { animation-delay: 2.8s; -webkit-animation-delay: 2.8s; }
+     .loading-container img:nth-of-type(8n)  { animation-delay: 1.5s; -webkit-animation-delay: 1.5s; }
+     .loading-container img:nth-of-type(9n)  { animation-delay: 3.3s; -webkit-animation-delay: 3.3s; }
+     .loading-container img:nth-of-type(10n) { animation-delay: 2.5s; -webkit-animation-delay: 2.5s; }
+     .loading-container img:nth-of-type(11n) { animation-delay: 1.2s; -webkit-animation-delay: 1.2s; }
+     .loading-container img:nth-of-type(12n) { animation-delay: 4.1s; -webkit-animation-delay: 4.1s; }
+     .loading-container img:nth-of-type(13n) { animation-delay: 1s;   -webkit-animation-delay: 1s;   }
+     .loading-container img:nth-of-type(14n) { animation-delay: 4.7s; -webkit-animation-delay: 4.7s; }
+     .loading-container img:nth-of-type(15n) { animation-delay: 3s;   -webkit-animation-delay: 3s;   }
+
+     .loading-container img:nth-of-type(n)    {transform: rotate(180deg);}
+
+     .loading-container img:nth-of-type(n) {
+       animation-timing-function:ease-in-out;
+       -webkit-animation-timing-function:ease-in-out;
+     }
+
+     @-webkit-keyframes falling {
+       0% {
+         -webkit-transform: translate3d(300,0,0) rotate(0deg);
+         -ms-transform: translate3d(300,0,0) rotate(0deg);
+         transform: translate3d(300,0,0) rotate(0deg);
+       }
+       100% {
+         -webkit-transform: translate3d(-350px,700px,0) rotate(90deg); opacity: 0;
+         -ms-transform: translate3d(-350px,700px,0) rotate(90deg); opacity: 0;
+         transform: translate3d(-350px,700px,0) rotate(90deg); opacity: 0;
+       }
+     }
+
+     @-webkit-keyframes falling3 {
+       0% {
+         -webkit-transform: translate3d(0,0,0) rotate(-20deg);
+         -ms-transform: translate3d(0,0,0) rotate(-20deg);
+         transform: translate3d(0,0,0) rotate(-20deg);
+       }
+       100% {
+         -webkit-transform: translate3d(-230px,640px,0) rotate(-70deg); opacity: 0;
+         -ms-transform: translate3d(-230px,640px,0) rotate(-70deg); opacity: 0;
+         transform: translate3d(-230px,640px,0) rotate(-70deg); opacity: 0;
+       }
+     }
+
+     @-webkit-keyframes falling2 {
+       0% {
+         -webkit-transform: translate3d(0,0,0) rotate(90deg);
+         -ms-transform: translate3d(0,0,0) rotate(90deg);
+         transform: translate3d(0,0,0) rotate(90deg);
+       }
+       100% {
+         -webkit-transform: translate3d(-400px,680px,0) rotate(0deg); opacity: 0;
+         -ms-transform: translate3d(-400px,680px,0) rotate(0deg); opacity: 0;
+         transform: translate3d(-400px,680px,0) rotate(0deg); opacity: 0;
+       }
+     }
      .form_input {
        display: grid;
        grid-template-columns: 120px repeat(10, 25px) 120px;
@@ -45,12 +142,13 @@
     </style>
   </head>
   <body>
+    <div class="loading-container"></div>
     <form id="form">
-    <h1>Create a new club in India</h1>
+      <h1>Create a new club, Athul!</h1>
 
       <div>
         <p class="question">
-          What is your password?
+          What is your auth token?
         </p>
 
         <input name="auth_token"></input>
@@ -189,18 +287,25 @@
          'leader_address'
        ]
 
+       var incomplete = []
+
        for(var i = 0; i < required.length; i++) {
          val = formData.get(required[i])
 
          if (!val) {
-           alert('You are missing a required field! You need to fill out "' + required[i] + '" before submitting')
-           return
+           incomplete.push(required[i].split('_').join(' '))
          }
+       }
+
+       if (incomplete.length > 0) {
+         alert('You need to fill out ' + incomplete.join(', ') + ' before submitting')
+         return
        }
 
        /* Indicate loading */
        submit.value = "Loading..."
        submit.disabled = true
+       makeItRain(true)
 
        var endpoint = 'https://api.hacklub.com/v1/athul_clubs'
        fetch(endpoint, {
@@ -232,8 +337,26 @@
            /* Turn off loading indicator*/
            submit.value = "Submit"
            submit.disabled = false
+           makeItRain(false)
          })
      })
+
+     function makeItRain (active) {
+       var loadingContainer = document.querySelector('.loading-container')
+
+       if (active) {
+         loadingContainer.innerHTML = ''
+
+         for (var i = 0; i < 25; i++) {
+           var img = document.createElement('img')
+           loadingContainer.appendChild(img)
+           img.src = 'https://hackclub.com/emoji/flag_for_india.png'
+         }
+
+       } else {
+         loadingContainer.innerHTML = ''
+       }
+     }
     </script>
   </body>
 </html>
