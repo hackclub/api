@@ -33,4 +33,10 @@ class Letter < ApplicationRecord
 
   validates :name, :address, presence: true
   validates :streak_key, uniqueness: true
+
+  before_destroy do
+    # Remove them from any associated AthulClubs
+    a = AthulClub.find_by(letter_id: id)
+    a.update_attributes!(letter_id: nil) unless a.nil?
+  end
 end

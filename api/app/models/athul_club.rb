@@ -5,7 +5,6 @@ class AthulClub < ApplicationRecord
 
   accepts_nested_attributes_for :club, :leader
 
-  validates :club, :leader, presence: true
   validates :club, uniqueness: true
 
   before_create :init

@@ -56,6 +56,12 @@ class Club < ApplicationRecord
 
   validates :name, :address, :latitude, :longitude, presence: true
 
+  before_destroy do
+    # Remove them from any associated AthulClubs
+    a = AthulClub.find_by(club_id: id)
+    a.update_attributes!(club_id: nil) unless a.nil?
+  end
+
   # This getter returns the point_of_contact_name.
   def point_of_contact_name
     point_of_contact.name if point_of_contact
