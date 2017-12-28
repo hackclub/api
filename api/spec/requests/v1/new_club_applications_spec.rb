@@ -56,6 +56,31 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
   end
 
   describe 'POST /v1/applicants/:id/new_club_applications' do
+    it 'errors when auth header is not present' do
+      post "/v1/applicants/#{applicant.id}/new_club_applications"
+
+      expect(response.status).to eq(401)
+      expect(json).to include('error' => 'authorization required')
+    end
+
+    it 'errors when auth token is nil' do
+      post "/v1/applicants/#{applicant.id}/new_club_applications", headers: {
+        'Authorization': 'Bearer'
+      }
+
+      expect(response.status).to eq(401)
+      expect(json).to include('error' => 'authorization invalid')
+    end
+
+    it 'errors when auth token is incorrect' do
+      get "/v1/applicants/#{applicant.id}/new_club_applications", headers: {
+        'Authorization': 'Bearer notarealtoken'
+      }
+
+      expect(response.status).to eq(401)
+      expect(json).to include('error' => 'authorization invalid')
+    end
+
     it 'creates a new club application with valid auth token' do
       post "/v1/applicants/#{applicant.id}/new_club_applications", headers: {
         'Authorization': "Bearer #{auth_token}"
