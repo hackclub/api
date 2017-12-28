@@ -72,6 +72,13 @@ RSpec.describe 'V1::Applicants', type: :request do
       expect(json).to include('auth_token')
     end
 
+    it 'return error with no login code' do
+      post '/v1/applicants/exchange_login_code'
+
+      expect(response.status).to eq(401)
+      expect(json['errors']).to include('login_code')
+    end
+
     it 'returns error with invalid login code' do
       post '/v1/applicants/exchange_login_code',
         params: { login_code: '000111' }

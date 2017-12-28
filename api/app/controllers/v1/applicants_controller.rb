@@ -14,17 +14,21 @@ class V1::ApplicantsController < ApplicationController
   end
 
   def exchange_login_code
-    applicant = Applicant.find_by(login_code: params[:login_code])
+    login_code = params[:login_code]
 
-    if applicant && applicant.login_code_generation > (Time.now - 1.hour)
-      applicant.generate_auth_token!
-      applicant.login_code = nil
-      applicant.login_code_generation = nil
-      applicant.save
+    if login_code != nil
+      applicant = Applicant.find_by(login_code: params[:login_code])
 
-      render json: { auth_token: applicant.auth_token }, status: 200
-    else
-      render json: { errors: { login_code: 'invalid' } }, status: 401
+      if applicant && applicant.login_code_generation > (Time.now - 1.hour)
+        applicant.generate_auth_token!
+        applicant.login_code = nil
+        applicant.login_code_generation = nil
+        applicant.save
+
+        return render json: { auth_token: applicant.auth_token }, status: 200
+      end
     end
+
+    render json: { errors: { login_code: 'invalid' } }, status: 401
   end
 end
