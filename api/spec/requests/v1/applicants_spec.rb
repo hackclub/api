@@ -54,7 +54,7 @@ RSpec.describe 'V1::Applicants', type: :request do
     end
   end
 
-  describe 'POST /v1/applicants/exchange_login_code' do
+  describe 'POST /v1/applicants/:id/exchange_login_code' do
     let(:applicant) do
       a = create(:applicant)
       a.generate_login_code!
@@ -64,7 +64,7 @@ RSpec.describe 'V1::Applicants', type: :request do
     end
 
     it 'returns auth token with valid login code' do
-      post '/v1/applicants/exchange_login_code',
+      post "/v1/applicants/#{applicant.id}/exchange_login_code",
         params: { login_code: applicant.login_code }
 
       expect(response.status).to eq(200)
@@ -73,14 +73,14 @@ RSpec.describe 'V1::Applicants', type: :request do
     end
 
     it 'return error with no login code' do
-      post '/v1/applicants/exchange_login_code'
+      post "/v1/applicants/#{applicant.id}/exchange_login_code"
 
       expect(response.status).to eq(401)
       expect(json['errors']).to include('login_code')
     end
 
     it 'returns error with invalid login code' do
-      post '/v1/applicants/exchange_login_code',
+      post "/v1/applicants/#{applicant.id}/exchange_login_code",
         params: { login_code: '000111' }
 
       expect(response.status).to eq(401)
@@ -89,11 +89,11 @@ RSpec.describe 'V1::Applicants', type: :request do
 
     it 'fails when valid login code is used twice' do
       # 1st time..
-      post '/v1/applicants/exchange_login_code',
+      post "/v1/applicants/#{applicant.id}/exchange_login_code",
         params: { login_code: applicant.login_code }
 
       # 2nd time...
-      post '/v1/applicants/exchange_login_code',
+      post "/v1/applicants/#{applicant.id}/exchange_login_code",
         params: { login_code: applicant.login_code }
 
       expect(response.status).to eq(401)
@@ -104,11 +104,31 @@ RSpec.describe 'V1::Applicants', type: :request do
       applicant.login_code_generation -= 1.hour
       applicant.save
 
-      post '/v1/applicants/exchange_login_code',
+      post "/v1/applicants/#{applicant.id}/exchange_login_code",
         params: { login_code: applicant.login_code }
 
       expect(response.status).to eq(401)
       expect(json['errors']).to include('login_code')
+    end
+
+    it 'does not allow login codes for other users' do
+      other_applicant = create(:applicant)
+      other_applicant.generate_login_code!
+      other_applicant.save
+
+      post "/v1/applicants/#{applicant.id}/exchange_login_code",
+        params: { login_code: other_applicant.login_code }
+
+      expect(response.status).to eq(401)
+      expect(json['errors']).to include('login_code')
+    end
+
+    it '404s when applicant id does not exist' do
+      post "/v1/applicants/#{applicant.id + 1}/exchange_login_code",
+        params: { login_code: applicant.login_code }
+
+      expect(response.status).to eq(404)
+      expect(json).to include('error' => 'not found')
     end
   end
 end

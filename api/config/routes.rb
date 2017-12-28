@@ -21,8 +21,9 @@ Rails.application.routes.draw do
     resources :applicants, except: :all do
       collection do
         post 'auth'
-        post 'exchange_login_code'
       end
+
+      post 'exchange_login_code'
 
       resources :new_club_applications, only: [:index, :create]
 
