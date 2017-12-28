@@ -87,8 +87,10 @@ RSpec.configure do |config|
           'latitude'     => Faker::Address.latitude,
           'longitude'    => Faker::Address.longitude,
           'address'      => HCFaker::Address.full_address,
+          'city'         => Faker::Address.city,
           'state'        => Faker::Address.state,
           'state_code'   => Faker::Address.state_abbr,
+          'postal_code'  => Faker::Address.postcode,
           'country'      => Faker::Address.country,
           'country_code' => Faker::Address.country_code
         }

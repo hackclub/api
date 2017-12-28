@@ -16,6 +16,8 @@ Rails.application.routes.draw do
 
     # temporarily disable for max's development, will set up
     # :new_club_applications to point here
+    resources :new_club_applications, only: [:update]
+    resources :new_club_applications, path: 'club_applications', only: [:update]
     #resources :club_applications, only: [:create]
 
     resources :applicants, except: :all do

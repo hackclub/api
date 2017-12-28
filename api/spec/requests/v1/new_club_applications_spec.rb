@@ -90,4 +90,119 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       expect(json).to include('id', 'created_at', 'updated_at')
     end
   end
+
+  describe 'PATCH /v1/new_club_applications/:id' do
+    let(:club_application) { create(:new_club_application) }
+
+    before { applicant.new_club_applications << club_application }
+
+    it 'errors when auth header is not present' do
+      patch "/v1/new_club_applications/#{club_application.id}", params: {
+        high_school_name: 'Superhero High School'
+      }
+
+      expect(response.status).to eq(401)
+      expect(json).to include('error' => 'authorization required')
+    end
+
+    it 'errors when auth token is nil' do
+      patch "/v1/new_club_applications/#{club_application.id}",
+        headers: {
+          'Authorization': 'Bearer'
+        },
+        params: {
+          high_school_name: 'Superhero High School'
+        }
+
+      expect(response.status).to eq(401)
+      expect(json).to include('error' => 'authorization invalid')
+    end
+
+    it 'errors when auth token is incorrect' do
+      patch "/v1/new_club_applications/#{club_application.id}",
+        headers: {
+          'Authorization': 'Bearer notarealtoken'
+        },
+        params: {
+          high_school_name: 'Superhero High School'
+        }
+
+      expect(response.status).to eq(401)
+      expect(json).to include('error' => 'authorization invalid')
+    end
+
+    it 'errors when auth token is for the wrong applicant' do
+      other_applicant = create(:applicant)
+      other_applicant.generate_auth_token!
+      other_applicant.save
+
+      patch "/v1/new_club_applications/#{club_application.id}",
+        headers: {
+          'Authorization': "Bearer #{other_applicant.auth_token}"
+        },
+        params: {
+          high_school_name: 'Superhero High School'
+        }
+
+        expect(response.status).to eq(403)
+        expect(json).to include('error' => 'access denied')
+    end
+
+    it 'updates given fields with valid auth token' do
+      patch "/v1/new_club_applications/#{club_application.id}",
+        headers: {
+          'Authorization': "Bearer #{auth_token}"
+        },
+        params: {
+          high_school_name: 'Superhero High School',
+          leaders_team_origin_story: 'We were all stung by a spider...'
+        }
+
+      expect(response.status).to eq(200)
+      expect(json).to include(
+        'high_school_name' => 'Superhero High School',
+        'leaders_team_origin_story' => 'We were all stung by a spider...'
+      )
+    end
+
+    it 'does not update non-user writeable fields' do
+      club_application.update_attributes(high_school_latitude: 12)
+
+      patch "/v1/new_club_applications/#{club_application.id}",
+        headers: {
+          'Authorization': "Bearer #{auth_token}"
+        },
+        params: {
+          high_school_latitude: 42
+        }
+
+        # feel like this should probably error, but not sure how to best handle
+        # errors for when the user tries to update a read-only field, so going
+        # to just 200 for the time being.
+        expect(response.status).to eq(200)
+        expect(json).to include('high_school_latitude' => '12.0')
+    end
+
+    it 'geocodes high school address' do
+      patch "/v1/new_club_applications/#{club_application.id}",
+        headers: {
+          'Authorization': "Bearer #{auth_token}"
+        },
+        params: {
+          high_school_address: '1 Infinite Loop'
+        }
+
+      expect(response.status).to eq(200)
+
+      expect(json['high_school_address']).to eq('1 Infinite Loop')
+      expect(json['high_school_latitude']).to_not be_nil
+      expect(json['high_school_longitude']).to_not be_nil
+      expect(json['high_school_parsed_city']).to_not be_nil
+      expect(json['high_school_parsed_state']).to_not be_nil
+      expect(json['high_school_parsed_state_code']).to_not be_nil
+      expect(json['high_school_parsed_postal_code']).to_not be_nil
+      expect(json['high_school_parsed_country']).to_not be_nil
+      expect(json['high_school_parsed_country_code']).to_not be_nil
+    end
+  end
 end
