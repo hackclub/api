@@ -3,6 +3,8 @@ class Applicant < ApplicationRecord
   validates_uniqueness_of :login_code, if: 'login_code.present?'
   validates_uniqueness_of :auth_token, if: 'auth_token.present?'
 
+  has_and_belongs_to_many :new_club_applications
+
   def generate_login_code!
     loop do
       self.login_code = SecureRandom.random_number(999999).to_s

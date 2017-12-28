@@ -14,6 +14,8 @@ RSpec.describe Applicant, type: :model do
   it { should validate_uniqueness_of :login_code }
   it { should validate_uniqueness_of :auth_token }
 
+  it { should have_and_belong_to_many :new_club_applications }
+
   example ':generate_login_code!' do
     subject.login_code = nil
     subject.login_code_generation = nil

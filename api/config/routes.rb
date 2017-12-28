@@ -15,9 +15,13 @@ Rails.application.routes.draw do
     resources :tech_domain_redemptions, only: [:create]
     resources :donations, only: [:create]
 
-    namespace :applicants do
-      post 'auth'
-      post 'exchange_login_code'
+    resources :applicants, except: :all do
+      collection do
+        post 'auth'
+        post 'exchange_login_code'
+      end
+
+      resources :new_club_applications, only: [:index]
     end
 
     namespace :home do

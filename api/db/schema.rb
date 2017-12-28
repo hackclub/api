@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171227213220) do
+ActiveRecord::Schema.define(version: 20171228090410) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,13 @@ ActiveRecord::Schema.define(version: 20171227213220) do
     t.datetime "auth_token_generation"
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
+  end
+
+  create_table "applicants_new_club_applications", id: false, force: :cascade do |t|
+    t.integer "applicant_id"
+    t.integer "new_club_application_id"
+    t.index ["applicant_id"], name: "habtm_applicant_id", using: :btree
+    t.index ["new_club_application_id"], name: "habtm_new_club_application_id", using: :btree
   end
 
   create_table "athul_clubs", force: :cascade do |t|
@@ -230,6 +237,37 @@ ActiveRecord::Schema.define(version: 20171227213220) do
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.index ["leader_id"], name: "index_net_promoter_score_surveys_on_leader_id", using: :btree
+  end
+
+  create_table "new_club_applications", force: :cascade do |t|
+    t.text     "high_school_name"
+    t.text     "high_school_url"
+    t.integer  "high_school_type"
+    t.text     "high_school_address"
+    t.decimal  "high_school_latitude"
+    t.decimal  "high_school_longitude"
+    t.text     "high_school_parsed_address"
+    t.text     "high_school_parsed_city"
+    t.text     "high_school_parsed_state"
+    t.text     "high_school_parsed_state_code"
+    t.text     "high_school_parsed_postal_code"
+    t.text     "high_school_parsed_country"
+    t.text     "high_school_parsed_country_code"
+    t.text     "leaders_video_url"
+    t.text     "leaders_interesting_project"
+    t.text     "leaders_team_origin_story"
+    t.text     "progress_general"
+    t.text     "progress_student_interest"
+    t.text     "progress_meeting_yet"
+    t.text     "idea_why"
+    t.text     "idea_other_coding_clubs"
+    t.text     "idea_other_general_clubs"
+    t.text     "formation_registered"
+    t.text     "formation_misc"
+    t.text     "curious_what_convinced"
+    t.text     "curious_how_did_hear"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
   end
 
   create_table "projects", force: :cascade do |t|
