@@ -12,4 +12,19 @@ class V1::ApplicantsController < ApplicationController
       render json: { errors: applicant.errors }, status: 422
     end
   end
+
+  def exchange_login_code
+    applicant = Applicant.find_by(login_code: params[:login_code])
+
+    if applicant
+      applicant.generate_auth_token
+      applicant.login_code = nil
+      applicant.login_code_generation = nil
+      applicant.save
+
+      render json: { auth_token: applicant.auth_token }, status: 200
+    else
+      render json: { errors: { login_code: 'invalid' } }, status: 401
+    end
+  end
 end

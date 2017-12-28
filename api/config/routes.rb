@@ -17,6 +17,7 @@ Rails.application.routes.draw do
 
     namespace :applicants do
       post 'auth'
+      post 'exchange_login_code'
     end
 
     namespace :home do

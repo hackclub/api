@@ -53,4 +53,44 @@ RSpec.describe 'V1::Applicants', type: :request do
     # queued email
     expect(ApplicantMailer.deliveries.length).to be(1)
   end
+
+  describe 'POST /v1/applicants/exchange_login_code' do
+    let(:applicant) do
+      a = create(:applicant)
+      a.generate_login_code
+      a.save
+
+      a
+    end
+
+    it 'returns auth token with valid login code' do
+      post '/v1/applicants/exchange_login_code',
+        params: { login_code: applicant.login_code }
+
+      expect(response.status).to eq(200)
+
+      expect(json).to include('auth_token')
+    end
+
+    it 'returns error with invalid login code' do
+      post '/v1/applicants/exchange_login_code',
+        params: { login_code: '000111' }
+
+      expect(response.status).to eq(401)
+      expect(json['errors']).to include('login_code')
+    end
+
+    it 'fails when valid login code is used twice' do
+      # 1st time..
+      post '/v1/applicants/exchange_login_code',
+        params: { login_code: applicant.login_code }
+
+      # 2nd time...
+      post '/v1/applicants/exchange_login_code',
+        params: { login_code: applicant.login_code }
+
+      expect(response.status).to eq(401)
+      expect(json['errors']).to include('login_code')
+    end
+  end
 end
