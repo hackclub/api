@@ -10,10 +10,13 @@ Rails.application.routes.draw do
     post 'cloud9/send_invite'
 
     resources :clubs, only: [:index, :show]
-    resources :club_applications, only: [:create]
     resources :athul_clubs, only: [:create]
     resources :tech_domain_redemptions, only: [:create]
     resources :donations, only: [:create]
+
+    # temporarily disable for max's development, will set up
+    # :new_club_applications to point here
+    #resources :club_applications, only: [:create]
 
     resources :applicants, except: :all do
       collection do
@@ -22,6 +25,11 @@ Rails.application.routes.draw do
       end
 
       resources :new_club_applications, only: [:index, :create]
+
+      # temporary alias for max's development
+      resources :new_club_applications,
+        path: 'club_applications',
+        only: [:index, :create]
     end
 
     namespace :home do
