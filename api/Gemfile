@@ -42,6 +42,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.5', '>= 3.5.2'
   gem 'vcr', '~> 3.0'
   gem 'webmock', '~> 2.1'
+  gem 'email_spec', '~> 2.1', '>= 2.1.1'
 
   gem 'shoulda-matchers', '~> 3.1'
 

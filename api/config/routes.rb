@@ -15,6 +15,10 @@ Rails.application.routes.draw do
     resources :tech_domain_redemptions, only: [:create]
     resources :donations, only: [:create]
 
+    namespace :applicants do
+      post 'auth'
+    end
+
     namespace :home do
       resources :slack_users, only: [:index]
     end

@@ -1,7 +1,7 @@
 class Applicant < ApplicationRecord
-  validates_presence_of :email
-  validates_uniqueness_of :login_code
-  validates_uniqueness_of :auth_token
+  validates :email, presence: true, uniqueness: true, email: true
+  validates_uniqueness_of :login_code, if: 'login_code.present?'
+  validates_uniqueness_of :auth_token, if: 'auth_token.present?'
 
   def generate_login_code
     loop do

@@ -1,6 +1,4 @@
 class ClubApplicationMailer < ApplicationMailer
-  default from: 'Hack Club Team <team@hackclub.com>'
-
   def application_confirmation(application)
     @application = application
 

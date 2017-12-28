@@ -1,11 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe Applicant, type: :model do
+  subject { build(:applicant) }
+
   it { should have_db_column :email }
   it { should have_db_column :login_code }
   it { should have_db_column :auth_token }
 
   it { should validate_presence_of :email }
+  it { should validate_email_format_of :email }
+
+  it { should validate_uniqueness_of :email }
   it { should validate_uniqueness_of :login_code }
   it { should validate_uniqueness_of :auth_token }
 
