@@ -14,11 +14,11 @@ RSpec.describe Applicant, type: :model do
   it { should validate_uniqueness_of :login_code }
   it { should validate_uniqueness_of :auth_token }
 
-  example ':generate_login_code' do
+  example ':generate_login_code!' do
     subject.login_code = nil
     subject.login_code_generation = nil
 
-    subject.generate_login_code
+    subject.generate_login_code!
 
     # generates correctly
     expect(subject.login_code.class).to be(String)
@@ -26,20 +26,20 @@ RSpec.describe Applicant, type: :model do
     expect(subject.login_code_generation).to be_within(1.second).of(Time.now)
 
     # changes every time
-    expect{subject.generate_login_code}.to change{subject.login_code}
+    expect{subject.generate_login_code!}.to change{subject.login_code}
   end
 
-  example ':generate_auth_token' do
+  example ':generate_auth_token!' do
     subject.auth_token = nil
     subject.auth_token_generation = nil
 
-    subject.generate_auth_token
+    subject.generate_auth_token!
 
     # generates correctly
     expect(subject.auth_token).to match(/[\d\D]{32}/)
     expect(subject.auth_token_generation).to be_within(1.second).of(Time.now)
 
     # changes every time
-    expect{subject.generate_auth_token}.to change{subject.auth_token}
+    expect{subject.generate_auth_token!}.to change{subject.auth_token}
   end
 end

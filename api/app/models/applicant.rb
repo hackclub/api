@@ -3,7 +3,7 @@ class Applicant < ApplicationRecord
   validates_uniqueness_of :login_code, if: 'login_code.present?'
   validates_uniqueness_of :auth_token, if: 'auth_token.present?'
 
-  def generate_login_code
+  def generate_login_code!
     loop do
       self.login_code = SecureRandom.random_number(999999).to_s
       self.login_code = self.login_code.ljust(6, '0') # left pad w/ zeros
@@ -15,7 +15,7 @@ class Applicant < ApplicationRecord
     end
   end
 
-  def generate_auth_token
+  def generate_auth_token!
     loop do
       self.auth_token = SecureRandom.hex(32)
       self.auth_token_generation = Time.now

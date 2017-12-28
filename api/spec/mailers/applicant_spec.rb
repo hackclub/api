@@ -4,7 +4,7 @@ RSpec.describe ApplicantMailer, type: :mailer do
   describe 'login_code' do
     let(:applicant) do
       applicant = create(:applicant)
-      applicant.generate_login_code
+      applicant.generate_login_code!
       applicant.save
 
       applicant

@@ -35,7 +35,7 @@ RSpec.describe 'V1::Applicants', type: :request do
     it 'does not create object but sends login code with existing email' do
       # init applicant
       applicant = create(:applicant)
-      applicant.generate_login_code
+      applicant.generate_login_code!
       applicant.save
 
       post '/v1/applicants/auth', params: { email: applicant.email }
@@ -57,7 +57,7 @@ RSpec.describe 'V1::Applicants', type: :request do
   describe 'POST /v1/applicants/exchange_login_code' do
     let(:applicant) do
       a = create(:applicant)
-      a.generate_login_code
+      a.generate_login_code!
       a.save
 
       a
