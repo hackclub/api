@@ -92,5 +92,16 @@ RSpec.describe 'V1::Applicants', type: :request do
       expect(response.status).to eq(401)
       expect(json['errors']).to include('login_code')
     end
+
+    it 'does not allow login codes older than an hour' do
+      applicant.login_code_generation -= 1.hour
+      applicant.save
+
+      post '/v1/applicants/exchange_login_code',
+        params: { login_code: applicant.login_code }
+
+      expect(response.status).to eq(401)
+      expect(json['errors']).to include('login_code')
+    end
   end
 end

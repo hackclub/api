@@ -16,7 +16,7 @@ class V1::ApplicantsController < ApplicationController
   def exchange_login_code
     applicant = Applicant.find_by(login_code: params[:login_code])
 
-    if applicant
+    if applicant && applicant.login_code_generation > (Time.now - 1.hour)
       applicant.generate_auth_token
       applicant.login_code = nil
       applicant.login_code_generation = nil
