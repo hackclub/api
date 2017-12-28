@@ -31,27 +31,27 @@ RSpec.describe 'V1::Applicants', type: :request do
       # email queued to be sent
       expect(ApplicantMailer.deliveries.length).to be(1)
     end
-  end
 
-  it 'does not create object but sends login code with existing email' do
-    # init applicant
-    applicant = create(:applicant)
-    applicant.generate_login_code
-    applicant.save
+    it 'does not create object but sends login code with existing email' do
+      # init applicant
+      applicant = create(:applicant)
+      applicant.generate_login_code
+      applicant.save
 
-    post '/v1/applicants/auth', params: { email: applicant.email }
+      post '/v1/applicants/auth', params: { email: applicant.email }
 
-    expect(response.status).to eq(200)
+      expect(response.status).to eq(200)
 
-    # returns existing object
-    expect(json).to include('email' => applicant.email)
-    expect(json).to include('id' => applicant.id)
+      # returns existing object
+      expect(json).to include('email' => applicant.email)
+      expect(json).to include('id' => applicant.id)
 
-    # generates new login code
-    expect(applicant.login_code).to_not eq(applicant.reload.login_code)
+      # generates new login code
+      expect(applicant.login_code).to_not eq(applicant.reload.login_code)
 
-    # queued email
-    expect(ApplicantMailer.deliveries.length).to be(1)
+      # queued email
+      expect(ApplicantMailer.deliveries.length).to be(1)
+    end
   end
 
   describe 'POST /v1/applicants/exchange_login_code' do
