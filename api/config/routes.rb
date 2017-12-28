@@ -21,7 +21,7 @@ Rails.application.routes.draw do
         post 'exchange_login_code'
       end
 
-      resources :new_club_applications, only: [:index]
+      resources :new_club_applications, only: [:index, :create]
     end
 
     namespace :home do

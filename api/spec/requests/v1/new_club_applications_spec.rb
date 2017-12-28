@@ -1,18 +1,18 @@
 require 'rails_helper'
 
 RSpec.describe 'V1::NewClubApplications', type: :request do
+  let(:applicant) do
+    a = create(:applicant)
+    a.generate_login_code!
+    a.generate_auth_token!
+    a.save
+
+    a
+  end
+
+  let(:auth_token) { applicant.auth_token }
+
   describe 'GET /v1/applicants/:id/new_club_applications' do
-    let(:applicant) do
-      a = create(:applicant)
-      a.generate_login_code!
-      a.generate_auth_token!
-      a.save
-
-      a
-    end
-
-    let(:auth_token) { applicant.auth_token }
-
     it 'errors when auth header is not present' do
       get "/v1/applicants/#{applicant.id}/new_club_applications"
 
@@ -52,6 +52,18 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
 
       expect(response.status).to eq(200)
       expect(json.length).to eq(5)
+    end
+  end
+
+  describe 'POST /v1/applicants/:id/new_club_applications' do
+    # TODO: Figure out how to test authentication in this section
+    it 'creates a new club application with valid auth token' do
+      post "/v1/applicants/#{applicant.id}/new_club_applications", headers: {
+        'Authorization': "Bearer #{auth_token}"
+      }
+
+      expect(response.status).to eq(201)
+      expect(json).to include('id', 'created_at', 'updated_at')
     end
   end
 end

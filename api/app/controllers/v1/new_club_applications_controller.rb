@@ -1,8 +1,14 @@
 class V1::NewClubApplicationsController < ApplicationController
-  before_action :authenticate_applicant, only: :index
+  before_action :authenticate_applicant
 
   def index
     render json: @applicant.new_club_applications, status: 200
+  end
+
+  def create
+    c = NewClubApplication.create(applicants: [@applicant])
+
+    render json: c, status: 201
   end
 
   private
