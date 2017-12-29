@@ -6,8 +6,8 @@ class CreateApplicantClubApplicationIntermediary < ActiveRecord::Migration[5.0]
     end
 
     add_index :applicants_new_club_applications, :applicant_id,
-      name: 'habtm_applicant_id'
+              name: 'habtm_applicant_id'
     add_index :applicants_new_club_applications, :new_club_application_id,
-      name: 'habtm_new_club_application_id'
+              name: 'habtm_new_club_application_id'
   end
 end

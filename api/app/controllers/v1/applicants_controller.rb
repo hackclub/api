@@ -17,13 +17,11 @@ class V1::ApplicantsController < ApplicationController
     applicant = Applicant.find_by(id: params[:applicant_id])
     login_code = params[:login_code]
 
-    unless applicant
-      return render json: { error: 'not found' }, status: 404
-    end
+    return render json: { error: 'not found' }, status: 404 unless applicant
 
-    if login_code != nil &&
-        applicant.login_code == login_code &&
-        applicant.login_code_generation > (Time.now - 15.minutes)
+    if !login_code.nil? &&
+       applicant.login_code == login_code &&
+       applicant.login_code_generation > (Time.now - 15.minutes)
 
       applicant.generate_auth_token!
       applicant.login_code = nil

@@ -29,7 +29,7 @@ RSpec.describe Applicant, type: :model do
     expect(subject.login_code_generation).to be_within(1.second).of(Time.now)
 
     # changes every time
-    expect{subject.generate_login_code!}.to change{subject.login_code}
+    expect { subject.generate_login_code! }.to change { subject.login_code }
   end
 
   example ':pretty_login_code' do
@@ -49,6 +49,6 @@ RSpec.describe Applicant, type: :model do
     expect(subject.auth_token_generation).to be_within(1.second).of(Time.now)
 
     # changes every time
-    expect{subject.generate_auth_token!}.to change{subject.auth_token}
+    expect { subject.generate_auth_token! }.to change { subject.auth_token }
   end
 end

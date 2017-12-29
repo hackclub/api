@@ -32,7 +32,7 @@ module Api
     config.eager_load_paths << Rails.root.join('lib')
 
     # Autoload all directories in app/ called "concerns"
-    Dir["#{Rails.root.to_s}/app/**/concerns"].each do |path|
+    Dir["#{Rails.root}/app/**/concerns"].each do |path|
       config.autoload_paths += [path]
     end
 

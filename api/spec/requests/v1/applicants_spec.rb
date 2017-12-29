@@ -67,7 +67,7 @@ RSpec.describe 'V1::Applicants', type: :request do
 
     it 'returns auth token with valid login code' do
       post "/v1/applicants/#{applicant.id}/exchange_login_code",
-        params: { login_code: applicant.login_code }
+           params: { login_code: applicant.login_code }
 
       expect(response.status).to eq(200)
 
@@ -83,7 +83,7 @@ RSpec.describe 'V1::Applicants', type: :request do
 
     it 'returns error with invalid login code' do
       post "/v1/applicants/#{applicant.id}/exchange_login_code",
-        params: { login_code: '000111' }
+           params: { login_code: '000111' }
 
       expect(response.status).to eq(401)
       expect(json['errors']).to include('login_code')
@@ -92,11 +92,11 @@ RSpec.describe 'V1::Applicants', type: :request do
     it 'fails when valid login code is used twice' do
       # 1st time..
       post "/v1/applicants/#{applicant.id}/exchange_login_code",
-        params: { login_code: applicant.login_code }
+           params: { login_code: applicant.login_code }
 
       # 2nd time...
       post "/v1/applicants/#{applicant.id}/exchange_login_code",
-        params: { login_code: applicant.login_code }
+           params: { login_code: applicant.login_code }
 
       expect(response.status).to eq(401)
       expect(json['errors']).to include('login_code')
@@ -107,7 +107,7 @@ RSpec.describe 'V1::Applicants', type: :request do
       applicant.save
 
       post "/v1/applicants/#{applicant.id}/exchange_login_code",
-        params: { login_code: applicant.login_code }
+           params: { login_code: applicant.login_code }
 
       expect(response.status).to eq(401)
       expect(json['errors']).to include('login_code')
@@ -119,7 +119,7 @@ RSpec.describe 'V1::Applicants', type: :request do
       other_applicant.save
 
       post "/v1/applicants/#{applicant.id}/exchange_login_code",
-        params: { login_code: other_applicant.login_code }
+           params: { login_code: other_applicant.login_code }
 
       expect(response.status).to eq(401)
       expect(json['errors']).to include('login_code')
@@ -127,7 +127,7 @@ RSpec.describe 'V1::Applicants', type: :request do
 
     it '404s when applicant id does not exist' do
       post "/v1/applicants/#{applicant.id + 1}/exchange_login_code",
-        params: { login_code: applicant.login_code }
+           params: { login_code: applicant.login_code }
 
       expect(response.status).to eq(404)
       expect(json).to include('error' => 'not found')

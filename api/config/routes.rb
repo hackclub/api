@@ -21,10 +21,10 @@ Rails.application.routes.draw do
     end
 
     resources :new_club_applications, path: 'club_applications',
-      only: [:show, :update] do
+                                      only: [:show, :update] do
       post 'add_applicant'
     end
-    #resources :club_applications, only: [:create]
+    # resources :club_applications, only: [:create]
 
     resources :applicant_profiles, only: [:show, :update]
 
@@ -39,8 +39,8 @@ Rails.application.routes.draw do
 
       # temporary alias for max's development
       resources :new_club_applications,
-        path: 'club_applications',
-        only: [:index, :create]
+                path: 'club_applications',
+                only: [:index, :create]
     end
 
     namespace :home do

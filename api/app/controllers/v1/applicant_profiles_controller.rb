@@ -4,9 +4,7 @@ class V1::ApplicantProfilesController < ApplicationController
   def show
     profile = ApplicantProfile.find_by(id: params[:id])
 
-    unless profile
-      return render json: { error: 'not found' }, status: 404
-    end
+    return render json: { error: 'not found' }, status: 404 unless profile
 
     if profile.applicant != @applicant
       return render json: { error: 'access denied' }, status: 403
@@ -18,9 +16,7 @@ class V1::ApplicantProfilesController < ApplicationController
   def update
     profile = ApplicantProfile.find_by(id: params[:id])
 
-    unless profile
-      return render json: { error: 'not found' }, status: 404
-    end
+    return render json: { error: 'not found' }, status: 404 unless profile
 
     if profile.applicant != @applicant
       return render json: { error: 'access denied' }, status: 403

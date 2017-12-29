@@ -12,9 +12,7 @@ class V1::NewClubApplicationsController < ApplicationController
   def show
     application = NewClubApplication.find_by(id: params[:id])
 
-    unless application
-      return render json: { error: 'not found' }, status: 404
-    end
+    return render json: { error: 'not found' }, status: 404 unless application
 
     if application.applicants.include? @applicant
       render json: application, status: 200
@@ -46,9 +44,7 @@ class V1::NewClubApplicationsController < ApplicationController
   def add_applicant
     app = NewClubApplication.find_by(id: params[:new_club_application_id])
 
-    unless app
-      return render json: { error: 'not found' }, status: 404
-    end
+    return render json: { error: 'not found' }, status: 404 unless app
 
     unless app.applicants.include? @applicant
       return render json: { error: 'access denied' }, status: 403
