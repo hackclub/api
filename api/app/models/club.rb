@@ -60,12 +60,15 @@ class Club < ApplicationRecord
   before_destroy do
     # Remove them from any associated AthulClubs
     a = AthulClub.find_by(club_id: id)
-    a.update_attributes!(club_id: nil) unless a.nil?
+    a&.update_attributes!(club_id: nil)
   end
 
   # This getter returns the point_of_contact_name.
-  def point_of_contact_name
-    point_of_contact.name if point_of_contact
+  #
+  # Disabling Rubocop's delegate check because converting this to a prefixed
+  # delegate breaks Streakable's tests.
+  def point_of_contact_name # rubocop:disable Rails/Delegate
+    point_of_contact&.name
   end
 
   def dead?
