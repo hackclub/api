@@ -41,6 +41,17 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       expect(response.status).to eq(401)
       expect(json).to include('error' => 'authorization invalid')
     end
+
+    it 'errors when auth token is older than 24 hours' do
+      applicant.auth_token_generation -= 1.day
+      applicant.save
+
+      get "/v1/applicants/#{applicant.id}/new_club_applications",
+        headers: auth_headers
+
+      expect(response.status).to eq(401)
+      expect(json).to include('error' => 'auth token expired')
+    end
   end
 
   describe 'GET /v1/applicants/:id/new_club_applications' do

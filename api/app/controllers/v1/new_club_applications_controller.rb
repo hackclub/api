@@ -63,7 +63,11 @@ class V1::NewClubApplicationsController < ApplicationController
 
     @applicant = Applicant.find_by(auth_token: auth_token)
 
-    unless @applicant
+    if @applicant
+      unless @applicant.auth_token_generation > (Time.current - 1.day)
+        render json: { error: 'auth token expired' }, status: 401
+      end
+    else
       render json: { error: 'authorization invalid' }, status: 401
     end
   end
