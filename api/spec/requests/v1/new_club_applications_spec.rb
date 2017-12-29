@@ -24,7 +24,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       end
 
       get "/v1/applicants/#{applicant.id}/new_club_applications",
-        headers: auth_headers
+          headers: auth_headers
 
       expect(response.status).to eq(200)
       expect(json.length).to eq(5)
@@ -35,7 +35,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       other_applicant.new_club_applications << create(:new_club_application)
 
       get "/v1/applicants/#{other_applicant.id}/new_club_applications",
-        headers: auth_headers
+          headers: auth_headers
 
       expect(response.status).to eq(403)
       expect(json).to include('error' => 'access denied')
@@ -51,7 +51,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
 
     it 'creates a new club application with valid auth token' do
       post "/v1/applicants/#{applicant.id}/new_club_applications",
-        headers: auth_headers
+           headers: auth_headers
 
       expect(response.status).to eq(201)
       expect(json).to include('id', 'created_at', 'updated_at')
@@ -72,7 +72,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       other_application = create(:new_club_application)
 
       get "/v1/new_club_applications/#{other_application.id}",
-        headers: auth_headers
+          headers: auth_headers
 
       expect(response.status).to eq(403)
       expect(json).to include('error' => 'access denied')
@@ -84,7 +84,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       )
 
       get "/v1/new_club_applications/#{club_application.id}",
-        headers: auth_headers
+          headers: auth_headers
 
       expect(response.status).to eq(200)
       expect(json).to include('high_school_name' => 'Superhero High School')
@@ -105,7 +105,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
 
     it '404s when application does not exist' do
       get "/v1/new_club_applications/#{club_application.id + 1}",
-        headers: auth_headers
+          headers: auth_headers
 
       expect(response.status).to eq(404)
       expect(json).to include('error' => 'not found')
@@ -131,12 +131,12 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       other_applicant.save
 
       patch "/v1/new_club_applications/#{club_application.id}",
-        headers: {
-          'Authorization': "Bearer #{other_applicant.auth_token}"
-        },
-        params: {
-          high_school_name: 'Superhero High School'
-        }
+            headers: {
+              'Authorization': "Bearer #{other_applicant.auth_token}"
+            },
+            params: {
+              high_school_name: 'Superhero High School'
+            }
 
         expect(response.status).to eq(403)
         expect(json).to include('error' => 'access denied')
@@ -144,11 +144,11 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
 
     it 'updates given fields with valid auth token' do
       patch "/v1/new_club_applications/#{club_application.id}",
-        headers: auth_headers,
-        params: {
-          high_school_name: 'Superhero High School',
-          leaders_team_origin_story: 'We were all stung by a spider...'
-        }
+            headers: auth_headers,
+            params: {
+              high_school_name: 'Superhero High School',
+              leaders_team_origin_story: 'We were all stung by a spider...'
+            }
 
       expect(response.status).to eq(200)
       expect(json).to include(
@@ -162,10 +162,10 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       club_application.applicants << poc
 
       patch "/v1/new_club_applications/#{club_application.id}",
-        headers: auth_headers,
-        params: {
-          point_of_contact_id: poc.id
-        }
+            headers: auth_headers,
+            params: {
+              point_of_contact_id: poc.id
+            }
 
       expect(response.status).to eq(200)
       expect(json).to include('point_of_contact_id' => poc.id)
@@ -175,10 +175,10 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       bad_poc = create(:applicant)
 
       patch "/v1/new_club_applications/#{club_application.id}",
-        headers: auth_headers,
-        params: {
-          point_of_contact_id: bad_poc.id
-        }
+            headers: auth_headers,
+            params: {
+              point_of_contact_id: bad_poc.id
+            }
 
       expect(response.status).to eq(422)
       expect(json['errors']).to include('point_of_contact')
@@ -188,10 +188,10 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       club_application.update_attributes(high_school_latitude: 12)
 
       patch "/v1/new_club_applications/#{club_application.id}",
-        headers: auth_headers,
-        params: {
-          high_school_latitude: 42
-        }
+            headers: auth_headers,
+            params: {
+              high_school_latitude: 42
+            }
 
         # feel like this should probably error, but not sure how to best handle
         # errors for when the user tries to update a read-only field, so going
@@ -202,10 +202,10 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
 
     it 'geocodes high school address' do
       patch "/v1/new_club_applications/#{club_application.id}",
-        headers: auth_headers,
-        params: {
-          high_school_address: '1 Infinite Loop'
-        }
+            headers: auth_headers,
+            params: {
+              high_school_address: '1 Infinite Loop'
+            }
 
       expect(response.status).to eq(200)
 
@@ -228,7 +228,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
 
     it 'requires authentication' do
       post "/v1/new_club_applications/#{club_application.id}/add_applicant",
-        params: { email: 'john@johnsmith.com' }
+           params: { email: 'john@johnsmith.com' }
 
       expect(response.status).to eq(401)
     end
@@ -237,8 +237,8 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       other_application = create(:new_club_application)
 
       post "/v1/new_club_applications/#{other_application.id}/add_applicant",
-        headers: auth_headers,
-        params: { email: 'john@johnsmith.com' }
+           headers: auth_headers,
+           params: { email: 'john@johnsmith.com' }
 
       expect(response.status).to eq(403)
       expect(json).to include('error' => 'access denied')
@@ -246,8 +246,8 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
 
     it '404s when given application id does not exist' do
       post "/v1/new_club_applications/#{club_application.id + 1}/add_applicant",
-        headers: auth_headers,
-        params: { email: 'john@johnsmith.com' }
+           headers: auth_headers,
+           params: { email: 'john@johnsmith.com' }
 
       expect(response.status).to eq(404)
       expect(json).to include('error' => 'not found')
@@ -257,8 +257,8 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       starting_applicant_count = Applicant.count
 
       post "/v1/new_club_applications/#{club_application.id}/add_applicant",
-        headers: auth_headers,
-        params: { email: 'john@johnsmith.com' }
+           headers: auth_headers,
+           params: { email: 'john@johnsmith.com' }
 
       expect(response.status).to eq(200)
       expect(json).to include('success' => true)
@@ -278,8 +278,8 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       starting_applicant_count = Applicant.count
 
       post "/v1/new_club_applications/#{club_application.id}/add_applicant",
-        headers: auth_headers,
-        params: { email: new_applicant.email }
+           headers: auth_headers,
+           params: { email: new_applicant.email }
 
       expect(response.status).to eq(200)
       expect(json).to include('success' => true)
@@ -299,8 +299,8 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       club_application.applicants << new_applicant
 
       post "/v1/new_club_applications/#{club_application.id}/add_applicant",
-        headers: auth_headers,
-        params: { email: new_applicant.email }
+           headers: auth_headers,
+           params: { email: new_applicant.email }
 
       expect(response.status).to eq(422)
       expect(json['errors']['email']).to include('already added')

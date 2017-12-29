@@ -51,11 +51,11 @@ RSpec.describe 'V1::ApplicantProfiles', type: :request do
 
     it 'updates the given fields' do
       patch "/v1/applicant_profiles/#{profile.id}",
-        headers: auth_headers,
-        params: {
-          leader_name: 'John Doe',
-          leader_email: 'john@johndoe.com'
-        }
+            headers: auth_headers,
+            params: {
+              leader_name: 'John Doe',
+              leader_email: 'john@johndoe.com'
+            }
 
       expect(response.status).to eq(200)
       expect(json).to include(
@@ -68,10 +68,10 @@ RSpec.describe 'V1::ApplicantProfiles', type: :request do
       other_profile = create(:applicant_profile)
 
       patch "/v1/applicant_profiles/#{other_profile.id}",
-        headers: auth_headers,
-        params: {
-          leader_name: 'John Doe'
-        }
+            headers: auth_headers,
+            params: {
+              leader_name: 'John Doe'
+            }
 
       expect(response.status).to eq(403)
       expect(json).to include('error' => 'access denied')
@@ -79,10 +79,10 @@ RSpec.describe 'V1::ApplicantProfiles', type: :request do
 
     it "404s if profile doesn't exist" do
       patch "/v1/applicant_profiles/#{profile.id + 1}",
-        headers: auth_headers,
-        params: {
-          leader_name: 'John Doe'
-        }
+            headers: auth_headers,
+            params: {
+              leader_name: 'John Doe'
+            }
 
       expect(response.status).to eq(404)
       expect(json).to include('error' => 'not found')
