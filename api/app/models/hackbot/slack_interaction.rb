@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Hackbot
   module SlackInteraction
     extend ActiveSupport::Concern

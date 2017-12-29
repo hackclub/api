@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # Warning: This job will ignore follow-up times greater than 24 hours. Be aware
 # of this when scheduling follow ups.
 

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class AthulClub < ApplicationRecord
   belongs_to :club, dependent: :destroy
   belongs_to :leader, dependent: :destroy

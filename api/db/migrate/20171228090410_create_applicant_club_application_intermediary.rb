@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CreateApplicantClubApplicationIntermediary < ActiveRecord::Migration[5.0]
   def change
     create_table :applicants_new_club_applications, id: false do |t|

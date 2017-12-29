@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class RenameAttendanceConversationTypes < ActiveRecord::Migration[5.0]
   def up
     execute <<-SQL

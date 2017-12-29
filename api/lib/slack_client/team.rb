@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module SlackClient
   module Team
     # This is an undocumented endpoint of Slack's API.

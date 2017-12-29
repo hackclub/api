@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # You *must* specify versions for each dependency (this is a Hack Club
 # convention, not an actual technical requirement)
 source 'https://rubygems.org'

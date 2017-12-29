@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CheckInReportService
   def initialize(day:, date:)
     day_of = day.nil? ? date : Chronic.parse(day, context: :past)

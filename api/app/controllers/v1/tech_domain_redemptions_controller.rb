@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module V1
   class TechDomainRedemptionsController < ApplicationController
     SECRET_CODE = Rails.application.secrets.tech_domain_redemption_secret_code

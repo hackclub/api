@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # This module provides additional fake data generators (in addition to Faker)
 module HCFaker
   class HighSchool

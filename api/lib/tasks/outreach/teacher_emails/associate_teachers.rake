@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # rubocop:disable Metrics/LineLength
 desc "Associate teachers in the Outreach - Teachers pipeline with their schools (which is specified in the teacher's notes)"
 task associate_teachers: :environment do

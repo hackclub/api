@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Applicant < ApplicationRecord
   validates :email, presence: true, uniqueness: true, email: true
   validates :login_code, uniqueness: { if: 'login_code.present?' }

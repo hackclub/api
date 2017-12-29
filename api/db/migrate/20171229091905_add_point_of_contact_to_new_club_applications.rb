@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class AddPointOfContactToNewClubApplications < ActiveRecord::Migration[5.0]
   def change
     add_reference :new_club_applications, :point_of_contact,

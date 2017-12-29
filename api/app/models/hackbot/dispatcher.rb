@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Hackbot
   class Dispatcher
     INTERACTION_TYPES = [

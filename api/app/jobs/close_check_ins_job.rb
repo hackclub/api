@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CloseCheckInsJob < ApplicationJob
   queue_as :default
 

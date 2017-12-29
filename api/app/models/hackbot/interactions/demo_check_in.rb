@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # This command is for demoing Hackbot's check-in interaction to potential
 # donors. It should never trigger for anyone but the demo user.
 

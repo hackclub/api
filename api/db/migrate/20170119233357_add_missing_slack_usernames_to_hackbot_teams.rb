@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class AddMissingSlackUsernamesToHackbotTeams < ActiveRecord::Migration[5.0]
   # This class is scoped to this migration so it can still run if we ever remove
   # our Hackbot::Team class in the future.

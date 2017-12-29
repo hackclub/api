@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Executer
   def execute(query)
     final_res = nil

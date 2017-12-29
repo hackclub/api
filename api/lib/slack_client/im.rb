@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module SlackClient
   module Im
     def self.info(id, access_token)

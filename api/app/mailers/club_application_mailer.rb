@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ClubApplicationMailer < ApplicationMailer
   def application_confirmation(application)
     @application = application

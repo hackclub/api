@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module GuggyClient
   class << self
     TRANSLATE_URL = 'http://text2gif.guggy.com/v2/guggify'.freeze

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ActivateClubsJob < ApplicationJob
   def perform
     Club

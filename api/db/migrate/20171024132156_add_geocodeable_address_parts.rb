@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class AddGeocodeableAddressParts < ActiveRecord::Migration[5.0]
   def change
     change_table :leaders do |t|

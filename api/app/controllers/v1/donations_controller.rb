@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module V1
   class DonationsController < ApplicationController
     PUBLISHABLE_KEY = Rails.application.secrets.stripe_publishable_key

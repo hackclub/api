@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 FactoryBot.define do
   factory :tech_domain_redemption do
     name { Faker::Name.name }

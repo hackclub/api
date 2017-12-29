@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class PreventDuplicateClubLeaderRelationships < ActiveRecord::Migration[5.0]
   def up
     # Add an id column so we have a unique way to refer to each record

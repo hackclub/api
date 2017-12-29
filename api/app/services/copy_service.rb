@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CopyService
   # Make ActionView helpers available in copy files when renderings
   include ActionView::Helpers

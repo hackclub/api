@@ -1,4 +1,5 @@
 # coding: utf-8
+# frozen_string_literal: true
 
 # A few Rubocop cops are disabled in this file because it's pending a refactor.
 # See https://github.com/hackclub/api/issues/25.

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module SlackClient
   module Usergroups
     def self.users_add(usergroup_id, user_id, access_token)

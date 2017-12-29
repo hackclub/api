@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # Schedule LeaderCheckInJob for leaders in each timezone.
 class ScheduleLeaderCheckInsJob < ApplicationJob
   queue_as :default

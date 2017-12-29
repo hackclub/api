@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class SlackInvite < ApplicationRecord
   STATE_INVITED = 'invited'.freeze
   STATE_INVITE_RECEIVED = 'invite_received'.freeze

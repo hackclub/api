@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Club < ApplicationRecord
   ACTIVE_STAGE = '5003'.freeze
   DORMANT_STAGE = '5014'.freeze

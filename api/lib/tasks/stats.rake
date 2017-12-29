@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 namespace :stats do
   desc 'Get a summary of our current stats'
   task summary: :environment do

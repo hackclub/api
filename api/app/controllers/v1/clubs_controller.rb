@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module V1
   class ClubsController < ApplicationController
     before_action :find_club, only: [:show]
