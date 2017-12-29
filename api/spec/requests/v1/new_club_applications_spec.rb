@@ -138,8 +138,8 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
               high_school_name: 'Superhero High School'
             }
 
-        expect(response.status).to eq(403)
-        expect(json).to include('error' => 'access denied')
+      expect(response.status).to eq(403)
+      expect(json).to include('error' => 'access denied')
     end
 
     it 'updates given fields with valid auth token' do
@@ -196,8 +196,8 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
         # feel like this should probably error, but not sure how to best handle
         # errors for when the user tries to update a read-only field, so going
         # to just 200 for the time being.
-        expect(response.status).to eq(200)
-        expect(json).to include('high_school_latitude' => '12.0')
+      expect(response.status).to eq(200)
+      expect(json).to include('high_school_latitude' => '12.0')
     end
 
     it 'geocodes high school address' do
