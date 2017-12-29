@@ -33,7 +33,7 @@ class NewClubApplicationSerializer < ActiveModel::Serializer
   has_many :applicant_profiles
 
   class ApplicantProfileSerializer < ActiveModel::Serializer
-    attributes :id
+    attributes :id, :completed_at
     has_one :applicant
 
     class ApplicantSerializer < ActiveModel::Serializer

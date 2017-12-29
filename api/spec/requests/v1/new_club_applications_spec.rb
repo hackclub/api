@@ -89,13 +89,14 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       expect(response.status).to eq(200)
       expect(json).to include('high_school_name' => 'Superhero High School')
 
-      # includes list of applicant profiles w/ applicant ids and emails
+      # includes list of applicant profile ids, status, and applicant info
       profile = ApplicantProfile.find_by(
         applicant: applicant,
         new_club_application: club_application
       )
       expect(json['applicant_profiles'].first).to eq(
         'id' => profile.id,
+        'completed_at' => profile.completed_at,
         'applicant' => {
           'id' => profile.applicant.id,
           'email' => profile.applicant.email

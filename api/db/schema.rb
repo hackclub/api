@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171229091905) do
+ActiveRecord::Schema.define(version: 20171229205425) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,33 +24,34 @@ ActiveRecord::Schema.define(version: 20171229091905) do
   end
 
   create_table "applicant_profiles", force: :cascade do |t|
-    t.integer "applicant_id"
-    t.integer "new_club_application_id"
-    t.text    "leader_name"
-    t.text    "leader_email"
-    t.text    "leader_age"
-    t.integer "leader_year_in_school"
-    t.integer "leader_gender"
-    t.integer "leader_ethnicity"
-    t.text    "leader_phone_number"
-    t.text    "leader_address"
-    t.decimal "leader_latitude"
-    t.decimal "leader_longitude"
-    t.text    "leader_parsed_address"
-    t.text    "leader_parsed_city"
-    t.text    "leader_parsed_state"
-    t.text    "leader_parsed_state_code"
-    t.text    "leader_parsed_postal_code"
-    t.text    "leader_parsed_country"
-    t.text    "leader_parsed_country_code"
-    t.text    "presence_personal_website"
-    t.text    "presence_github_url"
-    t.text    "presence_linkedin_url"
-    t.text    "presence_facebook_url"
-    t.text    "presence_twitter_url"
-    t.text    "skills_system_hacked"
-    t.text    "skills_impressive_achievement"
-    t.boolean "skills_is_technical"
+    t.integer  "applicant_id"
+    t.integer  "new_club_application_id"
+    t.text     "leader_name"
+    t.text     "leader_email"
+    t.text     "leader_age"
+    t.integer  "leader_year_in_school"
+    t.integer  "leader_gender"
+    t.integer  "leader_ethnicity"
+    t.text     "leader_phone_number"
+    t.text     "leader_address"
+    t.decimal  "leader_latitude"
+    t.decimal  "leader_longitude"
+    t.text     "leader_parsed_address"
+    t.text     "leader_parsed_city"
+    t.text     "leader_parsed_state"
+    t.text     "leader_parsed_state_code"
+    t.text     "leader_parsed_postal_code"
+    t.text     "leader_parsed_country"
+    t.text     "leader_parsed_country_code"
+    t.text     "presence_personal_website"
+    t.text     "presence_github_url"
+    t.text     "presence_linkedin_url"
+    t.text     "presence_facebook_url"
+    t.text     "presence_twitter_url"
+    t.text     "skills_system_hacked"
+    t.text     "skills_impressive_achievement"
+    t.boolean  "skills_is_technical"
+    t.datetime "completed_at"
     t.index ["applicant_id"], name: "index_applicant_profiles_on_applicant_id", using: :btree
     t.index ["new_club_application_id"], name: "index_applicant_profiles_on_new_club_application_id", using: :btree
   end
