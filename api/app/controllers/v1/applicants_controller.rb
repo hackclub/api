@@ -23,7 +23,7 @@ class V1::ApplicantsController < ApplicationController
 
     if login_code != nil &&
         applicant.login_code == login_code &&
-        applicant.login_code_generation > (Time.now - 1.hour)
+        applicant.login_code_generation > (Time.now - 15.minutes)
 
       applicant.generate_auth_token!
       applicant.login_code = nil
