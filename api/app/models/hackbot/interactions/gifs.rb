@@ -4,8 +4,8 @@ module Hackbot
     class Gifs < Command
       TRIGGER = /gif ?(?<query>.+)?/
 
-      USAGE = 'gif <query>'.freeze
-      DESCRIPTION = 'find a GIF for the given query'.freeze
+      USAGE = 'gif <query>'
+      DESCRIPTION = 'find a GIF for the given query'
 
       def start
         query = captured[:query]

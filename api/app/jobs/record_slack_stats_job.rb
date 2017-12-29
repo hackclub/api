@@ -2,9 +2,9 @@
 class RecordSlackStatsJob < ApplicationJob
   queue_as :default
 
-  SLACK_TEAM_ID = 'T0266FRGM'.freeze
-  SLACK_SUBDOMAIN = 'hackclub'.freeze
-  SLACK_URL = "https://#{SLACK_SUBDOMAIN}.slack.com".freeze
+  SLACK_TEAM_ID = 'T0266FRGM'
+  SLACK_SUBDOMAIN = 'hackclub'
+  SLACK_URL = "https://#{SLACK_SUBDOMAIN}.slack.com"
   SLACK_EMAIL = Rails.application.secrets.slack_admin_email
   SLACK_PASSWORD = Rails.application.secrets.slack_admin_password
 

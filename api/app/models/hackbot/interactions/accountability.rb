@@ -6,14 +6,14 @@ module Hackbot
 
       TRIGGER = /accountability/
 
-      USAGE = 'accountability'.freeze
+      USAGE = 'accountability'
       DESCRIPTION = 'find out how far behind the team is in responding to '\
-                    'applications'.freeze
+                    'applications'
 
       PIPELINE_KEY = Rails.application.secrets.streak_club_applications_pipeline_key # rubocop:disable Metrics/LineLength
 
-      NEEDS_REVIEW_STAGE_KEY = '5001'.freeze
-      ACCEPTED_STAGE_KEY = '5016'.freeze
+      NEEDS_REVIEW_STAGE_KEY = '5001'
+      ACCEPTED_STAGE_KEY = '5016'
 
       def start
         ua = unassigned_applications.count

@@ -6,12 +6,12 @@ module Hackbot
       DEFAULT_THEME = '&sidebar_theme=custom_theme&sidebar_theme_custom_values'\
         '={"column_bg":"#f6f6f6","menu_bg":"#eeeeee","active_item":"#fa3649",'\
         '"active_item_text":"#ffffff","hover_item":"#ffffff","text_color":'\
-        '"#444444","active_presence":"#60d156","badge":"#fa3649"}'.freeze
+        '"#444444","active_presence":"#60d156","badge":"#fa3649"}'
 
       TRIGGER = /create-slack-invite-strategy/
 
-      USAGE = 'create-slack-invite-strategy'.freeze
-      DESCRIPTION = 'a handy command to create a slack invite strategy'.freeze
+      USAGE = 'create-slack-invite-strategy'
+      DESCRIPTION = 'a handy command to create a slack invite strategy'
       def start
         unless leader
           msg_channel(copy('introduction.not_a_leader'))

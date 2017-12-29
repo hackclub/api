@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class Project < ApplicationRecord
-  NOT_UNIQUE_MESSAGE = 'This project already exists'.freeze
-  UNKNOWN_PROJECT_SOURCE_MESSAGE = 'This project type does not exist'.freeze
+  NOT_UNIQUE_MESSAGE = 'This project already exists'
+  UNKNOWN_PROJECT_SOURCE_MESSAGE = 'This project type does not exist'
 
   validates :title, :data, presence: true
 

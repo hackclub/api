@@ -2,13 +2,13 @@
 module Hackbot
   module Interactions
     class UpdateWorkshops < AdminCommand
-      REPO_TO_UPDATE = 'hackclub/monolith'.freeze
+      REPO_TO_UPDATE = 'hackclub/monolith'
 
       TRIGGER = /update-workshops/
 
-      USAGE = 'update-workshops'.freeze
+      USAGE = 'update-workshops'
       DESCRIPTION = 'submit a pull request to update submodules of '\
-                    "`#{REPO_TO_UPDATE}` (staff only)".freeze
+                    "`#{REPO_TO_UPDATE}` (staff only)"
 
       def start
         fork = GithubClient.fork(REPO_TO_UPDATE)

@@ -5,7 +5,7 @@ module Streakable
 
   class InvalidFieldMappingError < StandardError; end
 
-  STAGE_KEY_COLUMN_NAME = 'stage_key'.freeze
+  STAGE_KEY_COLUMN_NAME = 'stage_key'
 
   module ClassMethods
     attr_reader :pipeline_key, :field_mappings, :key_attribute,

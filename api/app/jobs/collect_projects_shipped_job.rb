@@ -3,7 +3,7 @@
 class CollectProjectsShippedJob < ApplicationJob
   CLOUD9_TEAM = Rails.application.secrets.cloud9_team_name
 
-  GITHUB_API_ROOT = 'https://api.github.com'.freeze
+  GITHUB_API_ROOT = 'https://api.github.com'
   GITHUB_ACCESS_TOKEN = Rails.application.secrets.github_bot_access_token
 
   def perform

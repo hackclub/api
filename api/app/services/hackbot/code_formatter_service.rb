@@ -7,8 +7,8 @@ module Hackbot
     # https://api.slack.com/rtm#limits.
     DEFAULT_CHAR_LIMIT = 4000
 
-    WRAPPER = '```'.freeze
-    TRUNCATED_NOTICE = '...truncated...'.freeze
+    WRAPPER = '```'
+    TRUNCATED_NOTICE = '...truncated...'
 
     def initialize(str, char_limit = DEFAULT_CHAR_LIMIT)
       @str = str

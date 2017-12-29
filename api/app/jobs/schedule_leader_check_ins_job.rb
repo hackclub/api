@@ -3,10 +3,10 @@
 class ScheduleLeaderCheckInsJob < ApplicationJob
   queue_as :default
 
-  HACK_CLUB_TEAM_ID = 'T0266FRGM'.freeze
-  CLUB_ACTIVE_STAGE_KEY = '5003'.freeze
+  HACK_CLUB_TEAM_ID = 'T0266FRGM'
+  CLUB_ACTIVE_STAGE_KEY = '5003'
   CLUB_PIPELINE_KEY = Rails.application.secrets.streak_club_pipeline_key
-  LEADER_ACTIVE_STAGE_KEY = '5006'.freeze
+  LEADER_ACTIVE_STAGE_KEY = '5006'
   LEADER_PIPELINE_KEY = Rails.application.secrets.streak_leader_pipeline_key
 
   def perform(real_run = false, timezones = true)

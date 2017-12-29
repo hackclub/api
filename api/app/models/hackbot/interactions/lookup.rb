@@ -9,9 +9,9 @@ module Hackbot
       # Quick heads up that &lt; and &gt; are the HTML encodings for < and >,
       # respectively. If we don't HTML encode them, Slack will interpret
       # @username as a mention.
-      USAGE = 'lookup &lt;@username&gt;'.freeze
+      USAGE = 'lookup &lt;@username&gt;'
       DESCRIPTION = 'look up a leader and their club from their Slack '\
-                    'username (staff only)'.freeze
+                    'username (staff only)'
 
       def start
         data['uid_to_lookup'] = captured[:uid]

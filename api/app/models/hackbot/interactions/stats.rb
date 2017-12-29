@@ -6,9 +6,9 @@ module Hackbot
 
       TRIGGER = /stats/
 
-      USAGE = 'stats'.freeze
+      USAGE = 'stats'
       DESCRIPTION = 'get some generated statistics on your club '\
-                    '(leaders only)'.freeze
+                    '(leaders only)'
 
       def start
         if valid_stats?

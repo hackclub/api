@@ -154,7 +154,7 @@ class SlackSignUpJob < ApplicationJob
   end
 
   def url_change_email
-    "https://#{team_subdomain}.slack.com/account/settings".freeze
+    "https://#{team_subdomain}.slack.com/account/settings"
   end
 
   def team_subdomain

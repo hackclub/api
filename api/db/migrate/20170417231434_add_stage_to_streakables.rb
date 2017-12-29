@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 class AddStageToStreakables < ActiveRecord::Migration[5.0]
-  STREAK_API_BASE = 'https://www.streak.com/api'.freeze
+  STREAK_API_BASE = 'https://www.streak.com/api'
   STREAK_API_KEY = Rails.application.secrets.streak_api_key
 
   CLUB_PIPELINE_KEY = 'agxzfm1haWxmb29nYWVyNAsSDE9yZ2FuaXphdGlvbiINemFjaGxhdHR'\
-    'hLmNvbQwLEghXb3JrZmxvdxiAgICA6P2XCgw'.freeze
-  CLUB_TABLE_NAME = 'clubs'.freeze
+    'hLmNvbQwLEghXb3JrZmxvdxiAgICA6P2XCgw'
+  CLUB_TABLE_NAME = 'clubs'
   LEADER_PIPELINE_KEY = 'agxzfm1haWxmb29nYWVyNAsSDE9yZ2FuaXphdGlvbiINemFjaGxhd'\
-    'HRhLmNvbQwLEghXb3JrZmxvdxiAgICAqoeSCgw'.freeze
-  LEADER_TABLE_NAME = 'leaders'.freeze
+    'HRhLmNvbQwLEghXb3JrZmxvdxiAgICAqoeSCgw'
+  LEADER_TABLE_NAME = 'leaders'
   LETTERS_PIPELINE_KEY = 'agxzfm1haWxmb29nYWVyNAsSDE9yZ2FuaXphdGlvbiINemFjaGxh'\
-    'dHRhLmNvbQwLEghXb3JrZmxvdxiAgICA4LCFCgw'.freeze
-  LETTERS_TABLE_NAME = 'letters'.freeze
+    'dHRhLmNvbQwLEghXb3JrZmxvdxiAgICA4LCFCgw'
+  LETTERS_TABLE_NAME = 'letters'
 
   def change
     add_column :clubs, :stage_key, :text

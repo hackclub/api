@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 module V1
   class ClubsToBeOnboardedController < ApplicationController
-    TO_BE_ONBOARDED_STAGE = '5011'.freeze
+    TO_BE_ONBOARDED_STAGE = '5011'
 
     def show
       render json: Club.select { |c| c.stage_key == TO_BE_ONBOARDED_STAGE }

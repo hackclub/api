@@ -48,9 +48,9 @@ module Hackbot
     class Sql < AdminCommand
       TRIGGER = /sql (?<query>.*)/
 
-      USAGE = 'sql <query>'.freeze
+      USAGE = 'sql <query>'
       DESCRIPTION = 'execute the given SQL query and return the results '\
-                    '(staff only)'.freeze
+                    '(staff only)'
 
       def start
         data['query'] = captured[:query]

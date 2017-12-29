@@ -10,8 +10,8 @@ class AthulClub < ApplicationRecord
 
   before_create :init
   def init
-    club.stage_key = '5020'.freeze # Indian club stage
-    leader.stage_key = '5008'.freeze # Indian leader stage
+    club.stage_key = '5020' # Indian club stage
+    leader.stage_key = '5008' # Indian leader stage
 
     club.leaders << leader
     club.point_of_contact = leader
@@ -19,9 +19,9 @@ class AthulClub < ApplicationRecord
     letter = Letter.new(
       name: leader.name,
       # This is the type for club leaders
-      letter_type: '9002'.freeze,
+      letter_type: '9002',
       # This is the type for welcome letter + 3oz of stickers
-      what_to_send: '9005'.freeze,
+      what_to_send: '9005',
       address: leader.address
     )
 

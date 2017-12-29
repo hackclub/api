@@ -5,7 +5,7 @@
 class FollowUpIfNeededJob < ApplicationJob
   queue_as :default
 
-  HACK_CLUB_TEAM_ID = 'T0266FRGM'.freeze
+  HACK_CLUB_TEAM_ID = 'T0266FRGM'
   FOLLOW_UP_WINDOW_START = 7.hours
   FOLLOW_UP_WINDOW_END = 19.hours
   # 7 AM to 7 PM is our window to follow up with people

@@ -4,8 +4,8 @@ module Hackbot
     class DiceRoll < Command
       TRIGGER = /roll ?(?<side_count>.+)?/
 
-      USAGE = 'roll <number_of_possibilities>'.freeze
-      DESCRIPTION = 'roll a dice'.freeze
+      USAGE = 'roll <number_of_possibilities>'
+      DESCRIPTION = 'roll a dice'
 
       def start
         raw_side_count = captured[:side_count] || '6'

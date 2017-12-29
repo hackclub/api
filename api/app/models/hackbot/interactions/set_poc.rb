@@ -5,9 +5,9 @@ module Hackbot
     class SetPoc < AdminCommand
       TRIGGER = /set-poc ?(?<streak_key>.+)/
 
-      USAGE = 'set-poc <leader_streak_key>'.freeze
+      USAGE = 'set-poc <leader_streak_key>'
       DESCRIPTION = 'set the given leader as the point of contact for their '\
-                    'club (staff only)'.freeze
+                    'club (staff only)'
 
       def start
         streak_key = captured[:streak_key]

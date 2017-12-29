@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 class Club < ApplicationRecord
-  ACTIVE_STAGE = '5003'.freeze
-  DORMANT_STAGE = '5014'.freeze
-  DEAD_STAGE = '5007'.freeze
+  ACTIVE_STAGE = '5003'
+  DORMANT_STAGE = '5014'
+  DEAD_STAGE = '5007'
 
   include Streakable
   include Geocodeable

@@ -4,9 +4,9 @@ module Hackbot
     class AddAdminUser < AdminCommand
       TRIGGER = /add-admin (?<token>.*)/
 
-      USAGE = 'add-admin <access_token>'.freeze
+      USAGE = 'add-admin <access_token>'
       DESCRIPTION = 'add an admin access token for the current team (staff '\
-        'only)'.freeze
+        'only)'
 
       def start
         au = AdminUser.create(
