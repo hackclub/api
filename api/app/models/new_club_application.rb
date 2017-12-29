@@ -1,7 +1,8 @@
 class NewClubApplication < ApplicationRecord
   include Geocodeable
 
-  has_and_belongs_to_many :applicants
+  has_many :applicant_profiles
+  has_many :applicants, through: :applicant_profiles
 
   geocode_attrs address: :high_school_address,
     latitude: :high_school_latitude,

@@ -48,7 +48,8 @@ RSpec.describe NewClubApplication, type: :model do
 
   it_behaves_like 'Geocodeable'
 
-  ## relationships %%
+  ## relationships ##
 
-  it { should have_and_belong_to_many :applicants }
+  it { should have_many(:applicant_profiles) }
+  it { should have_many(:applicants).through(:applicant_profiles) }
 end
