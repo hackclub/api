@@ -27,7 +27,7 @@ module V1
         # INTERACTIVE_MESSAGE_RESPONSE_DELAY to complete, sleep
         # INTERACTIVE_MESSAGE_RESPONSE_DELAY - amount of time it took to process
         # request before sending a response.
-        sleep to_wait if to_wait > 0
+        sleep to_wait if to_wait.positive?
       end
 
       def events

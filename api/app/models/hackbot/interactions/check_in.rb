@@ -242,7 +242,7 @@ module Hackbot
 
         count = msg.to_i
 
-        if count < 0
+        if count.negative?
           msg_channel copy('attendance.not_realistic.negative')
 
           default_follow_up 'wait_for_attendance'
