@@ -89,6 +89,47 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
     end
   end
 
+  describe 'GET /v1/new_club_applications/:id' do
+    let(:club_application) { create(:new_club_application) }
+
+    before { applicant.new_club_applications << club_application }
+
+    it 'requires authentication' do
+      get "/v1/new_club_applications/#{club_application.id}"
+      expect(response.status).to eq(401)
+    end
+
+    it 'errors when authed applicant does not own application' do
+      other_application = create(:new_club_application)
+
+      get "/v1/new_club_applications/#{other_application.id}",
+        headers: auth_headers
+
+      expect(response.status).to eq(403)
+      expect(json).to include('error' => 'access denied')
+    end
+
+    it 'renders application when properly authed' do
+      club_application.update_attributes(
+        high_school_name: 'Superhero High School'
+      )
+
+      get "/v1/new_club_applications/#{club_application.id}",
+        headers: auth_headers
+
+      expect(response.status).to eq(200)
+      expect(json).to include('high_school_name' => 'Superhero High School')
+    end
+
+    it '404s when application does not exist' do
+      get "/v1/new_club_applications/#{club_application.id + 1}",
+        headers: auth_headers
+
+      expect(response.status).to eq(404)
+      expect(json).to include('error' => 'not found')
+    end
+  end
+
   describe 'PATCH /v1/new_club_applications/:id' do
     let(:club_application) { create(:new_club_application) }
 
