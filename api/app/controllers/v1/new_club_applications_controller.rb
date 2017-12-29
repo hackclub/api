@@ -44,6 +44,30 @@ class V1::NewClubApplicationsController < ApplicationController
     end
   end
 
+  def add_applicant
+    app = NewClubApplication.find_by(id: params[:new_club_application_id])
+
+    unless app
+      return render json: { error: 'not found' }, status: 404
+    end
+
+    unless app.applicants.include? @applicant
+      return render json: { error: 'access denied' }, status: 403
+    end
+
+    to_add = Applicant.find_or_create_by(email: params[:email])
+
+    if app.applicants.include? to_add
+      return render json: { errors: { email: ['already added'] } }, status: 422
+    end
+
+    app.applicants << to_add
+
+    ApplicantMailer.added_to_application(app, to_add, @applicant).deliver_later
+
+    render json: { success: true }, status: 200
+  end
+
   private
 
   def authenticate_applicant

@@ -222,4 +222,90 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       expect(json['high_school_parsed_country_code']).to_not be_nil
     end
   end
+
+  describe 'POST /v1/new_club_applications/:id/add_applicant' do
+    let(:club_application) { create(:new_club_application) }
+
+    before { applicant.new_club_applications << club_application }
+
+    it 'requires authentication' do
+      post "/v1/new_club_applications/#{club_application.id}/add_applicant",
+        params: { email: 'john@johnsmith.com' }
+
+      expect(response.status).to eq(401)
+    end
+
+    it "fails when trying to add to someone else's application" do
+      other_application = create(:new_club_application)
+
+      post "/v1/new_club_applications/#{other_application.id}/add_applicant",
+        headers: auth_headers,
+        params: { email: 'john@johnsmith.com' }
+
+      expect(response.status).to eq(403)
+      expect(json).to include('error' => 'access denied')
+    end
+
+    it '404s when given application id does not exist' do
+      post "/v1/new_club_applications/#{club_application.id + 1}/add_applicant",
+        headers: auth_headers,
+        params: { email: 'john@johnsmith.com' }
+
+      expect(response.status).to eq(404)
+      expect(json).to include('error' => 'not found')
+    end
+
+    it 'creates new applicant and sends email when given email is new' do
+      starting_applicant_count = Applicant.count
+
+      post "/v1/new_club_applications/#{club_application.id}/add_applicant",
+        headers: auth_headers,
+        params: { email: 'john@johnsmith.com' }
+
+      expect(response.status).to eq(200)
+      expect(json).to include('success' => true)
+
+      # new applicant created and added to application
+      expect(Applicant.count).to eq(starting_applicant_count + 1)
+      expect(
+        club_application.applicants.find_by(email: 'john@johnsmith.com')
+      ).to_not be_nil
+
+      # email sent
+      expect(ApplicantMailer.deliveries.length).to be(1)
+    end
+
+    it 'adds existing applicant and sends email when given email is not new' do
+      new_applicant = create(:applicant)
+      starting_applicant_count = Applicant.count
+
+      post "/v1/new_club_applications/#{club_application.id}/add_applicant",
+        headers: auth_headers,
+        params: { email: new_applicant.email }
+
+      expect(response.status).to eq(200)
+      expect(json).to include('success' => true)
+
+      # no new applicants created
+      expect(starting_applicant_count).to eq(Applicant.count)
+
+      # applicant successfully added to application
+      expect(club_application.applicants).to include(new_applicant)
+
+      # email sent
+      expect(ApplicantMailer.deliveries.length).to be(1)
+    end
+
+    it 'fails when applicant has already been added' do
+      new_applicant = create(:applicant)
+      club_application.applicants << new_applicant
+
+      post "/v1/new_club_applications/#{club_application.id}/add_applicant",
+        headers: auth_headers,
+        params: { email: new_applicant.email }
+
+      expect(response.status).to eq(422)
+      expect(json['errors']['email']).to include('already added')
+    end
+  end
 end

@@ -20,4 +20,33 @@ RSpec.describe ApplicantMailer, type: :mailer do
       expect(mail).to have_body_text(applicant.login_code)
     end
   end
+
+  describe 'added_to_application' do
+    let(:adder) { create(:applicant) }
+    let(:applicant) { create(:applicant) }
+    let(:club_application) { create(:new_club_application) }
+
+    before do
+      club_application.applicants << adder
+      club_application.applicants << applicant
+    end
+
+    let(:mail) do
+      ApplicantMailer.added_to_application(club_application, applicant, adder)
+    end
+
+    it 'is sent to the given applicant' do
+      expect(mail).to deliver_to(applicant.email)
+    end
+
+    it 'includes the high school name when set' do
+      club_application.high_school_name = 'Superhero High School'
+
+      expect(mail).to have_body_text('Superhero High School')
+    end
+
+    it "includes the adder's email" do
+      expect(mail).to have_body_text(adder.email)
+    end
+  end
 end
