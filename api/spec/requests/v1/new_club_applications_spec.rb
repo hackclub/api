@@ -193,9 +193,9 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
               high_school_latitude: 42
             }
 
-        # feel like this should probably error, but not sure how to best handle
-        # errors for when the user tries to update a read-only field, so going
-        # to just 200 for the time being.
+      # feel like this should probably error, but not sure how to best handle
+      # errors for when the user tries to update a read-only field, so
+      # going to just 200 for the time being.
       expect(response.status).to eq(200)
       expect(json).to include('high_school_latitude' => '12.0')
     end
