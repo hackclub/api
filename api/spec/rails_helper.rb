@@ -39,6 +39,7 @@ RSpec.configure do |config|
 
   # Include our helpers
   config.include Requests::RequestHelpers, type: :request
+  config.include Controllers::ControllerHelpers, type: :controller
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"

@@ -31,6 +31,11 @@ module Api
     # Automatically load files from the lib directory
     config.eager_load_paths << Rails.root.join('lib')
 
+    # Autoload all directories in app/ called "concerns"
+    Dir["#{Rails.root.to_s}/app/**/concerns"].each do |path|
+      config.autoload_paths += [path]
+    end
+
     # Used DelayedJob as our ActiveJob backend
     config.active_job.queue_adapter = :delayed_job
 

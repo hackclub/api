@@ -9,50 +9,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
 
     a
   end
-  let(:auth_token) { applicant.auth_token }
-  let(:auth_headers) { { 'Authorization': "Bearer #{auth_token}" } }
-
-  # single out one authenticated route & test common logic on it
-  describe 'authentication' do
-    it 'errors when auth header is not present' do
-      get "/v1/applicants/#{applicant.id}/new_club_applications"
-
-      expect(response.status).to eq(401)
-      expect(json).to include('error' => 'authorization required')
-    end
-
-    it 'errors when auth token is nil' do
-      # create applicant with nil auth token to try and trick it
-      create(:applicant)
-
-      get "/v1/applicants/#{applicant.id}/new_club_applications", headers: {
-        'Authorization': 'Bearer'
-      }
-
-      expect(response.status).to eq(401)
-      expect(json).to include('error' => 'authorization invalid')
-    end
-
-    it 'errors when auth token is incorrect' do
-      get "/v1/applicants/#{applicant.id}/new_club_applications", headers: {
-        'Authorization': 'Bearer notarealtoken'
-      }
-
-      expect(response.status).to eq(401)
-      expect(json).to include('error' => 'authorization invalid')
-    end
-
-    it 'errors when auth token is older than 24 hours' do
-      applicant.auth_token_generation -= 1.day
-      applicant.save
-
-      get "/v1/applicants/#{applicant.id}/new_club_applications",
-        headers: auth_headers
-
-      expect(response.status).to eq(401)
-      expect(json).to include('error' => 'auth token expired')
-    end
-  end
+  let(:auth_headers) { { 'Authorization': "Bearer #{applicant.auth_token}" } }
 
   describe 'GET /v1/applicants/:id/new_club_applications' do
     it 'requires authentication' do

@@ -26,6 +26,8 @@ Rails.application.routes.draw do
     end
     #resources :club_applications, only: [:create]
 
+    resources :applicant_profiles, only: [:show, :update]
+
     resources :applicants, except: :all do
       collection do
         post 'auth'
