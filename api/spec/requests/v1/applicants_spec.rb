@@ -17,8 +17,10 @@ RSpec.describe 'V1::Applicants', type: :request do
       # return created object
       expect(json).to include('email' => 'foo@bar.com')
       expect(json).to include('id')
-      expect(json).to include('created_at')
-      expect(json).to include('updated_at')
+
+      # do not return fields that give away information
+      expect(json).to_not include('created_at')
+      expect(json).to_not include('updated_at')
 
       # but not secret fields
       expect(json).to_not include('auth_token')

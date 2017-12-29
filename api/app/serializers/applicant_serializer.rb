@@ -1,3 +1,3 @@
 class ApplicantSerializer < ActiveModel::Serializer
-  attributes :id, :created_at, :updated_at, :email
+  attributes :id, :email
 end
