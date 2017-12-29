@@ -26,7 +26,8 @@ class NewClubApplicationSerializer < ActiveModel::Serializer
     :formation_misc,
     :other_surprising_or_amusing_discovery,
     :curious_what_convinced,
-    :curious_how_did_hear
+    :curious_how_did_hear,
+    :point_of_contact_id
 
   has_many :applicant_profiles
 

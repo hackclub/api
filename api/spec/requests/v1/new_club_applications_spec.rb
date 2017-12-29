@@ -156,6 +156,33 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       )
     end
 
+    it 'sets point of contact with valid auth token' do
+      poc = create(:applicant)
+      club_application.applicants << poc
+
+      patch "/v1/new_club_applications/#{club_application.id}",
+        headers: auth_headers,
+        params: {
+          point_of_contact_id: poc.id
+        }
+
+      expect(response.status).to eq(200)
+      expect(json).to include('point_of_contact_id' => poc.id)
+    end
+
+    it 'fails to set point of contact when not associated' do
+      bad_poc = create(:applicant)
+
+      patch "/v1/new_club_applications/#{club_application.id}",
+        headers: auth_headers,
+        params: {
+          point_of_contact_id: bad_poc.id
+        }
+
+      expect(response.status).to eq(422)
+      expect(json['errors']).to include('point_of_contact')
+    end
+
     it 'does not update non-user writeable fields' do
       club_application.update_attributes(high_school_latitude: 12)
 

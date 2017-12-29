@@ -3,6 +3,9 @@ require 'rails_helper'
 RSpec.describe NewClubApplication, type: :model do
   ## db columns ##
 
+  # relations
+  it { should have_db_column :point_of_contact_id }
+
   # school
   it { should have_db_column :high_school_name }
   it { should have_db_column :high_school_url }
@@ -52,4 +55,14 @@ RSpec.describe NewClubApplication, type: :model do
 
   it { should have_many(:applicant_profiles) }
   it { should have_many(:applicants).through(:applicant_profiles) }
+  it { should belong_to(:point_of_contact) }
+
+  it 'requires points of contact to be associated applicants' do
+    bad_poc = create(:applicant)
+
+    subject.update_attributes(point_of_contact: bad_poc)
+
+    expect(subject.errors[:point_of_contact])
+      .to include('must be an associated applicant')
+  end
 end

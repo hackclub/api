@@ -39,8 +39,7 @@ class V1::NewClubApplicationsController < ApplicationController
     if c.update_attributes(club_application_params)
       render json: c, status: 200
     else
-      # this should never be hit
-      render json: { error: 'internal server error' }, status: 500
+      render json: { errors: c.errors }, status: 422
     end
   end
 
@@ -89,7 +88,8 @@ class V1::NewClubApplicationsController < ApplicationController
       :formation_misc,
       :other_surprising_or_amusing_discovery,
       :curious_what_convinced,
-      :curious_how_did_hear
+      :curious_how_did_hear,
+      :point_of_contact_id
     )
   end
 end

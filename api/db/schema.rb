@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171229055151) do
+ActiveRecord::Schema.define(version: 20171229091905) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -294,6 +294,8 @@ ActiveRecord::Schema.define(version: 20171229055151) do
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
     t.text     "other_surprising_or_amusing_discovery"
+    t.integer  "point_of_contact_id"
+    t.index ["point_of_contact_id"], name: "index_new_club_applications_on_point_of_contact_id", using: :btree
   end
 
   create_table "projects", force: :cascade do |t|
@@ -358,6 +360,7 @@ ActiveRecord::Schema.define(version: 20171229055151) do
   add_foreign_key "check_ins", "leaders"
   add_foreign_key "clubs", "leaders", column: "point_of_contact_id"
   add_foreign_key "net_promoter_score_surveys", "leaders"
+  add_foreign_key "new_club_applications", "applicants", column: "point_of_contact_id"
   add_foreign_key "slack_invite_strategies", "hackbot_teams"
   add_foreign_key "slack_invites", "hackbot_teams"
   add_foreign_key "slack_invites", "slack_invite_strategies"
