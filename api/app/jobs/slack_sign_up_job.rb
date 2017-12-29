@@ -1,6 +1,5 @@
 # rubocop:disable Metrics/ClassLength
 class SlackSignUpJob < ApplicationJob
-  # rubocop:disable Metrics/AbcSize
   def perform(invite_id)
     @invite = SlackInvite.find invite_id
 
@@ -24,7 +23,6 @@ class SlackSignUpJob < ApplicationJob
     @invite.update(password: '')
   end
 
-  # rubocop:enable Metrics/AbcSize
   def sign_up
     RestClient.post(
       url_sign_up,

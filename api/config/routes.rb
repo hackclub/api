@@ -1,4 +1,3 @@
-# rubocop:disable Metrics/BlockLength
 Rails.application.routes.draw do
   namespace :v1 do
     get 'ping', to: 'ping#ping'
@@ -69,4 +68,3 @@ Rails.application.routes.draw do
     end
   end
 end
-# rubocop:enable Metrics/BlockLength

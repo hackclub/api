@@ -26,7 +26,9 @@ RSpec.describe Applicant, type: :model do
     # generates correctly
     expect(subject.login_code.class).to be(String)
     expect(subject.login_code).to match(/\d{6}/)
-    expect(subject.login_code_generation).to be_within(1.second).of(Time.now)
+    expect(
+      subject.login_code_generation
+    ).to be_within(1.second).of(Time.current)
 
     # changes every time
     expect { subject.generate_login_code! }.to change { subject.login_code }
@@ -46,7 +48,9 @@ RSpec.describe Applicant, type: :model do
 
     # generates correctly
     expect(subject.auth_token).to match(/[\d\D]{32}/)
-    expect(subject.auth_token_generation).to be_within(1.second).of(Time.now)
+    expect(
+      subject.auth_token_generation
+    ).to be_within(1.second).of(Time.current)
 
     # changes every time
     expect { subject.generate_auth_token! }.to change { subject.auth_token }

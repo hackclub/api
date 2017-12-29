@@ -85,5 +85,4 @@ class ScheduleLeaderCheckInsJob < ApplicationJob
         .select { |ldr| active? ldr }
         .select { |ldr| ldr.slack_id.present? }
   end
-  # rubocop:enable Metrics/AbcSize
 end

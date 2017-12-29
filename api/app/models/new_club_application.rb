@@ -21,9 +21,8 @@ class NewClubApplication < ApplicationRecord
   # ensure that the point of contact is an associated applicant
   def point_of_contact_is_associated
     return unless point_of_contact
+    return if applicants.include? point_of_contact
 
-    unless applicants.include? point_of_contact
-      errors.add(:point_of_contact, 'must be an associated applicant')
-    end
+    errors.add(:point_of_contact, 'must be an associated applicant')
   end
 end

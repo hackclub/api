@@ -33,7 +33,7 @@ RSpec.describe ApplicantAuth, type: :controller do
 
   it 'errors when auth token is nil' do
     # create applicant with nil auth token to try and trick it
-    applicant = create(:applicant, auth_token: nil)
+    create(:applicant, auth_token: nil)
 
     request.headers['Authorization'] = 'Bearer'
 

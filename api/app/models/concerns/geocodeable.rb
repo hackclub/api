@@ -7,7 +7,6 @@ module Geocodeable
 
     private
 
-    # rubocop:disable Metrics/AbcSize
     def geocode_attrs(attrs = {})
       address = @geocodeable_address_attr = attrs[:address]
       attr_mappings = @geocodeable_attr_mappings = {
@@ -38,6 +37,5 @@ module Geocodeable
         obj.send(address).present? && obj.send("#{address}_changed?")
       end)
     end
-    # rubocop:enable Metrics/AbcSize
   end
 end

@@ -9,12 +9,7 @@ module Hackbot
       DESCRIPTION = 'submit a pull request to update submodules of '\
                     "`#{REPO_TO_UPDATE}` (staff only)".freeze
 
-      # Disabling Metrics/AbcSize because I'm having trouble figuring out a good
-      # way to make this method smaller while keeping it understandable.
-      #
-      # I feel like the current method is pretty understandable if you read it
-      # sequentially, so going to say this is okay for now.
-      def start # rubocop:disable Metrics/AbcSize
+      def start
         fork = GithubClient.fork(REPO_TO_UPDATE)
         branches = GithubClient.branches(fork.full_name).pluck(:name)
 

@@ -32,7 +32,6 @@ class FollowUpIfNeededJob < ApplicationJob
     end
   end
 
-  # rubocop:disable Metrics/AbcSize
   def perform(interaction_id, last_state_name, last_message_timestamp,
               follow_up_interval, msgs_to_follow_up_with, tz_name = '')
     interaction = Hackbot::Interaction.find interaction_id
@@ -49,7 +48,6 @@ class FollowUpIfNeededJob < ApplicationJob
       .perform_later(interaction_id, last_state_name, last_message_timestamp,
                      follow_up_interval, msgs_to_follow_up_with)
   end
-  # rubocop:enable Metrics/AbcSize
 
   def send_follow_up(msg, channel)
     SlackClient::Chat.send_msg(channel, msg, access_token, as_user: true)

@@ -14,7 +14,7 @@ module ApplicantAuth
       return
     end
 
-    auth_type, auth_token = auth_header.split(' ')
+    _auth_type, auth_token = auth_header.split(' ')
 
     unless auth_token
       render json: { error: 'authorization invalid' }, status: 401

@@ -12,6 +12,14 @@ AllCops:
 Metrics/MethodLength:
   Enabled: false
 
+# Disable block length checks
+Metrics/BlockLength:
+  Enabled: false
+
+# Disable Assignment Branch Condition size check
+Metrics/AbcSize:
+  Enabled: false
+
 # Disable check for methods requiring more than 5 parameters.
 Metrics/ParameterLists:
   Enabled: false

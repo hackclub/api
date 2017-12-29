@@ -16,7 +16,6 @@ module Hackbot
         :wait_for_should_send
       end
 
-      # rubocop:disable Metrics/AbcSize
       def wait_for_should_send
         return :wait_for_should_send unless action &&
                                             data['user'] == event[:user]
@@ -36,7 +35,6 @@ module Hackbot
           :wait_for_should_send
         end
       end
-      # rubocop:enable Metrics/AbcSize
 
       private
 

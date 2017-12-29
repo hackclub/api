@@ -33,7 +33,6 @@ module Hackbot
         end
       end
 
-      # rubocop:disable Metrics/AbcSize
       def wait_for_letter_decision
         return :wait_for_letter_decision unless action
 
@@ -58,7 +57,6 @@ module Hackbot
           :wait_for_letter_decision
         end
       end
-      # rubocop:enable Metrics/AbcSize
 
       private
 

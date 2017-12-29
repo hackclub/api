@@ -15,13 +15,14 @@ module Hackbot
         false
       end
 
-      # rubocop:disable Metrics/AbcSize
       def start
         first_name = leader.name.split(' ').first
         flavor_text = copy('greeting.flavor_text')
         deadline = formatted_deadline leader
         key = 'greeting.' + (first_check_in? ? 'if_first_check_in' : 'default')
-        key = 'greeting.if_first_check_in_of_semester' if first_check_in_of_semester
+        if first_check_in_of_semester
+          key = 'greeting.if_first_check_in_of_semester'
+        end
         key = 'greeting.restart' if @restart
         actions = []
 
@@ -53,9 +54,7 @@ module Hackbot
         :wait_for_meeting_confirmation
       end
 
-      # rubocop:enable Metrics/AbcSize
       # rubocop:enable Metrics/LineLength
-      # rubocop:disable Metrics/AbcSize
       def wait_for_is_dormant
         return :wait_for_is_dormant unless action
 
@@ -80,7 +79,6 @@ module Hackbot
         end
       end
 
-      # rubocop:enable Metrics/AbcSize
       def wait_for_resurrection_date
         return :wait_for_is_dormant unless msg
 
@@ -103,7 +101,6 @@ module Hackbot
         :wait_for_submit_confirmation
       end
 
-      # rubocop:disable Metrics/AbcSize
       def wait_for_meeting_confirmation
         return :wait_for_meeting_confirmation unless action
 
@@ -149,7 +146,6 @@ module Hackbot
           :wait_for_meeting_confirmation
         end
       end
-      # rubocop:enable Metrics/AbcSize
 
       def wait_for_no_meeting_reason
         data['no_meeting_reason'] = msg
@@ -205,7 +201,6 @@ module Hackbot
         :wait_for_submit_confirmation
       end
 
-      # rubocop:disable Metrics/AbcSize
       def wait_for_day_of_week
         return :wait_for_day_of_week unless msg
 
@@ -291,7 +286,6 @@ module Hackbot
         :wait_for_notes_confirmation
       end
 
-      # rubocop:enable Metrics/AbcSize
       # rubocop:enable Metrics/CyclomaticComplexity
       def wait_for_notes_confirmation
         return :wait_for_notes_confirmation unless action
@@ -346,7 +340,6 @@ module Hackbot
         end
       end
 
-      # rubocop:disable Metrics/AbcSize
       # rubocop:disable Metrics/CyclomaticComplexity
       # rubocop:disable Metrics/PerceivedComplexity
       def prompt_for_submit
@@ -389,7 +382,6 @@ module Hackbot
           ]
         )
       end
-      # rubocop:enable Metrics/AbcSize
       # rubocop:enable Metrics/CyclomaticComplexity
       # rubocop:enable Metrics/PerceivedComplexity
 

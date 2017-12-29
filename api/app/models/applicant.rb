@@ -11,7 +11,7 @@ class Applicant < ApplicationRecord
       self.login_code = SecureRandom.random_number(999_999).to_s
       self.login_code = login_code.ljust(6, '0') # left pad w/ zeros
 
-      self.login_code_generation = Time.now
+      self.login_code_generation = Time.current
 
       # repeat until code is unique
       break unless Applicant.find_by(login_code: login_code)
@@ -26,7 +26,7 @@ class Applicant < ApplicationRecord
   def generate_auth_token!
     loop do
       self.auth_token = SecureRandom.hex(32)
-      self.auth_token_generation = Time.now
+      self.auth_token_generation = Time.current
 
       # repreat until token is unique
       break unless Applicant.find_by(auth_token: auth_token)

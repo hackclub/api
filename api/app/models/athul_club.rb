@@ -8,7 +8,6 @@ class AthulClub < ApplicationRecord
   validates :club, uniqueness: true
 
   before_create :init
-  # rubocop:disable Metrics/AbcSize
   def init
     club.stage_key = '5020'.freeze # Indian club stage
     leader.stage_key = '5008'.freeze # Indian leader stage
@@ -34,7 +33,6 @@ class AthulClub < ApplicationRecord
     error_msg = 'error queuing stickers for leader'
     abort_with_error(error_msg) unless letter.save && (self.letter = letter)
   end
-  # rubocop:enable Metrics/AbcSize
 
   private
 

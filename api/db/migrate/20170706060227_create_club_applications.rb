@@ -1,5 +1,4 @@
 class CreateClubApplications < ActiveRecord::Migration[5.0]
-  # rubocop:disable Metrics/AbcSize
   def change
     create_table :club_applications do |t|
       t.string :first_name
@@ -27,5 +26,4 @@ class CreateClubApplications < ActiveRecord::Migration[5.0]
       t.timestamps
     end
   end
-  # rubocop:enable Metrics/AbcSize
 end
