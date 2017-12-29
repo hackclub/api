@@ -17,6 +17,11 @@ class Applicant < ApplicationRecord
     end
   end
 
+  # "123456" -> "123-456"
+  def pretty_login_code
+    self.login_code.scan(/.../).join('-') if self.login_code
+  end
+
   def generate_auth_token!
     loop do
       self.auth_token = SecureRandom.hex(32)

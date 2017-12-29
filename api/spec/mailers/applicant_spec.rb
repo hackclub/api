@@ -16,8 +16,8 @@ RSpec.describe ApplicantMailer, type: :mailer do
       expect(mail).to deliver_to(applicant.email)
     end
 
-    it 'contains the given login code' do
-      expect(mail).to have_body_text(applicant.login_code)
+    it 'contains the given prettified login code' do
+      expect(mail).to have_body_text(applicant.pretty_login_code)
     end
   end
 

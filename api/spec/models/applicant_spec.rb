@@ -31,6 +31,12 @@ RSpec.describe Applicant, type: :model do
     expect{subject.generate_login_code!}.to change{subject.login_code}
   end
 
+  example ':pretty_login_code' do
+    subject.login_code = '123456'
+
+    expect(subject.pretty_login_code).to eq('123-456')
+  end
+
   example ':generate_auth_token!' do
     subject.auth_token = nil
     subject.auth_token_generation = nil
