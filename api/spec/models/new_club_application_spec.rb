@@ -37,6 +37,9 @@ RSpec.describe NewClubApplication, type: :model do
   it { should have_db_column :formation_registered }
   it { should have_db_column :formation_misc }
 
+  # other
+  it { should have_db_column :other_surprising_or_amusing_discovery }
+
   # curious
   it { should have_db_column :curious_what_convinced }
   it { should have_db_column :curious_how_did_hear }
