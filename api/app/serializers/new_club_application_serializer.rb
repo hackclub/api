@@ -28,5 +28,14 @@ class NewClubApplicationSerializer < ActiveModel::Serializer
     :curious_what_convinced,
     :curious_how_did_hear
 
-  has_many :applicants
+  has_many :applicant_profiles
+
+  class ApplicantProfileSerializer < ActiveModel::Serializer
+    attributes :id
+    has_one :applicant
+
+    class ApplicantSerializer < ActiveModel::Serializer
+      attributes :id, :email
+    end
+  end
 end
