@@ -2,7 +2,11 @@ class V1::NewClubApplicationsController < ApplicationController
   before_action :authenticate_applicant
 
   def index
-    render json: @applicant.new_club_applications, status: 200
+    if params[:applicant_id] == @applicant.id.to_s
+      render json: @applicant.new_club_applications, status: 200
+    else
+      render json: { error: 'access denied' }, status: 403
+    end
   end
 
   def create

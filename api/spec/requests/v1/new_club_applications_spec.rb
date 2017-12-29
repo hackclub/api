@@ -9,10 +9,11 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
 
     a
   end
-
   let(:auth_token) { applicant.auth_token }
+  let(:auth_headers) { { 'Authorization': "Bearer #{auth_token}" } }
 
-  describe 'GET /v1/applicants/:id/new_club_applications' do
+  # single out one authenticated route & test common logic on it
+  describe 'authentication' do
     it 'errors when auth header is not present' do
       get "/v1/applicants/#{applicant.id}/new_club_applications"
 
@@ -40,51 +41,48 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       expect(response.status).to eq(401)
       expect(json).to include('error' => 'authorization invalid')
     end
+  end
+
+  describe 'GET /v1/applicants/:id/new_club_applications' do
+    it 'requires authentication' do
+      get "/v1/applicants/#{applicant.id}/new_club_applications"
+      expect(response.status).to eq(401)
+    end
 
     it 'lists club applications with valid auth token' do
       5.times do
         applicant.new_club_applications << NewClubApplication.create
       end
 
-      get "/v1/applicants/#{applicant.id}/new_club_applications", headers: {
-        'Authorization': "Bearer #{auth_token}"
-      }
+      get "/v1/applicants/#{applicant.id}/new_club_applications",
+        headers: auth_headers
 
       expect(response.status).to eq(200)
       expect(json.length).to eq(5)
     end
+
+    it 'refuses to list applications for other applicants' do
+      other_applicant = create(:applicant)
+      other_applicant.new_club_applications << create(:new_club_application)
+
+      get "/v1/applicants/#{other_applicant.id}/new_club_applications",
+        headers: auth_headers
+
+      expect(response.status).to eq(403)
+      expect(json).to include('error' => 'access denied')
+    end
   end
 
   describe 'POST /v1/applicants/:id/new_club_applications' do
-    it 'errors when auth header is not present' do
+    it 'requires authentication' do
       post "/v1/applicants/#{applicant.id}/new_club_applications"
 
       expect(response.status).to eq(401)
-      expect(json).to include('error' => 'authorization required')
-    end
-
-    it 'errors when auth token is nil' do
-      post "/v1/applicants/#{applicant.id}/new_club_applications", headers: {
-        'Authorization': 'Bearer'
-      }
-
-      expect(response.status).to eq(401)
-      expect(json).to include('error' => 'authorization invalid')
-    end
-
-    it 'errors when auth token is incorrect' do
-      get "/v1/applicants/#{applicant.id}/new_club_applications", headers: {
-        'Authorization': 'Bearer notarealtoken'
-      }
-
-      expect(response.status).to eq(401)
-      expect(json).to include('error' => 'authorization invalid')
     end
 
     it 'creates a new club application with valid auth token' do
-      post "/v1/applicants/#{applicant.id}/new_club_applications", headers: {
-        'Authorization': "Bearer #{auth_token}"
-      }
+      post "/v1/applicants/#{applicant.id}/new_club_applications",
+        headers: auth_headers
 
       expect(response.status).to eq(201)
       expect(json).to include('id', 'created_at', 'updated_at')
@@ -96,39 +94,12 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
 
     before { applicant.new_club_applications << club_application }
 
-    it 'errors when auth header is not present' do
+    it 'requires_authentication' do
       patch "/v1/new_club_applications/#{club_application.id}", params: {
         high_school_name: 'Superhero High School'
       }
 
       expect(response.status).to eq(401)
-      expect(json).to include('error' => 'authorization required')
-    end
-
-    it 'errors when auth token is nil' do
-      patch "/v1/new_club_applications/#{club_application.id}",
-        headers: {
-          'Authorization': 'Bearer'
-        },
-        params: {
-          high_school_name: 'Superhero High School'
-        }
-
-      expect(response.status).to eq(401)
-      expect(json).to include('error' => 'authorization invalid')
-    end
-
-    it 'errors when auth token is incorrect' do
-      patch "/v1/new_club_applications/#{club_application.id}",
-        headers: {
-          'Authorization': 'Bearer notarealtoken'
-        },
-        params: {
-          high_school_name: 'Superhero High School'
-        }
-
-      expect(response.status).to eq(401)
-      expect(json).to include('error' => 'authorization invalid')
     end
 
     it 'errors when auth token is for the wrong applicant' do
@@ -150,9 +121,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
 
     it 'updates given fields with valid auth token' do
       patch "/v1/new_club_applications/#{club_application.id}",
-        headers: {
-          'Authorization': "Bearer #{auth_token}"
-        },
+        headers: auth_headers,
         params: {
           high_school_name: 'Superhero High School',
           leaders_team_origin_story: 'We were all stung by a spider...'
@@ -169,9 +138,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       club_application.update_attributes(high_school_latitude: 12)
 
       patch "/v1/new_club_applications/#{club_application.id}",
-        headers: {
-          'Authorization': "Bearer #{auth_token}"
-        },
+        headers: auth_headers,
         params: {
           high_school_latitude: 42
         }
@@ -185,9 +152,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
 
     it 'geocodes high school address' do
       patch "/v1/new_club_applications/#{club_application.id}",
-        headers: {
-          'Authorization': "Bearer #{auth_token}"
-        },
+        headers: auth_headers,
         params: {
           high_school_address: '1 Infinite Loop'
         }
