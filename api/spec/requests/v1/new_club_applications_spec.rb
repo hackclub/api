@@ -130,6 +130,9 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
 
       expect(response.status).to eq(200)
       expect(json).to include('high_school_name' => 'Superhero High School')
+
+      # includes list of applicants added to it
+      expect(json['applicants'].length).to eq(1)
     end
 
     it '404s when application does not exist' do
