@@ -48,5 +48,9 @@ RSpec.describe ApplicantMailer, type: :mailer do
     it "includes the adder's email" do
       expect(mail).to have_body_text(adder.email)
     end
+
+    it "includes the given applicant's email" do
+      expect(mail).to have_body_text(applicant.email)
+    end
   end
 end
