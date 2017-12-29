@@ -11,8 +11,6 @@ module Hackbot
 
       USAGE = 'create-slack-invite-strategy'.freeze
       DESCRIPTION = 'a handy command to create a slack invite strategy'.freeze
-
-      # rubocop:disable Metrics/MethodLength
       def start
         unless leader
           msg_channel(copy('introduction.not_a_leader'))
@@ -39,9 +37,7 @@ module Hackbot
 
         :wait_for_name
       end
-      # rubocop:enable Metrics/MethodLength
 
-      # rubocop:disable Metrics/MethodLength
       def wait_for_name
         name = skipped? ? default_name : event[:text]
 
@@ -68,9 +64,7 @@ module Hackbot
 
         :wait_for_club_name
       end
-      # rubocop:enable Metrics/MethodLength
 
-      # rubocop:disable Metrics/MethodLength
       def wait_for_club_name
         club_name = skipped? ? default_club_name : event[:text]
         strategy.update(club_name: club_name)
@@ -90,9 +84,7 @@ module Hackbot
 
         :wait_for_greeting
       end
-      # rubocop:enable Metrics/MethodLength
 
-      # rubocop:disable Metrics/MethodLength
       def wait_for_greeting
         greeting = skipped? ? default_greeting : event[:text]
         strategy.update(greeting: greeting)
@@ -113,7 +105,6 @@ module Hackbot
 
         :wait_for_should_add_user_group
       end
-      # rubocop:enable Metrics/MethodLength
 
       def wait_for_should_add_user_group
         case action[:value]
@@ -170,7 +161,6 @@ module Hackbot
         action.try(:[], :value) == 'skip'
       end
 
-      # rubocop:disable Metrics/MethodLength
       def create_new_strategy(name)
         strat = SlackInviteStrategy.create(
           name: name,
@@ -186,7 +176,6 @@ module Hackbot
 
         strat
       end
-      # rubocop:enable Metrics/MethodLength
 
       def strategy
         @strategy ||= SlackInviteStrategy.find data['strategy_id']

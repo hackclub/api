@@ -12,7 +12,7 @@ class UpdateFromStreakJob < ApplicationJob
   # Just a quick note, we're going to temporarily disable basic complexity
   # checks from Rubocop for now because this method is going to need a real
   # refactor at some point to implement Streak's V2 API.
-  def sync # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+  def sync # rubocop:disable Metrics/AbcSize
     streakable_models = ActiveRecord::Base.descendants.select do |model|
       model.included_modules.include? Streakable
     end

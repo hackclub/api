@@ -8,8 +8,6 @@ class AthulClub < ApplicationRecord
   validates :club, uniqueness: true
 
   before_create :init
-
-  # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/AbcSize
   def init
     club.stage_key = '5020'.freeze # Indian club stage
@@ -37,7 +35,6 @@ class AthulClub < ApplicationRecord
     abort_with_error(error_msg) unless letter.save && (self.letter = letter)
   end
   # rubocop:enable Metrics/AbcSize
-  # rubocop:enable Metrics/MethodLength
 
   private
 

@@ -3,7 +3,6 @@ module V1
     PUBLISHABLE_KEY = Rails.application.secrets.stripe_publishable_key
 
     # rubocop:disable Metrics/AbcSize
-    # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/PerceivedComplexity
     def create
       @amount = 0
@@ -91,7 +90,6 @@ module V1
       end
     end
     # rubocop:enable Metrics/AbcSize
-    # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/PerceivedComplexity
 
     # Formats amount for display. Example: converts 1523 to $15.23.

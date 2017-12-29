@@ -10,7 +10,7 @@ module Cloud9Client
 
       private
 
-      def web_login(username, password) # rubocop:disable Metrics/MethodLength
+      def web_login(username, password)
         resp = Cloud9Client.custom_request(
           :post,
           'https://c9.io/auth/login',
@@ -26,7 +26,6 @@ module Cloud9Client
         resp.cookies
       end
 
-      # rubocop:disable Metrics/MethodLength
       def get_access_token(authenticated_cookies)
         resp = Cloud9Client.custom_request(
           :get,
@@ -44,7 +43,6 @@ module Cloud9Client
 
         resp.body
       end
-      # rubocop:enable Metrics/MethodLength
     end
   end
 end

@@ -19,7 +19,6 @@ class Project < ApplicationRecord
 
   # rubocop:disable Metrics/PerceivedComplexity
   # rubocop:disable Metrics/AbcSize
-  # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/CyclomaticComplexity
   def unique?
     res = if github_workshop?
@@ -50,6 +49,5 @@ class Project < ApplicationRecord
   end
   # rubocop:enable Metrics/PerceivedComplexity
   # rubocop:enable Metrics/AbcSize
-  # rubocop:enable Metrics/MethodLength
   # rubocop:enable Metrics/CyclomaticComplexity
 end

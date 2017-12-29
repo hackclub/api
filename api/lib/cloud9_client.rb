@@ -16,7 +16,6 @@ module Cloud9Client
       @api_base + url
     end
 
-    # rubocop:disable Metrics/MethodLength
     def request(method, path, params = {}, headers = {})
       payload = nil
 
@@ -37,7 +36,6 @@ module Cloud9Client
 
       JSON.parse(resp, symbolize_names: true)
     end
-    # rubocop:enable Metrics/MethodLength
 
     def custom_request(method, url, payload = nil, params = {}, headers = {},
                        cookies = {}, use_default_headers = true)

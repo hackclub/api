@@ -33,7 +33,6 @@ module Hackbot
         end
       end
 
-      # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/AbcSize
       def wait_for_letter_decision
         return :wait_for_letter_decision unless action
@@ -59,7 +58,6 @@ module Hackbot
           :wait_for_letter_decision
         end
       end
-      # rubocop:enable Metrics/MethodLength
       # rubocop:enable Metrics/AbcSize
 
       private
@@ -98,7 +96,6 @@ module Hackbot
           .update_all(point_of_contact_id: nil)
       end
 
-      # rubocop:disable Metrics/MethodLength
       def set_poc(club, leader)
         # Make sure to unset other POC relations so the club leader is only POC
         # for one club.
@@ -119,7 +116,6 @@ module Hackbot
                                           club_name: club.name)
         end
       end
-      # rubocop:enable Metrics/MethodLength
 
       def integer?(str)
         Integer(str) && true

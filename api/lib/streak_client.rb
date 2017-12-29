@@ -18,7 +18,6 @@ module StreakClient
       @api_base + url
     end
 
-    # rubocop:disable Metrics/MethodLength
     def request(method, path, params = {}, headers = {}, cache = false,
                 json = true)
       payload = nil
@@ -46,11 +45,9 @@ module StreakClient
 
       run_with_retry { perform_request(method, url, headers, payload, cache) }
     end
-    # rubocop:enable Metrics/MethodLength
 
     private
 
-    # rubocop:disable Metrics/MethodLength
     def run_with_retry
       cooldown = 2
       result = nil
@@ -76,7 +73,6 @@ module StreakClient
 
       result
     end
-    # rubocop:enable Metrics/MethodLength
 
     def perform_request(method, url, headers, payload, cache)
       req = SentryRequestClient.new(method: method, url: url,
@@ -103,7 +99,6 @@ module StreakClient
         .deep_transform_keys { |k| k.to_s.camelize(:lower) }
     end
 
-    # rubocop:disable Metrics/MethodLength
     def parse(response)
       parsed = JSON.parse(response, symbolize_names: true)
 
@@ -120,6 +115,5 @@ module StreakClient
         snake_case_transform.call(parsed)
       end
     end
-    # rubocop:enable Metrics/MethodLength
   end
 end

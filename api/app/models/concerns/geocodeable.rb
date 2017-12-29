@@ -8,7 +8,6 @@ module Geocodeable
     private
 
     # rubocop:disable Metrics/AbcSize
-    # rubocop:disable Metrics/MethodLength
     def geocode_attrs(attrs = {})
       address = @geocodeable_address_attr = attrs[:address]
       attr_mappings = @geocodeable_attr_mappings = {
@@ -40,6 +39,5 @@ module Geocodeable
       end)
     end
     # rubocop:enable Metrics/AbcSize
-    # rubocop:enable Metrics/MethodLength
   end
 end

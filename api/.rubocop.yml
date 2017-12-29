@@ -8,11 +8,9 @@ AllCops:
     - 'vendor/**/*'
     - 'bundler_cache/**/*'
 
-# Don't do method length checks on database migrations. No need to make sure our
-# migrations fit any sort of method line limit goal.
+# Disable method length checks
 Metrics/MethodLength:
-  Exclude:
-    - 'db/migrate/**'
+  Enabled: false
 
 # Disable check for methods requiring more than 5 parameters.
 Metrics/ParameterLists:

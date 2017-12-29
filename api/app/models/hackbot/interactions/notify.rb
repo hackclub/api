@@ -16,7 +16,6 @@ module Hackbot
         :wait_for_should_send
       end
 
-      # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/AbcSize
       def wait_for_should_send
         return :wait_for_should_send unless action &&
@@ -37,7 +36,6 @@ module Hackbot
           :wait_for_should_send
         end
       end
-      # rubocop:enable Metrics/MethodLength
       # rubocop:enable Metrics/AbcSize
 
       private
@@ -50,7 +48,6 @@ module Hackbot
         end
       end
 
-      # rubocop:disable Metrics/MethodLength
       def notify(from, to, message)
         send_msg(
           to,
@@ -64,7 +61,6 @@ module Hackbot
           ]
         )
       end
-      # rubocop:enable Metrics/MethodLength
 
       def slack_ids_of_channel(id)
         SlackClient::Channels.info(id, access_token)[:channel][:members]
