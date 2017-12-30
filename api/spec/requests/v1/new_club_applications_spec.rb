@@ -216,16 +216,16 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
 
     it 'fails to update fields when application has been submitted' do
       application = create(:completed_new_club_application)
-      profile = create(:completed_applicant_profile,
-                       new_club_application: application, applicant: applicant)
+      create(:completed_applicant_profile,
+             new_club_application: application, applicant: applicant)
       application.update_attributes(point_of_contact: applicant)
 
       post "/v1/new_club_applications/#{application.id}/submit",
-        headers: auth_headers
+           headers: auth_headers
 
       patch "/v1/new_club_applications/#{application.id}",
-        headers: auth_headers,
-        params: { high_school_name: 'Foo High School' }
+            headers: auth_headers,
+            params: { high_school_name: 'Foo High School' }
 
       expect(response.status).to eq(422)
       expect(
@@ -321,16 +321,16 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
 
     it 'fails when application has been submitted' do
       application = create(:completed_new_club_application)
-      profile = create(:completed_applicant_profile,
-                       new_club_application: application, applicant: applicant)
+      create(:completed_applicant_profile,
+             new_club_application: application, applicant: applicant)
       application.update_attributes(point_of_contact: applicant)
 
       post "/v1/new_club_applications/#{application.id}/submit",
-        headers: auth_headers
+           headers: auth_headers
 
       post "/v1/new_club_applications/#{application.id}/add_applicant",
-        headers: auth_headers,
-        params: { email: 'john@johnsmith.com' }
+           headers: auth_headers,
+           params: { email: 'john@johnsmith.com' }
 
       expect(response.status).to eq(422)
       expect(
@@ -340,8 +340,10 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
   end
 
   describe 'POST /v1/new_club_applications/:id/submit' do
-    let(:application) { create(:completed_new_club_application,
-                               applicant_count: 0) }
+    let(:application) do
+      create(:completed_new_club_application,
+             applicant_count: 0)
+    end
 
     # add our applicant w/ a completed profile
     let!(:profile) do
@@ -354,8 +356,10 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
     # and make them the point of contact
     before { application.update_attributes(point_of_contact: applicant) }
 
-    let(:application) { create(:completed_new_club_application,
-                               applicant_count: 0) }
+    let(:application) do
+      create(:completed_new_club_application,
+             applicant_count: 0)
+    end
 
     it 'requires authentication' do
       post "/v1/new_club_applications/#{application.id}/submit"
@@ -366,7 +370,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       other_application = create(:new_club_application)
 
       post "/v1/new_club_applications/#{other_application.id}/submit",
-        headers: auth_headers
+           headers: auth_headers
 
       expect(response.status).to eq(403)
       expect(json).to include('error' => 'access denied')
@@ -374,7 +378,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
 
     it "404s when given application id doesn't exist" do
       post "/v1/new_club_applications/#{application.id + 1}/submit",
-        headers: auth_headers
+           headers: auth_headers
 
       expect(response.status).to eq(404)
       expect(json).to include('error' => 'not found')
@@ -384,7 +388,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       application.update_attributes(formation_registered: nil)
 
       post "/v1/new_club_applications/#{application.id}/submit",
-        headers: auth_headers
+           headers: auth_headers
 
       expect(response.status).to eq(422)
       expect(json['errors']).to include('formation_registered')
@@ -394,7 +398,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       profile.update_attributes(leader_name: nil)
 
       post "/v1/new_club_applications/#{application.id}/submit",
-        headers: auth_headers
+           headers: auth_headers
 
       expect(response.status).to eq(422)
       expect(
@@ -404,11 +408,11 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
 
     it 'submits successfully when all fields are present' do
       post "/v1/new_club_applications/#{application.id}/submit",
-        headers: auth_headers
+           headers: auth_headers
 
       expect(response.status).to eq(200)
       expect(
-        Time.parse(json['submitted_at'])
+        Time.zone.parse(json['submitted_at'])
       ).to be_within(1.minute).of(Time.current)
     end
   end

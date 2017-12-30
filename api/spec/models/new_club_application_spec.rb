@@ -78,8 +78,10 @@ RSpec.describe NewClubApplication, type: :model do
   describe ':submit!' do
     subject { create(:completed_new_club_application, applicant_count: 3) }
     let(:applicant) { subject.point_of_contact }
-    let(:profile) { ApplicantProfile.find_by(applicant: applicant,
-                                             new_club_application: subject) }
+    let(:profile) do
+      ApplicantProfile.find_by(applicant: applicant,
+                               new_club_application: subject)
+    end
 
     it 'fails when missing required fields' do
       subject.update_attributes(progress_general: nil)

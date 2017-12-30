@@ -2,8 +2,10 @@
 require 'rails_helper'
 
 RSpec.describe 'V1::ApplicantProfiles', type: :request do
-  let(:profile) { create(:completed_applicant_profile,
-                         applicant: create(:applicant_authed)) }
+  let(:profile) do
+    create(:completed_applicant_profile,
+           applicant: create(:applicant_authed))
+  end
   let(:applicant) { profile.applicant }
   let(:application) { profile.new_club_application }
 
@@ -64,11 +66,11 @@ RSpec.describe 'V1::ApplicantProfiles', type: :request do
 
     it 'fails to update fields after application is submitted' do
       post "/v1/new_club_applications/#{application.id}/submit",
-        headers: auth_headers
+           headers: auth_headers
 
       patch "/v1/applicant_profiles/#{profile.id}",
-        headers: auth_headers,
-        params: { leader_name: 'Jane Doe' }
+            headers: auth_headers,
+            params: { leader_name: 'Jane Doe' }
 
       expect(response.status).to eq(422)
       expect(

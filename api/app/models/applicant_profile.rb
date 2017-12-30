@@ -69,9 +69,7 @@ class ApplicantProfile < ApplicationRecord
   end
 
   def make_immutable
-    if self.changed?
-      errors.add(:base, 'cannot edit applicant profile after submit')
-    end
+    errors.add(:base, 'cannot edit applicant profile after submit') if changed?
   end
 
   def submitted_at

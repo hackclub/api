@@ -62,7 +62,7 @@ RSpec.describe ApplicantProfile, type: :model do
 
   describe 'completed_at autosetting / unsetting' do
     let(:unsaved_profile) { build(:completed_applicant_profile) }
-    let(:profile) { unsaved_profile.save; unsaved_profile }
+    let(:profile) { unsaved_profile.save && unsaved_profile }
 
     it 'should set completed_at when required fields are completed' do
       expect(unsaved_profile.completed_at).to be_nil

@@ -8,7 +8,7 @@ FactoryBot.define do
     # relationships.
     factory :completed_applicant_profile do
       association :new_club_application,
-        factory: :completed_new_club_application
+                  factory: :completed_new_club_application
 
       # leader fields
       leader_name { Faker::Name.name }
