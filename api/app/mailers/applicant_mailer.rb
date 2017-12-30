@@ -14,4 +14,10 @@ class ApplicantMailer < ApplicationMailer
     mail(to: applicant.email,
          subject: "You've been added to a Hack Club application")
   end
+
+  def application_submission(application, applicant)
+    @application = application
+
+    mail(to: applicant.email, subject: 'Hack Club Application Submitted')
+  end
 end
