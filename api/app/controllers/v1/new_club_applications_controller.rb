@@ -52,6 +52,14 @@ module V1
         return render json: { error: 'access denied' }, status: 403
       end
 
+      if app.submitted_at.present?
+        return render json: {
+          errors: {
+            base: ['cannot edit application after submit']
+          }
+        }, status: 422
+      end
+
       to_add = Applicant.find_or_create_by(email: params[:email])
 
       if app.applicants.include? to_add
@@ -65,6 +73,22 @@ module V1
                      .deliver_later
 
       render json: { success: true }, status: 200
+    end
+
+    def submit
+      app = NewClubApplication.find_by(id: params[:new_club_application_id])
+
+      return render json: { error: 'not found' }, status: 404 unless app
+
+      unless app.applicants.include? @applicant
+        return render json: { error: 'access denied' }, status: 403
+      end
+
+      if app.submit!
+        render json: app, status: 200
+      else
+        render json: { errors: app.errors }, status: 422
+      end
     end
 
     private

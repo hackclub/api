@@ -50,6 +50,7 @@ class ApplicantProfile < ApplicationRecord
   ].freeze
 
   before_save :update_completion_status
+  validate :make_immutable, if: 'submitted_at.present?'
 
   # automatically set or unset completed_at if all REQUIRED_FOR_COMPLETION
   # fields are set (or not set)
@@ -65,5 +66,15 @@ class ApplicantProfile < ApplicationRecord
     else
       self.completed_at = nil
     end
+  end
+
+  def make_immutable
+    if self.changed?
+      errors.add(:base, 'cannot edit applicant profile after submit')
+    end
+  end
+
+  def submitted_at
+    self&.new_club_application&.submitted_at
   end
 end

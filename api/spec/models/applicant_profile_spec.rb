@@ -61,48 +61,16 @@ RSpec.describe ApplicantProfile, type: :model do
   it { should belong_to :new_club_application }
 
   describe 'completed_at autosetting / unsetting' do
-    let(:unsaved_profile_w_required_fields) do
-      profile = ApplicantProfile.new
-
-      # set up relationships
-      profile.applicant = create(:applicant)
-      profile.new_club_application = create(:new_club_application)
-
-      # leader fields
-      profile.leader_name = Faker::Name.name
-      profile.leader_email = Faker::Internet.email
-      profile.leader_age = [14..18].sample
-      profile.leader_year_in_school = :freshman
-      profile.leader_gender = :female
-      profile.leader_ethnicity = :hispanic_or_latino
-      profile.leader_phone_number = '333-333-3333'
-      profile.leader_address = HCFaker::Address.full_address
-
-      # not setting presence fields because they're not required
-
-      # skillz fields
-      profile.skills_system_hacked = Faker::Lorem.sentence
-      profile.skills_impressive_achievement = Faker::Lorem.sentence
-      profile.skills_is_technical = true
-
-      profile
-    end
-
-    let(:saved_profile_w_required_fields) do
-      unsaved_profile_w_required_fields.save
-      unsaved_profile_w_required_fields
-    end
+    let(:unsaved_profile) { build(:completed_applicant_profile) }
+    let(:profile) { unsaved_profile.save; unsaved_profile }
 
     it 'should set completed_at when required fields are completed' do
-      profile = unsaved_profile_w_required_fields
-
-      expect(profile.completed_at).to be_nil
-      profile.save
-      expect(profile.completed_at).to_not be_nil
+      expect(unsaved_profile.completed_at).to be_nil
+      unsaved_profile.save
+      expect(unsaved_profile.completed_at).to_not be_nil
     end
 
     it 'should not update completed_at when fields are updated' do
-      profile = saved_profile_w_required_fields
       starting_completed_at = profile.completed_at
 
       # let a little time pass
@@ -117,8 +85,6 @@ RSpec.describe ApplicantProfile, type: :model do
     end
 
     it 'should unset completed_at when required fields are unset' do
-      profile = saved_profile_w_required_fields
-
       # make sure completed_at is set
       expect(profile.completed_at).to_not be_nil
 
@@ -129,5 +95,15 @@ RSpec.describe ApplicantProfile, type: :model do
       # ensure completed_at was unset
       expect(profile.completed_at).to be_nil
     end
+  end
+
+  it 'should become immutable after application is submitted' do
+    profile = create(:completed_applicant_profile)
+    profile.new_club_application.submit!
+
+    profile.update_attributes(leader_name: 'Jane Doe')
+    expect(profile.errors[:base]).to include(
+      'cannot edit applicant profile after submit'
+    )
   end
 end

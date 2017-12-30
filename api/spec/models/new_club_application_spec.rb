@@ -76,73 +76,10 @@ RSpec.describe NewClubApplication, type: :model do
   end
 
   describe ':submit!' do
-    let(:applicant) { create(:applicant) }
-    let!(:profile) do
-      create(:applicant_profile, applicant: applicant,
-                                 new_club_application: subject)
-    end
-
-    before do
-      # set required fields #
-
-      # high school
-      subject.high_school_name = HCFaker::HighSchool
-      subject.high_school_url = Faker::Internet.url
-      subject.high_school_type = :public_school
-      subject.high_school_address = HCFaker::Address.full_address
-
-      # leaders
-      subject.leaders_video_url = Faker::Internet.url
-      subject.leaders_interesting_project = Faker::Lorem.paragraph
-      subject.leaders_team_origin_story = Faker::Lorem.paragraph
-
-      # progress
-      subject.progress_general = Faker::Lorem.paragraph
-      subject.progress_student_interest = Faker::Lorem.paragraph
-      subject.progress_meeting_yet = Faker::Lorem.paragraph
-
-      # idea
-      subject.idea_why = Faker::Lorem.paragraph
-      subject.idea_other_coding_clubs = Faker::Lorem.paragraph
-      subject.idea_other_general_clubs = Faker::Lorem.paragraph
-
-      # formation
-      subject.formation_registered = Faker::Lorem.sentence
-      subject.formation_misc = Faker::Lorem.sentence
-
-      # other
-      subject.other_surprising_or_amusing_discovery = Faker::Lorem.paragraph
-
-      # curious
-      subject.curious_what_convinced = Faker::Lorem.sentence
-      subject.curious_how_did_hear = Faker::Lorem.sentence
-
-      # relationships
-      subject.point_of_contact = applicant
-
-      subject.save
-
-      # set required profile fields #
-
-      # leader fields
-      profile.leader_name = Faker::Name.name
-      profile.leader_email = Faker::Internet.email
-      profile.leader_age = [14..18].sample
-      profile.leader_year_in_school = :freshman
-      profile.leader_gender = :female
-      profile.leader_ethnicity = :hispanic_or_latino
-      profile.leader_phone_number = '333-333-3333'
-      profile.leader_address = HCFaker::Address.full_address
-
-      # not setting presence fields because they're not required
-
-      # skillz fields
-      profile.skills_system_hacked = Faker::Lorem.sentence
-      profile.skills_impressive_achievement = Faker::Lorem.sentence
-      profile.skills_is_technical = true
-
-      profile.save
-    end
+    subject { create(:completed_new_club_application, applicant_count: 3) }
+    let(:applicant) { subject.point_of_contact }
+    let(:profile) { ApplicantProfile.find_by(applicant: applicant,
+                                             new_club_application: subject) }
 
     it 'fails when missing required fields' do
       subject.update_attributes(progress_general: nil)
@@ -177,7 +114,7 @@ RSpec.describe NewClubApplication, type: :model do
     it 'sends confirmation emails to applicants' do
       subject.submit!
 
-      expect(ApplicantMailer.deliveries.length).to be(1)
+      expect(ApplicantMailer.deliveries.length).to be(3)
     end
 
     it 'makes the model immutable' do

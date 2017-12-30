@@ -18,11 +18,13 @@ Rails.application.routes.draw do
     # :new_club_applications to point here
     resources :new_club_applications, only: [:show, :update] do
       post 'add_applicant'
+      post 'submit'
     end
 
     resources :new_club_applications, path: 'club_applications',
                                       only: [:show, :update] do
       post 'add_applicant'
+      post 'submit'
     end
     # resources :club_applications, only: [:create]
 

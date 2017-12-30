@@ -2,16 +2,14 @@
 require 'rails_helper'
 
 RSpec.describe 'V1::ApplicantProfiles', type: :request do
-  let(:profile) { create(:applicant_profile) }
-  let(:applicant) do
-    profile.applicant.generate_auth_token!
-    profile.applicant.save
-
-    profile.applicant
-  end
-  let(:application) { profile.application }
+  let(:profile) { create(:completed_applicant_profile,
+                         applicant: create(:applicant_authed)) }
+  let(:applicant) { profile.applicant }
+  let(:application) { profile.new_club_application }
 
   let(:auth_headers) { { 'Authorization': "Bearer #{applicant.auth_token}" } }
+
+  before { application.update_attributes(point_of_contact: applicant) }
 
   describe 'GET /v1/applicant_profiles/:id' do
     it 'requires authentication' do
@@ -62,6 +60,20 @@ RSpec.describe 'V1::ApplicantProfiles', type: :request do
         'leader_name' => 'John Doe',
         'leader_email' => 'john@johndoe.com'
       )
+    end
+
+    it 'fails to update fields after application is submitted' do
+      post "/v1/new_club_applications/#{application.id}/submit",
+        headers: auth_headers
+
+      patch "/v1/applicant_profiles/#{profile.id}",
+        headers: auth_headers,
+        params: { leader_name: 'Jane Doe' }
+
+      expect(response.status).to eq(422)
+      expect(
+        json['errors']['base']
+      ).to include('cannot edit applicant profile after submit')
     end
 
     it "refuses to update someone else's profile" do

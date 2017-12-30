@@ -2,14 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe 'V1::NewClubApplications', type: :request do
-  let(:applicant) do
-    a = create(:applicant)
-    a.generate_login_code!
-    a.generate_auth_token!
-    a.save
-
-    a
-  end
+  let(:applicant) { create(:applicant_authed) }
   let(:auth_headers) { { 'Authorization': "Bearer #{applicant.auth_token}" } }
 
   describe 'GET /v1/applicants/:id/new_club_applications' do
@@ -220,6 +213,25 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       expect(json['high_school_parsed_country']).to_not be_nil
       expect(json['high_school_parsed_country_code']).to_not be_nil
     end
+
+    it 'fails to update fields when application has been submitted' do
+      application = create(:completed_new_club_application)
+      profile = create(:completed_applicant_profile,
+                       new_club_application: application, applicant: applicant)
+      application.update_attributes(point_of_contact: applicant)
+
+      post "/v1/new_club_applications/#{application.id}/submit",
+        headers: auth_headers
+
+      patch "/v1/new_club_applications/#{application.id}",
+        headers: auth_headers,
+        params: { high_school_name: 'Foo High School' }
+
+      expect(response.status).to eq(422)
+      expect(
+        json['errors']['base']
+      ).to include('cannot edit application after submit')
+    end
   end
 
   describe 'POST /v1/new_club_applications/:id/add_applicant' do
@@ -305,6 +317,99 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
 
       expect(response.status).to eq(422)
       expect(json['errors']['email']).to include('already added')
+    end
+
+    it 'fails when application has been submitted' do
+      application = create(:completed_new_club_application)
+      profile = create(:completed_applicant_profile,
+                       new_club_application: application, applicant: applicant)
+      application.update_attributes(point_of_contact: applicant)
+
+      post "/v1/new_club_applications/#{application.id}/submit",
+        headers: auth_headers
+
+      post "/v1/new_club_applications/#{application.id}/add_applicant",
+        headers: auth_headers,
+        params: { email: 'john@johnsmith.com' }
+
+      expect(response.status).to eq(422)
+      expect(
+        json['errors']['base']
+      ).to include('cannot edit application after submit')
+    end
+  end
+
+  describe 'POST /v1/new_club_applications/:id/submit' do
+    let(:application) { create(:completed_new_club_application,
+                               applicant_count: 0) }
+
+    # add our applicant w/ a completed profile
+    let!(:profile) do
+      create(
+        :completed_applicant_profile,
+        applicant: applicant, new_club_application: application
+      )
+    end
+
+    # and make them the point of contact
+    before { application.update_attributes(point_of_contact: applicant) }
+
+    let(:application) { create(:completed_new_club_application,
+                               applicant_count: 0) }
+
+    it 'requires authentication' do
+      post "/v1/new_club_applications/#{application.id}/submit"
+      expect(response.status).to eq(401)
+    end
+
+    it "fails when trying to submit someone else's application" do
+      other_application = create(:new_club_application)
+
+      post "/v1/new_club_applications/#{other_application.id}/submit",
+        headers: auth_headers
+
+      expect(response.status).to eq(403)
+      expect(json).to include('error' => 'access denied')
+    end
+
+    it "404s when given application id doesn't exist" do
+      post "/v1/new_club_applications/#{application.id + 1}/submit",
+        headers: auth_headers
+
+      expect(response.status).to eq(404)
+      expect(json).to include('error' => 'not found')
+    end
+
+    it 'returns validation errors when fields are missing' do
+      application.update_attributes(formation_registered: nil)
+
+      post "/v1/new_club_applications/#{application.id}/submit",
+        headers: auth_headers
+
+      expect(response.status).to eq(422)
+      expect(json['errors']).to include('formation_registered')
+    end
+
+    it 'fails when applicant profiles are not completed' do
+      profile.update_attributes(leader_name: nil)
+
+      post "/v1/new_club_applications/#{application.id}/submit",
+        headers: auth_headers
+
+      expect(response.status).to eq(422)
+      expect(
+        json['errors']['base']
+      ).to include('applicant profiles not complete')
+    end
+
+    it 'submits successfully when all fields are present' do
+      post "/v1/new_club_applications/#{application.id}/submit",
+        headers: auth_headers
+
+      expect(response.status).to eq(200)
+      expect(
+        Time.parse(json['submitted_at'])
+      ).to be_within(1.minute).of(Time.current)
     end
   end
 end

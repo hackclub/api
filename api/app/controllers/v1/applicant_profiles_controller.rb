@@ -24,6 +24,14 @@ module V1
         return render json: { error: 'access denied' }, status: 403
       end
 
+      if profile.submitted_at.present?
+        return render json: {
+          errors: {
+            base: ['cannot edit applicant profile after submit']
+          }
+        }, status: 422
+      end
+
       profile.update_attributes(applicant_profile_params)
 
       render json: profile, status: 200
