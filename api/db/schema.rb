@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171230000200) do
+ActiveRecord::Schema.define(version: 20171230090740) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,8 @@ ActiveRecord::Schema.define(version: 20171230000200) do
     t.text     "skills_impressive_achievement"
     t.boolean  "skills_is_technical"
     t.datetime "completed_at"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.index ["applicant_id"], name: "index_applicant_profiles_on_applicant_id", using: :btree
     t.index ["new_club_application_id"], name: "index_applicant_profiles_on_new_club_application_id", using: :btree
   end

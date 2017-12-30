@@ -4,6 +4,10 @@ require 'rails_helper'
 RSpec.describe ApplicantProfile, type: :model do
   ## db columns ##
 
+  # metadata
+  it { should have_db_column :created_at }
+  it { should have_db_column :updated_at }
+
   # relations
   it { should have_db_column :applicant_id }
   it { should have_db_column :new_club_application_id }
