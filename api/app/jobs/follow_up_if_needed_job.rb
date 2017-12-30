@@ -1,10 +1,11 @@
+# frozen_string_literal: true
 # Warning: This job will ignore follow-up times greater than 24 hours. Be aware
 # of this when scheduling follow ups.
 
 class FollowUpIfNeededJob < ApplicationJob
   queue_as :default
 
-  HACK_CLUB_TEAM_ID = 'T0266FRGM'.freeze
+  HACK_CLUB_TEAM_ID = 'T0266FRGM'
   FOLLOW_UP_WINDOW_START = 7.hours
   FOLLOW_UP_WINDOW_END = 19.hours
   # 7 AM to 7 PM is our window to follow up with people
@@ -32,7 +33,6 @@ class FollowUpIfNeededJob < ApplicationJob
     end
   end
 
-  # rubocop:disable Metrics/AbcSize
   def perform(interaction_id, last_state_name, last_message_timestamp,
               follow_up_interval, msgs_to_follow_up_with, tz_name = '')
     interaction = Hackbot::Interaction.find interaction_id
@@ -49,7 +49,6 @@ class FollowUpIfNeededJob < ApplicationJob
       .perform_later(interaction_id, last_state_name, last_message_timestamp,
                      follow_up_interval, msgs_to_follow_up_with)
   end
-  # rubocop:enable Metrics/AbcSize
 
   def send_follow_up(msg, channel)
     SlackClient::Chat.send_msg(channel, msg, access_token, as_user: true)

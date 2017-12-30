@@ -1,9 +1,10 @@
+# frozen_string_literal: true
 class RecordSlackStatsJob < ApplicationJob
   queue_as :default
 
-  SLACK_TEAM_ID = 'T0266FRGM'.freeze
-  SLACK_SUBDOMAIN = 'hackclub'.freeze
-  SLACK_URL = "https://#{SLACK_SUBDOMAIN}.slack.com".freeze
+  SLACK_TEAM_ID = 'T0266FRGM'
+  SLACK_SUBDOMAIN = 'hackclub'
+  SLACK_URL = "https://#{SLACK_SUBDOMAIN}.slack.com"
   SLACK_EMAIL = Rails.application.secrets.slack_admin_email
   SLACK_PASSWORD = Rails.application.secrets.slack_admin_password
 
@@ -24,8 +25,6 @@ class RecordSlackStatsJob < ApplicationJob
     crumb_value = Nokogiri::HTML(page_html).at_css(crumb_selector)[:value]
     crumb_value
   end
-
-  # rubocop:disable Metrics/MethodLength
   # rubocop:disable Style/SymbolProc
 
   # SymbolProc is disabled because RestClient throws errors on 302 responses
@@ -52,7 +51,6 @@ class RecordSlackStatsJob < ApplicationJob
     cookies
   end
   # rubocop:enable Style/SymbolProc
-  # rubocop:enable Metrics/MethodLength
 
   def slack_api_token
     # Slack embeds an API token in the JavaScript of their stats page that is
@@ -70,7 +68,6 @@ class RecordSlackStatsJob < ApplicationJob
     api_token
   end
 
-  # rubocop:disable Metrics/MethodLength
   def slack_stats
     @cookies ||= slack_auth_cookie
     @api_token ||= slack_api_token
@@ -92,5 +89,4 @@ class RecordSlackStatsJob < ApplicationJob
 
     stats
   end
-  # rubocop:enable Metrics/MethodLength
 end

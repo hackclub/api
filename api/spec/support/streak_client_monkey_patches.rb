@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # This file monkey patches StreakClient to make testing it easier.
 module StreakClient
   module Pipeline

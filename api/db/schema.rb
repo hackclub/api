@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171221065843) do
+ActiveRecord::Schema.define(version: 20171230091947) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,51 @@ ActiveRecord::Schema.define(version: 20171221065843) do
     t.text     "access_token"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+  end
+
+  create_table "applicant_profiles", force: :cascade do |t|
+    t.integer  "applicant_id"
+    t.integer  "new_club_application_id"
+    t.text     "leader_name"
+    t.text     "leader_email"
+    t.integer  "leader_year_in_school"
+    t.integer  "leader_gender"
+    t.integer  "leader_ethnicity"
+    t.text     "leader_phone_number"
+    t.text     "leader_address"
+    t.decimal  "leader_latitude"
+    t.decimal  "leader_longitude"
+    t.text     "leader_parsed_address"
+    t.text     "leader_parsed_city"
+    t.text     "leader_parsed_state"
+    t.text     "leader_parsed_state_code"
+    t.text     "leader_parsed_postal_code"
+    t.text     "leader_parsed_country"
+    t.text     "leader_parsed_country_code"
+    t.text     "presence_personal_website"
+    t.text     "presence_github_url"
+    t.text     "presence_linkedin_url"
+    t.text     "presence_facebook_url"
+    t.text     "presence_twitter_url"
+    t.text     "skills_system_hacked"
+    t.text     "skills_impressive_achievement"
+    t.boolean  "skills_is_technical"
+    t.datetime "completed_at"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.date     "leader_birthday"
+    t.index ["applicant_id"], name: "index_applicant_profiles_on_applicant_id", using: :btree
+    t.index ["new_club_application_id"], name: "index_applicant_profiles_on_new_club_application_id", using: :btree
+  end
+
+  create_table "applicants", force: :cascade do |t|
+    t.text     "email"
+    t.text     "login_code"
+    t.datetime "login_code_generation"
+    t.text     "auth_token"
+    t.datetime "auth_token_generation"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
   end
 
   create_table "athul_clubs", force: :cascade do |t|
@@ -222,6 +267,41 @@ ActiveRecord::Schema.define(version: 20171221065843) do
     t.index ["leader_id"], name: "index_net_promoter_score_surveys_on_leader_id", using: :btree
   end
 
+  create_table "new_club_applications", force: :cascade do |t|
+    t.text     "high_school_name"
+    t.text     "high_school_url"
+    t.integer  "high_school_type"
+    t.text     "high_school_address"
+    t.decimal  "high_school_latitude"
+    t.decimal  "high_school_longitude"
+    t.text     "high_school_parsed_address"
+    t.text     "high_school_parsed_city"
+    t.text     "high_school_parsed_state"
+    t.text     "high_school_parsed_state_code"
+    t.text     "high_school_parsed_postal_code"
+    t.text     "high_school_parsed_country"
+    t.text     "high_school_parsed_country_code"
+    t.text     "leaders_video_url"
+    t.text     "leaders_interesting_project"
+    t.text     "leaders_team_origin_story"
+    t.text     "progress_general"
+    t.text     "progress_student_interest"
+    t.text     "progress_meeting_yet"
+    t.text     "idea_why"
+    t.text     "idea_other_coding_clubs"
+    t.text     "idea_other_general_clubs"
+    t.text     "formation_registered"
+    t.text     "formation_misc"
+    t.text     "curious_what_convinced"
+    t.text     "curious_how_did_hear"
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.text     "other_surprising_or_amusing_discovery"
+    t.integer  "point_of_contact_id"
+    t.datetime "submitted_at"
+    t.index ["point_of_contact_id"], name: "index_new_club_applications_on_point_of_contact_id", using: :btree
+  end
+
   create_table "projects", force: :cascade do |t|
     t.text     "title"
     t.text     "description"
@@ -284,6 +364,7 @@ ActiveRecord::Schema.define(version: 20171221065843) do
   add_foreign_key "check_ins", "leaders"
   add_foreign_key "clubs", "leaders", column: "point_of_contact_id"
   add_foreign_key "net_promoter_score_surveys", "leaders"
+  add_foreign_key "new_club_applications", "applicants", column: "point_of_contact_id"
   add_foreign_key "slack_invite_strategies", "hackbot_teams"
   add_foreign_key "slack_invites", "hackbot_teams"
   add_foreign_key "slack_invites", "slack_invite_strategies"

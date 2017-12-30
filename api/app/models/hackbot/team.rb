@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Hackbot
   class Team < ApplicationRecord
     validates :team_id, :team_name, :bot_user_id, :bot_access_token,

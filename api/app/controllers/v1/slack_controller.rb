@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module V1
   class SlackController < ApplicationController
     def send_invite

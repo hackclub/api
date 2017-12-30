@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'open3'
 
 module Hackbot
@@ -5,12 +6,12 @@ module Hackbot
     class Ledger < Command
       TRIGGER = /ledger (?<args>.*)/
 
-      USAGE = 'ledger <command> <options> <arguments>'.freeze
+      USAGE = 'ledger <command> <options> <arguments>'
       DESCRIPTION = "run a report on Hack Club's finances (see docs on "\
-                    'ledger-cli.org for details)'.freeze
+                    'ledger-cli.org for details)'
 
-      GH_REPO = 'hackclub/ledger'.freeze
-      GH_FILE = 'main.ledger'.freeze
+      GH_REPO = 'hackclub/ledger'
+      GH_FILE = 'main.ledger'
 
       def start
         data['args'] = Shellwords.split(captured[:args])

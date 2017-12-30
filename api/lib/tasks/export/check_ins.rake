@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CheckInRecord
   attr_accessor :created_at, :check_in_creator_name, :meeting_date, :club_name,
                 :leader_names, :attendance, :notes

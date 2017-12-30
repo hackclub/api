@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module SlackClient
   module Oauth
     def self.access(client_id, client_secret, code, redirect_uri = nil)

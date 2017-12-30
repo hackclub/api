@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # Start check-ins with a single active point of contact through Hackbot.
 class LeaderCheckInJob < ApplicationJob
   queue_as :default

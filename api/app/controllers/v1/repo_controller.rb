@@ -1,6 +1,7 @@
+# frozen_string_literal: true
 module V1
   class RepoController < ApplicationController
-    ROOT_FILE_URI = 'v1/repo/'.freeze
+    ROOT_FILE_URI = 'v1/repo/'
     ROOT_PATH = Rails.application.secrets.repo_files_root
 
     def file

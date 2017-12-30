@@ -1,21 +1,16 @@
+# frozen_string_literal: true
 module Hackbot
   module Interactions
     class UpdateWorkshops < AdminCommand
-      REPO_TO_UPDATE = 'hackclub/monolith'.freeze
+      REPO_TO_UPDATE = 'hackclub/monolith'
 
       TRIGGER = /update-workshops/
 
-      USAGE = 'update-workshops'.freeze
+      USAGE = 'update-workshops'
       DESCRIPTION = 'submit a pull request to update submodules of '\
-                    "`#{REPO_TO_UPDATE}` (staff only)".freeze
+                    "`#{REPO_TO_UPDATE}` (staff only)"
 
-      # Disabling Metrics/AbcSize and Metrics/MethodLength because I'm having
-      # trouble figuring out a good way to make this method smaller while
-      # keeping it understandable.
-      #
-      # I feel like the current method is pretty understandable if you read it
-      # sequentially, so going to say this is okay for now.
-      def start # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+      def start
         fork = GithubClient.fork(REPO_TO_UPDATE)
         branches = GithubClient.branches(fork.full_name).pluck(:name)
 

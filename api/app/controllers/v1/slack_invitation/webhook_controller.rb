@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 module V1
   module SlackInvitation
     class WebhookController < ApplicationController
-      # rubocop:disable Metrics/MethodLength
       def create
         @invite = SlackInvite.find_by(token: invite_token)
         if @invite.nil?
@@ -21,7 +21,6 @@ module V1
 
         SlackSignUpJob.perform_now(@invite.id)
       end
-      # rubocop:enable Metrics/MethodLength
 
       private
 

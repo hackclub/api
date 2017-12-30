@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # You *must* specify versions for each dependency (this is a Hack Club
 # convention, not an actual technical requirement)
 source 'https://rubygems.org'
@@ -37,8 +38,8 @@ group :development, :test do
   gem 'byebug', platform: :mri
   gem 'database_cleaner', '~> 1.5', '>= 1.5.3'
   gem 'dotenv-rails', '~> 2.1', '>= 2.1.1'
+  gem 'email_spec', '~> 2.1', '>= 2.1.1'
   gem 'factory_bot_rails', '~> 4.7', '>= 4.7.0'
-  gem 'letter_opener', '~> 1.4.1'
   gem 'rspec-rails', '~> 3.5', '>= 3.5.2'
   gem 'vcr', '~> 3.0'
   gem 'webmock', '~> 2.1'

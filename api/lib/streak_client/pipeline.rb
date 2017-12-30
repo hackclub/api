@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module StreakClient
   module Pipeline
     def self.all

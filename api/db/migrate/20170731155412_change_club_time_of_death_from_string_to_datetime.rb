@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ChangeClubTimeOfDeathFromStringToDatetime < ActiveRecord::Migration[5.0]
   def change
     reversible do |change|

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class AthulClub < ApplicationRecord
   belongs_to :club, dependent: :destroy
   belongs_to :leader, dependent: :destroy
@@ -8,12 +9,9 @@ class AthulClub < ApplicationRecord
   validates :club, uniqueness: true
 
   before_create :init
-
-  # rubocop:disable Metrics/MethodLength
-  # rubocop:disable Metrics/AbcSize
   def init
-    club.stage_key = '5020'.freeze # Indian club stage
-    leader.stage_key = '5008'.freeze # Indian leader stage
+    club.stage_key = '5020' # Indian club stage
+    leader.stage_key = '5008' # Indian leader stage
 
     club.leaders << leader
     club.point_of_contact = leader
@@ -21,9 +19,9 @@ class AthulClub < ApplicationRecord
     letter = Letter.new(
       name: leader.name,
       # This is the type for club leaders
-      letter_type: '9002'.freeze,
+      letter_type: '9002',
       # This is the type for welcome letter + 3oz of stickers
-      what_to_send: '9005'.freeze,
+      what_to_send: '9005',
       address: leader.address
     )
 
@@ -36,8 +34,6 @@ class AthulClub < ApplicationRecord
     error_msg = 'error queuing stickers for leader'
     abort_with_error(error_msg) unless letter.save && (self.letter = letter)
   end
-  # rubocop:enable Metrics/AbcSize
-  # rubocop:enable Metrics/MethodLength
 
   private
 

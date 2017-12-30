@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module V1
   class AnalyticsController < ApplicationController
     SEGMENT_WRITE_KEY = Rails.application.secrets.segment_write_key

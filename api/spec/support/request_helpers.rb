@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Requests
   module RequestHelpers
     def json

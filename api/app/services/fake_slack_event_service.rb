@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class FakeSlackEventService
   def initialize(team, user_id, channel_id = nil, type = 'message',
                  message = nil)

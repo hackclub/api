@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # This file is copied to spec/ when you run "rails generate rspec:install"
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
@@ -9,6 +10,8 @@ require 'spec_helper'
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'webmock/rspec'
+require 'email_spec'
+require 'email_spec/rspec'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -37,6 +40,7 @@ RSpec.configure do |config|
 
   # Include our helpers
   config.include Requests::RequestHelpers, type: :request
+  config.include Controllers::ControllerHelpers, type: :controller
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
@@ -85,8 +89,10 @@ RSpec.configure do |config|
           'latitude'     => Faker::Address.latitude,
           'longitude'    => Faker::Address.longitude,
           'address'      => HCFaker::Address.full_address,
+          'city'         => Faker::Address.city,
           'state'        => Faker::Address.state,
           'state_code'   => Faker::Address.state_abbr,
+          'postal_code'  => Faker::Address.postcode,
           'country'      => Faker::Address.country,
           'country_code' => Faker::Address.country_code
         }

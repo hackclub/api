@@ -1,7 +1,6 @@
+# frozen_string_literal: true
 # rubocop:disable Metrics/ClassLength
 class SlackSignUpJob < ApplicationJob
-  # rubocop:disable Metrics/AbcSize
-  # rubocop:disable Metrics/MethodLength
   def perform(invite_id)
     @invite = SlackInvite.find invite_id
 
@@ -24,10 +23,7 @@ class SlackSignUpJob < ApplicationJob
 
     @invite.update(password: '')
   end
-  # rubocop:enable Metrics/AbcSize
-  # rubocop:enable Metrics/MethodLength
 
-  # rubocop:disable Metrics/MethodLength
   def sign_up
     RestClient.post(
       url_sign_up,
@@ -46,7 +42,6 @@ class SlackSignUpJob < ApplicationJob
       cookies: { 'b' => sign_up_crumb }
     )
   end
-  # rubocop:enable Metrics/MethodLength
 
   def set_user_pref(key, value)
     RestClient.post(
@@ -75,7 +70,6 @@ class SlackSignUpJob < ApplicationJob
     )
   end
 
-  # rubocop:disable Metrics/MethodLength
   def change_email
     RestClient.post(
       url_change_email,
@@ -94,9 +88,7 @@ class SlackSignUpJob < ApplicationJob
 
     e.response
   end
-  # rubocop:enable Metrics/MethodLength
 
-  # rubocop:disable Metrics/MethodLength
   def change_username
     RestClient.post(
       url_change_email,
@@ -114,9 +106,7 @@ class SlackSignUpJob < ApplicationJob
 
     e.response
   end
-  # rubocop:enable Metrics/MethodLength
 
-  # rubocop:disable Metrics/MethodLength
   def go_to_channel(channel_id)
     RestClient.post(
       url_conversations_read,
@@ -131,7 +121,6 @@ class SlackSignUpJob < ApplicationJob
       cookies: @jar
     )
   end
-  # rubocop:enable Metrics/MethodLength
 
   def join_user_groups
     admin_access_token = AdminUser.find_by(team: @invite.team.team_id)
@@ -165,7 +154,7 @@ class SlackSignUpJob < ApplicationJob
   end
 
   def url_change_email
-    "https://#{team_subdomain}.slack.com/account/settings".freeze
+    "https://#{team_subdomain}.slack.com/account/settings"
   end
 
   def team_subdomain

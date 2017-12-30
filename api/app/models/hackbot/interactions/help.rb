@@ -1,10 +1,11 @@
+# frozen_string_literal: true
 module Hackbot
   module Interactions
     class Help < Command
       TRIGGER = /help/
 
-      USAGE = 'help'.freeze
-      DESCRIPTION = 'list available commands'.freeze
+      USAGE = 'help'
+      DESCRIPTION = 'list available commands'
 
       def start
         sorted_cmds = cmds.sort { |a, b| a[:usage] <=> b[:usage] }

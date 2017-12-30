@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.shared_examples 'Streakable' do
@@ -150,7 +151,6 @@ RSpec.shared_examples 'Streakable' do
       )
   end
 
-  # rubocop:disable Metrics/MethodLength
   def expect_update_box_fields(streak_client_double:, model:, streak_key:,
                                attrs:)
     tmp_obj = model.new(attrs)
@@ -169,5 +169,4 @@ RSpec.shared_examples 'Streakable' do
         )
     end
   end
-  # rubocop:enable Metrics/MethodLength
 end

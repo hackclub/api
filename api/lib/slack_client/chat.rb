@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module SlackClient
   module Chat
     def self.open_im(user_id, access_token)

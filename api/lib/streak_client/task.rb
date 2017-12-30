@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module StreakClient
   module Task
     class << self
@@ -9,7 +10,6 @@ module StreakClient
         StreakClient.request(:get, "/v2/tasks/#{task_key}")
       end
 
-      # rubocop:disable Metrics/MethodLength
       def create(box_key, text, due_date: nil, assignees: [])
         StreakClient.request(
           :post, "/v2/boxes/#{box_key}/tasks", {
@@ -23,7 +23,6 @@ module StreakClient
           false  # json
         )
       end
-      # rubocop:enable Metrics/MethodLength
 
       def update(task_key, params)
         # If the user passes assignees to update, transform the given array of

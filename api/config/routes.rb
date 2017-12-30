@@ -1,4 +1,4 @@
-# rubocop:disable Metrics/BlockLength
+# frozen_string_literal: true
 Rails.application.routes.draw do
   namespace :v1 do
     get 'ping', to: 'ping#ping'
@@ -10,10 +10,27 @@ Rails.application.routes.draw do
     post 'cloud9/send_invite'
 
     resources :clubs, only: [:index, :show]
-    resources :club_applications, only: [:create]
     resources :athul_clubs, only: [:create]
     resources :tech_domain_redemptions, only: [:create]
     resources :donations, only: [:create]
+
+    resources :club_applications, only: [:create]
+    resources :new_club_applications, only: [:show, :update] do
+      post 'add_applicant'
+      post 'submit'
+    end
+
+    resources :applicant_profiles, only: [:show, :update]
+
+    resources :applicants, except: :all do
+      collection do
+        post 'auth'
+      end
+
+      post 'exchange_login_code'
+
+      resources :new_club_applications, only: [:index, :create]
+    end
 
     namespace :home do
       resources :slack_users, only: [:index]
@@ -41,4 +58,3 @@ Rails.application.routes.draw do
     end
   end
 end
-# rubocop:enable Metrics/BlockLength

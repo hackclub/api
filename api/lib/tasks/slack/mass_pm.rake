@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class MassPmer
   def initialize(access_token, usernames = [])
     @access_token = access_token

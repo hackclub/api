@@ -1,8 +1,9 @@
+# frozen_string_literal: true
 # rubocop:disable Metrics/ClassLength
 class CollectProjectsShippedJob < ApplicationJob
   CLOUD9_TEAM = Rails.application.secrets.cloud9_team_name
 
-  GITHUB_API_ROOT = 'https://api.github.com'.freeze
+  GITHUB_API_ROOT = 'https://api.github.com'
   GITHUB_ACCESS_TOKEN = Rails.application.secrets.github_bot_access_token
 
   def perform
@@ -70,8 +71,6 @@ class CollectProjectsShippedJob < ApplicationJob
     scmurl.end_with? '.github.io'
   end
 
-  # rubocop:disable Metrics/MethodLength
-  # rubocop:disable Metrics/AbcSize
   def github_workshops(repo)
     info = github_info_from_url(repo['git_url'])
 
@@ -96,8 +95,6 @@ class CollectProjectsShippedJob < ApplicationJob
     end
             .reject(&:nil?)
   end
-  # rubocop:enable Metrics/MethodLength
-  # rubocop:enable Metrics/AbcSize
 
   def github_projects_from_repos(repos)
     repos.map do |repo|
@@ -132,8 +129,6 @@ class CollectProjectsShippedJob < ApplicationJob
     github_url_repo(scmurl).end_with? '.github.io'
   end
 
-  # rubocop:disable Metrics/MethodLength
-  # rubocop:disable Metrics/AbcSize
   def cloud9_workshop_projects(ws)
     info = github_info_from_url(ws[:scmurl])
 
@@ -158,8 +153,6 @@ class CollectProjectsShippedJob < ApplicationJob
     end
             .reject(&:nil?)
   end
-  # rubocop:enable Metrics/MethodLength
-  # rubocop:enable Metrics/AbcSize
 
   def cloud9_scm_project?(workspace)
     !workspace[:scmurl].empty?
@@ -183,7 +176,6 @@ class CollectProjectsShippedJob < ApplicationJob
     m ? m[1] : ''
   end
 
-  # rubocop:disable Metrics/MethodLength
   def github_info_from_url(url)
     m = %r{github\.com\/(.*)\/(.*)?$}.match(url)
 
@@ -202,7 +194,6 @@ class CollectProjectsShippedJob < ApplicationJob
       git_url: "https://github.com/#{username}/#{repo}.git"
     }
   end
-  # rubocop:enable Metrics/MethodLength
 
   def github_api_request(path, headers = {})
     headers = { accept: 'application/vnd.github.v3+json',

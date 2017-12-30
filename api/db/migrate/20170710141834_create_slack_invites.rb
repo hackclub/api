@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CreateSlackInvites < ActiveRecord::Migration[5.0]
   def change
     create_table :slack_invites do |t|

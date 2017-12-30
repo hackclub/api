@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Letter < ApplicationRecord
   include Streakable
 
@@ -37,6 +38,6 @@ class Letter < ApplicationRecord
   before_destroy do
     # Remove them from any associated AthulClubs
     a = AthulClub.find_by(letter_id: id)
-    a.update_attributes!(letter_id: nil) unless a.nil?
+    a&.update_attributes!(letter_id: nil)
   end
 end

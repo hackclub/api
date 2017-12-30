@@ -1,10 +1,11 @@
+# frozen_string_literal: true
 module Hackbot
   module Interactions
     class Notify < Hackbot::Interactions::Command
       TRIGGER = /notify (?<message>.*)/
 
-      USAGE = 'notify <message>'.freeze
-      DESCRIPTION = 'Send a notification to an entire channel'.freeze
+      USAGE = 'notify <message>'
+      DESCRIPTION = 'Send a notification to an entire channel'
 
       def start
         message = captured[:message]
@@ -16,8 +17,6 @@ module Hackbot
         :wait_for_should_send
       end
 
-      # rubocop:disable Metrics/MethodLength
-      # rubocop:disable Metrics/AbcSize
       def wait_for_should_send
         return :wait_for_should_send unless action &&
                                             data['user'] == event[:user]
@@ -37,8 +36,6 @@ module Hackbot
           :wait_for_should_send
         end
       end
-      # rubocop:enable Metrics/MethodLength
-      # rubocop:enable Metrics/AbcSize
 
       private
 
@@ -50,7 +47,6 @@ module Hackbot
         end
       end
 
-      # rubocop:disable Metrics/MethodLength
       def notify(from, to, message)
         send_msg(
           to,
@@ -64,7 +60,6 @@ module Hackbot
           ]
         )
       end
-      # rubocop:enable Metrics/MethodLength
 
       def slack_ids_of_channel(id)
         SlackClient::Channels.info(id, access_token)[:channel][:members]

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # Resources
 require 'cloud9_client/auth'
 require 'cloud9_client/team'
@@ -16,7 +17,6 @@ module Cloud9Client
       @api_base + url
     end
 
-    # rubocop:disable Metrics/MethodLength
     def request(method, path, params = {}, headers = {})
       payload = nil
 
@@ -37,7 +37,6 @@ module Cloud9Client
 
       JSON.parse(resp, symbolize_names: true)
     end
-    # rubocop:enable Metrics/MethodLength
 
     def custom_request(method, url, payload = nil, params = {}, headers = {},
                        cookies = {}, use_default_headers = true)
@@ -65,7 +64,7 @@ module Cloud9Client
     # right? ;-)
     USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) '\
                  'AppleWebKit/537.36 (KHTML, like Gecko) '\
-                 'Chrome/53.0.2785.143 Safari/537.36'.freeze
+                 'Chrome/53.0.2785.143 Safari/537.36'
     def default_headers
       {
         'Pragma' => 'no-cache',

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # rubocop:disable Metrics/ClassLength
 class Leader < ApplicationRecord
   include Streakable
@@ -71,7 +72,7 @@ class Leader < ApplicationRecord
 
     # Remove them from any associated AthulClubs
     a = AthulClub.find_by(leader_id: id)
-    a.update_attributes!(leader_id: nil) unless a.nil?
+    a&.update_attributes!(leader_id: nil)
   end
 
   validates :name, presence: true

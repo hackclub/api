@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # DotTechClient provides a convenient way to submit requests for .TECH domains.
 #
 # For most partnerships, .TECH requires users to go to their website and go
@@ -6,8 +7,8 @@
 # redeeming domains.
 module DotTechClient
   class << self
-    BASE_URL = 'http://get.tech'.freeze
-    USER_AGENT = 'Hack Club API'.freeze
+    BASE_URL = 'http://get.tech'
+    USER_AGENT = 'Hack Club API'
 
     # .TECH uses some sort of form generator on their site and these parameters
     # are included on every manual request for a new .TECH domain.
@@ -21,7 +22,7 @@ module DotTechClient
       iphorm_6_0: ''
     }.freeze
 
-    COMPANY_NAME = 'Hack Club'.freeze
+    COMPANY_NAME = 'Hack Club'
 
     def request_domain(person_name, person_email, requested_domain)
       params = DEFAULT_FORM_DATA.merge(

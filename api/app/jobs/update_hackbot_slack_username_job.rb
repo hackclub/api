@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class UpdateHackbotSlackUsernameJob < ApplicationJob
   queue_as :default
 

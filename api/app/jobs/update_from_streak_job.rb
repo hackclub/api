@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class UpdateFromStreakJob < ApplicationJob
   queue_as :default
 
@@ -12,7 +13,7 @@ class UpdateFromStreakJob < ApplicationJob
   # Just a quick note, we're going to temporarily disable basic complexity
   # checks from Rubocop for now because this method is going to need a real
   # refactor at some point to implement Streak's V2 API.
-  def sync # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+  def sync
     streakable_models = ActiveRecord::Base.descendants.select do |model|
       model.included_modules.include? Streakable
     end
@@ -20,7 +21,7 @@ class UpdateFromStreakJob < ApplicationJob
     records_to_destroy = {}
     relationships_to_create = {}
 
-    streakable_models.each do |model| # rubocop:disable Metrics/BlockLength
+    streakable_models.each do |model|
       model_boxes = StreakClient::Box.all_in_pipeline(model.pipeline_key)
 
       records_to_destroy[model] = model.ids

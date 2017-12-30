@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Charts
   class << self
     def as_file(g)

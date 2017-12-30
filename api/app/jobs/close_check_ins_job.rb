@@ -1,7 +1,8 @@
+# frozen_string_literal: true
 class CloseCheckInsJob < ApplicationJob
   queue_as :default
 
-  SLACK_TEAM_ID = 'T0266FRGM'.freeze
+  SLACK_TEAM_ID = 'T0266FRGM'
 
   def perform(interaction_ids = nil)
     interactions = if interaction_ids

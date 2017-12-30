@@ -1,9 +1,10 @@
+# frozen_string_literal: true
 class SlackInvite < ApplicationRecord
-  STATE_INVITED = 'invited'.freeze
-  STATE_INVITE_RECEIVED = 'invite_received'.freeze
-  STATE_SIGNED_UP = 'signed_up'.freeze
-  STATE_CONFIGURED_CLIENT = 'configured_client'.freeze
-  STATE_EMAIL_CHANGED = 'changed_email'.freeze
+  STATE_INVITED = 'invited'
+  STATE_INVITE_RECEIVED = 'invite_received'
+  STATE_SIGNED_UP = 'signed_up'
+  STATE_CONFIGURED_CLIENT = 'configured_client'
+  STATE_EMAIL_CHANGED = 'changed_email'
 
   TOKEN_LENGTH = 6
 

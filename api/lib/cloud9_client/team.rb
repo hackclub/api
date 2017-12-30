@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Cloud9Client
   module Team
     def self.members(team_name)

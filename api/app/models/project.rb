@@ -1,6 +1,7 @@
+# frozen_string_literal: true
 class Project < ApplicationRecord
-  NOT_UNIQUE_MESSAGE = 'This project already exists'.freeze
-  UNKNOWN_PROJECT_SOURCE_MESSAGE = 'This project type does not exist'.freeze
+  NOT_UNIQUE_MESSAGE = 'This project already exists'
+  UNKNOWN_PROJECT_SOURCE_MESSAGE = 'This project type does not exist'
 
   validates :title, :data, presence: true
 
@@ -18,8 +19,6 @@ class Project < ApplicationRecord
   private
 
   # rubocop:disable Metrics/PerceivedComplexity
-  # rubocop:disable Metrics/AbcSize
-  # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/CyclomaticComplexity
   def unique?
     res = if github_workshop?
@@ -49,7 +48,5 @@ class Project < ApplicationRecord
     throw :abort
   end
   # rubocop:enable Metrics/PerceivedComplexity
-  # rubocop:enable Metrics/AbcSize
-  # rubocop:enable Metrics/MethodLength
   # rubocop:enable Metrics/CyclomaticComplexity
 end

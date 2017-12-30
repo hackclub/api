@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module V1
   class Cloud9Controller < ApplicationController
     def send_invite

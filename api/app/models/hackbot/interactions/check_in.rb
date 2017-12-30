@@ -1,4 +1,5 @@
 # coding: utf-8
+# frozen_string_literal: true
 
 # A few Rubocop cops are disabled in this file because it's pending a refactor.
 # See https://github.com/hackclub/api/issues/25.
@@ -15,15 +16,14 @@ module Hackbot
         false
       end
 
-      # rubocop:disable Metrics/MethodLength
-      # rubocop:disable Metrics/LineLength
-      # rubocop:disable Metrics/AbcSize
       def start
         first_name = leader.name.split(' ').first
         flavor_text = copy('greeting.flavor_text')
         deadline = formatted_deadline leader
         key = 'greeting.' + (first_check_in? ? 'if_first_check_in' : 'default')
-        key = 'greeting.if_first_check_in_of_semester' if first_check_in_of_semester
+        if first_check_in_of_semester
+          key = 'greeting.if_first_check_in_of_semester'
+        end
         key = 'greeting.restart' if @restart
         actions = []
 
@@ -54,12 +54,8 @@ module Hackbot
 
         :wait_for_meeting_confirmation
       end
-      # rubocop:enable Metrics/MethodLength
-      # rubocop:enable Metrics/AbcSize
-      # rubocop:enable Metrics/LineLength
 
-      # rubocop:disable Metrics/MethodLength
-      # rubocop:disable Metrics/AbcSize
+      # rubocop:enable Metrics/LineLength
       def wait_for_is_dormant
         return :wait_for_is_dormant unless action
 
@@ -83,10 +79,7 @@ module Hackbot
           :wait_for_is_dormant
         end
       end
-      # rubocop:enable Metrics/MethodLength
-      # rubocop:enable Metrics/AbcSize
 
-      # rubocop:disable Metrics/MethodLength
       def wait_for_resurrection_date
         return :wait_for_is_dormant unless msg
 
@@ -108,10 +101,7 @@ module Hackbot
         default_follow_up 'wait_for_submit_confirmation'
         :wait_for_submit_confirmation
       end
-      # rubocop:enable Metrics/MethodLength
 
-      # rubocop:disable Metrics/MethodLength
-      # rubocop:disable Metrics/AbcSize
       def wait_for_meeting_confirmation
         return :wait_for_meeting_confirmation unless action
 
@@ -157,8 +147,6 @@ module Hackbot
           :wait_for_meeting_confirmation
         end
       end
-      # rubocop:enable Metrics/AbcSize
-      # rubocop:enable Metrics/MethodLength
 
       def wait_for_no_meeting_reason
         data['no_meeting_reason'] = msg
@@ -176,7 +164,6 @@ module Hackbot
         end
       end
 
-      # rubocop:disable Metrics/MethodLength
       def wait_for_meeting_in_the_future
         case msg
         when Hackbot::Utterances.yes
@@ -200,7 +187,6 @@ module Hackbot
           :wait_for_meeting_in_the_future
         end
       end
-      # rubocop:enable Metrics/MethodLength
 
       def wait_for_help
         return :wait_for_help unless msg
@@ -216,7 +202,6 @@ module Hackbot
         :wait_for_submit_confirmation
       end
 
-      # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
       def wait_for_day_of_week
         return :wait_for_day_of_week unless msg
 
@@ -243,11 +228,8 @@ module Hackbot
         default_follow_up 'wait_for_attendance'
         :wait_for_attendance
       end
-      # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
 
       # rubocop:disable Metrics/CyclomaticComplexity,
-      # rubocop:disable Metrics/MethodLength
-      # rubocop:disable Metrics/AbcSize
       def wait_for_attendance
         return :wait_for_attendance unless msg
 
@@ -260,7 +242,7 @@ module Hackbot
 
         count = msg.to_i
 
-        if count < 0
+        if count.negative?
           msg_channel copy('attendance.not_realistic.negative')
 
           default_follow_up 'wait_for_attendance'
@@ -304,11 +286,8 @@ module Hackbot
         default_follow_up 'wait_for_notes_confirmation'
         :wait_for_notes_confirmation
       end
-      # rubocop:enable Metrics/AbcSize
-      # rubocop:enable Metrics/CyclomaticComplexity
-      # rubocop:enable Metrics/MethodLength
 
-      # rubocop:disable Metrics/MethodLength
+      # rubocop:enable Metrics/CyclomaticComplexity
       def wait_for_notes_confirmation
         return :wait_for_notes_confirmation unless action
 
@@ -328,7 +307,6 @@ module Hackbot
           :wait_for_submit_confirmation
         end
       end
-      # rubocop:enable Metrics/MethodLength
 
       def wait_for_notes
         return :wait_for_notes unless msg
@@ -342,7 +320,6 @@ module Hackbot
         :wait_for_submit_confirmation
       end
 
-      # rubocop:disable Metrics/MethodLength
       def wait_for_submit_confirmation
         return :wait_for_submit_confirmation unless action
 
@@ -363,10 +340,7 @@ module Hackbot
           :wait_for_submit_confirmation
         end
       end
-      # rubocop:enable Metrics/MethodLength
 
-      # rubocop:disable Metrics/MethodLength
-      # rubocop:disable Metrics/AbcSize
       # rubocop:disable Metrics/CyclomaticComplexity
       # rubocop:disable Metrics/PerceivedComplexity
       def prompt_for_submit
@@ -409,8 +383,6 @@ module Hackbot
           ]
         )
       end
-      # rubocop:enable Metrics/MethodLength
-      # rubocop:enable Metrics/AbcSize
       # rubocop:enable Metrics/CyclomaticComplexity
       # rubocop:enable Metrics/PerceivedComplexity
 
@@ -436,7 +408,6 @@ module Hackbot
         start
       end
 
-      # rubocop:disable Metrics/MethodLength
       def submit_check_in
         task_description = data['notes'] || data['no_meeting_reason']
 
@@ -454,7 +425,6 @@ module Hackbot
         generate_check_in
         send_attendance_stats
       end
-      # rubocop:enable Metrics/MethodLength
 
       def send_consecutive_check_in_msg
         count = consecutive_check_ins_count
@@ -498,7 +468,6 @@ module Hackbot
         count
       end
 
-      # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/CyclomaticComplexity
       def formatted_deadline(lead)
         timezone = lead.timezone || Timezone.fetch('America/Los_Angeles')
@@ -523,7 +492,6 @@ module Hackbot
         end
       end
       # rubocop:enable Metrics/CyclomaticComplexity
-      # rubocop:enable Metrics/MethodLength
 
       def previous_meeting_day
         last_check_in = ::CheckIn.where(leader: leader)
