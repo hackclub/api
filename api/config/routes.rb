@@ -14,19 +14,11 @@ Rails.application.routes.draw do
     resources :tech_domain_redemptions, only: [:create]
     resources :donations, only: [:create]
 
-    # temporarily disable for max's development, will set up
-    # :new_club_applications to point here
+    resources :club_applications, only: [:create]
     resources :new_club_applications, only: [:show, :update] do
       post 'add_applicant'
       post 'submit'
     end
-
-    resources :new_club_applications, path: 'club_applications',
-                                      only: [:show, :update] do
-      post 'add_applicant'
-      post 'submit'
-    end
-    # resources :club_applications, only: [:create]
 
     resources :applicant_profiles, only: [:show, :update]
 
@@ -38,11 +30,6 @@ Rails.application.routes.draw do
       post 'exchange_login_code'
 
       resources :new_club_applications, only: [:index, :create]
-
-      # temporary alias for max's development
-      resources :new_club_applications,
-                path: 'club_applications',
-                only: [:index, :create]
     end
 
     namespace :home do
