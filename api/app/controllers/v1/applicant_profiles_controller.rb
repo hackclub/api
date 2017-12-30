@@ -43,7 +43,7 @@ module V1
       params.permit(
         :leader_name,
         :leader_email,
-        :leader_age,
+        :leader_birthday,
         :leader_year_in_school,
         :leader_gender,
         :leader_ethnicity,

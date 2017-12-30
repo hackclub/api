@@ -15,7 +15,7 @@ RSpec.describe ApplicantProfile, type: :model do
   # leader
   it { should have_db_column :leader_name }
   it { should have_db_column :leader_email }
-  it { should have_db_column :leader_age }
+  it { should have_db_column :leader_birthday }
   it { should have_db_column :leader_year_in_school }
   it { should have_db_column :leader_gender }
   it { should have_db_column :leader_ethnicity }

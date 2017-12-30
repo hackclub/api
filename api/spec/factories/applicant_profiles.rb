@@ -13,7 +13,7 @@ FactoryBot.define do
       # leader fields
       leader_name { Faker::Name.name }
       leader_email { Faker::Internet.email }
-      leader_age { [14..18].sample }
+      leader_birthday { Time.zone.today - rand(14..18).years }
       leader_year_in_school { :freshman }
       leader_gender { :female }
       leader_ethnicity { :hispanic_or_latino }

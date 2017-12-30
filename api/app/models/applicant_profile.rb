@@ -44,7 +44,7 @@ class ApplicantProfile < ApplicationRecord
                 country_code: :leader_parsed_country_code
 
   REQUIRED_FOR_COMPLETION = [
-    :leader_name, :leader_email, :leader_age, :leader_year_in_school,
+    :leader_name, :leader_email, :leader_birthday, :leader_year_in_school,
     :leader_gender, :leader_ethnicity, :leader_phone_number, :leader_address,
     :skills_system_hacked, :skills_impressive_achievement, :skills_is_technical
   ].freeze

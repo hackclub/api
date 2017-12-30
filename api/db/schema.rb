@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171230090740) do
+ActiveRecord::Schema.define(version: 20171230091947) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,7 +28,6 @@ ActiveRecord::Schema.define(version: 20171230090740) do
     t.integer  "new_club_application_id"
     t.text     "leader_name"
     t.text     "leader_email"
-    t.text     "leader_age"
     t.integer  "leader_year_in_school"
     t.integer  "leader_gender"
     t.integer  "leader_ethnicity"
@@ -54,6 +53,7 @@ ActiveRecord::Schema.define(version: 20171230090740) do
     t.datetime "completed_at"
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
+    t.date     "leader_birthday"
     t.index ["applicant_id"], name: "index_applicant_profiles_on_applicant_id", using: :btree
     t.index ["new_club_application_id"], name: "index_applicant_profiles_on_new_club_application_id", using: :btree
   end
