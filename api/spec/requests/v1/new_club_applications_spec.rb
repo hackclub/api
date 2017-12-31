@@ -339,6 +339,128 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
     end
   end
 
+  describe 'DELETE /v1/new_club_applications/:id/remove_applicant' do
+    let(:application) { create(:completed_new_club_application) }
+
+    before do
+      create(:completed_applicant_profile, applicant: applicant,
+                                           new_club_application: application)
+      application.update_attributes(point_of_contact: applicant)
+    end
+
+    it 'requires authentication' do
+      delete "/v1/new_club_applications/#{application.id}/remove_applicant",
+             params: { applicant_id: applicant.id }
+
+      expect(response.status).to eq(401)
+    end
+
+    it '404s when application does not exist' do
+      delete "/v1/new_club_applications/#{application.id + 1}/remove_applicant",
+             headers: auth_headers,
+             params: { applicant_id: applicant.id }
+
+      expect(response.status).to eq(404)
+      expect(json['error']).to eq('not found')
+    end
+
+    it 'fails to delete from club applications of other applicants' do
+      other_app = create(:new_club_application)
+      other_applicant = create(:applicant)
+
+      other_app.applicants << other_applicant
+
+      delete "/v1/new_club_applications/#{other_app.id}/remove_applicant",
+             headers: auth_headers,
+             params: { applicant_id: other_applicant.id }
+
+      expect(response.status).to eq(403)
+      expect(json['error']).to eq('access denied')
+    end
+
+    it 'fails to delete if not point of contact' do
+      application.update_attributes(point_of_contact: nil)
+      other_applicant = create(:applicant, new_club_applications: [application])
+
+      delete "/v1/new_club_applications/#{application.id}/remove_applicant",
+             headers: auth_headers,
+             params: { applicant_id: other_applicant.id }
+
+      expect(response.status).to eq(403)
+      expect(json['error']).to eq('access denied')
+    end
+
+    it 'fails to delete self' do
+      delete "/v1/new_club_applications/#{application.id}/remove_applicant",
+             headers: auth_headers,
+             params: { applicant_id: applicant.id }
+
+      expect(response.status).to eq(422)
+      expect(json['errors']['applicant_id']).to include('cannot remove self')
+    end
+
+    it '404s when applicant does not exist' do
+      delete "/v1/new_club_applications/#{application.id}/remove_applicant",
+             headers: auth_headers,
+             params: { applicant_id: applicant.id + 100 }
+
+      expect(response.status).to eq(404)
+      expect(json['error']).to eq('not found')
+    end
+
+    it 'fails to delete applicants already deleted' do
+      other_applicant = create(:applicant, new_club_applications: [application])
+
+      2.times do
+        delete "/v1/new_club_applications/#{application.id}/remove_applicant",
+               headers: auth_headers,
+               params: { applicant_id: other_applicant.id }
+      end
+
+      expect(response.status).to eq(422)
+      expect(
+        json['errors']['applicant_id']
+      ).to include('not added to application')
+    end
+
+    it 'fails to delete applicant when application is submitted' do
+      application.submit!
+
+      delete "/v1/new_club_applications/#{application.id}/remove_applicant",
+             headers: auth_headers,
+             params: { applicant_id: application.applicants.last.id }
+
+      expect(response.status).to eq(422)
+      expect(
+        json['errors']['base']
+      ).to include('cannot edit application after submit')
+    end
+
+    it 'successfully deletes if point of contact' do
+      delete "/v1/new_club_applications/#{application.id}/remove_applicant",
+             headers: auth_headers,
+             params: { applicant_id: application.applicants.last.id }
+
+      expect(response.status).to eq(200)
+      expect(json).to include('success' => true)
+    end
+
+    it 'preserves profile data on deletion' do
+      to_delete = application.applicants.last
+
+      delete "/v1/new_club_applications/#{application.id}/remove_applicant",
+             headers: auth_headers,
+             params: { applicant_id: to_delete.id }
+
+      deleted_profile = ApplicantProfile.with_deleted.find_by(
+        applicant: applicant,
+        new_club_application: application
+      )
+
+      expect(deleted_profile).to_not be_nil
+    end
+  end
+
   describe 'POST /v1/new_club_applications/:id/submit' do
     let(:application) do
       create(:completed_new_club_application,

@@ -75,6 +75,43 @@ module V1
       render json: { success: true }, status: 200
     end
 
+    def remove_applicant
+      app = NewClubApplication.find_by(id: params[:new_club_application_id])
+      to_remove = Applicant.find_by(id: params[:applicant_id])
+
+      return render json: { error: 'not found' }, status: 404 unless app
+      return render json: { error: 'not found' }, status: 404 unless to_remove
+
+      unless app.applicants.include? @applicant
+        return render json: { error: 'access denied' }, status: 403
+      end
+
+      unless app.point_of_contact == @applicant
+        return render json: { error: 'access denied' }, status: 403
+      end
+
+      if app.submitted_at.present?
+        return render json: {
+          errors: { base: 'cannot edit application after submit' }
+        }, status: 422
+      end
+
+      if to_remove == @applicant
+        return render json: {
+          errors: { applicant_id: 'cannot remove self' }
+        }, status: 422
+      end
+
+      unless app.applicants.include? to_remove
+        return render json: {
+          errors: { applicant_id: 'not added to application' }
+        }, status: 422
+      end
+
+      app.applicants.delete(to_remove)
+      render json: { success: true }, status: 200
+    end
+
     def submit
       app = NewClubApplication.find_by(id: params[:new_club_application_id])
 
