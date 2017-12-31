@@ -49,6 +49,14 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       expect(response.status).to eq(201)
       expect(json).to include('id', 'created_at', 'updated_at')
     end
+
+    it 'sets the point of contact to the applicant' do
+      post "/v1/applicants/#{applicant.id}/new_club_applications",
+           headers: auth_headers
+
+      expect(response.status).to eq(201)
+      expect(json).to include('point_of_contact_id' => applicant.id)
+    end
   end
 
   describe 'GET /v1/new_club_applications/:id' do
