@@ -41,8 +41,6 @@ class NewClubApplication < ApplicationRecord
                           :idea_other_general_clubs,
                           :formation_registered,
                           :other_surprising_or_amusing_discovery,
-                          :curious_what_convinced,
-                          :curious_how_did_hear,
                           :point_of_contact,
                           presence: true
 
