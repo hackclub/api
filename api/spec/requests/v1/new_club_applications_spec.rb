@@ -307,6 +307,28 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       expect(ApplicantMailer.deliveries.length).to be(1)
     end
 
+    it 'rehydrates applicant profile when one was previously deleted' do
+      to_readd = create(:applicant)
+      to_rehydrate = create(:applicant_profile,
+                            applicant: to_readd,
+                            new_club_application: club_application)
+      to_rehydrate.update_attributes(leader_name: 'Jerry')
+      to_rehydrate.destroy
+
+      post "/v1/new_club_applications/#{club_application.id}/add_applicant",
+           headers: auth_headers,
+           params: { email: to_readd.email }
+
+      # request successful
+      expect(response.status).to eq(200)
+
+      # successfully rehydrated
+      expect(ApplicantProfile.find_by(
+        applicant: to_readd,
+        new_club_application: club_application
+      ).leader_name).to eq('Jerry')
+    end
+
     it 'fails when applicant has already been added' do
       new_applicant = create(:applicant)
       club_application.applicants << new_applicant

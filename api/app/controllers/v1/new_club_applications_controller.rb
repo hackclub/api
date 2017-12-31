@@ -67,7 +67,12 @@ module V1
                       status: 422
       end
 
-      app.applicants << to_add
+      profile = ApplicantProfile.with_deleted.find_or_create_by(
+        applicant: to_add,
+        new_club_application: app
+      )
+
+      profile.restore if profile.deleted?
 
       ApplicantMailer.added_to_application(app, to_add, @applicant)
                      .deliver_later
