@@ -31,7 +31,11 @@ Metrics/ParameterLists:
 
 # Disable check for cyclomatic complexity. While we'll certainly have to
 # refactor our code as we code, it's just a nuisance right now.
-Metrics/Style/CyclomaticComplexity:
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+# Same deal as above, except for perceived complexity.
+Metrics/PerceivedComplexity:
   Enabled: false
 
 # Don't worry about having top-level class documentation comments for every

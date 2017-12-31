@@ -338,7 +338,6 @@ module Hackbot
         end
       end
 
-      # rubocop:disable Metrics/PerceivedComplexity
       def prompt_for_submit
         # This chunk is a hack to only display certain fields of the data hash
         # (ex. cut out "channel") and convert each field to a human readable
@@ -379,7 +378,6 @@ module Hackbot
           ]
         )
       end
-      # rubocop:enable Metrics/PerceivedComplexity
 
       def generate_check_in
         ::CheckIn.create!(

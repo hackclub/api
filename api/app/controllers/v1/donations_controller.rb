@@ -2,7 +2,6 @@
 module V1
   class DonationsController < ApplicationController
     PUBLISHABLE_KEY = Rails.application.secrets.stripe_publishable_key
-    # rubocop:disable Metrics/PerceivedComplexity
     def create
       @amount = 0
 
@@ -88,7 +87,6 @@ module V1
         )
       end
     end
-    # rubocop:enable Metrics/PerceivedComplexity
 
     # Formats amount for display. Example: converts 1523 to $15.23.
     def format_amount(amount)

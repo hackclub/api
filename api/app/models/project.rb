@@ -18,7 +18,6 @@ class Project < ApplicationRecord
 
   private
 
-  # rubocop:disable Metrics/PerceivedComplexity
   def unique?
     res = if github_workshop?
             Project.where(local_dir: local_dir)
@@ -46,5 +45,4 @@ class Project < ApplicationRecord
 
     throw :abort
   end
-  # rubocop:enable Metrics/PerceivedComplexity
 end
