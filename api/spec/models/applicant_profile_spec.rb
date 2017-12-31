@@ -65,6 +65,16 @@ RSpec.describe ApplicantProfile, type: :model do
   it { should belong_to :applicant }
   it { should belong_to :new_club_application }
 
+  it 'should prefill email with applicant info' do
+    # when email is not set, prefill
+    profile = create(:applicant_profile)
+    expect(profile.leader_email).to eq(profile.applicant.email)
+
+    # when email is set, do not overwrite it
+    profile = create(:applicant_profile, leader_email: 'foo@bar.com')
+    expect(profile.leader_email).to eq('foo@bar.com')
+  end
+
   describe 'completed_at autosetting / unsetting' do
     let(:unsaved_profile) { build(:completed_applicant_profile) }
     let(:profile) { unsaved_profile.save && unsaved_profile }

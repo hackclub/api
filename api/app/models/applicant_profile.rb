@@ -52,8 +52,13 @@ class ApplicantProfile < ApplicationRecord
     :skills_system_hacked, :skills_impressive_achievement, :skills_is_technical
   ].freeze
 
+  before_create :prefill_leader_email, if: 'leader_email.blank?'
   before_save :update_completion_status
   validate :make_immutable, if: 'submitted_at.present?'
+
+  def prefill_leader_email
+    self.leader_email = applicant.email
+  end
 
   # automatically set or unset completed_at if all REQUIRED_FOR_COMPLETION
   # fields are set (or not set)
