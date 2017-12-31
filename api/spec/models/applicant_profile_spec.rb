@@ -57,6 +57,7 @@ RSpec.describe ApplicantProfile, type: :model do
 
   it { should validate_presence_of :applicant }
   it { should validate_presence_of :new_club_application }
+  it { should validate_email_format_of :leader_email }
 
   it_behaves_like 'Geocodeable'
 
