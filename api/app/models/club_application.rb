@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-# rubocop:disable Metrics/ClassLength
 class ClubApplication < ApplicationRecord
   include Streakable
 
@@ -130,4 +129,3 @@ class ClubApplication < ApplicationRecord
     YEARS.select { |_, v| v == year }.first[0]
   end
 end
-# rubocop:enable Metrics/ClassLength

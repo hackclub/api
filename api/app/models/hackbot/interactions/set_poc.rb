@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 module Hackbot
   module Interactions
-    # rubocop:disable Metrics/ClassLength
     class SetPoc < AdminCommand
       TRIGGER = /set-poc ?(?<streak_key>.+)/
 
@@ -164,6 +163,5 @@ module Hackbot
         text.split(' ').last
       end
     end
-    # rubocop:enable Metrics/ClassLength
   end
 end

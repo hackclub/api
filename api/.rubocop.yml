@@ -9,6 +9,10 @@ AllCops:
     - 'vendor/**/*'
     - 'bundler_cache/**/*'
 
+# Disable class length checks
+Metrics/ClassLength:
+  Enabled: false
+
 # Disable method length checks
 Metrics/MethodLength:
   Enabled: false

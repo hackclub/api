@@ -109,7 +109,7 @@ module V1
       end
 
       app.applicants.delete(to_remove)
-      render json: { success: true }, status: 200
+      uender json: { success: true }, status: 200
     end
 
     def submit

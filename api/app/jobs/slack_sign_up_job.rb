@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-# rubocop:disable Metrics/ClassLength
 class SlackSignUpJob < ApplicationJob
   def perform(invite_id)
     @invite = SlackInvite.find invite_id
@@ -163,4 +162,3 @@ class SlackSignUpJob < ApplicationJob
     )[:team][:domain]
   end
 end
-# rubocop:enable Metrics/ClassLength

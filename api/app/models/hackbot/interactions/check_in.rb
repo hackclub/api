@@ -5,7 +5,6 @@
 # See https://github.com/hackclub/api/issues/25.
 module Hackbot
   module Interactions
-    # rubocop:disable Metrics/ClassLength
     class CheckIn < TextConversation
       include Concerns::Followupable, Concerns::Triggerable,
               Concerns::LeaderAssociable
@@ -577,6 +576,5 @@ module Hackbot
         leader.clubs.first
       end
     end
-    # rubocop:enable Metrics/ClassLength
   end
 end

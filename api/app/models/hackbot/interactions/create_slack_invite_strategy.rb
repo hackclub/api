@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 module Hackbot
   module Interactions
-    # rubocop:disable Metrics/ClassLength
     class CreateSlackInviteStrategy < Command
       DEFAULT_THEME = '&sidebar_theme=custom_theme&sidebar_theme_custom_values'\
         '={"column_bg":"#f6f6f6","menu_bg":"#eeeeee","active_item":"#fa3649",'\
@@ -186,6 +185,5 @@ module Hackbot
         Leader.find_by(slack_id: event[:user])
       end
     end
-    # rubocop:enable Metrics/ClassLength
   end
 end
