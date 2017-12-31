@@ -9,7 +9,7 @@ FactoryBot.define do
       end
 
       # high school
-      high_school_name { HCFaker::HighSchool }
+      high_school_name { HCFaker::HighSchool.name }
       high_school_url { Faker::Internet.url }
       high_school_type { :public_school }
       high_school_address { HCFaker::Address.full_address }

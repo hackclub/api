@@ -11,3 +11,19 @@ submitted for review.
 Thanks,<br />
 Hack Club
 </p>
+
+<hr>
+
+<p><b>Club Application</b></p>
+
+<% @application_fields.each do |question, answer| %>
+  <p><u><%= question %></u></p>
+  <p><%= answer %></p>
+<% end %>
+
+<p><b>Leader Profile</b></p>
+
+<% @profile_fields.each do |question, answer| %>
+  <p><u><%= question %></u></p>
+  <p><%= answer %></p>
+<% end %>

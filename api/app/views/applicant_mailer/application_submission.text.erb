@@ -1,9 +1,30 @@
 Hello,
 
-Your Hack Club application for <%= @application.high_school_name %> has been
-submitted for review.
+Your Hack Club application for <%= @application.high_school_name %> has been submitted for review.
 
 You can expect a response in the next 3 week days.
 
 Thanks,
 Hack Club
+
+---
+
+----------------
+Club Application
+----------------
+<% @application_fields.each do |question, answer| %>
+
+# <%= question %>
+
+<%= answer %>
+<% end %>
+
+--------------
+Leader Profile
+--------------
+<% @profile_fields.each do |question, answer| %>
+
+# <%= question %>
+
+<%= answer %>
+<% end %>

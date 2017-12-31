@@ -54,4 +54,29 @@ RSpec.describe ApplicantMailer, type: :mailer do
       expect(mail).to have_body_text(applicant.email)
     end
   end
+
+  describe 'application_submission' do
+    let(:application) { create(:completed_new_club_application) }
+    let(:applicant) { application.applicants.first }
+
+    before { application.submit! }
+
+    let(:mail) do
+      ApplicantMailer.application_submission(application, applicant)
+    end
+
+    it 'is sent to the given applicant' do
+      expect(mail).to deliver_to(applicant.email)
+    end
+
+    it 'includes fields from the application' do
+      expect(mail).to have_body_text(application.progress_general)
+    end
+
+    it "includes fields from the applicant's profile" do
+      profile = ApplicantProfile.find_by(applicant: applicant,
+                                         new_club_application: application)
+      expect(mail).to have_body_text(profile.skills_system_hacked)
+    end
+  end
 end
