@@ -24,7 +24,8 @@ module V1
     end
 
     def create
-      c = NewClubApplication.create(applicants: [@applicant])
+      c = NewClubApplication.create(applicants: [@applicant],
+                                    point_of_contact: @applicant)
 
       render json: c, status: 201
     end
