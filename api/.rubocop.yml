@@ -9,6 +9,10 @@ AllCops:
     - 'vendor/**/*'
     - 'bundler_cache/**/*'
 
+# Disable class length checks
+Metrics/ClassLength:
+  Enabled: false
+
 # Disable method length checks
 Metrics/MethodLength:
   Enabled: false
@@ -23,6 +27,15 @@ Metrics/AbcSize:
 
 # Disable check for methods requiring more than 5 parameters.
 Metrics/ParameterLists:
+  Enabled: false
+
+# Disable check for cyclomatic complexity. While we'll certainly have to
+# refactor our code as we code, it's just a nuisance right now.
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+# Same deal as above, except for perceived complexity.
+Metrics/PerceivedComplexity:
   Enabled: false
 
 # Don't worry about having top-level class documentation comments for every

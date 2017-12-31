@@ -44,6 +44,7 @@ RSpec.describe ApplicantProfile, type: :model do
   it { should have_db_column :skills_is_technical }
 
   # misc
+  it { should have_db_column :deleted_at }
   it { should have_db_column :completed_at }
 
   ## enums
@@ -109,5 +110,15 @@ RSpec.describe ApplicantProfile, type: :model do
     expect(profile.errors[:base]).to include(
       'cannot edit applicant profile after submit'
     )
+  end
+
+  it 'should preserve information on deletion' do
+    profile = create(:completed_applicant_profile)
+    profile.destroy
+
+    deleted = ApplicantProfile.with_deleted.find_by(id: profile.id)
+    expect(deleted).to_not be_nil
+    expect(deleted.deleted_at).to be_within(1.minute).of(Time.current)
+    expect(deleted.leader_name).to eq(profile.leader_name)
   end
 end

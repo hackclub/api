@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-# rubocop:disable Metrics/ClassLength
 class Leader < ApplicationRecord
   include Streakable
   include Geocodeable
@@ -131,4 +130,3 @@ class Leader < ApplicationRecord
       Hackbot::Team.find_by(team_id: DEFAULT_SLACK_TEAM_ID)
   end
 end
-# rubocop:enable Metrics/ClassLength

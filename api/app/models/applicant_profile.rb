@@ -2,6 +2,9 @@
 class ApplicantProfile < ApplicationRecord
   include Geocodeable
 
+  # preserve information from record deletions
+  acts_as_paranoid
+
   belongs_to :applicant
   belongs_to :new_club_application
 

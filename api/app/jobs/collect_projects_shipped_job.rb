@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-# rubocop:disable Metrics/ClassLength
 class CollectProjectsShippedJob < ApplicationJob
   CLOUD9_TEAM = Rails.application.secrets.cloud9_team_name
 
@@ -215,4 +214,3 @@ class CollectProjectsShippedJob < ApplicationJob
     URI.join("https://#{repo}", URI.escape(local_url))
   end
 end
-# rubocop:enable Metrics/ClassLength
