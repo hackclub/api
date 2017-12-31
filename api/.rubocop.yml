@@ -29,6 +29,11 @@ Metrics/AbcSize:
 Metrics/ParameterLists:
   Enabled: false
 
+# Disable check for cyclomatic complexity. While we'll certainly have to
+# refactor our code as we code, it's just a nuisance right now.
+Metrics/Style/CyclomaticComplexity:
+  Enabled: false
+
 # Don't worry about having top-level class documentation comments for every
 # class. It'd be a nuisance to do this on all of the generated Rails classes.
 Documentation:

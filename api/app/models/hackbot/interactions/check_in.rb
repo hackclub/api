@@ -228,7 +228,6 @@ module Hackbot
         :wait_for_attendance
       end
 
-      # rubocop:disable Metrics/CyclomaticComplexity,
       def wait_for_attendance
         return :wait_for_attendance unless msg
 
@@ -286,7 +285,6 @@ module Hackbot
         :wait_for_notes_confirmation
       end
 
-      # rubocop:enable Metrics/CyclomaticComplexity
       def wait_for_notes_confirmation
         return :wait_for_notes_confirmation unless action
 
@@ -340,7 +338,6 @@ module Hackbot
         end
       end
 
-      # rubocop:disable Metrics/CyclomaticComplexity
       # rubocop:disable Metrics/PerceivedComplexity
       def prompt_for_submit
         # This chunk is a hack to only display certain fields of the data hash
@@ -382,7 +379,6 @@ module Hackbot
           ]
         )
       end
-      # rubocop:enable Metrics/CyclomaticComplexity
       # rubocop:enable Metrics/PerceivedComplexity
 
       def generate_check_in
@@ -467,7 +463,6 @@ module Hackbot
         count
       end
 
-      # rubocop:disable Metrics/CyclomaticComplexity
       def formatted_deadline(lead)
         timezone = lead.timezone || Timezone.fetch('America/Los_Angeles')
         deadline_in_utc = DateTime.now.utc.next_week + 15.hours
@@ -490,7 +485,6 @@ module Hackbot
           "#{day} night"
         end
       end
-      # rubocop:enable Metrics/CyclomaticComplexity
 
       def previous_meeting_day
         last_check_in = ::CheckIn.where(leader: leader)
