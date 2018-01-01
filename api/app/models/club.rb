@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Club < ApplicationRecord
   ACTIVE_STAGE = '5003'
   DORMANT_STAGE = '5014'
@@ -67,7 +68,7 @@ class Club < ApplicationRecord
   #
   # Disabling Rubocop's delegate check because converting this to a prefixed
   # delegate breaks Streakable's tests.
-  def point_of_contact_name # rubocop:disable Rails/Delegate
+  def point_of_contact_name
     point_of_contact&.name
   end
 

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ChangeFieldsInFundraisingDeals < ActiveRecord::Migration[5.0]
   def change
     add_column :fundraising_deals, :actual_amount, :text

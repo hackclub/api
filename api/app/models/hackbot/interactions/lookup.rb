@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Hackbot
   module Interactions
     class Lookup < AdminCommand
@@ -104,7 +105,7 @@ module Hackbot
       end
 
       def linked_slack(username_or_id)
-        return nil unless username_or_id.present?
+        return nil if username_or_id.blank?
 
         "<@#{username_or_id}>"
       end
@@ -116,7 +117,7 @@ module Hackbot
           next unless attachment[:fields]
 
           attachment[:fields].each do |field|
-            field[:value] = 'N/A' unless field[:value].present?
+            field[:value] = 'N/A' if field[:value].blank?
           end
         end
 

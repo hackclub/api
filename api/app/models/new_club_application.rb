@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class NewClubApplication < ApplicationRecord
   include Geocodeable
 
@@ -19,10 +20,10 @@ class NewClubApplication < ApplicationRecord
                 country: :high_school_parsed_country,
                 country_code: :high_school_parsed_country_code
 
-  enum high_school_type: [
-    :public_school,
-    :private_school,
-    :charter_school
+  enum high_school_type: %i[
+    public_school
+    private_school
+    charter_school
   ]
 
   with_options if: 'submitted_at.present?' do |application|

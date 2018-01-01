@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # TextConversation is an interaction that only consists of messages and is
 # limited to a single channel on Slack.
 module Hackbot

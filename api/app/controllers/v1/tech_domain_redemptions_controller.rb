@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module V1
   class TechDomainRedemptionsController < ApiController
     # TODO: Move logic for secret code to model

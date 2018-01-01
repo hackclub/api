@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class RepoFileService
   MARKDOWN_RENDERER_OPTIONS = {
     autolink: true,

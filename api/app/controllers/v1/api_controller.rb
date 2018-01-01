@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module V1
   class ApiController < ApplicationController
     def render_success(obj = { success: true }, status = 200)

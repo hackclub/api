@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class SlackSignUpJob < ApplicationJob
   def perform(invite_id)
     @invite = SlackInvite.find invite_id
@@ -35,7 +36,6 @@ class SlackSignUpJob < ApplicationJob
         display_name: @invite.username,
         last_tos_acknowledged: 'tos_oct2016',
         locale: 'en-US',
-
         multipart: true
       },
       cookies: { 'b' => sign_up_crumb }
@@ -49,7 +49,6 @@ class SlackSignUpJob < ApplicationJob
         name: key,
         value: value,
         token: @token,
-
         multipart: true
       },
       cookies: @jar
@@ -62,7 +61,6 @@ class SlackSignUpJob < ApplicationJob
       {
         prefs: @invite.slack_invite_strategy.theme,
         token: @token,
-
         multipart: true
       },
       cookies: @jar
@@ -114,7 +112,6 @@ class SlackSignUpJob < ApplicationJob
         ts: Time.now.to_f.round(6).to_s,
         reason: 'viewed',
         token: @token,
-
         multipart: true
       },
       cookies: @jar

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # This file monkey patches StreakClient to make testing it easier.
 module StreakClient
   module Pipeline
@@ -19,8 +20,7 @@ module StreakClient
     end
 
     # TODO: Return the full "updated" box here
-    def self.update(_box_key, _params)
-    end
+    def self.update(_box_key, _params); end
 
     def self.edit_field(_box_key, field_key, value)
       {

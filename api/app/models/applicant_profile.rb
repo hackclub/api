@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ApplicantProfile < ApplicationRecord
   include Geocodeable
 
@@ -11,29 +12,29 @@ class ApplicantProfile < ApplicationRecord
   validates :applicant, :new_club_application, presence: true
   validates :leader_email, email: true, if: 'leader_email.present?'
 
-  enum leader_year_in_school: [
-    :freshman,
-    :sophomore,
-    :junior,
-    :senior,
-    :other_year
+  enum leader_year_in_school: %i[
+    freshman
+    sophomore
+    junior
+    senior
+    other_year
   ]
 
-  enum leader_gender: [
-    :male,
-    :female,
-    :genderqueer,
-    :agender,
-    :other_gender
+  enum leader_gender: %i[
+    male
+    female
+    genderqueer
+    agender
+    other_gender
   ]
 
-  enum leader_ethnicity: [
-    :hispanic_or_latino,
-    :white,
-    :black,
-    :native_american_or_indian,
-    :asian_or_pacific_islander,
-    :other_ethnicity
+  enum leader_ethnicity: %i[
+    hispanic_or_latino
+    white
+    black
+    native_american_or_indian
+    asian_or_pacific_islander
+    other_ethnicity
   ]
 
   geocode_attrs address: :leader_address,
@@ -47,10 +48,10 @@ class ApplicantProfile < ApplicationRecord
                 country: :leader_parsed_country,
                 country_code: :leader_parsed_country_code
 
-  REQUIRED_FOR_COMPLETION = [
-    :leader_name, :leader_email, :leader_birthday, :leader_year_in_school,
-    :leader_gender, :leader_ethnicity, :leader_phone_number, :leader_address,
-    :skills_system_hacked, :skills_impressive_achievement, :skills_is_technical
+  REQUIRED_FOR_COMPLETION = %i[
+    leader_name leader_email leader_birthday leader_year_in_school
+    leader_gender leader_ethnicity leader_phone_number leader_address
+    skills_system_hacked skills_impressive_achievement skills_is_technical
   ].freeze
 
   validate :make_immutable, if: 'submitted_at.present?'

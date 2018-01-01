@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class CreateTechDomainRedemptions < ActiveRecord::Migration[5.0]
   def change
     create_table :tech_domain_redemptions do |t|

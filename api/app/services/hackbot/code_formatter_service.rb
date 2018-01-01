@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Hackbot
   # CodeFormatterService takes strings and turns them into formatted code blocks
   # suitable for submission to Slack.

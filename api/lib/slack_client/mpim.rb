@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module SlackClient
   module Mpim
     def self.info(id, access_token)

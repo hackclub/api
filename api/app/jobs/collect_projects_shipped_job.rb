@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class CollectProjectsShippedJob < ApplicationJob
   CLOUD9_TEAM = Rails.application.secrets.cloud9_team_name
 

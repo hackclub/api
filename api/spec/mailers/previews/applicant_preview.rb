@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # Preview all emails at http://localhost:3000/rails/mailers/applicant
 class ApplicantPreview < ActionMailer::Preview
   def login_code

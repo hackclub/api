@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Cloud9Invite < ApplicationRecord
   DEFAULT_TEAM_NAME = Rails.application.secrets.cloud9_team_name
   UNIQUENESS_MESSAGE = 'invite already sent for this email'

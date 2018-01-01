@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class TechDomainRedemption < ApplicationRecord
   validates :name, :email, :requested_domain, presence: true
   validates :email, email: true

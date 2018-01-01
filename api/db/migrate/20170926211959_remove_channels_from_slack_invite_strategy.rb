@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class RemoveChannelsFromSlackInviteStrategy < ActiveRecord::Migration[5.0]
   def change
     remove_column :slack_invite_strategies, :channels

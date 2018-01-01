@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module V1
   class RepoController < ApplicationController
     ROOT_FILE_URI = 'v1/repo/'

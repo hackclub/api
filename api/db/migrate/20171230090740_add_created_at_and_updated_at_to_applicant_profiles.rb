@@ -1,15 +1,16 @@
 # frozen_string_literal: true
+
 class AddCreatedAtAndUpdatedAtToApplicantProfiles < ActiveRecord::Migration[5.0]
-  class Applicant < ActiveRecord::Base
+  class Applicant < ApplicationRecord
     has_many :applicant_profiles
   end
 
-  class ApplicantProfile < ActiveRecord::Base
+  class ApplicantProfile < ApplicationRecord
     belongs_to :applicant
     belongs_to :new_club_application
   end
 
-  class NewClubApplication < ActiveRecord::Base
+  class NewClubApplication < ApplicationRecord
     has_many :applicant_profiles
   end
 

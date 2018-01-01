@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 VCR.configure do |c|
   c.cassette_library_dir = Rails.root.join('spec', 'vcr')
   c.hook_into :webmock
@@ -33,7 +34,7 @@ VCR.configure do |c|
   # Filter out Cloud9 cookies
   c.filter_sensitive_data('<CLOUD9_LIVE_COOKIE>') do |interaction|
     cookies = server_cookies(interaction.response)
-    next unless cookies && !cookies.empty?
+    next if cookies.blank?
 
     ck = cookies.find { |k| k.key? 'c9.live' }
     next unless ck
@@ -43,7 +44,7 @@ VCR.configure do |c|
 
   c.filter_sensitive_data('<CLOUD9_LIVE_PROXY_COOKIE>') do |interaction|
     cookies = server_cookies(interaction.response)
-    next unless cookies && !cookies.empty?
+    next if cookies.blank?
 
     ck = cookies.find { |k| k.key? 'c9.live.proxy' }
     next unless ck
@@ -56,7 +57,7 @@ VCR.configure do |c|
   # sure we filter out the second cookie as well as the first.
   c.filter_sensitive_data('<CLOUD9_LIVE_PROXY_COOKIE_2>') do |interaction|
     cookies = server_cookies(interaction.response)
-    next unless cookies && !cookies.empty?
+    next if cookies.blank?
 
     cks = cookies.select { |k| k.key? 'c9.live.proxy' }
     cks.last['c9.live.proxy'] if cks.length > 1
@@ -65,10 +66,9 @@ VCR.configure do |c|
   # Disable check on this method because it's throwing a false positive. See
   # https://github.com/bbatsov/rubocop/issues/3855.
   #
-  # rubocop:disable Lint/NonLocalExitFromIterator
   def server_cookies(response)
     raw_cookies = response.headers['Set-Cookie']
-    return if raw_cookies.nil? || raw_cookies.empty?
+    return if raw_cookies.blank?
 
     raw_cookies.map { |ck| parse_server_cookie(ck) }
   end

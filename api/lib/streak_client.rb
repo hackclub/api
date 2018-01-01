@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # Resources
 require 'streak_client/box'
 require 'streak_client/pipeline'

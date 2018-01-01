@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Hackbot
   module Interactions
     class SetPoc < AdminCommand

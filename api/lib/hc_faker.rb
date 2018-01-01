@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # This module provides additional fake data generators (in addition to Faker)
 module HCFaker
   class HighSchool
@@ -43,7 +44,7 @@ module HCFaker
       end
 
       def stage_key_alive
-        %w(5003 5014).sample
+        %w[5003 5014].sample
       end
 
       def stage_key_dead

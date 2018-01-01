@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 # Also see support/shared_examples/streakable.rb for shared specs to test

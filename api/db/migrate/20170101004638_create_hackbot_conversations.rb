@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class CreateHackbotConversations < ActiveRecord::Migration[5.0]
   def change
     create_table :hackbot_conversations do |t|

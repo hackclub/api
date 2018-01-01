@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class RecordSlackStatsJob < ApplicationJob
   queue_as :default
 

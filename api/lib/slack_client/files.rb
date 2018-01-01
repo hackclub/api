@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module SlackClient
   module Files
     def self.upload(channel, filename, file, access_token)

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # For all the new tables created for the new application process, start their ID
 # counts at the current application count.
 class RestartNewApplicationIdSequences < ActiveRecord::Migration[5.0]

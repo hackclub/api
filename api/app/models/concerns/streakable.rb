@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # rubocop:disable Metrics/ModuleLength
 module Streakable
   extend ActiveSupport::Concern

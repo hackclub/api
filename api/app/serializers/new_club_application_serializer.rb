@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class NewClubApplicationSerializer < ActiveModel::Serializer
   attributes :id, :created_at, :updated_at,
              :high_school_name,

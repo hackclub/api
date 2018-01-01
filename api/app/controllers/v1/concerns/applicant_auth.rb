@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # this is tested in spec/controllers/v1/concerns/
 module ApplicantAuth
   extend ActiveSupport::Concern
