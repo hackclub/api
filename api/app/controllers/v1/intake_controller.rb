@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 module V1
-  class IntakeController < ApplicationController
+  class IntakeController < ApiController
     def show
-      render json: Club.all.reject(&:dead?)
+      render_success Club.all.reject(&:dead?)
     end
   end
 end

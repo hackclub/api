@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 module V1
   module SlackInvitation
+    # TODO: Update to use new response format from ApiController
     class WebhookController < ApplicationController
       def create
         @invite = SlackInvite.find_by(token: invite_token)

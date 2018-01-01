@@ -1,17 +1,18 @@
 # frozen_string_literal: true
 module V1
-  class TechDomainRedemptionsController < ApplicationController
+  class TechDomainRedemptionsController < ApiController
+    # TODO: Move logic for secret code to model
     SECRET_CODE = Rails.application.secrets.tech_domain_redemption_secret_code
 
     def create
       redemption = TechDomainRedemption.new(redemption_params)
 
       if redemption.valid? && !secret_code_errors && redemption.save
-        render json: redemption
+        render_success(redemption)
       else
         errors = {}.merge(redemption.errors || {})
                    .merge(secret_code_errors || {})
-        render json: { errors: errors }, status: 422
+        render_field_errors(errors)
       end
     end
 

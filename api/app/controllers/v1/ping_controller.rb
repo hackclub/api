@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 module V1
-  class PingController < ApplicationController
+  class PingController < ApiController
     def ping
-      render json: { result: 'pong' }
+      render_success(result: 'pong')
     end
   end
 end

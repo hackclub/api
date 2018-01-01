@@ -1,17 +1,16 @@
 # frozen_string_literal: true
 module V1
   module Hackbot
-    class AuthController < ApplicationController
+    class AuthController < ApiController
       CLIENT_ID = Rails.application.secrets.slack_client_id
       CLIENT_SECRET = Rails.application.secrets.slack_client_secret
 
       def create
         resp = ::SlackClient::Oauth.access(CLIENT_ID, CLIENT_SECRET, code)
-
-        return render status: 403 unless resp[:ok]
+        return render_access_denied unless resp[:ok]
 
         if ::Hackbot::Team.exists?(team_id: resp[:team_id])
-          return render status: 400
+          return render_error(:base, 'team already exists')
         end
 
         team_from_oauth_access(resp).save

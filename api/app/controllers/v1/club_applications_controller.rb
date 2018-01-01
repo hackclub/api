@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 module V1
-  class ClubApplicationsController < ApplicationController
+  class ClubApplicationsController < ApiController
     def create
       application = ClubApplication.new(application_params)
 
       if application.save
-        render json: application, status: 201
+        render_success(application, 201)
 
         ClubApplicationMailer.application_confirmation(application).deliver
         ClubApplicationMailer.admin_notification(application).deliver
       else
-        render json: { errors: application.errors }, status: 422
+        render_field_errors(application.errors)
       end
     end
 

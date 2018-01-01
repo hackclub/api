@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 module V1
-  class LeadersController < ApplicationController
+  class LeadersController < ApiController
     before_action :verify_club_id, only: :intake
 
     TEAM_ID = Rails.application.secrets.default_slack_team_id
@@ -14,9 +14,9 @@ module V1
       if leader.save
         welcome_to_slack leader
 
-        render json: leader, status: 201
+        render_success(leader, 201)
       else
-        render json: { errors: leader.errors }, status: 422
+        render_field_errors(leader.errors)
       end
     end
 
@@ -36,7 +36,7 @@ module V1
 
     def verify_club_id
       return unless club_id.nil?
-      render json: { errors: { club_id: ["can't be blank"] } }, status: 422
+      render_field_error(:club_id, "can't be blank")
     end
 
     def leader_params

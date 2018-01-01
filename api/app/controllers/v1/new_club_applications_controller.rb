@@ -1,25 +1,25 @@
 # frozen_string_literal: true
 module V1
-  class NewClubApplicationsController < ApplicationController
+  class NewClubApplicationsController < ApiController
     include ApplicantAuth
 
     def index
       if params[:applicant_id] == @applicant.id.to_s
-        render json: @applicant.new_club_applications, status: 200
+        render_success(@applicant.new_club_applications)
       else
-        render json: { error: 'access denied' }, status: 403
+        render_access_denied
       end
     end
 
     def show
       application = NewClubApplication.find_by(id: params[:id])
 
-      return render json: { error: 'not found' }, status: 404 unless application
+      return render_not_found unless application
 
       if application.applicants.include? @applicant
-        render json: application, status: 200
+        render_success(application)
       else
-        render json: { error: 'access denied' }, status: 403
+        render_access_denied
       end
     end
 
@@ -27,45 +27,35 @@ module V1
       c = NewClubApplication.create(applicants: [@applicant],
                                     point_of_contact: @applicant)
 
-      render json: c, status: 201
+      render_success(c, 201)
     end
 
     def update
       c = NewClubApplication.find(params[:id])
 
-      unless c.applicants.include? @applicant
-        return render json: { error: 'access denied' }, status: 403
-      end
+      return render_access_denied unless c.applicants.include? @applicant
 
       if c.update_attributes(club_application_params)
-        render json: c, status: 200
+        render_success(c)
       else
-        render json: { errors: c.errors }, status: 422
+        render_field_errors(c.errors)
       end
     end
 
     def add_applicant
       app = NewClubApplication.find_by(id: params[:new_club_application_id])
 
-      return render json: { error: 'not found' }, status: 404 unless app
-
-      unless app.applicants.include? @applicant
-        return render json: { error: 'access denied' }, status: 403
-      end
+      return render_not_found unless app
+      return render_access_denied unless app.applicants.include? @applicant
 
       if app.submitted_at.present?
-        return render json: {
-          errors: {
-            base: ['cannot edit application after submit']
-          }
-        }, status: 422
+        return render_field_error(:base, 'cannot edit application after submit')
       end
 
       to_add = Applicant.find_or_create_by(email: params[:email])
 
       if app.applicants.include? to_add
-        return render json: { errors: { email: ['already added'] } },
-                      status: 422
+        return render_field_error(:email, 'already added')
       end
 
       profile = ApplicantProfile.with_deleted.find_or_create_by(
@@ -78,59 +68,45 @@ module V1
       ApplicantMailer.added_to_application(app, to_add, @applicant)
                      .deliver_later
 
-      render json: { success: true }, status: 200
+      render_success
     end
 
     def remove_applicant
       app = NewClubApplication.find_by(id: params[:new_club_application_id])
       to_remove = Applicant.find_by(id: params[:applicant_id])
 
-      return render json: { error: 'not found' }, status: 404 unless app
-      return render json: { error: 'not found' }, status: 404 unless to_remove
+      return render_not_found unless app && to_remove
 
-      unless app.applicants.include? @applicant
-        return render json: { error: 'access denied' }, status: 403
-      end
+      return render_access_denied unless app.applicants.include? @applicant
 
-      unless app.point_of_contact == @applicant
-        return render json: { error: 'access denied' }, status: 403
-      end
+      return render_access_denied unless app.point_of_contact == @applicant
 
       if app.submitted_at.present?
-        return render json: {
-          errors: { base: 'cannot edit application after submit' }
-        }, status: 422
+        return render_field_error(:base, 'cannot edit application after submit')
       end
 
       if to_remove == @applicant
-        return render json: {
-          errors: { applicant_id: 'cannot remove self' }
-        }, status: 422
+        return render_field_error(:applicant_id, 'cannot remove self')
       end
 
       unless app.applicants.include? to_remove
-        return render json: {
-          errors: { applicant_id: 'not added to application' }
-        }, status: 422
+        return render_field_error(:applicant_id, 'not added to application')
       end
 
       app.applicants.delete(to_remove)
-      render json: { success: true }, status: 200
+      render_success
     end
 
     def submit
       app = NewClubApplication.find_by(id: params[:new_club_application_id])
 
-      return render json: { error: 'not found' }, status: 404 unless app
-
-      unless app.applicants.include? @applicant
-        return render json: { error: 'access denied' }, status: 403
-      end
+      return render_not_found unless app
+      return render_access_denied unless app.applicants.include? @applicant
 
       if app.submit!
-        render json: app, status: 200
+        render_success(app)
       else
-        render json: { errors: app.errors }, status: 422
+        render_field_errors(app.errors)
       end
     end
 

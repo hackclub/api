@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 module V1
+  # TODO: Convert to new response format from ApiController
   class AnalyticsController < ApplicationController
     SEGMENT_WRITE_KEY = Rails.application.secrets.segment_write_key
 

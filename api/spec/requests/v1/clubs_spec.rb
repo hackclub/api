@@ -70,7 +70,7 @@ RSpec.describe 'V1::Clubs', type: :request do
 
       it 'receives a 404' do
         expect(response).to have_http_status(404)
-        expect(json['error']).to eq('Club not found')
+        expect(json['error']).to eq('not found')
       end
     end
   end

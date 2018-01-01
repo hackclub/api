@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 module V1
-  class AthulClubsController < ApplicationController
+  class AthulClubsController < ApiController
     AUTH_TOKEN = Rails.application.secrets.athul_auth_token
 
     def create
@@ -8,12 +8,11 @@ module V1
                            leader_attributes: leader_params)
 
       if !authenticated?
-        render json: { errors: { base: 'missing / invalid authentication' } },
-               status: 401
+        render_field_error(:base, 'missing / invalid authentication', 401)
       elsif club.save
-        render json: club, status: 201
+        render_success(club, 201)
       else
-        render json: { errors: club.errors }, status: 422
+        render_field_errors(club.errors)
       end
     end
 

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 module V1
   module Hackbot
-    class WebhooksController < ApplicationController
+    class WebhooksController < ApiController
       # Amount of time to delay HTTP responses to interactive message webhook
       # requests.
       #
@@ -35,13 +35,13 @@ module V1
         when 'url_verification' # See https://api.slack.com/events/url_verification
           render plain: params[:challenge]
         when 'event_callback'
-          render status: 200
+          render_success
 
           event = params[:event].to_unsafe_h
 
           handle_event(event, params[:team_id])
         else
-          render status: :not_implemented
+          render_error('not implemented', :not_implemented)
         end
       end
 

@@ -1,23 +1,23 @@
 # frozen_string_literal: true
 module V1
   module SlackInvitation
-    class InviteController < ApplicationController
+    class InviteController < ApiController
       def create
         invite = ::SlackInvite.create(
           invite_params.merge(team: team)
         )
 
-        return render json: invite.errors unless invite.save
+        return render_field_errors(invite.errors) unless invite.save
 
         invite.dispatch
 
-        render json: strip(invite), status: 200
+        render_success(strip(invite))
       end
 
       def show
         invite = ::SlackInvite.find(params[:id])
 
-        render json: strip(invite), status: 200
+        render_success(strip(invite))
       end
 
       private

@@ -1,18 +1,16 @@
 # frozen_string_literal: true
 module V1
-  class ClubsController < ApplicationController
+  class ClubsController < ApiController
     before_action :find_club, only: [:show]
 
     def index
-      render json: Club.select(&:alive?)
+      render_success(Club.select(&:alive?))
     end
 
     def show
-      if @club.nil?
-        render(json: { error: 'Club not found' }, status: 404) && return
-      end
+      return render_not_found if @club.nil?
 
-      render json: @club
+      render_success(@club)
     end
 
     protected

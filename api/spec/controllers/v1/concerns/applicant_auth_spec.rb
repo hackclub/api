@@ -3,17 +3,17 @@ require 'rails_helper'
 
 RSpec.describe ApplicantAuth, type: :controller do
   # make fake controller for testing
-  controller(ActionController::Base) do
+  controller(V1::ApiController) do
     include ApplicantAuth
 
     def fake_action
-      render json: { success: true }, status: 200
+      render_success
     end
   end
 
   before do
     routes.draw do
-      get 'fake_action' => 'anonymous#fake_action'
+      get 'fake_action' => 'v1/api#fake_action'
     end
   end
 

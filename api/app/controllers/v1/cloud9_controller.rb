@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 module V1
-  class Cloud9Controller < ApplicationController
+  class Cloud9Controller < ApiController
     def send_invite
       invite = Cloud9Invite.new(invite_params)
 
       if invite.save
-        render json: { success: true }
+        render_success
       else
-        render json: { errors: invite.errors }, status: 422
+        render_field_errors(invite.errors)
       end
     end
 

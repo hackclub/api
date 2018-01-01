@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 module V1
   module Home
-    class SlackUsersController < ApplicationController
+    class SlackUsersController < ApiController
       def index
         @page = (params[:page] || 0).to_i
         @inc = (params[:inc] || 100).to_i
         @res = (params[:res] || 192).to_i
 
-        render json: {
+        render_success(
           current_page: @page,
           pages_remaining: pages_remaining,
           profile_pictures: most_active_users_profile_pictures
-        }
+        )
       end
 
       private

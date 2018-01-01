@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 module V1
+  # TODO: Switch to new response format from ApiController
   class DonationsController < ApplicationController
     PUBLISHABLE_KEY = Rails.application.secrets.stripe_publishable_key
     def create

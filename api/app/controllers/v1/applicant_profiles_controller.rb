@@ -1,40 +1,32 @@
 # frozen_string_literal: true
 module V1
-  class ApplicantProfilesController < ApplicationController
+  class ApplicantProfilesController < ApiController
     include ApplicantAuth
 
     def show
       profile = ApplicantProfile.find_by(id: params[:id])
 
-      return render json: { error: 'not found' }, status: 404 unless profile
+      return render_not_found unless profile
+      return render_access_denied if profile.applicant != @applicant
 
-      if profile.applicant != @applicant
-        return render json: { error: 'access denied' }, status: 403
-      end
-
-      render json: profile, status: 200
+      render_success(profile)
     end
 
     def update
       profile = ApplicantProfile.find_by(id: params[:id])
 
-      return render json: { error: 'not found' }, status: 404 unless profile
-
-      if profile.applicant != @applicant
-        return render json: { error: 'access denied' }, status: 403
-      end
+      return render_not_found unless profile
+      return render_access_denied if profile.applicant != @applicant
 
       if profile.submitted_at.present?
-        return render json: {
-          errors: {
-            base: ['cannot edit applicant profile after submit']
-          }
-        }, status: 422
+        return render_field_error(:base,
+                                  'cannot edit applicant profile after submit')
       end
 
+      # TODO: Check for errors and return them if needed
       profile.update_attributes(applicant_profile_params)
 
-      render json: profile, status: 200
+      render_success(profile)
     end
 
     private

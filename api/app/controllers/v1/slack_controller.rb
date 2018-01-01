@@ -1,22 +1,21 @@
 # frozen_string_literal: true
 module V1
-  class SlackController < ApplicationController
+  class SlackController < ApiController
     def send_invite
       invite = SlackInvite.new(invite_params)
 
       if invite.save
-        render json: invite, status: 201
+        render_success(invite, 201)
       else
-        render json: { errors: invite.errors }, status: 422
+        render_field_errors(invite.errors)
       end
     end
 
     def create_account
       invite = SlackInvite.create
-
       invite.send
 
-      render json: { params: account_params, invite: invite }
+      render_success(params: account_params, invite: invite)
     end
 
     private

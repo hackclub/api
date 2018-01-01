@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 module V1
-  class ApplicantsController < ApplicationController
+  class ApplicantsController < ApiController
     def auth
       applicant = Applicant.find_or_initialize_by(email: params[:email])
 
@@ -9,9 +9,9 @@ module V1
       if applicant.save
         ApplicantMailer.login_code(applicant).deliver_later
 
-        render json: applicant, status: 200
+        render_success(applicant)
       else
-        render json: { errors: applicant.errors }, status: 422
+        render_field_errors(applicant.errors)
       end
     end
 
@@ -19,7 +19,7 @@ module V1
       applicant = Applicant.find_by(id: params[:applicant_id])
       login_code = params[:login_code]
 
-      return render json: { error: 'not found' }, status: 404 unless applicant
+      return render_not_found unless applicant
 
       if !login_code.nil? &&
          applicant.login_code == login_code &&
@@ -30,10 +30,10 @@ module V1
         applicant.login_code_generation = nil
         applicant.save
 
-        return render json: { auth_token: applicant.auth_token }, status: 200
+        return render_success(auth_token: applicant.auth_token)
       end
 
-      render json: { errors: { login_code: 'invalid' } }, status: 401
+      render_field_error(:login_code, 'invalid', 401)
     end
   end
 end
