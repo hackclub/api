@@ -5,6 +5,8 @@ machine:
     version: 2.3.1
   services:
     - postgresql
+  # CC_TEST_REPORTER_ID must be set privately for CodeClimate test coverage
+  # reports to work.
   environment:
     GOOGLE_MAPS_API_KEY: test_maps_api_key
     STREAK_CLUB_PIPELINE_KEY: clubs
@@ -53,11 +55,18 @@ dependencies:
     - git submodule update
     - cd web && yarn install --production=false
     - cd api && bundle install --path bundler_cache
+    # CodeClimate CLI tool
+    - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+    - chmod +x ./cc-test-reporter
 test:
+  pre:
+    - ./cc-test-reporter before-build # CodeClimate
   override:
     - cd web && yarn lint
     - cd api && bundle exec rubocop
     - cd api && bundle exec rspec
+  post:
+    - ./cc-test-reporter after-build --exit-code $EXIT_CODE # CodeClimate
 deployment:
   production:
     branch: master

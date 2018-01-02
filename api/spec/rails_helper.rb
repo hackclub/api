@@ -1,5 +1,10 @@
 # frozen_string_literal: true
 
+# For test coverage. Must be the *first* thing ran during tests for coverage to
+# work properly, even before application code is loaded.
+require 'simplecov'
+SimpleCov.start 'rails'
+
 # This file is copied to spec/ when you run "rails generate rspec:install"
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
