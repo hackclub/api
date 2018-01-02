@@ -22,3 +22,6 @@
 
 # Ignore development .env file
 .env
+
+# Ignore test coverage reports from SimpleCov
+/coverage
