@@ -77,9 +77,7 @@ module V1
       to_remove = Applicant.find_by(id: params[:applicant_id])
 
       return render_not_found unless app && to_remove
-
       return render_access_denied unless app.applicants.include? @applicant
-
       return render_access_denied unless app.point_of_contact == @applicant
 
       if app.submitted_at.present?
