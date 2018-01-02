@@ -68,9 +68,7 @@ test:
     - cd api && bundle exec rspec
   post:
     # Report test coverage from API to CodeClimate
-    - pushd api/ && \
-      ../cc-test-reporter after-build --exit-code $EXIT_CODE && \
-      popd
+    - pushd api/ && ../cc-test-reporter after-build --exit-code $EXIT_CODE && popd
 deployment:
   production:
     branch: master
