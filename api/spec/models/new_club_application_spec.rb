@@ -114,6 +114,14 @@ RSpec.describe NewClubApplication, type: :model do
       expect(subject.submitted_at).to be_within(1.minute).of(Time.current)
     end
 
+    # TODO: refactor this into a test that checks for all optional fields?
+    it 'does not require high school url' do
+      subject.update_attributes(high_school_url: nil)
+      res = subject.submit!
+
+      expect(res).to eq(true)
+    end
+
     it 'sends confirmation emails to applicants' do
       subject.submit!
 
