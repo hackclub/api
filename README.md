@@ -1,6 +1,17 @@
-# Monolith [![CircleCI](https://circleci.com/gh/hackclub/monolith.svg?style=svg)](https://circleci.com/gh/hackclub/monolith)
-
-![Monolith icon](https://i.imgur.com/J9seIVR.png)
+<h1 align="center">Monolith</h1>
+<p align="center"><img alt="Monolith icon" src="https://i.imgur.com/J9seIVR.png"></a>
+<p align="center"><i>The home of Hack Club's code. Illustrated above.</i></p>
+<p align="center">
+  <a href="https://circleci.com/gh/hackclub/monolith">
+    <img alt="CircleCI" src="https://img.shields.io/circleci/project/github/hackclub/monolith.svg">
+  </a>
+  <a href="https://codeclimate.com/github/hackclub/monolith">
+    <img alt="CodeClimate" src="https://img.shields.io/codeclimate/maintainability/hackclub/monolith.svg">
+  </a>
+  <a href="https://codeclimate.com/github/hackclub/monolith">
+    <img alt="Test Coverage" src="https://img.shields.io/codeclimate/c/hackclub/monolith.svg">
+  </a>
+</p>
 
 ## How to run it
 
