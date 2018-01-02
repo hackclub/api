@@ -1,5 +1,6 @@
+<p align="center"><img alt="Monolith icon" src="https://i.imgur.com/J9seIVR.png"></a>
 <h1 align="center">Monolith</h1>
-<p align="center"><i>The home of Hack Club's code. Illustrated below.</i></p>
+<p align="center"><i>The home of Hack Club's code. Illustrated above.</i></p>
 <p align="center">
   <a href="https://circleci.com/gh/hackclub/monolith">
     <img alt="CircleCI" src="https://img.shields.io/circleci/project/github/hackclub/monolith.svg">
@@ -11,7 +12,6 @@
     <img alt="Test Coverage" src="https://img.shields.io/codeclimate/c/hackclub/monolith.svg">
   </a>
 </p>
-<p align="center"><img alt="Monolith icon" src="https://i.imgur.com/J9seIVR.png"></a>
 
 ## How to run it
 
