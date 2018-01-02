@@ -22,7 +22,7 @@ guard :rspec, cmd: 'bin/bundle exec spring rspec' do
   # Since the majority of our tests are in spec/requests/ and don't follow a
   # strict format, there's no obvious way to automatically figure out which
   # individual test to run.
-  rails.to_h.each do |_file_type, regex|
+  rails.to_h.each_value do |regex|
     watch(regex) { rspec.spec_dir }
   end
 end

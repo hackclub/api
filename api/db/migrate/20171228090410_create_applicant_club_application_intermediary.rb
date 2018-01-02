@@ -1,5 +1,10 @@
 # frozen_string_literal: true
 
+# Disabling this check because this table was created before we had this check
+# running on our codebase and it's too late to go back and update the migration
+# now.
+#
+# rubocop:disable Rails/CreateTableWithTimestamps
 class CreateApplicantClubApplicationIntermediary < ActiveRecord::Migration[5.0]
   def change
     create_table :applicants_new_club_applications, id: false do |t|
@@ -13,3 +18,4 @@ class CreateApplicantClubApplicationIntermediary < ActiveRecord::Migration[5.0]
               name: 'habtm_new_club_application_id'
   end
 end
+# rubocop:enable Rails/CreateTableWithTimestamps

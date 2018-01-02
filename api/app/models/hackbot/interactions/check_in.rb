@@ -463,7 +463,7 @@ module Hackbot
 
       def formatted_deadline(lead)
         timezone = lead.timezone || Timezone.fetch('America/Los_Angeles')
-        deadline_in_utc = DateTime.now.utc.next_week + 15.hours
+        deadline_in_utc = Time.now.utc.next_week + 15.hours
         deadline_in_local_tz = timezone.utc_to_local(deadline_in_utc)
         day = deadline_in_local_tz.strftime('%A')
 

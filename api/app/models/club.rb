@@ -106,7 +106,7 @@ class Club < ApplicationRecord
     # integers coming from UpdateFromStreakJob
 
     if ts.is_a? Integer
-      super DateTime.strptime(ts.to_s, '%Q')
+      super Time.strptime(ts.to_s, '%Q')
     else
       super ts
     end

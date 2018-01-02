@@ -71,3 +71,4 @@ task associate_teachers: :environment do
 
   pool.wait_for_termination
 end
+# rubocop:enable Metrics/LineLength

@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+# Disabling this Rubocop check because it was implemented after this migration
+# was written.
+#
+# rubocop:disable Rails/CreateTableWithTimestamps
 class CreateApplicantProfiles < ActiveRecord::Migration[5.0]
   def change
     create_table :applicant_profiles do |t|
@@ -41,3 +45,4 @@ class CreateApplicantProfiles < ActiveRecord::Migration[5.0]
     end
   end
 end
+# rubocop:enable Rails/CreateTableWithTimestamps

@@ -65,7 +65,7 @@ class CopyService
   end
 
   def copy_route
-    Rails.root.join 'lib/data/copy/'
+    Rails.root.join('lib', 'data', 'copy')
   end
 
   def hash_to_binding(hash)

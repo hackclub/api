@@ -5,7 +5,7 @@ module V1
     TO_BE_ONBOARDED_STAGE = '5011'
 
     def show
-      render_success Club.select { |c| c.stage_key == TO_BE_ONBOARDED_STAGE }
+      render_success(Club.select { |c| c.stage_key == TO_BE_ONBOARDED_STAGE })
     end
   end
 end

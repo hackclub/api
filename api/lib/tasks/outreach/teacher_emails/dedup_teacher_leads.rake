@@ -71,3 +71,4 @@ task dedup_teacher_leads: :environment do
   pool.shutdown
   pool.wait_for_termination
 end
+# rubocop:enable Metrics/LineLength

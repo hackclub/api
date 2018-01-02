@@ -36,7 +36,7 @@ class UpdateFromStreakJob < ApplicationJob
         attrs_to_update[model.notes_attribute] = box[:notes]
         attrs_to_update[model.stage_attribute] = box[:stage_key]
 
-        model.field_mappings.each do |attribute, _|
+        model.field_mappings.each_key do |attribute|
           key = instance
                 .streak_field_and_value_for_attribute(attribute)[:field_key]
           attrs_to_update[attribute] = box[:fields][key.to_sym]

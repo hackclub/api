@@ -42,7 +42,7 @@ module Streakable
       @field_mappings ||= {}
       @field_mappings = @field_mappings.merge(mapping)
 
-      mapping.keys.each do |sym|
+      mapping.each_key do |sym|
         # Construct a setter out of the symbol
         read_only = :"#{sym.to_s + '='}"
 
@@ -154,7 +154,7 @@ module Streakable
   end
 
   def update_all_streak_fields
-    self.class.field_mappings.keys.each do |attribute|
+    self.class.field_mappings.each_key do |attribute|
       for_streak = streak_field_and_value_for_attribute(attribute)
 
       StreakClient::Box.edit_field(
