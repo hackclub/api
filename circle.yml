@@ -69,7 +69,7 @@ test:
   post:
     # Report test coverage from API to CodeClimate
     - pushd api/ && \
-      .../cc-test-reporter after-build --exit-code $EXIT_CODE && \
+      ../cc-test-reporter after-build --exit-code $EXIT_CODE && \
       popd
 deployment:
   production:
