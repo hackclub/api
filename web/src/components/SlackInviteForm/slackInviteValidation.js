@@ -2,14 +2,16 @@ import {
   createValidator,
   required,
   email,
-  slackUsername
+  slackUsername,
+  passwordsMatch
 } from 'utils/validation'
 
 export const validate = createValidator({
   email: [required, email],
   username: [required, slackUsername],
   full_name: [required],
-  password: [required]
+  password: [required],
+  passwordConfirm: [required, passwordsMatch]
 })
 
 function createSlackValidator(
