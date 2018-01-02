@@ -1,11 +1,15 @@
 <p>Hello,</p>
 
 <p>
-Your Hack Club application for <%= @application.high_school_name %> has been
-submitted for review.
+Your application to start a Hack Club at <%= @application.high_school_name %>
+has been submitted for review.
 </p>
 
-<p>You can expect a response in the next 3 week days.</p>
+<p>
+We do our best to review applications as soon as possible. You can expect to
+receive a response from us within three week days. If you have any questions,
+please email us at <%= mail_to 'applications@hackclub.com' %>.
+</p>
 
 <p>
 Thanks,<br />

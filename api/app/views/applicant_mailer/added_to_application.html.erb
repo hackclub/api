@@ -6,7 +6,9 @@ You've been added to an application to start a
 by <%= mail_to @adder_email %>.
 </p>
 <p>
-Please log in <a href="https://hackclub.com/apply/login">here</a> with
-<%= mail_to @applicant_email %> to view the application and make edits.
+Please log in at
+<%= link_to 'https://hackclub.com/apply',
+  "https://hackclub.com/apply?email=#{@applicant_email}" %>
+to view the application and make edits.
 </p>
 <p>- Hack Club</p>

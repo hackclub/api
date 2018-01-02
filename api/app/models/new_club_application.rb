@@ -28,7 +28,6 @@ class NewClubApplication < ApplicationRecord
 
   with_options if: 'submitted_at.present?' do |application|
     application.validates :high_school_name,
-                          :high_school_url,
                           :high_school_type,
                           :high_school_address,
                           :leaders_video_url,
