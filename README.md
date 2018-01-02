@@ -1,5 +1,5 @@
-<h1 align="center">Monolith</h1>
 <p align="center"><img alt="Monolith icon" src="https://i.imgur.com/J9seIVR.png"></a>
+<h1 align="center">Monolith</h1>
 <p align="center"><i>The home of Hack Club's code. Illustrated above.</i></p>
 <p align="center">
   <a href="https://circleci.com/gh/hackclub/monolith">
