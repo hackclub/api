@@ -14,5 +14,9 @@ FactoryBot.define do
     address { [HCFaker::Address.full_address, nil].sample }
     latitude { Faker::Address.latitude if address }
     longitude { Faker::Address.longitude if address }
+
+    factory :leader_with_address do
+      address { HCFaker::Address.full_address }
+    end
   end
 end

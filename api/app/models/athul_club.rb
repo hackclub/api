@@ -10,6 +10,7 @@ class AthulClub < ApplicationRecord
   validates :club, uniqueness: true
 
   before_create :init
+
   def init
     club.stage_key = '5020' # Indian club stage
     leader.stage_key = '5008' # Indian leader stage
@@ -23,7 +24,7 @@ class AthulClub < ApplicationRecord
       letter_type: '9002',
       # This is the type for welcome letter + 3oz of stickers
       what_to_send: '9005',
-      address: leader.address
+      address: leader.address # TODO: validate presence of this field
     )
 
     error_msg = 'error configuring club and leader'

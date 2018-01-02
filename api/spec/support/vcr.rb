@@ -15,6 +15,13 @@ VCR.configure do |c|
     Base64.strict_encode64(Rails.application.secrets.streak_api_key + ':')
   end
 
+  # Filter out Slack access tokens
+  c.filter_sensitive_data('<SLACK_ACCESS_TOKEN>') do |interaction|
+    token = URI.decode_www_form(interaction.request.body).assoc('token')&.last
+
+    token
+  end
+
   # Filter out Cloud9 access tokens
   c.filter_sensitive_data('<CLOUD9_ACCESS_TOKEN>') do |interaction|
     url_params = Rack::Utils.parse_query(URI(interaction.request.uri).query)
