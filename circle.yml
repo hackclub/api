@@ -55,19 +55,22 @@ dependencies:
     - git submodule update
     - cd web && yarn install --production=false
     - cd api && bundle install --path bundler_cache
-    # CodeClimate CLI tool
+    # Download CodeClimate CLI tool
     - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
     - chmod +x ./cc-test-reporter
 test:
   pre:
-    - ./cc-test-reporter before-build # CodeClimate
+    # Tell CodeClimate that we're running a build
+    - ./cc-test-reporter before-build
   override:
     - cd web && yarn lint
     - cd api && bundle exec rubocop
     - cd api && bundle exec rspec
   post:
-    - ./cc-test-reporter after-build --prefix api/ \
-                                     --exit-code $EXIT_CODE # CodeClimate
+    # Report test coverage from API to CodeClimate
+    - pushd api/ && \
+      ./cc-test-reporter after-build --exit-code $EXIT_CODE && \
+      popd
 deployment:
   production:
     branch: master
