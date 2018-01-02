@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module SlackClient
   module Groups
     def self.info(channel_id, access_token)

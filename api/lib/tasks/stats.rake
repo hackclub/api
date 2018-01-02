@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 namespace :stats do
   desc 'Get a summary of our current stats'
   task summary: :environment do
@@ -44,7 +45,7 @@ namespace :stats do
 
   def calculate_country_count(addresses)
     # Remove addresses that end in a postal code (USA addresses)
-    international_addresses = addresses.select { |a| !/\d{5}$/.match(a) }
+    international_addresses = addresses.reject { |a| /\d{5}$/.match(a) }
 
     countries = Set.new
 

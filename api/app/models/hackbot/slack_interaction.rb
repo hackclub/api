@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Hackbot
   module SlackInteraction
     extend ActiveSupport::Concern
@@ -86,7 +87,7 @@ module Hackbot
         # Enable text formatting for all possible values by default
         #
         # Docs: https://api.slack.com/docs/message-formatting#message_formatting
-        a[:mrkdwn_in] ||= %w(pretext text fields)
+        a[:mrkdwn_in] ||= %w[pretext text fields]
 
         # Set a default, somewhat useful fallback
         a[:fallback] ||= 'You must use a Slack client that supports '\

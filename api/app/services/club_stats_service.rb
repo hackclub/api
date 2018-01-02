@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # This is a more generic version of StatsService that provides general
 # "interesting insights" into activity of clubs.
 #

@@ -1,4 +1,9 @@
 # frozen_string_literal: true
+
+# Disabling this Rubocop check because it was implemented after this migration
+# was written.
+#
+# rubocop:disable Rails/CreateTableWithTimestamps
 class CreateClubsLeaders < ActiveRecord::Migration[5.0]
   def change
     create_table :clubs_leaders, id: false do |t|
@@ -7,3 +12,4 @@ class CreateClubsLeaders < ActiveRecord::Migration[5.0]
     end
   end
 end
+# rubocop:enable Rails/CreateTableWithTimestamps

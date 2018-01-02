@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class CreateNetPromoterScoreSurveys < ActiveRecord::Migration[5.0]
   def change
     create_table :net_promoter_score_surveys do |t|

@@ -1,6 +1,12 @@
 # frozen_string_literal: true
+
 # For all the new tables created for the new application process, start their ID
 # counts at the current application count.
+#
+# Disabling this Rubocop check because it was implemented after this migration
+# was written.
+#
+# rubocop:disable Rails/ReversibleMigration
 class RestartNewApplicationIdSequences < ActiveRecord::Migration[5.0]
   # current # of club applications as of creation of this migration
   COUNT = 3388
@@ -13,3 +19,4 @@ class RestartNewApplicationIdSequences < ActiveRecord::Migration[5.0]
     SQL
   end
 end
+# rubocop:enable Rails/ReversibleMigration

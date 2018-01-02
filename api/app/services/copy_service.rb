@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class CopyService
   # Make ActionView helpers available in copy files when renderings
   include ActionView::Helpers
@@ -60,11 +61,11 @@ class CopyService
   def get_interaction_yaml(name)
     path = File.join(copy_route, "#{name}.yml")
 
-    YAML.load File.read(path)
+    YAML.safe_load File.read(path)
   end
 
   def copy_route
-    Rails.root.join 'lib/data/copy/'
+    Rails.root.join('lib', 'data', 'copy')
   end
 
   def hash_to_binding(hash)

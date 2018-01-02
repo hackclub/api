@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class MassPmer
   def initialize(access_token, usernames = [])
     @access_token = access_token
@@ -37,7 +38,7 @@ class MassPmer
 end
 
 desc 'Send a mass PM to usernames passed in STDIN'
-task :mass_pm, [:api_token, :msg] => :environment do |_t, args|
+task :mass_pm, %i[api_token msg] => :environment do |_t, args|
   usernames = STDIN.read.split("\n")
   pmer = MassPmer.new(args[:api_token], usernames)
 

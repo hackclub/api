@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # Schedule LeaderCheckInJob for leaders in each timezone.
 class ScheduleLeaderCheckInsJob < ApplicationJob
   queue_as :default
@@ -81,7 +82,7 @@ class ScheduleLeaderCheckInsJob < ApplicationJob
     # This returns all active club leaders at active clubs labeled as a point of
     # contact
     Club.where(stage_key: CLUB_ACTIVE_STAGE_KEY)
-        .select { |clb| !(clb[:point_of_contact_id]).nil? }
+        .reject { |clb| (clb[:point_of_contact_id]).nil? }
         .map(&:point_of_contact)
         .select { |ldr| active? ldr }
         .select { |ldr| ldr.slack_id.present? }

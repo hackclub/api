@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative 'boot'
 
 require 'rails'
@@ -33,7 +34,7 @@ module Api
     config.eager_load_paths << Rails.root.join('lib')
 
     # Autoload all directories in app/ called "concerns"
-    Dir["#{Rails.root}/app/**/concerns"].each do |path|
+    Dir[Rails.root.join('app', '**', 'concerns')].each do |path|
       config.autoload_paths += [path]
     end
 

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module V1
   class ClubsController < ApiController
     before_action :find_club, only: [:show]

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class HandleSpamClubApplicationsJob < ApplicationJob
   INBOX_STAGE = '5001'
   REJECTED_STAGE = '5002'

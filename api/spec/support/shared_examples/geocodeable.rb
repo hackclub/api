@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.shared_examples 'Geocodeable' do
@@ -7,13 +8,13 @@ RSpec.shared_examples 'Geocodeable' do
   let(:address_attr) { model.geocodeable_address_attr }
   let(:attr_mappings) { model.geocodeable_attr_mappings }
 
-  geocoded_attrs = [
-    :latitude, :longitude,
-    :address,
-    :city,
-    :state, :state_code,
-    :postal_code,
-    :country, :country_code
+  geocoded_attrs = %i[
+    latitude longitude
+    address
+    city
+    state state_code
+    postal_code
+    country country_code
   ]
 
   def address(obj, attr = address_attr)

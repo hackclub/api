@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Hackbot
   class Interaction < ApplicationRecord
     include Hackbot::Callbacks

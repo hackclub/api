@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module V1
   class LeadersController < ApiController
     before_action :verify_club_id, only: :intake

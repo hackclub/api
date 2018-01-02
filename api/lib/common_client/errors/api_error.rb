@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ApiError < StandardError
   attr_reader :message
   attr_reader :http_status

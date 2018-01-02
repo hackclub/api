@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class AddSlackUserAndTeamIdToLeader < ActiveRecord::Migration[5.0]
   SLACK_TEAM_ID = Rails.application.secrets.default_slack_team_id
 

@@ -1,8 +1,10 @@
 # frozen_string_literal: true
+
 module Hackbot
   module Interactions
     class Welcome < TextConversation
-      include Concerns::Triggerable, Concerns::LeaderAssociable
+      include Concerns::LeaderAssociable
+      include Concerns::Triggerable
 
       def start
         first_name = leader.name.split(' ').first

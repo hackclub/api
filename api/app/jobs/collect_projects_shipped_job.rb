@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class CollectProjectsShippedJob < ApplicationJob
   CLOUD9_TEAM = Rails.application.secrets.cloud9_team_name
 
@@ -211,6 +212,6 @@ class CollectProjectsShippedJob < ApplicationJob
   end
 
   def workshop_live_url(repo, local_url)
-    URI.join("https://#{repo}", URI.escape(local_url))
+    URI.join("https://#{repo}", local_url)
   end
 end

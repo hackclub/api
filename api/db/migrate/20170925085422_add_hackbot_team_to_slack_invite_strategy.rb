@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class AddHackbotTeamToSlackInviteStrategy < ActiveRecord::Migration[5.0]
   def change
     add_reference :slack_invites, :hackbot_team, foreign_key: true

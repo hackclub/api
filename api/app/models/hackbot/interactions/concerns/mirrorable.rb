@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Hackbot
   module Interactions
     module Concerns
@@ -58,7 +59,7 @@ module Hackbot
         end
 
         def mirror_msg(slack_user, channel, timestamp, msg_event)
-          if msg_event[:attachments] && msg_event[:attachments].any?
+          if msg_event[:attachments]&.any?
             mirror_rich_msg(slack_user, channel, timestamp, msg_event)
           else
             mirror_plain_msg(slack_user, channel, timestamp, msg_event)

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module V1
   class AthulClubsController < ApiController
     AUTH_TOKEN = Rails.application.secrets.athul_auth_token

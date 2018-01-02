@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # rubocop:disable Metrics/LineLength
 task dedup_teacher_leads: :environment do
   def all_boxes_in_pipeline(pipeline_key, page_num = 0, boxes = [], page_size_limit = 1000, &block)
@@ -70,3 +71,4 @@ task dedup_teacher_leads: :environment do
   pool.shutdown
   pool.wait_for_termination
 end
+# rubocop:enable Metrics/LineLength

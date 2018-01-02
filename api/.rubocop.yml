@@ -38,10 +38,26 @@ Metrics/CyclomaticComplexity:
 Metrics/PerceivedComplexity:
   Enabled: false
 
+# Disable for built-in Rails scripts in bin/ because it breaks them.
+Style/MixinUsage:
+  Exclude:
+    - 'bin/**/*'
+
 # Don't worry about having top-level class documentation comments for every
 # class. It'd be a nuisance to do this on all of the generated Rails classes.
 Documentation:
   Enabled: false
+
+# Exclude all tests from this check beacuse this makes a core part of Rspec's
+# DSL ugly.
+#
+# Example: the following test would  be invalid with this check enabled.
+#
+#   expect { Applicant.create }.to change { Applicant.count }.by 1
+#
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - 'spec/**/*'
 
 # Run those Rails cops!
 Rails:
@@ -51,4 +67,13 @@ Rails:
 # different types of relationships and Rails attaches different helper methods
 # for each, not sure why Rubocop has a preference for this by default.
 Rails/HasAndBelongsToMany:
+  Enabled: false
+
+# Disable inverse_of check because it's automatically implicitly added in recent
+# Rails versions
+Rails/InverseOf:
+  Enabled: false
+
+# Don't force :dependent to be specified beacuse :nullify is a sane default.
+Rails/HasManyOrHasOneDependent:
   Enabled: false

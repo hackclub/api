@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module V1
   module SlackInvitation
     class InviteController < ApiController
@@ -28,7 +29,7 @@ module V1
       end
 
       def strip(inv)
-        inv.to_json(methods: [:temp_email], only: [:id, :state])
+        inv.to_json(methods: [:temp_email], only: %i[id state])
       end
 
       def team

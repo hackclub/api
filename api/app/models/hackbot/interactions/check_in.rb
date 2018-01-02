@@ -1,4 +1,3 @@
-# coding: utf-8
 # frozen_string_literal: true
 
 # A few Rubocop cops are disabled in this file because it's pending a refactor.
@@ -6,8 +5,9 @@
 module Hackbot
   module Interactions
     class CheckIn < TextConversation
-      include Concerns::Followupable, Concerns::Triggerable,
-              Concerns::LeaderAssociable
+      include Concerns::LeaderAssociable
+      include Concerns::Triggerable
+      include Concerns::Followupable
 
       TASK_ASSIGNEE = Rails.application.secrets.default_streak_task_assignee
 
@@ -347,7 +347,7 @@ module Hackbot
         # have an idea of how to make this code more clear, please do rewrite
         # it.
         fields = data.map do |key, val|
-          next if %w(channel last_message_ts club_id leader_id).include? key
+          next if %w[channel last_message_ts club_id leader_id].include? key
 
           title = key.humanize
           value = val
@@ -392,7 +392,7 @@ module Hackbot
       private
 
       def restart_check_in
-        keys_to_save = %w(channel last_message_ts club_id leader_id)
+        keys_to_save = %w[channel last_message_ts club_id leader_id]
         keys_to_delete = data.keys - keys_to_save
         keys_to_delete.each { |key| data.delete key }
 
@@ -463,7 +463,7 @@ module Hackbot
 
       def formatted_deadline(lead)
         timezone = lead.timezone || Timezone.fetch('America/Los_Angeles')
-        deadline_in_utc = DateTime.now.utc.next_week + 15.hours
+        deadline_in_utc = Time.now.utc.next_week + 15.hours
         deadline_in_local_tz = timezone.utc_to_local(deadline_in_utc)
         day = deadline_in_local_tz.strftime('%A')
 

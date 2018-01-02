@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.shared_examples 'Streakable' do
@@ -155,7 +156,7 @@ RSpec.shared_examples 'Streakable' do
                                attrs:)
     tmp_obj = model.new(attrs)
 
-    model.field_mappings.each do |attribute_name, _|
+    model.field_mappings.each_key do |attribute_name|
       field_key,
       field_value = tmp_obj
                     .streak_field_and_value_for_attribute(attribute_name)

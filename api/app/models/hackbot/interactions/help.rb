@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Hackbot
   module Interactions
     class Help < Command
@@ -8,7 +9,7 @@ module Hackbot
       DESCRIPTION = 'list available commands'
 
       def start
-        sorted_cmds = cmds.sort { |a, b| a[:usage] <=> b[:usage] }
+        sorted_cmds = cmds.sort_by { |a| a[:usage] }
 
         msg_channel copy('help', commands: sorted_cmds,
                                  bot_mention: '@' + team.bot_username)

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'slack_client/channels'
 require 'slack_client/chat'
 require 'slack_client/groups'

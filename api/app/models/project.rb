@@ -1,19 +1,20 @@
 # frozen_string_literal: true
+
 class Project < ApplicationRecord
   NOT_UNIQUE_MESSAGE = 'This project already exists'
   UNKNOWN_PROJECT_SOURCE_MESSAGE = 'This project type does not exist'
 
   validates :title, :data, presence: true
 
-  validates :git_url, presence: true, if: [:github?, :cloud9_workshop?]
+  validates :git_url, presence: true, if: %i[github? cloud9_workshop?]
 
   before_create :unique?
 
-  enum source: [
-    :github,
-    :github_workshop,
-    :cloud9_workshop,
-    :cloud9
+  enum source: %i[
+    github
+    github_workshop
+    cloud9_workshop
+    cloud9
   ]
 
   private

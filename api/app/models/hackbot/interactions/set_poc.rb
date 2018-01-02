@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Hackbot
   module Interactions
     class SetPoc < AdminCommand
@@ -91,7 +92,7 @@ module Hackbot
       def unset_from_any_poc(leader)
         Club
           .where(point_of_contact_id: leader.id)
-          .update_all(point_of_contact_id: nil)
+          .update_attributes(point_of_contact_id: nil)
       end
 
       def set_poc(club, leader)

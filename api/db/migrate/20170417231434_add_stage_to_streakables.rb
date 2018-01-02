@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class AddStageToStreakables < ActiveRecord::Migration[5.0]
   STREAK_API_BASE = 'https://www.streak.com/api'
   STREAK_API_KEY = Rails.application.secrets.streak_api_key

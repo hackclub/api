@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # DotTechClient provides a convenient way to submit requests for .TECH domains.
 #
 # For most partnerships, .TECH requires users to go to their website and go

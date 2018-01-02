@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 FactoryBot.define do
   factory :new_club_application do
     # new club application ready for submission. only includes required fields +

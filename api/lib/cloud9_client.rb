@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # Resources
 require 'cloud9_client/auth'
 require 'cloud9_client/team'

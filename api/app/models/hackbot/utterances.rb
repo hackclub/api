@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Hackbot
   module Utterances
     # Returns a regex that matches @mentions or regular methods for the given

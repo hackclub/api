@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 namespace :streak do
   desc 'View the fields and their associated values for a given pipeline. Use '\
        'this to figure out the field mappings for a pipeline.'

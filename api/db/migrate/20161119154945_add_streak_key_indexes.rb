@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class AddStreakKeyIndexes < ActiveRecord::Migration[5.0]
   def change
     add_index :clubs, :streak_key

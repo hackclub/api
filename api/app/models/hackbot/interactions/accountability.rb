@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Hackbot
   module Interactions
     class Accountability < Command
@@ -76,7 +77,7 @@ module Hackbot
 
       def been_in_stage_for(a, t)
         ts = a[:last_stage_change_timestamp] / 1000
-        in_stage_since = DateTime.strptime(ts.to_s, '%s')
+        in_stage_since = Time.strptime(ts.to_s, '%s')
 
         t > in_stage_since
       end

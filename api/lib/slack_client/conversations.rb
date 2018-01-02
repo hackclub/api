@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module SlackClient
   module Conversations
     def self.members(id, access_token)

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 namespace :heroku_scheduler do
   desc 'Schedule UpdateFromStreakJob'
   task queue_update_from_streak_job: :environment do

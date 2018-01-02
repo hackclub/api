@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # FundraisingDeal represents a donor, potential or current, that is currently
 # part of our fundraising progress.
 #

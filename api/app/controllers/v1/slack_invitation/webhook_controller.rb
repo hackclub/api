@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module V1
   module SlackInvitation
     # TODO: Update to use new response format from ApiController
