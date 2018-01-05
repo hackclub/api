@@ -9,6 +9,7 @@ class AthulClub < ApplicationRecord
 
   validates :club, :leader, presence: true
   validates :letter, presence: true, if: 'self.persisted?'
+  validate :address_set_on_leader
 
   before_create :init
 
@@ -27,7 +28,7 @@ class AthulClub < ApplicationRecord
       letter_type: '9002',
       # This is the type for welcome letter + 3oz of stickers
       what_to_send: '9005',
-      address: leader.address # TODO: validate presence of this field
+      address: leader.address
     )
 
     error_msg = 'error configuring club and leader'
@@ -50,5 +51,9 @@ class AthulClub < ApplicationRecord
     errors.add(:base, msg)
 
     throw :abort
+  end
+
+  def address_set_on_leader
+    errors.add('leader.address', "can't be blank") if leader&.address.blank?
   end
 end

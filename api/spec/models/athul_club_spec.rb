@@ -22,6 +22,12 @@ RSpec.describe AthulClub, type: :model, vcr: true do
   it { should validate_presence_of :club }
   it { should validate_presence_of :leader }
 
+  it 'requires address to be set on leader' do
+    expect(subject).to be_valid
+    subject.leader.address = nil
+    expect(subject).to be_invalid
+  end
+
   it 'only validates presence of letter after persistence' do
     expect(subject).to_not validate_presence_of :letter
     subject.save!
