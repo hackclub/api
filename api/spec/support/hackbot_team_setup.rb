@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Okay, so this is a little janky. Creating a club leader automatically does a
 # lookup to try to resolve their given email to a Slack username.
 #
