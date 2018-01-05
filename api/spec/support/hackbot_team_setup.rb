@@ -7,24 +7,20 @@
 # Slack team ID, since that's where it gets its access token from.
 #
 # The below is a concern that will add a before hook when included in any tests
-# that will create a Hackbot::Team with an access token from the environment.
+# that will create a Hackbot::Team with a fake access token. Our actual calls to
+# SlackClient are actually hitting our monkeypatched client in spec/support/, so
+# we don't need to worry about having valid tokens.
 module HackbotTeamSetup
   extend ActiveSupport::Concern
 
   included do
     before do
-      token = Rails.application.secrets.spec_slack_access_token
-
-      unless token
-        throw 'HackbotTeamSetup included and SPEC_SLACK_ACCESS_TOKEN not set.'
-      end
-
       Hackbot::Team.create(
         team_id: Rails.application.secrets.default_slack_team_id,
-        team_name: 'Hack Club',
-        bot_user_id: 'U3M0Q1CJ3', # @orpheus's ID on the main Slack
-        bot_username: 'orpheus',
-        bot_access_token: token
+        team_name: 'Fake Team',
+        bot_user_id: 'UFAKEUSER',
+        bot_username: 'fake_username',
+        bot_access_token: 'fake_token'
       )
     end
   end

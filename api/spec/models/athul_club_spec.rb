@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe AthulClub, type: :model, vcr: true do
+RSpec.describe AthulClub, type: :model do
   include HackbotTeamSetup
 
   subject do
@@ -10,10 +10,13 @@ RSpec.describe AthulClub, type: :model, vcr: true do
 
     # leader email needs to be an email of an account in slack for saving of
     # leaders to work.
-    athul_club.leader.email = 'zach@hackclub.com'
+    athul_club.leader.email = 'john@johndoe.com'
 
     athul_club
   end
+
+  before { SlackClient::Users.gen_user(profile: { email: 'john@johndoe.com' }) }
+  after { SlackClient::Users.reset }
 
   it { should belong_to :club }
   it { should belong_to :leader }

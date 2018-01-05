@@ -71,10 +71,11 @@ RSpec.describe 'V1::AthulClubs', type: :request do
       expect(json['errors']['club.name']).to include("can't be blank")
     end
 
-    it 'succeeds when all required fields are set', vcr: true do
+    it 'succeeds when all required fields are set' do
       # set email to something that exists on slack for the email -> slack id
       # resolution
-      fields[:leader][:email] = 'zach@hackclub.com'
+      user = SlackClient::Users.gen_user
+      fields[:leader][:email] = user[:profile][:email]
 
       post '/v1/athul_clubs', params: fields
 
@@ -93,6 +94,9 @@ RSpec.describe 'V1::AthulClubs', type: :request do
 
       # and that the letter was created
       expect(created.letter).to_not be_nil
+
+      # reset SlackClient
+      SlackClient::Users.reset
     end
 
     it 'fails when email cannot be found on slack', vcr: true do
