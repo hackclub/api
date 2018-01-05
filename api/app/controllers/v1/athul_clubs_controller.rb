@@ -24,11 +24,11 @@ module V1
     end
 
     def club_params
-      params.require(:club).permit(:name, :address)
+      params[:club].permit(:name, :address)
     end
 
     def leader_params
-      params.require(:leader).permit(
+      params[:leader].permit(
         :name, :email, :gender, :year, :phone_number, :github_username,
         :twitter_username, :address
       )
