@@ -7,11 +7,14 @@ class AthulClub < ApplicationRecord
 
   accepts_nested_attributes_for :club, :leader
 
-  validates :club, uniqueness: true
+  validates :club, :leader, presence: true
+  validates :letter, presence: true, if: 'self.persisted?'
 
   before_create :init
 
   def init
+    return unless club && leader
+
     club.stage_key = '5020' # Indian club stage
     leader.stage_key = '5008' # Indian leader stage
 
