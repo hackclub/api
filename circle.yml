@@ -23,6 +23,7 @@ machine:
     SLACK_CLIENT_ID: fake_client_id
     SLACK_CLIENT_SECRET: fake_client_secret
     DEFAULT_SLACK_TEAM_ID: fake_slack_team_id
+    SPEC_SLACK_ACCESS_TOKEN: fake_access_token
     TECH_DOMAIN_REDEMPTION_SECRET_CODE: fake_secret_code
     GUGGY_API_KEY: fake_guggy_api_key
     DEFAULT_STREAK_TASK_ASSIGNEE: email@email.email
