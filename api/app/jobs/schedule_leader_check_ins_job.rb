@@ -6,8 +6,10 @@ class ScheduleLeaderCheckInsJob < ApplicationJob
 
   HACK_CLUB_TEAM_ID = 'T0266FRGM'
   CLUB_ACTIVE_STAGE_KEY = '5003'
+  CLUB_INDIA_STAGE_KEY = '5020'
   CLUB_PIPELINE_KEY = Rails.application.secrets.streak_club_pipeline_key
   LEADER_ACTIVE_STAGE_KEY = '5006'
+  LEADER_INDIA_STAGE_KEY = '5008'
   LEADER_PIPELINE_KEY = Rails.application.secrets.streak_leader_pipeline_key
 
   def perform(real_run = false, timezones = true)
@@ -73,7 +75,9 @@ class ScheduleLeaderCheckInsJob < ApplicationJob
 
   def active?(leader)
     leader_box = Leader.find_by(streak_key: leader.streak_key,
-                                stage_key: LEADER_ACTIVE_STAGE_KEY)
+                                stage_key: LEADER_ACTIVE_STAGE_KEY) ||
+                 Leader.find_by(streak_key: leader.streak_key,
+                                stage_key: LEADER_INDIA_STAGE_KEY)
 
     !leader_box.nil?
   end
@@ -82,6 +86,7 @@ class ScheduleLeaderCheckInsJob < ApplicationJob
     # This returns all active club leaders at active clubs labeled as a point of
     # contact
     Club.where(stage_key: CLUB_ACTIVE_STAGE_KEY)
+        .or(stage_key: CLUB_INDIA_STAGE_KEY)
         .reject { |clb| (clb[:point_of_contact_id]).nil? }
         .map(&:point_of_contact)
         .select { |ldr| active? ldr }
