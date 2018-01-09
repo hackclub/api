@@ -83,7 +83,7 @@ class ScheduleLeaderCheckInsJob < ApplicationJob
     # This returns all active club leaders at active clubs labeled as a point of
     # contact
     Club.where(stage_key: CLUB_ACTIVE_STAGE_KEY)
-        .or(stage_key: CLUB_INDIA_STAGE_KEY)
+        .or(Club.where(stage_key: CLUB_INDIA_STAGE_KEY))
         .reject { |clb| (clb[:point_of_contact_id]).nil? }
         .map(&:point_of_contact)
         .select { |ldr| active? ldr }
