@@ -58,10 +58,7 @@ class ScheduleLeaderCheckInsJob < ApplicationJob
   end
 
   def log(message)
-    msg = (@dry_run ? '(Dry run) ' : '')
-    msg << message
-
-    Rails.logger.info msg
+    Rails.logger.info((@dry_run ? '(Dry run) ' : '') + message)
   end
 
   def time_offset(lat, lng, day = 'friday', local_time = 17.hours)
