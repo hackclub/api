@@ -13,7 +13,7 @@ class SlackInvite < ApplicationRecord
 
   belongs_to :team,
              foreign_key: 'hackbot_team_id',
-             class_name: ::Hackbot::Team
+             class_name: 'Hackbot::Team'
 
   belongs_to :slack_invite_strategy
 

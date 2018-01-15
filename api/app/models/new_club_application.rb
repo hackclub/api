@@ -26,7 +26,7 @@ class NewClubApplication < ApplicationRecord
     charter_school
   ]
 
-  with_options if: 'submitted_at.present?' do |application|
+  with_options if: -> { submitted_at.present? } do |application|
     application.validates :high_school_name,
                           :high_school_type,
                           :high_school_address,

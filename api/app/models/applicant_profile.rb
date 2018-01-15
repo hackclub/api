@@ -10,7 +10,7 @@ class ApplicantProfile < ApplicationRecord
   belongs_to :new_club_application
 
   validates :applicant, :new_club_application, presence: true
-  validates :leader_email, email: true, if: 'leader_email.present?'
+  validates :leader_email, email: true, if: -> { leader_email.present? }
 
   enum leader_year_in_school: %i[
     freshman
@@ -54,9 +54,9 @@ class ApplicantProfile < ApplicationRecord
     skills_system_hacked skills_impressive_achievement skills_is_technical
   ].freeze
 
-  validate :make_immutable, if: 'submitted_at.present?'
+  validate :make_immutable, if: -> { submitted_at.present? }
 
-  before_create :prefill_leader_email, if: 'leader_email.blank?'
+  before_create :prefill_leader_email, if: -> { leader_email.blank? }
   before_save :update_completion_status
 
   def prefill_leader_email
