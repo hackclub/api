@@ -21,8 +21,8 @@ guard :rspec, cmd: 'bin/bundle exec spring rspec' do
 
   watch(rails.controllers) do |m|
     [
-      rspec.spec.("controllers/#{m[1]}"),
-      rspec.spec.("requests/#{m[1]}")
+      rspec.spec.call("controllers/#{m[1]}"),
+      rspec.spec.call("requests/#{m[1]}")
     ]
   end
 
@@ -38,5 +38,5 @@ guard :rspec, cmd: 'bin/bundle exec spring rspec' do
       "#{rspec.spec_dir}/requests"
     ]
   end
-  watch(%r{^app/mailers/application_mailer\.rb$}) { |m| "spec/mailers" }
+  watch(%r{^app/mailers/application_mailer\.rb$}) { |_m| 'spec/mailers' }
 end
