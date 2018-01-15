@@ -30,7 +30,7 @@ class Applicant < ApplicationRecord
       self.auth_token = SecureRandom.hex(32)
       self.auth_token_generation = Time.current
 
-      # repreat until token is unique
+      # repeat until token is unique
       break unless Applicant.find_by(auth_token: auth_token)
     end
   end
