@@ -27,6 +27,9 @@ services:
       - bundle
     depends_on:
       - db
+      - cache
+    environment:
+      REDIS_URL: redis://cache:6379
   bundle:
     # You may need to run `docker-compose build web` before this works.
     image: alpine
