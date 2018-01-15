@@ -27,6 +27,7 @@ guard :rspec, cmd: 'bin/bundle exec spring rspec' do
   end
 
   watch(%r{^app/(.+/concerns/.+)\.rb$}) { |m| "spec/#{m[1]}_spec.rb" }
+  watch(%r{^app/(mailers/.+)_mailer\.rb$}) { |m| "spec/#{m[1]}_spec.rb" }
 
   # Rails config changes
   watch(rails.spec_helper) { rspec.spec_dir }
@@ -37,4 +38,5 @@ guard :rspec, cmd: 'bin/bundle exec spring rspec' do
       "#{rspec.spec_dir}/requests"
     ]
   end
+  watch(%r{^app/mailers/application_mailer\.rb$}) { |m| "spec/mailers" }
 end
