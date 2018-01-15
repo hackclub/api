@@ -5,6 +5,7 @@ machine:
     version: 2.3.1
   services:
     - postgresql
+    - redis
   # CC_TEST_REPORTER_ID must be set privately for CodeClimate test coverage
   # reports to work.
   environment:
