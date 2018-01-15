@@ -13,6 +13,10 @@
   </a>
 </p>
 
+<p align="center">
+Monolith currently hosts all backend and <a href="https://legacy.hackclub.com">legacy</a> code, even the <a href="https://hackclub.com/workshops">workshops page</a>. The rest of the site is at <a href="https://github.com/hackclub/site">hackclub/site</a>.
+</p>
+
 ## How to run it
 
 Go through the [web setup](#web-setup) and [api setup](#api-setup). Once you've got that done you can spin up both at the same time with this command:
