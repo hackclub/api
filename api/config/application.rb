@@ -39,7 +39,7 @@ module Api
     end
 
     # Used DelayedJob as our ActiveJob backend
-    config.active_job.queue_adapter = :delayed_job
+    config.active_job.queue_adapter = :sidekiq
 
     # Properly configure generators to use RSpec and factory_bot
     config.generators do |g|

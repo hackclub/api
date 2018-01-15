@@ -5,6 +5,7 @@ machine:
     version: 2.3.1
   services:
     - postgresql
+    - redis
   # CC_TEST_REPORTER_ID must be set privately for CodeClimate test coverage
   # reports to work.
   environment:
@@ -44,8 +45,12 @@ machine:
     STRIPE_PUBLISHABLE_KEY: fake_public_key
     STRIPE_SECRET_KEY: fake_secret_key
 
-    DATABASE_URL: postgresql://ubuntu:@127.0.0.1:5432/circle_test
     CHANNELS_TO_CLEAR: ''
+
+    SIDEKIQ_HTTP_USERNAME: fake_username
+    SIDEKIQ_HTTP_PASSWORD: fake_password
+
+    DATABASE_URL: postgresql://ubuntu:@127.0.0.1:5432/circle_test
 dependencies:
   cache_directories:
     - "api/bundler_cache"

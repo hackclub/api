@@ -178,6 +178,10 @@ SMTP_DOMAIN
 
 # Auth Token used when receiving a POST request to create an Athul club
 ATHUL_AUTH_TOKEN
+
+# HTTP auth to access Sidekiq's web interface
+SIDEKIQ_HTTP_USERNAME
+SIDEKIQ_HTTP_PASSWORD
 ```
 
 ### Build the container
