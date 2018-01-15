@@ -14,7 +14,7 @@
 </p>
 
 <p align="center">
-Monolith currently hosts all backend and <a href="https://legacy.hackclub.com">legacy</a> code, including the <a href="https://hackclub.com/workshops">workshops page</a>. The rest of the site is at <code><a href="https://github.com/hackclub/site">hackclub/site</a></code>.
+Monolith currently includes our backend API hosted at https://api.hackclub.com and our legacy frontend codebase, which includes our <a href="https://hackclub.com/workshops">workshops page</a>. Our new frontend codebase is at <code><a href="https://github.com/hackclub/site">hackclub/site</a></code>.
 </p>
 
 ## How to run it
