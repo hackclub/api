@@ -1,0 +1,34 @@
+Hello hello!
+
+With me I bring great news. We just received an application to start a Hack Club! Full details below.
+
+Yours faithfully,
+Monolith
+
+---
+
+================
+Club Application
+================
+<% @application_fields.each do |question, answer| %>
+
+# <%= question %>
+
+<%= answer %>
+<% end %>
+
+===============
+Leader Profiles
+===============
+<% @profiles_w_fields.each do |profile, fields| %>
+
+<%= '-' * profile.leader_name.length %>
+<%= profile.leader_name %>
+<%= '-' * profile.leader_name.length %>
+<% fields.each do |question, answer| %>
+
+# <%= question %>
+
+<%= answer %>
+<% end %>
+<% end %>

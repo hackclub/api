@@ -122,10 +122,11 @@ RSpec.describe NewClubApplication, type: :model do
       expect(res).to eq(true)
     end
 
-    it 'sends confirmation emails to applicants' do
+    it 'sends confirmation emails to applicants and staff' do
       subject.submit!
 
-      expect(ApplicantMailer.deliveries.length).to be(3)
+      # three emails to applicants and one email to staff
+      expect(ApplicantMailer.deliveries.length).to eq(3 + 1)
     end
 
     it 'makes the model immutable' do

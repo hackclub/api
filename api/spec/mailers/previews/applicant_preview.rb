@@ -16,4 +16,11 @@ class ApplicantPreview < ActionMailer::Preview
     ApplicantMailer.application_submission(application,
                                            application.applicants.first)
   end
+
+  def application_submission_staff
+    application = FactoryBot.create(:completed_new_club_application)
+    application.submit!
+
+    ApplicantMailer.application_submission_staff(application)
+  end
 end

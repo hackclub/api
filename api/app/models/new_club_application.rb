@@ -74,6 +74,8 @@ class NewClubApplication < ApplicationRecord
           ApplicantMailer.application_submission(self, applicant).deliver_later
         end
 
+        ApplicantMailer.application_submission_staff(self).deliver_later
+
         true
       else
         false
