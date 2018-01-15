@@ -2,8 +2,8 @@
 
 class Applicant < ApplicationRecord
   validates :email, presence: true, uniqueness: true, email: true
-  validates :login_code, uniqueness: { if: 'login_code.present?' }
-  validates :auth_token, uniqueness: { if: 'auth_token.present?' }
+  validates :login_code, uniqueness: { if: -> { login_code.present? } }
+  validates :auth_token, uniqueness: { if: -> { auth_token.present? } }
 
   has_many :applicant_profiles
   has_many :new_club_applications, through: :applicant_profiles

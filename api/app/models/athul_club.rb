@@ -8,7 +8,7 @@ class AthulClub < ApplicationRecord
   accepts_nested_attributes_for :club, :leader
 
   validates :club, :leader, presence: true
-  validates :letter, presence: true, if: 'self.persisted?'
+  validates :letter, presence: true, if: -> { persisted? }
   validate :address_set_on_leader
 
   before_create :init
