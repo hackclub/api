@@ -20,7 +20,7 @@ services:
       REDIS_URL: redis://cache:6379
   worker:
     build: ./api
-    command: bundle exec rails jobs:work
+    command: bundle exec sidekiq
     volumes:
       - ./api:/usr/src/app
     volumes_from:
