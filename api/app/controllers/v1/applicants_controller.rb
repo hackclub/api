@@ -8,7 +8,8 @@ module V1
       applicant.generate_login_code!
 
       if applicant.save
-        ApplicantMailer.login_code(applicant).deliver_later
+        # deliver_now to ensure email is sent as quickly as possible
+        ApplicantMailer.login_code(applicant).deliver_now
 
         render_success(applicant)
       else
