@@ -8,7 +8,7 @@ greeting:
     if_first_check_in_of_semester: |
       Hey <%= first_name %>! Orpheus here, hope you've had a great break!
       
-      You've been scheduled to restart your club this week, if this is no longer true (or there's some other issue) you should message <@U0C7BTKLG> to get it resolved.
+      You've been scheduled to restart your club this week, if this is no longer true (or there's some other issue) you should message <@U0C7B14Q3> to get it resolved.
       
       OK, time for the check-in: Did you have a meeting this week?
     default: |
