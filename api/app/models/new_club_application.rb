@@ -31,7 +31,6 @@ class NewClubApplication < ApplicationRecord
                           :high_school_type,
                           :high_school_address,
                           :leaders_video_url,
-                          :leaders_interesting_project,
                           :leaders_team_origin_story,
                           :progress_general,
                           :progress_student_interest,
