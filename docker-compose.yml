@@ -20,13 +20,16 @@ services:
       REDIS_URL: redis://cache:6379
   worker:
     build: ./api
-    command: bundle exec rails jobs:work
+    command: bundle exec sidekiq
     volumes:
       - ./api:/usr/src/app
     volumes_from:
       - bundle
     depends_on:
       - db
+      - cache
+    environment:
+      REDIS_URL: redis://cache:6379
   bundle:
     # You may need to run `docker-compose build web` before this works.
     image: alpine

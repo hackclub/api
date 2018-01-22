@@ -13,10 +13,17 @@ ActiveSupport.to_time_preserves_timezone = true
 # Require `belongs_to` associations by default. Previous versions had false.
 Rails.application.config.active_record.belongs_to_required_by_default = true
 
-# Do not halt callback chains when a callback returns false. Previous versions
-# had true.
-ActiveSupport.halt_callback_chains_on_return_false = false
-
 # Configure SSL options to enable HSTS with subdomains. Previous versions had
 # false.
 Rails.application.config.ssl_options = { hsts: { subdomains: true } }
+
+# Rails 5 now requires belongs_to by default. For some inane reason, this
+# behavior was being overriden by DelayedJob when we still used it, so our code
+# was written with the assumption that belongs_to was still optional.
+#
+# I'm going to keep the old behavior until we have better test suite coverage to
+# migrate to the new default.
+#
+# See https://github.com/collectiveidea/delayed_job_active_record/issues/128 for
+# the DelayedJob issue.
+Rails.application.config.active_record.belongs_to_required_by_default = false

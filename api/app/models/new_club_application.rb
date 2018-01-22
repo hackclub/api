@@ -26,11 +26,10 @@ class NewClubApplication < ApplicationRecord
     charter_school
   ]
 
-  with_options if: 'submitted_at.present?' do |application|
+  with_options if: -> { submitted_at.present? } do |application|
     application.validates :high_school_name,
                           :high_school_type,
                           :high_school_address,
-                          :leaders_interesting_project,
                           :leaders_team_origin_story,
                           :progress_general,
                           :progress_student_interest,
@@ -72,6 +71,8 @@ class NewClubApplication < ApplicationRecord
         applicants.each do |applicant|
           ApplicantMailer.application_submission(self, applicant).deliver_later
         end
+
+        ApplicantMailer.application_submission_staff(self).deliver_later
 
         true
       else

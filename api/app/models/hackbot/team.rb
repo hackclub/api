@@ -9,7 +9,7 @@ module Hackbot
 
     has_many :interactions,
              foreign_key: 'hackbot_team_id',
-             class_name: ::Hackbot::Interaction
+             class_name: 'Hackbot::Interaction'
 
     def bot_mention
       "<@#{bot_user_id}>"

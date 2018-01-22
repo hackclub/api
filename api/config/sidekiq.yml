@@ -1,0 +1,5 @@
+---
+:queues:
+  - default
+  - [slack_events, 3]
+  - [mailers, 2]

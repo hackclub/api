@@ -13,6 +13,10 @@
   </a>
 </p>
 
+<p align="center">
+Monolith currently includes our backend API hosted at https://api.hackclub.com and our legacy frontend codebase, which includes our <a href="https://hackclub.com/workshops">workshops page</a>. Our new frontend codebase is at <code><a href="https://github.com/hackclub/site">hackclub/site</a></code>.
+</p>
+
 ## How to run it
 
 Go through the [web setup](#web-setup) and [api setup](#api-setup). Once you've got that done you can spin up both at the same time with this command:
@@ -174,6 +178,10 @@ SMTP_DOMAIN
 
 # Auth Token used when receiving a POST request to create an Athul club
 ATHUL_AUTH_TOKEN
+
+# HTTP auth to access Sidekiq's web interface
+SIDEKIQ_HTTP_USERNAME
+SIDEKIQ_HTTP_PASSWORD
 ```
 
 ### Build the container
