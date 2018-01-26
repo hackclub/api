@@ -20,9 +20,6 @@ module Hackbot
         flavor_text = copy('greeting.flavor_text')
         deadline = formatted_deadline leader
         key = 'greeting.' + (first_check_in? ? 'if_first_check_in' : 'default')
-        if first_check_in_of_semester
-          key = 'greeting.if_first_check_in_of_semester'
-        end
         key = 'greeting.restart' if @restart
         actions = []
 
@@ -546,16 +543,6 @@ module Hackbot
       def first_check_in?
         Hackbot::Interactions::CheckIn
           .where("data->>'channel' = ?", data['channel']).empty?
-      end
-
-      def first_check_in_of_semester
-        !first_check_in? &&
-          Hackbot::Interactions::CheckIn
-            .where("data->>'channel' = ?", data['channel'])
-            .where(
-              'created_at > ?',
-              Time.zone.now.change(month: 6, day: 1, minute: 0, hour: 0)
-            ).empty?
       end
 
       def integer?(str)

@@ -5,12 +5,6 @@ greeting:
         I'll be reaching out to you every week, typically on Fridays, to check in and see how your club's doing. I'll be in the loop every step of the way 🙂
 
         To start, did you have a club meeting this week?
-    if_first_check_in_of_semester: |
-      Hey <%= first_name %>! Orpheus here, hope you've had a great break!
-      
-      You've been scheduled to restart your club this week, if this is no longer true (or there's some other issue) you should message <@U0C7B14Q3> to get it resolved.
-      
-      OK, time for the check-in: Did you have a meeting this week?
     default: |
       Hey <%= first_name %>, <%= flavor_text %>
 
