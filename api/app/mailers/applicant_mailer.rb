@@ -50,12 +50,6 @@ class ApplicantMailer < ApplicationMailer
       'High School Website': application.high_school_url,
       'High School Type': application.high_school_type.humanize,
       'High School Address': application.high_school_address,
-      'Video URL': application.leaders_video_url,
-
-      'Please tell us about an interesting project, preferably outside of '\
-      'class, that two or more of you created together. Include URLs if '\
-      'possible.' =>
-      application.leaders_interesting_project,
 
       'How long have you known your other club leaders and how did you meet?':
       application.leaders_team_origin_story,
