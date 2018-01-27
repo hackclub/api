@@ -59,7 +59,7 @@ module V1
         return render_field_error(:email, 'already added')
       end
 
-      profile = ApplicantProfile.with_deleted.find_or_create_by(
+      profile = LeaderProfile.with_deleted.find_or_create_by(
         user: to_add,
         new_club_application: app
       )

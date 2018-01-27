@@ -5,8 +5,8 @@ class NewClubApplication < ApplicationRecord
 
   validate :point_of_contact_is_associated
 
-  has_many :applicant_profiles
-  has_many :users, through: :applicant_profiles
+  has_many :leader_profiles
+  has_many :users, through: :leader_profiles
   belongs_to :point_of_contact, class_name: 'User'
 
   geocode_attrs address: :high_school_address,
@@ -42,15 +42,15 @@ class NewClubApplication < ApplicationRecord
                           :point_of_contact,
                           presence: true
 
-    # ensure applicant profiles are complete
+    # ensure leader profiles are complete
     application.validate do |app|
       all_complete = true
 
-      app.applicant_profiles.each do |profile|
+      app.leader_profiles.each do |profile|
         all_complete = false unless profile.completed_at
       end
 
-      errors.add(:base, 'applicant profiles not complete') unless all_complete
+      errors.add(:base, 'leader profiles not complete') unless all_complete
     end
 
     # make model immutable

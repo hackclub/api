@@ -41,8 +41,8 @@ FactoryBot.define do
 
       # relationships
       after(:create) do |application, evaluator|
-        # will also create applicants
-        create_list(:completed_applicant_profile, evaluator.profile_count,
+        # will also create leader profiles
+        create_list(:completed_leader_profile, evaluator.profile_count,
                     new_club_application: application)
 
         application.point_of_contact = application.users.first

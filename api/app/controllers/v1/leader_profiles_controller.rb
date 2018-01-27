@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 module V1
-  class ApplicantProfilesController < ApiController
+  class LeaderProfilesController < ApiController
     include UserAuth
 
     def show
-      profile = ApplicantProfile.find_by(id: params[:id])
+      profile = LeaderProfile.find_by(id: params[:id])
 
       return render_not_found unless profile
       return render_access_denied if profile.user != @user
@@ -14,14 +14,15 @@ module V1
     end
 
     def update
-      profile = ApplicantProfile.find_by(id: params[:id])
+      profile = LeaderProfile.find_by(id: params[:id])
 
       return render_not_found unless profile
       return render_access_denied if profile.user != @user
 
       if profile.submitted_at.present?
-        return render_field_error(:base,
-                                  'cannot edit applicant profile after submit')
+        return render_field_error(
+          :base, 'cannot edit leader profile after submit'
+        )
       end
 
       # TODO: Check for errors and return them if needed

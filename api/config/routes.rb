@@ -24,7 +24,7 @@ Rails.application.routes.draw do
       post 'submit'
     end
 
-    resources :applicant_profiles, only: %i[show update]
+    resources :leader_profiles, only: %i[show update]
 
     resources :users, only: [] do
       collection do

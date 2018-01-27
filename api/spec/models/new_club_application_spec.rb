@@ -61,8 +61,8 @@ RSpec.describe NewClubApplication, type: :model do
 
   ## relationships ##
 
-  it { should have_many(:applicant_profiles) }
-  it { should have_many(:users).through(:applicant_profiles) }
+  it { should have_many(:leader_profiles) }
+  it { should have_many(:users).through(:leader_profiles) }
   it { should belong_to(:point_of_contact) }
 
   it 'requires points of contact to be associated users' do
@@ -78,8 +78,8 @@ RSpec.describe NewClubApplication, type: :model do
     subject { create(:completed_new_club_application, profile_count: 3) }
     let(:user) { subject.point_of_contact }
     let(:profile) do
-      ApplicantProfile.find_by(user: user,
-                               new_club_application: subject)
+      LeaderProfile.find_by(user: user,
+                            new_club_application: subject)
     end
 
     it 'fails when missing required fields' do
@@ -94,18 +94,18 @@ RSpec.describe NewClubApplication, type: :model do
       expect(subject.errors[:progress_general]).to include "can't be blank"
     end
 
-    it 'fails when applicant profiles are not complete' do
+    it 'fails when leader profiles are not complete' do
       profile.update_attributes(leader_name: nil)
       res = subject.submit!
 
       expect(res).to eq(false)
       expect(subject.submitted_at).to be_nil
       expect(subject.errors[:base]).to include(
-        'applicant profiles not complete'
+        'leader profiles not complete'
       )
     end
 
-    it 'succeeds when required fields are set & applicant profiles complete' do
+    it 'succeeds when required fields are set & leader profiles complete' do
       res = subject.submit!
 
       expect(res).to eq(true)

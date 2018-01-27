@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe ApplicantProfile, type: :model do
+RSpec.describe LeaderProfile, type: :model do
   ## db columns ##
 
   # metadata
@@ -69,16 +69,16 @@ RSpec.describe ApplicantProfile, type: :model do
 
   it 'should prefill email with applicant info' do
     # when email is not set, prefill
-    profile = create(:applicant_profile)
+    profile = create(:leader_profile)
     expect(profile.leader_email).to eq(profile.user.email)
 
     # when email is set, do not overwrite it
-    profile = create(:applicant_profile, leader_email: 'foo@bar.com')
+    profile = create(:leader_profile, leader_email: 'foo@bar.com')
     expect(profile.leader_email).to eq('foo@bar.com')
   end
 
   describe 'completed_at autosetting / unsetting' do
-    let(:unsaved_profile) { build(:completed_applicant_profile) }
+    let(:unsaved_profile) { build(:completed_leader_profile) }
     let(:profile) { unsaved_profile.save && unsaved_profile }
 
     it 'should set completed_at when required fields are completed' do
@@ -115,20 +115,20 @@ RSpec.describe ApplicantProfile, type: :model do
   end
 
   it 'should become immutable after application is submitted' do
-    profile = create(:completed_applicant_profile)
+    profile = create(:completed_leader_profile)
     profile.new_club_application.submit!
 
     profile.update_attributes(leader_name: 'Jane Doe')
     expect(profile.errors[:base]).to include(
-      'cannot edit applicant profile after submit'
+      'cannot edit leader profile after submit'
     )
   end
 
   it 'should preserve information on deletion' do
-    profile = create(:completed_applicant_profile)
+    profile = create(:completed_leader_profile)
     profile.destroy
 
-    deleted = ApplicantProfile.with_deleted.find_by(id: profile.id)
+    deleted = LeaderProfile.with_deleted.find_by(id: profile.id)
     expect(deleted).to_not be_nil
     expect(deleted.deleted_at).to be_within(1.minute).of(Time.current)
     expect(deleted.leader_name).to eq(profile.leader_name)

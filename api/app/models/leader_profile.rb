@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ApplicantProfile < ApplicationRecord
+class LeaderProfile < ApplicationRecord
   include Geocodeable
 
   # preserve information from record deletions
@@ -80,7 +80,7 @@ class ApplicantProfile < ApplicationRecord
   end
 
   def make_immutable
-    errors.add(:base, 'cannot edit applicant profile after submit') if changed?
+    errors.add(:base, 'cannot edit leader profile after submit') if changed?
   end
 
   def submitted_at

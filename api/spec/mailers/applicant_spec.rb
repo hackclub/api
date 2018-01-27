@@ -82,9 +82,9 @@ RSpec.describe ApplicantMailer, type: :mailer do
       expect(mail).to have_body_text(application.progress_general)
     end
 
-    it "includes fields from the user's applicant profile" do
-      profile = ApplicantProfile.find_by(user: user,
-                                         new_club_application: application)
+    it "includes fields from the user's leader profile" do
+      profile = LeaderProfile.find_by(user: user,
+                                      new_club_application: application)
       expect(mail).to have_body_text(profile.skills_system_hacked)
     end
   end

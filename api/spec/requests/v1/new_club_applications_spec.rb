@@ -91,12 +91,12 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       expect(response.status).to eq(200)
       expect(json).to include('high_school_name' => 'Superhero High School')
 
-      # includes list of applicant profile ids, status, and user info
-      profile = ApplicantProfile.find_by(
+      # includes list of leader profile ids, status, and user info
+      profile = LeaderProfile.find_by(
         user: user,
         new_club_application: club_application
       )
-      expect(json['applicant_profiles'].first).to eq(
+      expect(json['leader_profiles'].first).to eq(
         'id' => profile.id,
         'completed_at' => profile.completed_at,
         'user' => {
@@ -225,7 +225,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
 
     it 'fails to update fields when application has been submitted' do
       application = create(:completed_new_club_application)
-      create(:completed_applicant_profile,
+      create(:completed_leader_profile,
              new_club_application: application, user: user)
       application.update_attributes(point_of_contact: user)
 
@@ -316,9 +316,9 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       expect(ApplicantMailer.deliveries.length).to be(1)
     end
 
-    it 'rehydrates applicant profile when one was previously deleted' do
+    it 'rehydrates leader profile when one was previously deleted' do
       to_readd = create(:user)
-      to_rehydrate = create(:applicant_profile,
+      to_rehydrate = create(:leader_profile,
                             user: to_readd,
                             new_club_application: club_application)
       to_rehydrate.update_attributes(leader_name: 'Jerry')
@@ -332,7 +332,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       expect(response.status).to eq(200)
 
       # successfully rehydrated
-      expect(ApplicantProfile.find_by(
+      expect(LeaderProfile.find_by(
         user: to_readd,
         new_club_application: club_application
       ).leader_name).to eq('Jerry')
@@ -352,7 +352,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
 
     it 'fails when application has been submitted' do
       application = create(:completed_new_club_application)
-      create(:completed_applicant_profile,
+      create(:completed_leader_profile,
              new_club_application: application, user: user)
       application.update_attributes(point_of_contact: user)
 
@@ -374,8 +374,8 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
     let(:application) { create(:completed_new_club_application) }
 
     before do
-      create(:completed_applicant_profile, user: user,
-                                           new_club_application: application)
+      create(:completed_leader_profile, user: user,
+                                        new_club_application: application)
       application.update_attributes(point_of_contact: user)
     end
 
@@ -483,7 +483,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
              headers: auth_headers,
              params: { user_id: to_delete.id }
 
-      deleted_profile = ApplicantProfile.with_deleted.find_by(
+      deleted_profile = LeaderProfile.with_deleted.find_by(
         user: user,
         new_club_application: application
       )
@@ -501,7 +501,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
     # add our user w/ a completed profile
     let!(:profile) do
       create(
-        :completed_applicant_profile,
+        :completed_leader_profile,
         user: user, new_club_application: application
       )
     end
@@ -547,7 +547,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       expect(json['errors']).to include('formation_registered')
     end
 
-    it 'fails when applicant profiles are not completed' do
+    it 'fails when leader profiles are not completed' do
       profile.update_attributes(leader_name: nil)
 
       post "/v1/new_club_applications/#{application.id}/submit",
@@ -556,7 +556,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       expect(response.status).to eq(422)
       expect(
         json['errors']['base']
-      ).to include('applicant profiles not complete')
+      ).to include('leader profiles not complete')
     end
 
     it 'submits successfully when all fields are present' do

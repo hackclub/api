@@ -30,9 +30,9 @@ class NewClubApplicationSerializer < ActiveModel::Serializer
              :point_of_contact_id,
              :submitted_at
 
-  has_many :applicant_profiles
+  has_many :leader_profiles
 
-  class ApplicantProfileSerializer < ActiveModel::Serializer
+  class LeaderProfileSerializer < ActiveModel::Serializer
     attributes :id, :completed_at
     has_one :user
 

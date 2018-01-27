@@ -5,8 +5,8 @@ class User < ApplicationRecord
   validates :login_code, uniqueness: { if: -> { login_code.present? } }
   validates :auth_token, uniqueness: { if: -> { auth_token.present? } }
 
-  has_many :applicant_profiles
-  has_many :new_club_applications, through: :applicant_profiles
+  has_many :leader_profiles
+  has_many :new_club_applications, through: :leader_profiles
 
   def generate_login_code!
     loop do
