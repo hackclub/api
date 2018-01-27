@@ -24,8 +24,6 @@ RSpec.describe NewClubApplication, type: :model do
   it { should have_db_column :high_school_parsed_country_code }
 
   # leaders
-  it { should have_db_column :leaders_video_url }
-  it { should have_db_column :leaders_interesting_project }
   it { should have_db_column :leaders_team_origin_story }
 
   # progress

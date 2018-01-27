@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180115122359) do
+ActiveRecord::Schema.define(version: 20180127051157) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -268,8 +268,6 @@ ActiveRecord::Schema.define(version: 20180115122359) do
     t.text "high_school_parsed_postal_code"
     t.text "high_school_parsed_country"
     t.text "high_school_parsed_country_code"
-    t.text "leaders_video_url"
-    t.text "leaders_interesting_project"
     t.text "leaders_team_origin_story"
     t.text "progress_general"
     t.text "progress_student_interest"
@@ -286,6 +284,7 @@ ActiveRecord::Schema.define(version: 20180115122359) do
     t.text "other_surprising_or_amusing_discovery"
     t.integer "point_of_contact_id"
     t.datetime "submitted_at"
+    t.json "legacy_fields"
     t.index ["point_of_contact_id"], name: "index_new_club_applications_on_point_of_contact_id"
   end
 

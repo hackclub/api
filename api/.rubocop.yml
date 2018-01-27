@@ -77,3 +77,9 @@ Rails/InverseOf:
 # Don't force :dependent to be specified beacuse :nullify is a sane default.
 Rails/HasManyOrHasOneDependent:
   Enabled: false
+
+# Don't force usage of ApplicationRecord instead of ActiveRecord::Base in Rails
+# migrations because migrations shouldn't depend on application code.
+Rails/ApplicationRecord:
+  Exclude:
+    - 'db/migrate/**'

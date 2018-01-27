@@ -16,8 +16,6 @@ FactoryBot.define do
       high_school_address { HCFaker::Address.full_address }
 
       # leaders
-      leaders_video_url { Faker::Internet.url }
-      leaders_interesting_project { Faker::Lorem.paragraph }
       leaders_team_origin_story { Faker::Lorem.paragraph }
 
       # progress
