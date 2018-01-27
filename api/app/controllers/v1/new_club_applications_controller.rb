@@ -4,6 +4,13 @@ module V1
   class NewClubApplicationsController < ApiController
     include UserAuth
 
+    # All applications
+    def full_index
+      return render_access_denied unless @user.admin?
+      render_success NewClubApplication.all
+    end
+
+    # Applications for a specific user
     def index
       if params[:user_id] == @user.id.to_s
         render_success(@user.new_club_applications)
@@ -13,28 +20,21 @@ module V1
     end
 
     def show
-      application = NewClubApplication.find_by(id: params[:id])
+      application = NewClubApplication.find(params[:id])
+      authorize application
 
-      return render_not_found unless application
-
-      if application.users.include? @user
-        render_success(application)
-      else
-        render_access_denied
-      end
+      render_success(application)
     end
 
     def create
-      c = NewClubApplication.create(users: [@user],
-                                    point_of_contact: @user)
+      c = NewClubApplication.create(users: [@user], point_of_contact: @user)
 
       render_success(c, 201)
     end
 
     def update
       c = NewClubApplication.find(params[:id])
-
-      return render_access_denied unless c.users.include? @user
+      authorize c
 
       if c.update_attributes(club_application_params)
         render_success(c)
@@ -44,10 +44,8 @@ module V1
     end
 
     def add_user
-      app = NewClubApplication.find_by(id: params[:new_club_application_id])
-
-      return render_not_found unless app
-      return render_access_denied unless app.users.include? @user
+      app = NewClubApplication.find(params[:new_club_application_id])
+      authorize app
 
       if app.submitted_at.present?
         return render_field_error(:base, 'cannot edit application after submit')
@@ -73,14 +71,10 @@ module V1
     end
 
     def remove_user
-      app = NewClubApplication.find_by(id: params[:new_club_application_id])
-      to_remove = User.find_by(id: params[:user_id])
+      app = NewClubApplication.find(params[:new_club_application_id])
+      to_remove = User.find(params[:user_id])
 
-      return render_not_found unless app && to_remove
-
-      return render_access_denied unless app.users.include? @user
-
-      return render_access_denied unless app.point_of_contact == @user
+      authorize app
 
       if app.submitted_at.present?
         return render_field_error(:base, 'cannot edit application after submit')
@@ -99,10 +93,8 @@ module V1
     end
 
     def submit
-      app = NewClubApplication.find_by(id: params[:new_club_application_id])
-
-      return render_not_found unless app
-      return render_access_denied unless app.users.include? @user
+      app = NewClubApplication.find(params[:new_club_application_id])
+      authorize app
 
       if app.submit!
         render_success(app)

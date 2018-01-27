@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180127084614) do
+ActiveRecord::Schema.define(version: 20180127102450) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -341,6 +341,7 @@ ActiveRecord::Schema.define(version: 20180127084614) do
     t.datetime "auth_token_generation"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "admin_at"
   end
 
   add_foreign_key "athul_clubs", "clubs"

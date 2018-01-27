@@ -28,6 +28,10 @@ module UserAuth
     end
   end
 
+  def current_user
+    @user
+  end
+
   protected
 
   def render_unauthenticated

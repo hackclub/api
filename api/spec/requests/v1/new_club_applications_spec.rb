@@ -6,6 +6,33 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
   let(:user) { create(:user_authed) }
   let(:auth_headers) { { 'Authorization': "Bearer #{user.auth_token}" } }
 
+  describe 'GET /v1/new_club_applications' do
+    it 'requires authentication' do
+      get '/v1/new_club_applications'
+      expect(response.status).to eq(401)
+    end
+
+    it 'requires admin access' do
+      get '/v1/new_club_applications', headers: auth_headers
+      expect(response.status).to eq(403)
+    end
+
+    it 'lists all applications' do
+      my_app = create(:new_club_application)
+      my_app.users << user
+
+      create(:new_club_application) # someone else's application
+
+      # make user an admin
+      user.make_admin! && user.save
+
+      get '/v1/new_club_applications', headers: auth_headers
+      expect(response.status).to eq(200)
+
+      expect(json.length).to eq(2)
+    end
+  end
+
   describe 'GET /v1/users/:id/new_club_applications' do
     it 'requires authentication' do
       get "/v1/users/#{user.id}/new_club_applications"

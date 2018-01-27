@@ -34,4 +34,16 @@ class User < ApplicationRecord
       break unless User.find_by(auth_token: auth_token)
     end
   end
+
+  def make_admin!
+    self.admin_at = Time.current
+  end
+
+  def remove_admin!
+    self.admin_at = nil
+  end
+
+  def admin?
+    admin_at.present?
+  end
 end

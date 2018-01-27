@@ -7,7 +7,10 @@ RSpec.describe User, type: :model do
 
   it { should have_db_column :email }
   it { should have_db_column :login_code }
+  it { should have_db_column :login_code_generation }
   it { should have_db_column :auth_token }
+  it { should have_db_column :auth_token_generation }
+  it { should have_db_column :admin_at }
 
   it { should validate_presence_of :email }
   it { should validate_email_format_of :email }
@@ -56,5 +59,25 @@ RSpec.describe User, type: :model do
 
     # changes every time
     expect { subject.generate_auth_token! }.to change { subject.auth_token }
+  end
+
+  example ':make_admin!' do
+    subject.admin_at = nil
+
+    subject.make_admin!
+
+    expect(subject.admin_at).to be_within(1.second).of(Time.current)
+    expect(subject.admin?).to eq(true)
+  end
+
+  example ':remove_admin!' do
+    subject.admin_at = nil
+
+    subject.make_admin!
+    expect(subject.admin?).to eq(true)
+
+    subject.remove_admin!
+    expect(subject.admin_at).to eq(nil)
+    expect(subject.admin?).to eq(false)
   end
 end

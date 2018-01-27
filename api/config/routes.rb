@@ -18,6 +18,8 @@ Rails.application.routes.draw do
     resources :donations, only: [:create]
 
     resources :club_applications, only: [:create]
+
+    get '/new_club_applications', to: 'new_club_applications#full_index'
     resources :new_club_applications, only: %i[show update] do
       post 'add_user'
       delete 'remove_user'

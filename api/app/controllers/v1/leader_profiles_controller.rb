@@ -5,19 +5,15 @@ module V1
     include UserAuth
 
     def show
-      profile = LeaderProfile.find_by(id: params[:id])
-
-      return render_not_found unless profile
-      return render_access_denied if profile.user != @user
+      profile = LeaderProfile.find(params[:id])
+      authorize profile
 
       render_success(profile)
     end
 
     def update
-      profile = LeaderProfile.find_by(id: params[:id])
-
-      return render_not_found unless profile
-      return render_access_denied if profile.user != @user
+      profile = LeaderProfile.find(params[:id])
+      authorize profile
 
       if profile.submitted_at.present?
         return render_field_error(
