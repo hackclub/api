@@ -26,14 +26,14 @@ module V1
       end
 
       # TODO: Check for errors and return them if needed
-      profile.update_attributes(applicant_profile_params)
+      profile.update_attributes(leader_profile_params)
 
       render_success(profile)
     end
 
     private
 
-    def applicant_profile_params
+    def leader_profile_params
       params.permit(
         :leader_name,
         :leader_email,
