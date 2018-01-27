@@ -4,10 +4,9 @@ require 'rails_helper'
 
 RSpec.describe 'V1::ApplicantProfiles', type: :request do
   let(:profile) do
-    create(:completed_applicant_profile,
-           applicant: create(:applicant_authed))
+    create(:completed_applicant_profile, user: create(:user_authed))
   end
-  let(:applicant) { profile.applicant }
+  let(:applicant) { profile.user }
   let(:application) { profile.new_club_application }
 
   let(:auth_headers) { { 'Authorization': "Bearer #{applicant.auth_token}" } }

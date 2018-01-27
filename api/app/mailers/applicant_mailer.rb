@@ -1,30 +1,30 @@
 # frozen_string_literal: true
 
 class ApplicantMailer < ApplicationMailer
-  def login_code(applicant)
-    @login_code = applicant.pretty_login_code
+  def login_code(user)
+    @login_code = user.pretty_login_code
 
-    mail(to: applicant.email, subject: "Hack Club Login Code (#{@login_code})")
+    mail(to: user.email, subject: "Hack Club Login Code (#{@login_code})")
   end
 
-  def added_to_application(application, applicant, adder)
+  def added_to_application(application, user, adder)
     @high_school = application.high_school_name
-    @applicant_email = applicant.email
+    @user_email = user.email
     @adder_email = adder.email
 
-    mail(to: applicant.email,
+    mail(to: user.email,
          subject: "You've been added to a Hack Club application")
   end
 
-  def application_submission(application, applicant)
+  def application_submission(application, user)
     @application = application
     @profile = ApplicantProfile.find_by(new_club_application: application,
-                                        applicant: applicant)
+                                        user: user)
 
     @application_fields = application_fields(@application)
     @profile_fields = profile_fields(@profile)
 
-    mail(to: applicant.email, subject: 'Hack Club Application Submitted')
+    mail(to: user.email, subject: 'Hack Club Application Submitted')
   end
 
   def application_submission_staff(application)

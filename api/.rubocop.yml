@@ -53,7 +53,7 @@ Documentation:
 #
 # Example: the following test would  be invalid with this check enabled.
 #
-#   expect { Applicant.create }.to change { Applicant.count }.by 1
+#   expect { User.create }.to change { User.count }.by 1
 #
 Lint/AmbiguousBlockAssociation:
   Exclude:

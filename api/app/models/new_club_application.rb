@@ -6,8 +6,8 @@ class NewClubApplication < ApplicationRecord
   validate :point_of_contact_is_associated
 
   has_many :applicant_profiles
-  has_many :applicants, through: :applicant_profiles
-  belongs_to :point_of_contact, class_name: 'Applicant'
+  has_many :users, through: :applicant_profiles
+  belongs_to :point_of_contact, class_name: 'User'
 
   geocode_attrs address: :high_school_address,
                 latitude: :high_school_latitude,
@@ -68,7 +68,7 @@ class NewClubApplication < ApplicationRecord
 
     if valid?
       if save
-        applicants.each do |applicant|
+        users.each do |applicant|
           ApplicantMailer.application_submission(self, applicant).deliver_later
         end
 
@@ -87,7 +87,7 @@ class NewClubApplication < ApplicationRecord
   # ensure that the point of contact is an associated applicant
   def point_of_contact_is_associated
     return unless point_of_contact
-    return if applicants.include? point_of_contact
+    return if users.include? point_of_contact
 
     errors.add(:point_of_contact, 'must be an associated applicant')
   end

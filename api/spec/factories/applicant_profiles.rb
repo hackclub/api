@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :applicant_profile do
-    association :applicant
+    association :user
     association :new_club_application
 
     # applicant profile ready for submission. only includes required fields +

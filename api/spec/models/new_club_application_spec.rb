@@ -62,11 +62,11 @@ RSpec.describe NewClubApplication, type: :model do
   ## relationships ##
 
   it { should have_many(:applicant_profiles) }
-  it { should have_many(:applicants).through(:applicant_profiles) }
+  it { should have_many(:users).through(:applicant_profiles) }
   it { should belong_to(:point_of_contact) }
 
-  it 'requires points of contact to be associated applicants' do
-    bad_poc = create(:applicant)
+  it 'requires points of contact to be associated users' do
+    bad_poc = create(:user)
 
     subject.update_attributes(point_of_contact: bad_poc)
 
@@ -75,10 +75,10 @@ RSpec.describe NewClubApplication, type: :model do
   end
 
   describe ':submit!' do
-    subject { create(:completed_new_club_application, applicant_count: 3) }
-    let(:applicant) { subject.point_of_contact }
+    subject { create(:completed_new_club_application, profile_count: 3) }
+    let(:user) { subject.point_of_contact }
     let(:profile) do
-      ApplicantProfile.find_by(applicant: applicant,
+      ApplicantProfile.find_by(user: user,
                                new_club_application: subject)
     end
 

@@ -2,10 +2,10 @@
 
 require 'rails_helper'
 
-RSpec.describe ApplicantAuth, type: :controller do
+RSpec.describe UserAuth, type: :controller do
   # make fake controller for testing
   controller(V1::ApiController) do
-    include ApplicantAuth
+    include UserAuth
 
     def fake_action
       render_success
@@ -18,8 +18,8 @@ RSpec.describe ApplicantAuth, type: :controller do
     end
   end
 
-  let(:applicant) do
-    a = create(:applicant)
+  let(:user) do
+    a = create(:user)
     a.generate_auth_token!
     a.save
 
@@ -35,7 +35,7 @@ RSpec.describe ApplicantAuth, type: :controller do
 
   it 'errors when auth token is nil' do
     # create applicant with nil auth token to try and trick it
-    create(:applicant, auth_token: nil)
+    create(:user, auth_token: nil)
 
     request.headers['Authorization'] = 'Bearer'
 
@@ -55,7 +55,7 @@ RSpec.describe ApplicantAuth, type: :controller do
   end
 
   it 'succeeds with valid auth token' do
-    request.headers['Authorization'] = "Bearer #{applicant.auth_token}"
+    request.headers['Authorization'] = "Bearer #{user.auth_token}"
 
     get :fake_action
 
@@ -64,10 +64,10 @@ RSpec.describe ApplicantAuth, type: :controller do
   end
 
   it 'errors when auth token is older than 24 hours' do
-    applicant.auth_token_generation -= 1.day
-    applicant.save
+    user.auth_token_generation -= 1.day
+    user.save
 
-    request.headers['Authorization'] = "Bearer #{applicant.auth_token}"
+    request.headers['Authorization'] = "Bearer #{user.auth_token}"
 
     get :fake_action
 

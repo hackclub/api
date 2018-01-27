@@ -34,9 +34,9 @@ class NewClubApplicationSerializer < ActiveModel::Serializer
 
   class ApplicantProfileSerializer < ActiveModel::Serializer
     attributes :id, :completed_at
-    has_one :applicant
+    has_one :user
 
-    class ApplicantSerializer < ActiveModel::Serializer
+    class UserSerializer < ActiveModel::Serializer
       attributes :id, :email
     end
   end

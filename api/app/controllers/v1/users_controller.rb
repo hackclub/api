@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 module V1
-  class ApplicantsController < ApiController
+  class UsersController < ApiController
     def auth
-      applicant = Applicant.find_or_initialize_by(email: params[:email])
+      applicant = User.find_or_initialize_by(email: params[:email])
 
       applicant.generate_login_code!
 
@@ -17,7 +17,7 @@ module V1
     end
 
     def exchange_login_code
-      applicant = Applicant.find_by(id: params[:applicant_id])
+      applicant = User.find_by(id: params[:user_id])
       login_code = params[:login_code]
 
       return render_not_found unless applicant

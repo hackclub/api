@@ -2,13 +2,13 @@
 
 module V1
   class ApplicantProfilesController < ApiController
-    include ApplicantAuth
+    include UserAuth
 
     def show
       profile = ApplicantProfile.find_by(id: params[:id])
 
       return render_not_found unless profile
-      return render_access_denied if profile.applicant != @applicant
+      return render_access_denied if profile.user != @user
 
       render_success(profile)
     end
@@ -17,7 +17,7 @@ module V1
       profile = ApplicantProfile.find_by(id: params[:id])
 
       return render_not_found unless profile
-      return render_access_denied if profile.applicant != @applicant
+      return render_access_denied if profile.user != @user
 
       if profile.submitted_at.present?
         return render_field_error(:base,

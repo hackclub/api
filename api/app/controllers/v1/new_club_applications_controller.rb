@@ -2,11 +2,11 @@
 
 module V1
   class NewClubApplicationsController < ApiController
-    include ApplicantAuth
+    include UserAuth
 
     def index
-      if params[:applicant_id] == @applicant.id.to_s
-        render_success(@applicant.new_club_applications)
+      if params[:user_id] == @user.id.to_s
+        render_success(@user.new_club_applications)
       else
         render_access_denied
       end
@@ -17,7 +17,7 @@ module V1
 
       return render_not_found unless application
 
-      if application.applicants.include? @applicant
+      if application.users.include? @user
         render_success(application)
       else
         render_access_denied
@@ -25,8 +25,8 @@ module V1
     end
 
     def create
-      c = NewClubApplication.create(applicants: [@applicant],
-                                    point_of_contact: @applicant)
+      c = NewClubApplication.create(users: [@user],
+                                    point_of_contact: @user)
 
       render_success(c, 201)
     end
@@ -34,7 +34,7 @@ module V1
     def update
       c = NewClubApplication.find(params[:id])
 
-      return render_access_denied unless c.applicants.include? @applicant
+      return render_access_denied unless c.users.include? @user
 
       if c.update_attributes(club_application_params)
         render_success(c)
@@ -47,26 +47,26 @@ module V1
       app = NewClubApplication.find_by(id: params[:new_club_application_id])
 
       return render_not_found unless app
-      return render_access_denied unless app.applicants.include? @applicant
+      return render_access_denied unless app.users.include? @user
 
       if app.submitted_at.present?
         return render_field_error(:base, 'cannot edit application after submit')
       end
 
-      to_add = Applicant.find_or_create_by(email: params[:email])
+      to_add = User.find_or_create_by(email: params[:email])
 
-      if app.applicants.include? to_add
+      if app.users.include? to_add
         return render_field_error(:email, 'already added')
       end
 
       profile = ApplicantProfile.with_deleted.find_or_create_by(
-        applicant: to_add,
+        user: to_add,
         new_club_application: app
       )
 
       profile.restore if profile.deleted?
 
-      ApplicantMailer.added_to_application(app, to_add, @applicant)
+      ApplicantMailer.added_to_application(app, to_add, @user)
                      .deliver_later
 
       render_success
@@ -74,27 +74,27 @@ module V1
 
     def remove_applicant
       app = NewClubApplication.find_by(id: params[:new_club_application_id])
-      to_remove = Applicant.find_by(id: params[:applicant_id])
+      to_remove = User.find_by(id: params[:user_id])
 
       return render_not_found unless app && to_remove
 
-      return render_access_denied unless app.applicants.include? @applicant
+      return render_access_denied unless app.users.include? @user
 
-      return render_access_denied unless app.point_of_contact == @applicant
+      return render_access_denied unless app.point_of_contact == @user
 
       if app.submitted_at.present?
         return render_field_error(:base, 'cannot edit application after submit')
       end
 
-      if to_remove == @applicant
-        return render_field_error(:applicant_id, 'cannot remove self')
+      if to_remove == @user
+        return render_field_error(:user_id, 'cannot remove self')
       end
 
-      unless app.applicants.include? to_remove
-        return render_field_error(:applicant_id, 'not added to application')
+      unless app.users.include? to_remove
+        return render_field_error(:user_id, 'not added to application')
       end
 
-      app.applicants.delete(to_remove)
+      app.users.delete(to_remove)
       render_success
     end
 
@@ -102,7 +102,7 @@ module V1
       app = NewClubApplication.find_by(id: params[:new_club_application_id])
 
       return render_not_found unless app
-      return render_access_denied unless app.applicants.include? @applicant
+      return render_access_denied unless app.users.include? @user
 
       if app.submit!
         render_success(app)

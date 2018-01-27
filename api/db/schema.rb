@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180127051157) do
+ActiveRecord::Schema.define(version: 20180127073628) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20180127051157) do
   end
 
   create_table "applicant_profiles", id: :serial, force: :cascade do |t|
-    t.integer "applicant_id"
+    t.integer "user_id"
     t.integer "new_club_application_id"
     t.text "leader_name"
     t.text "leader_email"
@@ -55,19 +55,9 @@ ActiveRecord::Schema.define(version: 20180127051157) do
     t.datetime "updated_at", null: false
     t.date "leader_birthday"
     t.datetime "deleted_at"
-    t.index ["applicant_id"], name: "index_applicant_profiles_on_applicant_id"
     t.index ["deleted_at"], name: "index_applicant_profiles_on_deleted_at"
     t.index ["new_club_application_id"], name: "index_applicant_profiles_on_new_club_application_id"
-  end
-
-  create_table "applicants", id: :serial, force: :cascade do |t|
-    t.text "email"
-    t.text "login_code"
-    t.datetime "login_code_generation"
-    t.text "auth_token"
-    t.datetime "auth_token_generation"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_applicant_profiles_on_user_id"
   end
 
   create_table "athul_clubs", id: :serial, force: :cascade do |t|
@@ -343,6 +333,16 @@ ActiveRecord::Schema.define(version: 20180127051157) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "users", id: :serial, force: :cascade do |t|
+    t.text "email"
+    t.text "login_code"
+    t.datetime "login_code_generation"
+    t.text "auth_token"
+    t.datetime "auth_token_generation"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   add_foreign_key "athul_clubs", "clubs"
   add_foreign_key "athul_clubs", "leaders"
   add_foreign_key "athul_clubs", "letters"
@@ -350,7 +350,7 @@ ActiveRecord::Schema.define(version: 20180127051157) do
   add_foreign_key "check_ins", "leaders"
   add_foreign_key "clubs", "leaders", column: "point_of_contact_id"
   add_foreign_key "net_promoter_score_surveys", "leaders"
-  add_foreign_key "new_club_applications", "applicants", column: "point_of_contact_id"
+  add_foreign_key "new_club_applications", "users", column: "point_of_contact_id"
   add_foreign_key "slack_invite_strategies", "hackbot_teams"
   add_foreign_key "slack_invites", "hackbot_teams"
   add_foreign_key "slack_invites", "slack_invite_strategies"

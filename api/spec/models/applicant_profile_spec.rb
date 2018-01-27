@@ -10,7 +10,7 @@ RSpec.describe ApplicantProfile, type: :model do
   it { should have_db_column :updated_at }
 
   # relations
-  it { should have_db_column :applicant_id }
+  it { should have_db_column :user_id }
   it { should have_db_column :new_club_application_id }
 
   # leader
@@ -56,7 +56,7 @@ RSpec.describe ApplicantProfile, type: :model do
 
   ## validations ##
 
-  it { should validate_presence_of :applicant }
+  it { should validate_presence_of :user }
   it { should validate_presence_of :new_club_application }
   it { should validate_email_format_of :leader_email }
 
@@ -64,13 +64,13 @@ RSpec.describe ApplicantProfile, type: :model do
 
   ## relationships ##
 
-  it { should belong_to :applicant }
+  it { should belong_to :user }
   it { should belong_to :new_club_application }
 
   it 'should prefill email with applicant info' do
     # when email is not set, prefill
     profile = create(:applicant_profile)
-    expect(profile.leader_email).to eq(profile.applicant.email)
+    expect(profile.leader_email).to eq(profile.user.email)
 
     # when email is set, do not overwrite it
     profile = create(:applicant_profile, leader_email: 'foo@bar.com')

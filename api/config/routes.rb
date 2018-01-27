@@ -26,7 +26,7 @@ Rails.application.routes.draw do
 
     resources :applicant_profiles, only: %i[show update]
 
-    resources :applicants, except: :all do
+    resources :users, except: :all do
       collection do
         post 'auth'
       end

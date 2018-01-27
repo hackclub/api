@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-RSpec.describe Applicant, type: :model do
-  subject { build(:applicant) }
+RSpec.describe User, type: :model do
+  subject { build(:user) }
 
   it { should have_db_column :email }
   it { should have_db_column :login_code }
