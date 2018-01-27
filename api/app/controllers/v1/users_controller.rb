@@ -3,35 +3,35 @@
 module V1
   class UsersController < ApiController
     def auth
-      applicant = User.find_or_initialize_by(email: params[:email])
+      user = User.find_or_initialize_by(email: params[:email])
 
-      applicant.generate_login_code!
+      user.generate_login_code!
 
-      if applicant.save
-        ApplicantMailer.login_code(applicant).deliver_later
+      if user.save
+        ApplicantMailer.login_code(user).deliver_later
 
-        render_success(applicant)
+        render_success(user)
       else
-        render_field_errors(applicant.errors)
+        render_field_errors(user.errors)
       end
     end
 
     def exchange_login_code
-      applicant = User.find_by(id: params[:user_id])
+      user = User.find_by(id: params[:user_id])
       login_code = params[:login_code]
 
-      return render_not_found unless applicant
+      return render_not_found unless user
 
       if !login_code.nil? &&
-         applicant.login_code == login_code &&
-         applicant.login_code_generation > (Time.current - 15.minutes)
+         user.login_code == login_code &&
+         user.login_code_generation > (Time.current - 15.minutes)
 
-        applicant.generate_auth_token!
-        applicant.login_code = nil
-        applicant.login_code_generation = nil
-        applicant.save
+        user.generate_auth_token!
+        user.login_code = nil
+        user.login_code_generation = nil
+        user.save
 
-        return render_success(auth_token: applicant.auth_token)
+        return render_success(auth_token: user.auth_token)
       end
 
       render_field_error(:login_code, 'invalid', 401)
