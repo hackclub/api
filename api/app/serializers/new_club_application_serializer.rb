@@ -15,8 +15,6 @@ class NewClubApplicationSerializer < ActiveModel::Serializer
              :high_school_parsed_postal_code,
              :high_school_parsed_country,
              :high_school_parsed_country_code,
-             :leaders_video_url,
-             :leaders_interesting_project,
              :leaders_team_origin_story,
              :progress_general,
              :progress_student_interest,
