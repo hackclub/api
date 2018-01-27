@@ -243,13 +243,13 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
     end
   end
 
-  describe 'POST /v1/new_club_applications/:id/add_applicant' do
+  describe 'POST /v1/new_club_applications/:id/add_user' do
     let(:club_application) { create(:new_club_application) }
 
     before { user.new_club_applications << club_application }
 
     it 'requires authentication' do
-      post "/v1/new_club_applications/#{club_application.id}/add_applicant",
+      post "/v1/new_club_applications/#{club_application.id}/add_user",
            params: { email: 'john@johnsmith.com' }
 
       expect(response.status).to eq(401)
@@ -258,7 +258,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
     it "fails when trying to add to someone else's application" do
       other_application = create(:new_club_application)
 
-      post "/v1/new_club_applications/#{other_application.id}/add_applicant",
+      post "/v1/new_club_applications/#{other_application.id}/add_user",
            headers: auth_headers,
            params: { email: 'john@johnsmith.com' }
 
@@ -267,7 +267,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
     end
 
     it '404s when given application id does not exist' do
-      post "/v1/new_club_applications/#{club_application.id + 1}/add_applicant",
+      post "/v1/new_club_applications/#{club_application.id + 1}/add_user",
            headers: auth_headers,
            params: { email: 'john@johnsmith.com' }
 
@@ -278,7 +278,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
     it 'creates new user and sends email when given email is new' do
       starting_profile_count = User.count
 
-      post "/v1/new_club_applications/#{club_application.id}/add_applicant",
+      post "/v1/new_club_applications/#{club_application.id}/add_user",
            headers: auth_headers,
            params: { email: 'john@johnsmith.com' }
 
@@ -299,7 +299,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       new_user = create(:user)
       starting_profile_count = User.count
 
-      post "/v1/new_club_applications/#{club_application.id}/add_applicant",
+      post "/v1/new_club_applications/#{club_application.id}/add_user",
            headers: auth_headers,
            params: { email: new_user.email }
 
@@ -324,7 +324,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       to_rehydrate.update_attributes(leader_name: 'Jerry')
       to_rehydrate.destroy
 
-      post "/v1/new_club_applications/#{club_application.id}/add_applicant",
+      post "/v1/new_club_applications/#{club_application.id}/add_user",
            headers: auth_headers,
            params: { email: to_readd.email }
 
@@ -342,7 +342,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       new_user = create(:user)
       club_application.users << new_user
 
-      post "/v1/new_club_applications/#{club_application.id}/add_applicant",
+      post "/v1/new_club_applications/#{club_application.id}/add_user",
            headers: auth_headers,
            params: { email: new_user.email }
 
@@ -359,7 +359,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       post "/v1/new_club_applications/#{application.id}/submit",
            headers: auth_headers
 
-      post "/v1/new_club_applications/#{application.id}/add_applicant",
+      post "/v1/new_club_applications/#{application.id}/add_user",
            headers: auth_headers,
            params: { email: 'john@johnsmith.com' }
 
@@ -370,7 +370,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
     end
   end
 
-  describe 'DELETE /v1/new_club_applications/:id/remove_applicant' do
+  describe 'DELETE /v1/new_club_applications/:id/remove_user' do
     let(:application) { create(:completed_new_club_application) }
 
     before do
@@ -380,14 +380,14 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
     end
 
     it 'requires authentication' do
-      delete "/v1/new_club_applications/#{application.id}/remove_applicant",
+      delete "/v1/new_club_applications/#{application.id}/remove_user",
              params: { user_id: user.id }
 
       expect(response.status).to eq(401)
     end
 
     it '404s when application does not exist' do
-      delete "/v1/new_club_applications/#{application.id + 1}/remove_applicant",
+      delete "/v1/new_club_applications/#{application.id + 1}/remove_user",
              headers: auth_headers,
              params: { user_id: user.id }
 
@@ -401,7 +401,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
 
       other_app.users << other_user
 
-      delete "/v1/new_club_applications/#{other_app.id}/remove_applicant",
+      delete "/v1/new_club_applications/#{other_app.id}/remove_user",
              headers: auth_headers,
              params: { user_id: other_user.id }
 
@@ -413,7 +413,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       application.update_attributes(point_of_contact: nil)
       other_user = create(:user, new_club_applications: [application])
 
-      delete "/v1/new_club_applications/#{application.id}/remove_applicant",
+      delete "/v1/new_club_applications/#{application.id}/remove_user",
              headers: auth_headers,
              params: { user_id: other_user.id }
 
@@ -422,7 +422,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
     end
 
     it 'fails to delete self' do
-      delete "/v1/new_club_applications/#{application.id}/remove_applicant",
+      delete "/v1/new_club_applications/#{application.id}/remove_user",
              headers: auth_headers,
              params: { user_id: user.id }
 
@@ -431,7 +431,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
     end
 
     it '404s when user does not exist' do
-      delete "/v1/new_club_applications/#{application.id}/remove_applicant",
+      delete "/v1/new_club_applications/#{application.id}/remove_user",
              headers: auth_headers,
              params: { user_id: user.id + 100 }
 
@@ -443,7 +443,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       other_user = create(:user, new_club_applications: [application])
 
       2.times do
-        delete "/v1/new_club_applications/#{application.id}/remove_applicant",
+        delete "/v1/new_club_applications/#{application.id}/remove_user",
                headers: auth_headers,
                params: { user_id: other_user.id }
       end
@@ -457,7 +457,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
     it 'fails to delete user when application is submitted' do
       application.submit!
 
-      delete "/v1/new_club_applications/#{application.id}/remove_applicant",
+      delete "/v1/new_club_applications/#{application.id}/remove_user",
              headers: auth_headers,
              params: { user_id: application.users.last.id }
 
@@ -468,7 +468,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
     end
 
     it 'successfully deletes if point of contact' do
-      delete "/v1/new_club_applications/#{application.id}/remove_applicant",
+      delete "/v1/new_club_applications/#{application.id}/remove_user",
              headers: auth_headers,
              params: { user_id: application.users.last.id }
 
@@ -479,7 +479,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
     it 'preserves profile data on deletion' do
       to_delete = application.users.last
 
-      delete "/v1/new_club_applications/#{application.id}/remove_applicant",
+      delete "/v1/new_club_applications/#{application.id}/remove_user",
              headers: auth_headers,
              params: { user_id: to_delete.id }
 

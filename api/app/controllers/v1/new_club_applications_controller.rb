@@ -43,7 +43,7 @@ module V1
       end
     end
 
-    def add_applicant
+    def add_user
       app = NewClubApplication.find_by(id: params[:new_club_application_id])
 
       return render_not_found unless app
@@ -72,7 +72,7 @@ module V1
       render_success
     end
 
-    def remove_applicant
+    def remove_user
       app = NewClubApplication.find_by(id: params[:new_club_application_id])
       to_remove = User.find_by(id: params[:user_id])
 

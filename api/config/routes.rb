@@ -19,8 +19,8 @@ Rails.application.routes.draw do
 
     resources :club_applications, only: [:create]
     resources :new_club_applications, only: %i[show update] do
-      post 'add_applicant'
-      delete 'remove_applicant'
+      post 'add_user'
+      delete 'remove_user'
       post 'submit'
     end
 
