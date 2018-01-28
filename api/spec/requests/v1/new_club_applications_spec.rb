@@ -159,9 +159,11 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
   end
 
   describe 'PATCH /v1/new_club_applications/:id' do
-    let(:club_application) { create(:new_club_application) }
-
-    before { user.new_club_applications << club_application }
+    let(:club_application) do
+      app = create(:new_club_application)
+      app.users << user
+      app
+    end
 
     it 'requires_authentication' do
       patch "/v1/new_club_applications/#{club_application.id}", params: {
@@ -283,6 +285,85 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       expect(
         json['errors']['base']
       ).to include('cannot edit application after submit')
+    end
+
+    it 'fails to update interview fields' do
+      application = create(:completed_new_club_application)
+      create(:completed_leader_profile, new_club_application: application,
+                                        user: user)
+      application.update_attributes(point_of_contact: user)
+
+      # application must be submitted for any modification (even by admins) to
+      # be allowed
+      post "/v1/new_club_applications/#{application.id}/submit",
+           headers: auth_headers
+
+      patch "/v1/new_club_applications/#{application.id}",
+            headers: auth_headers,
+            params: {
+              interviewed_at: Time.current,
+              interview_duration: 30.minutes,
+              interview_notes: 'Went well.'
+            }
+
+      expect(response.status).to eq(422)
+    end
+
+    context 'when admin' do
+      let(:club_application) do
+        app = create(:completed_new_club_application)
+        app.submit!
+        app.save
+
+        app
+      end
+
+      before do
+        user.make_admin!
+        user.save
+      end
+
+      it 'allows updating interview fields' do
+        patch "/v1/new_club_applications/#{club_application.id}",
+              headers: auth_headers,
+              params: {
+                interviewed_at: Time.current,
+                interview_duration: 30.minutes,
+                interview_notes: 'Went well.'
+              }
+
+        expect(response.status).to eq(200)
+        expect(
+          Time.zone.parse(json['interviewed_at'])
+        ).to be_within(3.seconds).of(Time.current)
+        expect(json).to include('interview_duration' => 30.minutes.to_s)
+        expect(json).to include('interview_notes' => 'Went well.')
+      end
+
+      it 'fails if not all interview fields are set' do
+        patch "/v1/new_club_applications/#{club_application.id}",
+              headers: auth_headers,
+              params: {
+                interviewed_at: Time.current
+              }
+
+        expect(response.status).to eq(422)
+        expect(json['errors']).to include('interview_duration')
+        expect(json['errors']).to include('interview_notes')
+      end
+
+      it 'fails if application is not submitted' do
+        club_application = create(:new_club_application)
+
+        patch "/v1/new_club_applications/#{club_application.id}",
+              headers: auth_headers,
+              params: {
+                interviewed_at: Time.current
+              }
+
+        expect(response.status).to eq(422)
+        expect(json['errors']['submitted_at']).to include("can't be blank")
+      end
     end
   end
 

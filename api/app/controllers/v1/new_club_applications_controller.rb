@@ -127,7 +127,10 @@ module V1
         :other_surprising_or_amusing_discovery,
         :curious_what_convinced,
         :curious_how_did_hear,
-        :point_of_contact_id
+        :point_of_contact_id,
+        :interviewed_at,
+        :interview_duration,
+        :interview_notes
       )
     end
   end

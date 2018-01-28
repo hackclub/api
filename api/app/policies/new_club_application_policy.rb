@@ -6,7 +6,11 @@ class NewClubApplicationPolicy < ApplicationPolicy
   end
 
   def update?
-    user_added?
+    if user.admin?
+      true
+    else
+      user_added?
+    end
   end
 
   def add_user?
