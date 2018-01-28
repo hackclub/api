@@ -36,6 +36,10 @@ module V1
       c = NewClubApplication.find(params[:id])
       authorize c
 
+      if c.submitted? && !current_user.admin?
+        return render_field_error(:base, 'cannot edit application after submit')
+      end
+
       if c.update_attributes(club_application_params)
         render_success(c)
       else
@@ -47,7 +51,7 @@ module V1
       app = NewClubApplication.find(params[:new_club_application_id])
       authorize app
 
-      if app.submitted_at.present?
+      if app.submitted?
         return render_field_error(:base, 'cannot edit application after submit')
       end
 
@@ -76,7 +80,7 @@ module V1
 
       authorize app
 
-      if app.submitted_at.present?
+      if app.submitted?
         return render_field_error(:base, 'cannot edit application after submit')
       end
 

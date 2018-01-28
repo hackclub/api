@@ -22,8 +22,7 @@ class NewClubApplication < ApplicationRecord
 
   enum high_school_type: %i[
     public_school
-    private_school
-    charter_school
+    private_school charter_school
   ]
 
   with_options if: -> { submitted_at.present? } do |application|
@@ -52,16 +51,16 @@ class NewClubApplication < ApplicationRecord
 
       errors.add(:base, 'leader profiles not complete') unless all_complete
     end
-
-    # make model immutable
-    application.validate do |app|
-      # if model has changed and it wasn't us changing submitted_at away from
-      # nil
-      if app.changed? && app.changes['submitted_at'] != [nil, submitted_at]
-        errors.add(:base, 'cannot edit application after submit')
-      end
-    end
   end
+
+  # submitted_at must be set for interviewed_at to be set
+  validates :submitted_at, presence: true, if: -> { interviewed_at.present? }
+  validates :interviewed_at, :interview_duration, :interview_notes,
+            presence: true, if: lambda {
+              interviewed_at.present? ||
+                interview_duration.present? ||
+                interview_notes.present?
+            }
 
   def submit!
     self.submitted_at = Time.current
@@ -82,6 +81,10 @@ class NewClubApplication < ApplicationRecord
       self.submitted_at = nil
       false
     end
+  end
+
+  def submitted?
+    submitted_at.present?
   end
 
   # ensure that the point of contact is an associated applicant

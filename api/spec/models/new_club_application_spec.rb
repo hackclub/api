@@ -51,6 +51,60 @@ RSpec.describe NewClubApplication, type: :model do
 
   it { should have_db_column :submitted_at }
 
+  it { should have_db_column :interviewed_at }
+  it { should have_db_column :interview_duration }
+  it { should have_db_column :interview_notes }
+
+  describe 'interview fields' do
+    subject { create(:completed_new_club_application) }
+    before { subject.submit! }
+
+    it 'does not allow interviewed_at to be set unless submitted_at is' do
+      subject.submitted_at = nil
+      subject.interviewed_at = Time.current
+
+      subject.validate
+      expect(subject.errors).to include('submitted_at')
+    end
+
+    it 'should require other fields to be set if interviewed_at is' do
+      expect(subject.valid?).to be(true)
+
+      subject.interviewed_at = Time.current
+
+      subject.validate
+      expect(subject.errors).to include('interview_duration')
+      expect(subject.errors).to include('interview_notes')
+    end
+
+    it 'should require other fields to be set if interview_duration is' do
+      expect(subject.valid?).to be(true)
+
+      subject.interview_duration = 1.hour
+
+      subject.validate
+      expect(subject.errors).to include('interviewed_at')
+      expect(subject.errors).to include('interview_notes')
+    end
+
+    it 'should require other fields to be set if interview_notes is' do
+      expect(subject.valid?).to be(true)
+
+      subject.interview_notes = "They're ready to start."
+
+      subject.validate
+      expect(subject.errors).to include('interviewed_at')
+      expect(subject.errors).to include('interview_duration')
+    end
+
+    it 'is valid if all interview fields are set' do
+      subject.interviewed_at = Time.current
+      subject.interview_duration = 1.hour
+      subject.interview_notes = 'Ready to go.'
+      expect(subject.valid?).to eq(true)
+    end
+  end
+
   ## enums ##
 
   it { should define_enum_for :high_school_type }
@@ -126,14 +180,18 @@ RSpec.describe NewClubApplication, type: :model do
       # three emails to applicants and one email to staff
       expect(ApplicantMailer.deliveries.length).to eq(3 + 1)
     end
+  end
 
-    it 'makes the model immutable' do
+  describe ':submitted?' do
+    subject { create(:completed_new_club_application) }
+
+    it 'return false when not submitted' do
+      expect(subject.submitted?).to eq(false)
+    end
+
+    it 'returns true when submitted' do
       subject.submit!
-
-      subject.update_attributes(high_school_name: 'Superhero High School')
-      expect(subject.errors[:base]).to include(
-        'cannot edit application after submit'
-      )
+      expect(subject.submitted?).to eq(true)
     end
   end
 end
