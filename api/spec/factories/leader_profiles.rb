@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :applicant_profile do
-    association :applicant
+  factory :leader_profile do
+    association :user
     association :new_club_application
 
-    # applicant profile ready for submission. only includes required fields +
+    # leader profile ready for submission. only includes required fields +
     # relationships.
-    factory :completed_applicant_profile do
+    factory :completed_leader_profile do
       association :new_club_application,
                   factory: :completed_new_club_application
 

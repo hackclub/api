@@ -5,9 +5,9 @@ class NewClubApplication < ApplicationRecord
 
   validate :point_of_contact_is_associated
 
-  has_many :applicant_profiles
-  has_many :applicants, through: :applicant_profiles
-  belongs_to :point_of_contact, class_name: 'Applicant'
+  has_many :leader_profiles
+  has_many :users, through: :leader_profiles
+  belongs_to :point_of_contact, class_name: 'User'
 
   geocode_attrs address: :high_school_address,
                 latitude: :high_school_latitude,
@@ -22,8 +22,7 @@ class NewClubApplication < ApplicationRecord
 
   enum high_school_type: %i[
     public_school
-    private_school
-    charter_school
+    private_school charter_school
   ]
 
   with_options if: -> { submitted_at.present? } do |application|
@@ -42,33 +41,33 @@ class NewClubApplication < ApplicationRecord
                           :point_of_contact,
                           presence: true
 
-    # ensure applicant profiles are complete
+    # ensure leader profiles are complete
     application.validate do |app|
       all_complete = true
 
-      app.applicant_profiles.each do |profile|
+      app.leader_profiles.each do |profile|
         all_complete = false unless profile.completed_at
       end
 
-      errors.add(:base, 'applicant profiles not complete') unless all_complete
-    end
-
-    # make model immutable
-    application.validate do |app|
-      # if model has changed and it wasn't us changing submitted_at away from
-      # nil
-      if app.changed? && app.changes['submitted_at'] != [nil, submitted_at]
-        errors.add(:base, 'cannot edit application after submit')
-      end
+      errors.add(:base, 'leader profiles not complete') unless all_complete
     end
   end
+
+  # submitted_at must be set for interviewed_at to be set
+  validates :submitted_at, presence: true, if: -> { interviewed_at.present? }
+  validates :interviewed_at, :interview_duration, :interview_notes,
+            presence: true, if: lambda {
+              interviewed_at.present? ||
+                interview_duration.present? ||
+                interview_notes.present?
+            }
 
   def submit!
     self.submitted_at = Time.current
 
     if valid?
       if save
-        applicants.each do |applicant|
+        users.each do |applicant|
           ApplicantMailer.application_submission(self, applicant).deliver_later
         end
 
@@ -84,10 +83,14 @@ class NewClubApplication < ApplicationRecord
     end
   end
 
+  def submitted?
+    submitted_at.present?
+  end
+
   # ensure that the point of contact is an associated applicant
   def point_of_contact_is_associated
     return unless point_of_contact
-    return if applicants.include? point_of_contact
+    return if users.include? point_of_contact
 
     errors.add(:point_of_contact, 'must be an associated applicant')
   end

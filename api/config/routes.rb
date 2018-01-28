@@ -18,15 +18,17 @@ Rails.application.routes.draw do
     resources :donations, only: [:create]
 
     resources :club_applications, only: [:create]
+
+    get '/new_club_applications', to: 'new_club_applications#full_index'
     resources :new_club_applications, only: %i[show update] do
-      post 'add_applicant'
-      delete 'remove_applicant'
+      post 'add_user'
+      delete 'remove_user'
       post 'submit'
     end
 
-    resources :applicant_profiles, only: %i[show update]
+    resources :leader_profiles, only: %i[show update]
 
-    resources :applicants, except: :all do
+    resources :users, only: [] do
       collection do
         post 'auth'
       end

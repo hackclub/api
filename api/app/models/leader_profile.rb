@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
-class ApplicantProfile < ApplicationRecord
+class LeaderProfile < ApplicationRecord
   include Geocodeable
 
   # preserve information from record deletions
   acts_as_paranoid
 
-  belongs_to :applicant
+  belongs_to :user
   belongs_to :new_club_application
 
-  validates :applicant, :new_club_application, presence: true
+  validates :user, :new_club_application, presence: true
   validates :leader_email, email: true, if: -> { leader_email.present? }
 
   enum leader_year_in_school: %i[
@@ -60,7 +60,7 @@ class ApplicantProfile < ApplicationRecord
   before_save :update_completion_status
 
   def prefill_leader_email
-    self.leader_email = applicant.email
+    self.leader_email = user.email
   end
 
   # automatically set or unset completed_at if all REQUIRED_FOR_COMPLETION
@@ -80,7 +80,7 @@ class ApplicantProfile < ApplicationRecord
   end
 
   def make_immutable
-    errors.add(:base, 'cannot edit applicant profile after submit') if changed?
+    errors.add(:base, 'cannot edit leader profile after submit') if changed?
   end
 
   def submitted_at

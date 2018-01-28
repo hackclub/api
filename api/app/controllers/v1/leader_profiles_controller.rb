@@ -1,38 +1,35 @@
 # frozen_string_literal: true
 
 module V1
-  class ApplicantProfilesController < ApiController
-    include ApplicantAuth
+  class LeaderProfilesController < ApiController
+    include UserAuth
 
     def show
-      profile = ApplicantProfile.find_by(id: params[:id])
-
-      return render_not_found unless profile
-      return render_access_denied if profile.applicant != @applicant
+      profile = LeaderProfile.find(params[:id])
+      authorize profile
 
       render_success(profile)
     end
 
     def update
-      profile = ApplicantProfile.find_by(id: params[:id])
-
-      return render_not_found unless profile
-      return render_access_denied if profile.applicant != @applicant
+      profile = LeaderProfile.find(params[:id])
+      authorize profile
 
       if profile.submitted_at.present?
-        return render_field_error(:base,
-                                  'cannot edit applicant profile after submit')
+        return render_field_error(
+          :base, 'cannot edit leader profile after submit'
+        )
       end
 
       # TODO: Check for errors and return them if needed
-      profile.update_attributes(applicant_profile_params)
+      profile.update_attributes(leader_profile_params)
 
       render_success(profile)
     end
 
     private
 
-    def applicant_profile_params
+    def leader_profile_params
       params.permit(
         :leader_name,
         :leader_email,

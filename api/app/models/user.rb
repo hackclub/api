@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-class Applicant < ApplicationRecord
+class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true, email: true
   validates :login_code, uniqueness: { if: -> { login_code.present? } }
   validates :auth_token, uniqueness: { if: -> { auth_token.present? } }
 
-  has_many :applicant_profiles
-  has_many :new_club_applications, through: :applicant_profiles
+  has_many :leader_profiles
+  has_many :new_club_applications, through: :leader_profiles
 
   def generate_login_code!
     loop do
@@ -16,7 +16,7 @@ class Applicant < ApplicationRecord
       self.login_code_generation = Time.current
 
       # repeat until code is unique
-      break unless Applicant.find_by(login_code: login_code)
+      break unless User.find_by(login_code: login_code)
     end
   end
 
@@ -31,7 +31,19 @@ class Applicant < ApplicationRecord
       self.auth_token_generation = Time.current
 
       # repeat until token is unique
-      break unless Applicant.find_by(auth_token: auth_token)
+      break unless User.find_by(auth_token: auth_token)
     end
+  end
+
+  def make_admin!
+    self.admin_at = Time.current
+  end
+
+  def remove_admin!
+    self.admin_at = nil
+  end
+
+  def admin?
+    admin_at.present?
   end
 end

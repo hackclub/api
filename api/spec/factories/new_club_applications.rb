@@ -6,7 +6,7 @@ FactoryBot.define do
     # relationships.
     factory :completed_new_club_application do
       transient do
-        applicant_count 3
+        profile_count 3
       end
 
       # high school
@@ -41,11 +41,11 @@ FactoryBot.define do
 
       # relationships
       after(:create) do |application, evaluator|
-        # will also create applicants
-        create_list(:completed_applicant_profile, evaluator.applicant_count,
+        # will also create leader profiles
+        create_list(:completed_leader_profile, evaluator.profile_count,
                     new_club_application: application)
 
-        application.point_of_contact = application.applicants.first
+        application.point_of_contact = application.users.first
       end
     end
   end

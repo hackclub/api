@@ -51,6 +51,10 @@ RSpec.describe NewClubApplication, type: :model do
 
   it { should have_db_column :submitted_at }
 
+  it { should have_db_column :interviewed_at }
+  it { should have_db_column :interview_duration }
+  it { should have_db_column :interview_notes }
+
   ## enums ##
 
   it { should define_enum_for :high_school_type }
@@ -61,12 +65,12 @@ RSpec.describe NewClubApplication, type: :model do
 
   ## relationships ##
 
-  it { should have_many(:applicant_profiles) }
-  it { should have_many(:applicants).through(:applicant_profiles) }
+  it { should have_many(:leader_profiles) }
+  it { should have_many(:users).through(:leader_profiles) }
   it { should belong_to(:point_of_contact) }
 
-  it 'requires points of contact to be associated applicants' do
-    bad_poc = create(:applicant)
+  it 'requires points of contact to be associated users' do
+    bad_poc = create(:user)
 
     subject.update_attributes(point_of_contact: bad_poc)
 
@@ -74,12 +78,62 @@ RSpec.describe NewClubApplication, type: :model do
       .to include('must be an associated applicant')
   end
 
+  describe 'interview fields' do
+    subject { create(:completed_new_club_application) }
+    before { subject.submit! }
+
+    it 'does not allow interviewed_at to be set unless submitted_at is' do
+      subject.submitted_at = nil
+      subject.interviewed_at = Time.current
+
+      subject.validate
+      expect(subject.errors).to include('submitted_at')
+    end
+
+    it 'should require other fields to be set if interviewed_at is' do
+      expect(subject.valid?).to be(true)
+
+      subject.interviewed_at = Time.current
+
+      subject.validate
+      expect(subject.errors).to include('interview_duration')
+      expect(subject.errors).to include('interview_notes')
+    end
+
+    it 'should require other fields to be set if interview_duration is' do
+      expect(subject.valid?).to be(true)
+
+      subject.interview_duration = 1.hour
+
+      subject.validate
+      expect(subject.errors).to include('interviewed_at')
+      expect(subject.errors).to include('interview_notes')
+    end
+
+    it 'should require other fields to be set if interview_notes is' do
+      expect(subject.valid?).to be(true)
+
+      subject.interview_notes = "They're ready to start."
+
+      subject.validate
+      expect(subject.errors).to include('interviewed_at')
+      expect(subject.errors).to include('interview_duration')
+    end
+
+    it 'is valid if all interview fields are set' do
+      subject.interviewed_at = Time.current
+      subject.interview_duration = 1.hour
+      subject.interview_notes = 'Ready to go.'
+      expect(subject.valid?).to eq(true)
+    end
+  end
+
   describe ':submit!' do
-    subject { create(:completed_new_club_application, applicant_count: 3) }
-    let(:applicant) { subject.point_of_contact }
+    subject { create(:completed_new_club_application, profile_count: 3) }
+    let(:user) { subject.point_of_contact }
     let(:profile) do
-      ApplicantProfile.find_by(applicant: applicant,
-                               new_club_application: subject)
+      LeaderProfile.find_by(user: user,
+                            new_club_application: subject)
     end
 
     it 'fails when missing required fields' do
@@ -94,18 +148,18 @@ RSpec.describe NewClubApplication, type: :model do
       expect(subject.errors[:progress_general]).to include "can't be blank"
     end
 
-    it 'fails when applicant profiles are not complete' do
+    it 'fails when leader profiles are not complete' do
       profile.update_attributes(leader_name: nil)
       res = subject.submit!
 
       expect(res).to eq(false)
       expect(subject.submitted_at).to be_nil
       expect(subject.errors[:base]).to include(
-        'applicant profiles not complete'
+        'leader profiles not complete'
       )
     end
 
-    it 'succeeds when required fields are set & applicant profiles complete' do
+    it 'succeeds when required fields are set & leader profiles complete' do
       res = subject.submit!
 
       expect(res).to eq(true)
@@ -126,14 +180,18 @@ RSpec.describe NewClubApplication, type: :model do
       # three emails to applicants and one email to staff
       expect(ApplicantMailer.deliveries.length).to eq(3 + 1)
     end
+  end
 
-    it 'makes the model immutable' do
+  describe ':submitted?' do
+    subject { create(:completed_new_club_application) }
+
+    it 'return false when not submitted' do
+      expect(subject.submitted?).to eq(false)
+    end
+
+    it 'returns true when submitted' do
       subject.submit!
-
-      subject.update_attributes(high_school_name: 'Superhero High School')
-      expect(subject.errors[:base]).to include(
-        'cannot edit application after submit'
-      )
+      expect(subject.submitted?).to eq(true)
     end
   end
 end

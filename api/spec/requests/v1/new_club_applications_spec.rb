@@ -3,32 +3,59 @@
 require 'rails_helper'
 
 RSpec.describe 'V1::NewClubApplications', type: :request do
-  let(:applicant) { create(:applicant_authed) }
-  let(:auth_headers) { { 'Authorization': "Bearer #{applicant.auth_token}" } }
+  let(:user) { create(:user_authed) }
+  let(:auth_headers) { { 'Authorization': "Bearer #{user.auth_token}" } }
 
-  describe 'GET /v1/applicants/:id/new_club_applications' do
+  describe 'GET /v1/new_club_applications' do
     it 'requires authentication' do
-      get "/v1/applicants/#{applicant.id}/new_club_applications"
+      get '/v1/new_club_applications'
+      expect(response.status).to eq(401)
+    end
+
+    it 'requires admin access' do
+      get '/v1/new_club_applications', headers: auth_headers
+      expect(response.status).to eq(403)
+    end
+
+    it 'lists all applications' do
+      my_app = create(:new_club_application)
+      my_app.users << user
+
+      create(:new_club_application) # someone else's application
+
+      # make user an admin
+      user.make_admin! && user.save
+
+      get '/v1/new_club_applications', headers: auth_headers
+      expect(response.status).to eq(200)
+
+      expect(json.length).to eq(2)
+    end
+  end
+
+  describe 'GET /v1/users/:id/new_club_applications' do
+    it 'requires authentication' do
+      get "/v1/users/#{user.id}/new_club_applications"
       expect(response.status).to eq(401)
     end
 
     it 'lists club applications with valid auth token' do
       5.times do
-        applicant.new_club_applications << NewClubApplication.create
+        user.new_club_applications << NewClubApplication.create
       end
 
-      get "/v1/applicants/#{applicant.id}/new_club_applications",
+      get "/v1/users/#{user.id}/new_club_applications",
           headers: auth_headers
 
       expect(response.status).to eq(200)
       expect(json.length).to eq(5)
     end
 
-    it 'refuses to list applications for other applicants' do
-      other_applicant = create(:applicant)
-      other_applicant.new_club_applications << create(:new_club_application)
+    it 'refuses to list applications for other users' do
+      other_user = create(:user)
+      other_user.new_club_applications << create(:new_club_application)
 
-      get "/v1/applicants/#{other_applicant.id}/new_club_applications",
+      get "/v1/users/#{other_user.id}/new_club_applications",
           headers: auth_headers
 
       expect(response.status).to eq(403)
@@ -36,41 +63,41 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
     end
   end
 
-  describe 'POST /v1/applicants/:id/new_club_applications' do
+  describe 'POST /v1/users/:id/new_club_applications' do
     it 'requires authentication' do
-      post "/v1/applicants/#{applicant.id}/new_club_applications"
+      post "/v1/users/#{user.id}/new_club_applications"
 
       expect(response.status).to eq(401)
     end
 
     it 'creates a new club application with valid auth token' do
-      post "/v1/applicants/#{applicant.id}/new_club_applications",
+      post "/v1/users/#{user.id}/new_club_applications",
            headers: auth_headers
 
       expect(response.status).to eq(201)
       expect(json).to include('id', 'created_at', 'updated_at')
     end
 
-    it 'sets the point of contact to the applicant' do
-      post "/v1/applicants/#{applicant.id}/new_club_applications",
+    it 'sets the point of contact to the user' do
+      post "/v1/users/#{user.id}/new_club_applications",
            headers: auth_headers
 
       expect(response.status).to eq(201)
-      expect(json).to include('point_of_contact_id' => applicant.id)
+      expect(json).to include('point_of_contact_id' => user.id)
     end
   end
 
   describe 'GET /v1/new_club_applications/:id' do
     let(:club_application) { create(:new_club_application) }
 
-    before { applicant.new_club_applications << club_application }
+    before { user.new_club_applications << club_application }
 
     it 'requires authentication' do
       get "/v1/new_club_applications/#{club_application.id}"
       expect(response.status).to eq(401)
     end
 
-    it 'errors when authed applicant does not own application' do
+    it 'errors when authed user does not own application' do
       other_application = create(:new_club_application)
 
       get "/v1/new_club_applications/#{other_application.id}",
@@ -91,19 +118,35 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       expect(response.status).to eq(200)
       expect(json).to include('high_school_name' => 'Superhero High School')
 
-      # includes list of applicant profile ids, status, and applicant info
-      profile = ApplicantProfile.find_by(
-        applicant: applicant,
+      # includes list of leader profile ids, status, and user info
+      profile = LeaderProfile.find_by(
+        user: user,
         new_club_application: club_application
       )
-      expect(json['applicant_profiles'].first).to eq(
+      expect(json['leader_profiles'].first).to eq(
         'id' => profile.id,
         'completed_at' => profile.completed_at,
-        'applicant' => {
-          'id' => profile.applicant.id,
-          'email' => profile.applicant.email
+        'user' => {
+          'id' => profile.user.id,
+          'email' => profile.user.email
         }
       )
+
+      # includes interviewed_at and interview_duration, but not interview_notes
+      expect(json).to include('interviewed_at')
+      expect(json).to include('interview_duration')
+      expect(json).to_not include('interview_notes')
+    end
+
+    it 'includes interview_notes when authed as an admin' do
+      user.make_admin!
+      user.save
+
+      get "/v1/new_club_applications/#{club_application.id}",
+          headers: auth_headers
+
+      expect(response.status).to eq(200)
+      expect(json).to include('interview_notes')
     end
 
     it '404s when application does not exist' do
@@ -116,9 +159,11 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
   end
 
   describe 'PATCH /v1/new_club_applications/:id' do
-    let(:club_application) { create(:new_club_application) }
-
-    before { applicant.new_club_applications << club_application }
+    let(:club_application) do
+      app = create(:new_club_application)
+      app.users << user
+      app
+    end
 
     it 'requires_authentication' do
       patch "/v1/new_club_applications/#{club_application.id}", params: {
@@ -128,14 +173,14 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       expect(response.status).to eq(401)
     end
 
-    it 'errors when auth token is for the wrong applicant' do
-      other_applicant = create(:applicant)
-      other_applicant.generate_auth_token!
-      other_applicant.save
+    it 'errors when auth token is for the wrong user' do
+      other_user = create(:user)
+      other_user.generate_auth_token!
+      other_user.save
 
       patch "/v1/new_club_applications/#{club_application.id}",
             headers: {
-              'Authorization': "Bearer #{other_applicant.auth_token}"
+              'Authorization': "Bearer #{other_user.auth_token}"
             },
             params: {
               high_school_name: 'Superhero High School'
@@ -161,8 +206,8 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
     end
 
     it 'sets point of contact with valid auth token' do
-      poc = create(:applicant)
-      club_application.applicants << poc
+      poc = create(:user)
+      club_application.users << poc
 
       patch "/v1/new_club_applications/#{club_application.id}",
             headers: auth_headers,
@@ -175,7 +220,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
     end
 
     it 'fails to set point of contact when not associated' do
-      bad_poc = create(:applicant)
+      bad_poc = create(:user)
 
       patch "/v1/new_club_applications/#{club_application.id}",
             headers: auth_headers,
@@ -225,9 +270,9 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
 
     it 'fails to update fields when application has been submitted' do
       application = create(:completed_new_club_application)
-      create(:completed_applicant_profile,
-             new_club_application: application, applicant: applicant)
-      application.update_attributes(point_of_contact: applicant)
+      create(:completed_leader_profile,
+             new_club_application: application, user: user)
+      application.update_attributes(point_of_contact: user)
 
       post "/v1/new_club_applications/#{application.id}/submit",
            headers: auth_headers
@@ -241,15 +286,94 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
         json['errors']['base']
       ).to include('cannot edit application after submit')
     end
+
+    it 'fails to update interview fields' do
+      application = create(:completed_new_club_application)
+      create(:completed_leader_profile, new_club_application: application,
+                                        user: user)
+      application.update_attributes(point_of_contact: user)
+
+      # application must be submitted for any modification (even by admins) to
+      # be allowed
+      post "/v1/new_club_applications/#{application.id}/submit",
+           headers: auth_headers
+
+      patch "/v1/new_club_applications/#{application.id}",
+            headers: auth_headers,
+            params: {
+              interviewed_at: Time.current,
+              interview_duration: 30.minutes,
+              interview_notes: 'Went well.'
+            }
+
+      expect(response.status).to eq(422)
+    end
+
+    context 'when admin' do
+      let(:club_application) do
+        app = create(:completed_new_club_application)
+        app.submit!
+        app.save
+
+        app
+      end
+
+      before do
+        user.make_admin!
+        user.save
+      end
+
+      it 'allows updating interview fields' do
+        patch "/v1/new_club_applications/#{club_application.id}",
+              headers: auth_headers,
+              params: {
+                interviewed_at: Time.current,
+                interview_duration: 30.minutes,
+                interview_notes: 'Went well.'
+              }
+
+        expect(response.status).to eq(200)
+        expect(
+          Time.zone.parse(json['interviewed_at'])
+        ).to be_within(3.seconds).of(Time.current)
+        expect(json).to include('interview_duration' => 30.minutes)
+        expect(json).to include('interview_notes' => 'Went well.')
+      end
+
+      it 'fails if not all interview fields are set' do
+        patch "/v1/new_club_applications/#{club_application.id}",
+              headers: auth_headers,
+              params: {
+                interviewed_at: Time.current
+              }
+
+        expect(response.status).to eq(422)
+        expect(json['errors']).to include('interview_duration')
+        expect(json['errors']).to include('interview_notes')
+      end
+
+      it 'fails if application is not submitted' do
+        club_application = create(:new_club_application)
+
+        patch "/v1/new_club_applications/#{club_application.id}",
+              headers: auth_headers,
+              params: {
+                interviewed_at: Time.current
+              }
+
+        expect(response.status).to eq(422)
+        expect(json['errors']['submitted_at']).to include("can't be blank")
+      end
+    end
   end
 
-  describe 'POST /v1/new_club_applications/:id/add_applicant' do
+  describe 'POST /v1/new_club_applications/:id/add_user' do
     let(:club_application) { create(:new_club_application) }
 
-    before { applicant.new_club_applications << club_application }
+    before { user.new_club_applications << club_application }
 
     it 'requires authentication' do
-      post "/v1/new_club_applications/#{club_application.id}/add_applicant",
+      post "/v1/new_club_applications/#{club_application.id}/add_user",
            params: { email: 'john@johnsmith.com' }
 
       expect(response.status).to eq(401)
@@ -258,7 +382,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
     it "fails when trying to add to someone else's application" do
       other_application = create(:new_club_application)
 
-      post "/v1/new_club_applications/#{other_application.id}/add_applicant",
+      post "/v1/new_club_applications/#{other_application.id}/add_user",
            headers: auth_headers,
            params: { email: 'john@johnsmith.com' }
 
@@ -267,7 +391,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
     end
 
     it '404s when given application id does not exist' do
-      post "/v1/new_club_applications/#{club_application.id + 1}/add_applicant",
+      post "/v1/new_club_applications/#{club_application.id + 1}/add_user",
            headers: auth_headers,
            params: { email: 'john@johnsmith.com' }
 
@@ -275,56 +399,56 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       expect(json).to include('error' => 'not found')
     end
 
-    it 'creates new applicant and sends email when given email is new' do
-      starting_applicant_count = Applicant.count
+    it 'creates new user and sends email when given email is new' do
+      starting_profile_count = User.count
 
-      post "/v1/new_club_applications/#{club_application.id}/add_applicant",
+      post "/v1/new_club_applications/#{club_application.id}/add_user",
            headers: auth_headers,
            params: { email: 'john@johnsmith.com' }
 
       expect(response.status).to eq(200)
       expect(json).to include('success' => true)
 
-      # new applicant created and added to application
-      expect(Applicant.count).to eq(starting_applicant_count + 1)
+      # new user created and added to application
+      expect(User.count).to eq(starting_profile_count + 1)
       expect(
-        club_application.applicants.find_by(email: 'john@johnsmith.com')
+        club_application.users.find_by(email: 'john@johnsmith.com')
       ).to_not be_nil
 
       # email sent
       expect(ApplicantMailer.deliveries.length).to be(1)
     end
 
-    it 'adds existing applicant and sends email when given email is not new' do
-      new_applicant = create(:applicant)
-      starting_applicant_count = Applicant.count
+    it 'adds existing user and sends email when given email is not new' do
+      new_user = create(:user)
+      starting_profile_count = User.count
 
-      post "/v1/new_club_applications/#{club_application.id}/add_applicant",
+      post "/v1/new_club_applications/#{club_application.id}/add_user",
            headers: auth_headers,
-           params: { email: new_applicant.email }
+           params: { email: new_user.email }
 
       expect(response.status).to eq(200)
       expect(json).to include('success' => true)
 
-      # no new applicants created
-      expect(starting_applicant_count).to eq(Applicant.count)
+      # no new users created
+      expect(starting_profile_count).to eq(User.count)
 
-      # applicant successfully added to application
-      expect(club_application.applicants).to include(new_applicant)
+      # user successfully added to application
+      expect(club_application.users).to include(new_user)
 
       # email sent
       expect(ApplicantMailer.deliveries.length).to be(1)
     end
 
-    it 'rehydrates applicant profile when one was previously deleted' do
-      to_readd = create(:applicant)
-      to_rehydrate = create(:applicant_profile,
-                            applicant: to_readd,
+    it 'rehydrates leader profile when one was previously deleted' do
+      to_readd = create(:user)
+      to_rehydrate = create(:leader_profile,
+                            user: to_readd,
                             new_club_application: club_application)
       to_rehydrate.update_attributes(leader_name: 'Jerry')
       to_rehydrate.destroy
 
-      post "/v1/new_club_applications/#{club_application.id}/add_applicant",
+      post "/v1/new_club_applications/#{club_application.id}/add_user",
            headers: auth_headers,
            params: { email: to_readd.email }
 
@@ -332,19 +456,19 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       expect(response.status).to eq(200)
 
       # successfully rehydrated
-      expect(ApplicantProfile.find_by(
-        applicant: to_readd,
+      expect(LeaderProfile.find_by(
+        user: to_readd,
         new_club_application: club_application
       ).leader_name).to eq('Jerry')
     end
 
-    it 'fails when applicant has already been added' do
-      new_applicant = create(:applicant)
-      club_application.applicants << new_applicant
+    it 'fails when user has already been added' do
+      new_user = create(:user)
+      club_application.users << new_user
 
-      post "/v1/new_club_applications/#{club_application.id}/add_applicant",
+      post "/v1/new_club_applications/#{club_application.id}/add_user",
            headers: auth_headers,
-           params: { email: new_applicant.email }
+           params: { email: new_user.email }
 
       expect(response.status).to eq(422)
       expect(json['errors']['email']).to include('already added')
@@ -352,14 +476,14 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
 
     it 'fails when application has been submitted' do
       application = create(:completed_new_club_application)
-      create(:completed_applicant_profile,
-             new_club_application: application, applicant: applicant)
-      application.update_attributes(point_of_contact: applicant)
+      create(:completed_leader_profile,
+             new_club_application: application, user: user)
+      application.update_attributes(point_of_contact: user)
 
       post "/v1/new_club_applications/#{application.id}/submit",
            headers: auth_headers
 
-      post "/v1/new_club_applications/#{application.id}/add_applicant",
+      post "/v1/new_club_applications/#{application.id}/add_user",
            headers: auth_headers,
            params: { email: 'john@johnsmith.com' }
 
@@ -370,40 +494,40 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
     end
   end
 
-  describe 'DELETE /v1/new_club_applications/:id/remove_applicant' do
+  describe 'DELETE /v1/new_club_applications/:id/remove_user' do
     let(:application) { create(:completed_new_club_application) }
 
     before do
-      create(:completed_applicant_profile, applicant: applicant,
-                                           new_club_application: application)
-      application.update_attributes(point_of_contact: applicant)
+      create(:completed_leader_profile, user: user,
+                                        new_club_application: application)
+      application.update_attributes(point_of_contact: user)
     end
 
     it 'requires authentication' do
-      delete "/v1/new_club_applications/#{application.id}/remove_applicant",
-             params: { applicant_id: applicant.id }
+      delete "/v1/new_club_applications/#{application.id}/remove_user",
+             params: { user_id: user.id }
 
       expect(response.status).to eq(401)
     end
 
     it '404s when application does not exist' do
-      delete "/v1/new_club_applications/#{application.id + 1}/remove_applicant",
+      delete "/v1/new_club_applications/#{application.id + 1}/remove_user",
              headers: auth_headers,
-             params: { applicant_id: applicant.id }
+             params: { user_id: user.id }
 
       expect(response.status).to eq(404)
       expect(json['error']).to eq('not found')
     end
 
-    it 'fails to delete from club applications of other applicants' do
+    it 'fails to delete from club applications of other users' do
       other_app = create(:new_club_application)
-      other_applicant = create(:applicant)
+      other_user = create(:user)
 
-      other_app.applicants << other_applicant
+      other_app.users << other_user
 
-      delete "/v1/new_club_applications/#{other_app.id}/remove_applicant",
+      delete "/v1/new_club_applications/#{other_app.id}/remove_user",
              headers: auth_headers,
-             params: { applicant_id: other_applicant.id }
+             params: { user_id: other_user.id }
 
       expect(response.status).to eq(403)
       expect(json['error']).to eq('access denied')
@@ -411,55 +535,55 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
 
     it 'fails to delete if not point of contact' do
       application.update_attributes(point_of_contact: nil)
-      other_applicant = create(:applicant, new_club_applications: [application])
+      other_user = create(:user, new_club_applications: [application])
 
-      delete "/v1/new_club_applications/#{application.id}/remove_applicant",
+      delete "/v1/new_club_applications/#{application.id}/remove_user",
              headers: auth_headers,
-             params: { applicant_id: other_applicant.id }
+             params: { user_id: other_user.id }
 
       expect(response.status).to eq(403)
       expect(json['error']).to eq('access denied')
     end
 
     it 'fails to delete self' do
-      delete "/v1/new_club_applications/#{application.id}/remove_applicant",
+      delete "/v1/new_club_applications/#{application.id}/remove_user",
              headers: auth_headers,
-             params: { applicant_id: applicant.id }
+             params: { user_id: user.id }
 
       expect(response.status).to eq(422)
-      expect(json['errors']['applicant_id']).to include('cannot remove self')
+      expect(json['errors']['user_id']).to include('cannot remove self')
     end
 
-    it '404s when applicant does not exist' do
-      delete "/v1/new_club_applications/#{application.id}/remove_applicant",
+    it '404s when user does not exist' do
+      delete "/v1/new_club_applications/#{application.id}/remove_user",
              headers: auth_headers,
-             params: { applicant_id: applicant.id + 100 }
+             params: { user_id: user.id + 100 }
 
       expect(response.status).to eq(404)
       expect(json['error']).to eq('not found')
     end
 
-    it 'fails to delete applicants already deleted' do
-      other_applicant = create(:applicant, new_club_applications: [application])
+    it 'fails to delete users already deleted' do
+      other_user = create(:user, new_club_applications: [application])
 
       2.times do
-        delete "/v1/new_club_applications/#{application.id}/remove_applicant",
+        delete "/v1/new_club_applications/#{application.id}/remove_user",
                headers: auth_headers,
-               params: { applicant_id: other_applicant.id }
+               params: { user_id: other_user.id }
       end
 
       expect(response.status).to eq(422)
       expect(
-        json['errors']['applicant_id']
+        json['errors']['user_id']
       ).to include('not added to application')
     end
 
-    it 'fails to delete applicant when application is submitted' do
+    it 'fails to delete user when application is submitted' do
       application.submit!
 
-      delete "/v1/new_club_applications/#{application.id}/remove_applicant",
+      delete "/v1/new_club_applications/#{application.id}/remove_user",
              headers: auth_headers,
-             params: { applicant_id: application.applicants.last.id }
+             params: { user_id: application.users.last.id }
 
       expect(response.status).to eq(422)
       expect(
@@ -468,23 +592,23 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
     end
 
     it 'successfully deletes if point of contact' do
-      delete "/v1/new_club_applications/#{application.id}/remove_applicant",
+      delete "/v1/new_club_applications/#{application.id}/remove_user",
              headers: auth_headers,
-             params: { applicant_id: application.applicants.last.id }
+             params: { user_id: application.users.last.id }
 
       expect(response.status).to eq(200)
       expect(json).to include('success' => true)
     end
 
     it 'preserves profile data on deletion' do
-      to_delete = application.applicants.last
+      to_delete = application.users.last
 
-      delete "/v1/new_club_applications/#{application.id}/remove_applicant",
+      delete "/v1/new_club_applications/#{application.id}/remove_user",
              headers: auth_headers,
-             params: { applicant_id: to_delete.id }
+             params: { user_id: to_delete.id }
 
-      deleted_profile = ApplicantProfile.with_deleted.find_by(
-        applicant: applicant,
+      deleted_profile = LeaderProfile.with_deleted.find_by(
+        user: user,
         new_club_application: application
       )
 
@@ -495,23 +619,23 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
   describe 'POST /v1/new_club_applications/:id/submit' do
     let(:application) do
       create(:completed_new_club_application,
-             applicant_count: 0)
+             profile_count: 0)
     end
 
-    # add our applicant w/ a completed profile
+    # add our user w/ a completed profile
     let!(:profile) do
       create(
-        :completed_applicant_profile,
-        applicant: applicant, new_club_application: application
+        :completed_leader_profile,
+        user: user, new_club_application: application
       )
     end
 
     # and make them the point of contact
-    before { application.update_attributes(point_of_contact: applicant) }
+    before { application.update_attributes(point_of_contact: user) }
 
     let(:application) do
       create(:completed_new_club_application,
-             applicant_count: 0)
+             profile_count: 0)
     end
 
     it 'requires authentication' do
@@ -547,7 +671,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       expect(json['errors']).to include('formation_registered')
     end
 
-    it 'fails when applicant profiles are not completed' do
+    it 'fails when leader profiles are not completed' do
       profile.update_attributes(leader_name: nil)
 
       post "/v1/new_club_applications/#{application.id}/submit",
@@ -556,7 +680,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       expect(response.status).to eq(422)
       expect(
         json['errors']['base']
-      ).to include('applicant profiles not complete')
+      ).to include('leader profiles not complete')
     end
 
     it 'submits successfully when all fields are present' do

@@ -2,17 +2,17 @@
 
 require 'rails_helper'
 
-RSpec.describe 'V1::Applicants', type: :request do
-  describe 'POST /v1/applicants/auth' do
+RSpec.describe 'V1::Users', type: :request do
+  describe 'POST /v1/users/auth' do
     it 'fails with an invalid email' do
-      post '/v1/applicants/auth', params: { email: 'bad_email' }
+      post '/v1/users/auth', params: { email: 'bad_email' }
 
       expect(response.status).to eq(422)
       expect(json['errors']).to include('email')
     end
 
     it 'creates new object and sends email with new and valid email' do
-      post '/v1/applicants/auth', params: { email: 'foo@bar.com' }
+      post '/v1/users/auth', params: { email: 'foo@bar.com' }
 
       expect(response.status).to eq(200)
 
@@ -27,40 +27,40 @@ RSpec.describe 'V1::Applicants', type: :request do
       # but not secret fields
       expect(json).to_not include('auth_token')
 
-      # creates applicant object w/ generated login code
-      applicant = Applicant.last
-      expect(applicant.email).to eq('foo@bar.com')
-      expect(applicant.login_code).to match(/\d{6}/)
+      # creates user object w/ generated login code
+      user = User.last
+      expect(user.email).to eq('foo@bar.com')
+      expect(user.login_code).to match(/\d{6}/)
 
       # email queued to be sent
       expect(ApplicantMailer.deliveries.length).to be(1)
     end
 
     it 'does not create object but sends login code with existing email' do
-      # init applicant
-      applicant = create(:applicant)
-      applicant.generate_login_code!
-      applicant.save
+      # init user
+      user = create(:user)
+      user.generate_login_code!
+      user.save
 
-      post '/v1/applicants/auth', params: { email: applicant.email }
+      post '/v1/users/auth', params: { email: user.email }
 
       expect(response.status).to eq(200)
 
       # returns existing object
-      expect(json).to include('email' => applicant.email)
-      expect(json).to include('id' => applicant.id)
+      expect(json).to include('email' => user.email)
+      expect(json).to include('id' => user.id)
 
       # generates new login code
-      expect(applicant.login_code).to_not eq(applicant.reload.login_code)
+      expect(user.login_code).to_not eq(user.reload.login_code)
 
       # queued email
       expect(ApplicantMailer.deliveries.length).to be(1)
     end
   end
 
-  describe 'POST /v1/applicants/:id/exchange_login_code' do
-    let(:applicant) do
-      a = create(:applicant)
+  describe 'POST /v1/users/:id/exchange_login_code' do
+    let(:user) do
+      a = create(:user)
       a.generate_login_code!
       a.save
 
@@ -68,8 +68,8 @@ RSpec.describe 'V1::Applicants', type: :request do
     end
 
     it 'returns auth token with valid login code' do
-      post "/v1/applicants/#{applicant.id}/exchange_login_code",
-           params: { login_code: applicant.login_code }
+      post "/v1/users/#{user.id}/exchange_login_code",
+           params: { login_code: user.login_code }
 
       expect(response.status).to eq(200)
 
@@ -77,14 +77,14 @@ RSpec.describe 'V1::Applicants', type: :request do
     end
 
     it 'return error with no login code' do
-      post "/v1/applicants/#{applicant.id}/exchange_login_code"
+      post "/v1/users/#{user.id}/exchange_login_code"
 
       expect(response.status).to eq(401)
       expect(json['errors']).to include('login_code')
     end
 
     it 'returns error with invalid login code' do
-      post "/v1/applicants/#{applicant.id}/exchange_login_code",
+      post "/v1/users/#{user.id}/exchange_login_code",
            params: { login_code: '000111' }
 
       expect(response.status).to eq(401)
@@ -93,43 +93,43 @@ RSpec.describe 'V1::Applicants', type: :request do
 
     it 'fails when valid login code is used twice' do
       # 1st time..
-      post "/v1/applicants/#{applicant.id}/exchange_login_code",
-           params: { login_code: applicant.login_code }
+      post "/v1/users/#{user.id}/exchange_login_code",
+           params: { login_code: user.login_code }
 
       # 2nd time...
-      post "/v1/applicants/#{applicant.id}/exchange_login_code",
-           params: { login_code: applicant.login_code }
+      post "/v1/users/#{user.id}/exchange_login_code",
+           params: { login_code: user.login_code }
 
       expect(response.status).to eq(401)
       expect(json['errors']).to include('login_code')
     end
 
     it 'does not allow login codes older than 15 minutes' do
-      applicant.login_code_generation -= 15.minutes
-      applicant.save
+      user.login_code_generation -= 15.minutes
+      user.save
 
-      post "/v1/applicants/#{applicant.id}/exchange_login_code",
-           params: { login_code: applicant.login_code }
+      post "/v1/users/#{user.id}/exchange_login_code",
+           params: { login_code: user.login_code }
 
       expect(response.status).to eq(401)
       expect(json['errors']).to include('login_code')
     end
 
     it 'does not allow login codes for other users' do
-      other_applicant = create(:applicant)
-      other_applicant.generate_login_code!
-      other_applicant.save
+      other_user = create(:user)
+      other_user.generate_login_code!
+      other_user.save
 
-      post "/v1/applicants/#{applicant.id}/exchange_login_code",
-           params: { login_code: other_applicant.login_code }
+      post "/v1/users/#{user.id}/exchange_login_code",
+           params: { login_code: other_user.login_code }
 
       expect(response.status).to eq(401)
       expect(json['errors']).to include('login_code')
     end
 
-    it '404s when applicant id does not exist' do
-      post "/v1/applicants/#{applicant.id + 1}/exchange_login_code",
-           params: { login_code: applicant.login_code }
+    it '404s when user id does not exist' do
+      post "/v1/users/#{user.id + 1}/exchange_login_code",
+           params: { login_code: user.login_code }
 
       expect(response.status).to eq(404)
       expect(json).to include('error' => 'not found')

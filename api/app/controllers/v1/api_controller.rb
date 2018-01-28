@@ -2,6 +2,11 @@
 
 module V1
   class ApiController < ApplicationController
+    include Pundit
+
+    rescue_from Pundit::NotAuthorizedError, with: :render_access_denied
+    rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
+
     def render_success(obj = { success: true }, status = 200)
       render json: obj, status: status
     end
