@@ -55,6 +55,29 @@ RSpec.describe NewClubApplication, type: :model do
   it { should have_db_column :interview_duration }
   it { should have_db_column :interview_notes }
 
+  ## enums ##
+
+  it { should define_enum_for :high_school_type }
+
+  ## validations ##
+
+  it_behaves_like 'Geocodeable'
+
+  ## relationships ##
+
+  it { should have_many(:leader_profiles) }
+  it { should have_many(:users).through(:leader_profiles) }
+  it { should belong_to(:point_of_contact) }
+
+  it 'requires points of contact to be associated users' do
+    bad_poc = create(:user)
+
+    subject.update_attributes(point_of_contact: bad_poc)
+
+    expect(subject.errors[:point_of_contact])
+      .to include('must be an associated applicant')
+  end
+
   describe 'interview fields' do
     subject { create(:completed_new_club_application) }
     before { subject.submit! }
@@ -103,29 +126,6 @@ RSpec.describe NewClubApplication, type: :model do
       subject.interview_notes = 'Ready to go.'
       expect(subject.valid?).to eq(true)
     end
-  end
-
-  ## enums ##
-
-  it { should define_enum_for :high_school_type }
-
-  ## validations ##
-
-  it_behaves_like 'Geocodeable'
-
-  ## relationships ##
-
-  it { should have_many(:leader_profiles) }
-  it { should have_many(:users).through(:leader_profiles) }
-  it { should belong_to(:point_of_contact) }
-
-  it 'requires points of contact to be associated users' do
-    bad_poc = create(:user)
-
-    subject.update_attributes(point_of_contact: bad_poc)
-
-    expect(subject.errors[:point_of_contact])
-      .to include('must be an associated applicant')
   end
 
   describe ':submit!' do
