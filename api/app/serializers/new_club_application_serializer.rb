@@ -28,9 +28,16 @@ class NewClubApplicationSerializer < ActiveModel::Serializer
              :curious_what_convinced,
              :curious_how_did_hear,
              :point_of_contact_id,
-             :submitted_at
+             :submitted_at,
+             :interviewed_at,
+             :interview_duration
+
+  attribute :interview_notes, if: :admin?
 
   has_many :leader_profiles
+
+  # for admin? method
+  delegate :admin?, to: :current_user
 
   class LeaderProfileSerializer < ActiveModel::Serializer
     attributes :id, :completed_at

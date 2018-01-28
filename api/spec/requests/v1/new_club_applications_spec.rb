@@ -131,6 +131,22 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
           'email' => profile.user.email
         }
       )
+
+      # includes interviewed_at and interview_duration, but not interview_notes
+      expect(json).to include('interviewed_at')
+      expect(json).to include('interview_duration')
+      expect(json).to_not include('interview_notes')
+    end
+
+    it 'includes interview_notes when authed as an admin' do
+      user.make_admin!
+      user.save
+
+      get "/v1/new_club_applications/#{club_application.id}",
+          headers: auth_headers
+
+      expect(response.status).to eq(200)
+      expect(json).to include('interview_notes')
     end
 
     it '404s when application does not exist' do
