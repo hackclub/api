@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180127234239) do
+ActiveRecord::Schema.define(version: 20180128111910) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -276,8 +276,8 @@ ActiveRecord::Schema.define(version: 20180127234239) do
     t.datetime "submitted_at"
     t.json "legacy_fields"
     t.datetime "interviewed_at"
-    t.interval "interview_duration"
     t.text "interview_notes"
+    t.integer "interview_duration"
     t.index ["point_of_contact_id"], name: "index_new_club_applications_on_point_of_contact_id"
   end
 

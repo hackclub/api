@@ -336,7 +336,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
         expect(
           Time.zone.parse(json['interviewed_at'])
         ).to be_within(3.seconds).of(Time.current)
-        expect(json).to include('interview_duration' => 30.minutes.to_s)
+        expect(json).to include('interview_duration' => 30.minutes)
         expect(json).to include('interview_notes' => 'Went well.')
       end
 
