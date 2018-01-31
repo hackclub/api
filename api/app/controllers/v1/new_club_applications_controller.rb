@@ -130,7 +130,10 @@ module V1
         :point_of_contact_id,
         :interviewed_at,
         :interview_duration,
-        :interview_notes
+        :interview_notes,
+        :rejected_at,
+        :rejected_reason,
+        :rejected_notes
       )
     end
   end

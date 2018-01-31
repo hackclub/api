@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180130224937) do
+ActiveRecord::Schema.define(version: 20180131005432) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -278,6 +278,9 @@ ActiveRecord::Schema.define(version: 20180130224937) do
     t.datetime "interviewed_at"
     t.text "interview_notes"
     t.integer "interview_duration"
+    t.datetime "rejected_at"
+    t.integer "rejected_reason"
+    t.text "rejected_notes"
     t.index ["point_of_contact_id"], name: "index_new_club_applications_on_point_of_contact_id"
   end
 

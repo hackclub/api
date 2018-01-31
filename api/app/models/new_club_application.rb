@@ -26,6 +26,10 @@ class NewClubApplication < ApplicationRecord
     private_school charter_school
   ]
 
+  enum rejected_reason: %i[
+    other
+  ]
+
   with_options if: -> { submitted_at.present? } do |application|
     application.validates :high_school_name,
                           :high_school_type,
@@ -61,6 +65,15 @@ class NewClubApplication < ApplicationRecord
               interviewed_at.present? ||
                 interview_duration.present? ||
                 interview_notes.present?
+            }
+
+  # submitted_at must be set for rejected_at to be set
+  validates :submitted_at, presence: true, if: -> { rejected_at.present? }
+  validates :rejected_at, :rejected_reason, :rejected_notes,
+            presence: true, if: lambda {
+              rejected_at.present? ||
+                rejected_reason.present? ||
+                rejected_notes.present?
             }
 
   def submit!
