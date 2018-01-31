@@ -8,6 +8,7 @@ class NewClubApplication < ApplicationRecord
   has_many :leader_profiles
   has_many :users, through: :leader_profiles
   belongs_to :point_of_contact, class_name: 'User'
+  has_many :notes, as: :noteable
 
   geocode_attrs address: :high_school_address,
                 latitude: :high_school_latitude,

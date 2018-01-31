@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180128111910) do
+ActiveRecord::Schema.define(version: 20180130224937) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -281,6 +281,19 @@ ActiveRecord::Schema.define(version: 20180128111910) do
     t.index ["point_of_contact_id"], name: "index_new_club_applications_on_point_of_contact_id"
   end
 
+  create_table "notes", force: :cascade do |t|
+    t.string "noteable_type"
+    t.bigint "noteable_id"
+    t.bigint "user_id"
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_notes_on_deleted_at"
+    t.index ["noteable_type", "noteable_id"], name: "index_notes_on_noteable_type_and_noteable_id"
+    t.index ["user_id"], name: "index_notes_on_user_id"
+  end
+
   create_table "projects", id: :serial, force: :cascade do |t|
     t.text "title"
     t.text "description"
@@ -355,6 +368,7 @@ ActiveRecord::Schema.define(version: 20180128111910) do
   add_foreign_key "clubs", "leaders", column: "point_of_contact_id"
   add_foreign_key "net_promoter_score_surveys", "leaders"
   add_foreign_key "new_club_applications", "users", column: "point_of_contact_id"
+  add_foreign_key "notes", "users"
   add_foreign_key "slack_invite_strategies", "hackbot_teams"
   add_foreign_key "slack_invites", "hackbot_teams"
   add_foreign_key "slack_invites", "slack_invite_strategies"
