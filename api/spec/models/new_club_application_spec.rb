@@ -68,6 +68,7 @@ RSpec.describe NewClubApplication, type: :model do
   it { should have_many(:leader_profiles) }
   it { should have_many(:users).through(:leader_profiles) }
   it { should belong_to(:point_of_contact) }
+  it { should have_many :notes }
 
   it 'requires points of contact to be associated users' do
     bad_poc = create(:user)

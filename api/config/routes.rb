@@ -24,7 +24,11 @@ Rails.application.routes.draw do
       post 'add_user'
       delete 'remove_user'
       post 'submit'
+
+      resources :notes, only: %i[index create]
     end
+
+    resources :notes, only: %i[show update destroy]
 
     resources :leader_profiles, only: %i[show update]
 
