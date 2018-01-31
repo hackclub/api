@@ -136,9 +136,14 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       expect(json).to include('interviewed_at')
       expect(json).to include('interview_duration')
       expect(json).to_not include('interview_notes')
+
+      # includes rejected_at, but not rejected_reason or rejected_notes
+      expect(json).to include('rejected_at')
+      expect(json).to_not include('rejected_reason')
+      expect(json).to_not include('rejected_notes')
     end
 
-    it 'includes interview_notes when authed as an admin' do
+    it 'includes private fields when authed as an admin' do
       user.make_admin!
       user.save
 
@@ -146,7 +151,14 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
           headers: auth_headers
 
       expect(response.status).to eq(200)
+
+      expect(json).to include('interviewed_at')
+      expect(json).to include('interview_duration')
       expect(json).to include('interview_notes')
+
+      expect(json).to include('rejected_at')
+      expect(json).to include('rejected_reason')
+      expect(json).to include('rejected_notes')
     end
 
     it '404s when application does not exist' do
@@ -309,6 +321,28 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       expect(response.status).to eq(422)
     end
 
+    it 'fails to update rejection fields' do
+      application = create(:completed_new_club_application)
+      create(:completed_leader_profile, new_club_application: application,
+                                        user: user)
+      application.update_attributes(point_of_contact: user)
+
+      # application must be submitted for any modification (even by admins) to
+      # be allowed
+      post "/v1/new_club_applications/#{application.id}/submit",
+           headers: auth_headers
+
+      patch "/v1/new_club_applications/#{application.id}",
+            headers: auth_headers,
+            params: {
+              rejected_at: Time.current,
+              rejected_reason: :other,
+              rejected_notes: 'Example reason'
+            }
+
+      expect(response.status).to eq(422)
+    end
+
     context 'when admin' do
       let(:club_application) do
         app = create(:completed_new_club_application)
@@ -352,13 +386,54 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
         expect(json['errors']).to include('interview_notes')
       end
 
-      it 'fails if application is not submitted' do
+      it 'fails to update interview fields if application is not submitted' do
         club_application = create(:new_club_application)
 
         patch "/v1/new_club_applications/#{club_application.id}",
               headers: auth_headers,
               params: {
                 interviewed_at: Time.current
+              }
+
+        expect(response.status).to eq(422)
+        expect(json['errors']['submitted_at']).to include("can't be blank")
+      end
+
+      it 'allows updating rejected fields' do
+        patch "/v1/new_club_applications/#{club_application.id}",
+              headers: auth_headers,
+              params: {
+                rejected_at: Time.current,
+                rejected_reason: :other,
+                rejected_notes: 'Example reason'
+              }
+
+        expect(response.status).to eq(200)
+        expect(
+          Time.zone.parse(json['rejected_at'])
+        ).to be_within(3.seconds).of(Time.current)
+        expect(json).to include('rejected_reason' => 'other')
+        expect(json).to include('rejected_notes' => 'Example reason')
+      end
+
+      it 'fails if not all rejected fields are set' do
+        patch "/v1/new_club_applications/#{club_application.id}",
+              headers: auth_headers,
+              params: {
+                rejected_at: Time.current
+              }
+
+        expect(response.status).to eq(422)
+        expect(json['errors']).to include('rejected_reason', 'rejected_notes')
+      end
+
+      it 'fails to update rejected fields if application is not submitted' do
+        club_application = create(:new_club_application)
+
+        patch "/v1/new_club_applications/#{club_application.id}",
+              headers: auth_headers,
+              params: {
+                rejected_at: Time.current
               }
 
         expect(response.status).to eq(422)

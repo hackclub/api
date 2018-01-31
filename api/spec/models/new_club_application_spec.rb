@@ -55,9 +55,14 @@ RSpec.describe NewClubApplication, type: :model do
   it { should have_db_column :interview_duration }
   it { should have_db_column :interview_notes }
 
+  it { should have_db_column :rejected_at }
+  it { should have_db_column :rejected_reason }
+  it { should have_db_column :rejected_notes }
+
   ## enums ##
 
   it { should define_enum_for :high_school_type }
+  it { should define_enum_for :rejected_reason }
 
   ## validations ##
 
@@ -125,6 +130,56 @@ RSpec.describe NewClubApplication, type: :model do
       subject.interviewed_at = Time.current
       subject.interview_duration = 1.hour
       subject.interview_notes = 'Ready to go.'
+      expect(subject.valid?).to eq(true)
+    end
+  end
+
+  describe 'rejected fields' do
+    subject { create(:completed_new_club_application) }
+    before { subject.submit! }
+
+    it 'does not allow rejected_at to be set unless submitted_at is' do
+      subject.submitted_at = nil
+      subject.rejected_at = Time.current
+
+      subject.validate
+      expect(subject.errors).to include('submitted_at')
+    end
+
+    it 'should require other fields to be set if rejected_at is' do
+      expect(subject.valid?).to be(true)
+
+      subject.rejected_at = Time.current
+
+      subject.validate
+      expect(subject.errors).to include('rejected_reason')
+      expect(subject.errors).to include('rejected_notes')
+    end
+
+    it 'should require other fields to be set if rejected_reason is' do
+      expect(subject.valid?).to be(true)
+
+      subject.rejected_reason = :other
+
+      subject.validate
+      expect(subject.errors).to include('rejected_at')
+      expect(subject.errors).to include('rejected_notes')
+    end
+
+    it 'should require other fields to be set if rejected_notes is' do
+      expect(subject.valid?).to be(true)
+
+      subject.rejected_notes = "Didn't have faith in leadship skills."
+
+      subject.validate
+      expect(subject.errors).to include('rejected_at')
+      expect(subject.errors).to include('rejected_reason')
+    end
+
+    it 'should be valid if all rejected fields are set' do
+      subject.rejected_at = Time.current
+      subject.rejected_reason = :other
+      subject.rejected_notes = 'Example rejection reason.'
       expect(subject.valid?).to eq(true)
     end
   end

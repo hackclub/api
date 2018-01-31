@@ -30,9 +30,12 @@ class NewClubApplicationSerializer < ActiveModel::Serializer
              :point_of_contact_id,
              :submitted_at,
              :interviewed_at,
-             :interview_duration
+             :interview_duration,
+             :rejected_at
 
   attribute :interview_notes, if: :admin?
+  attribute :rejected_reason, if: :admin?
+  attribute :rejected_notes, if: :admin?
 
   has_many :leader_profiles
 
