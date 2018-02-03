@@ -206,8 +206,14 @@ docker-compose run api rails db:create db:setup
 
 This application depends on a few jobs running periodically in the background. Set this up using cron or a similar scheduler on your deployment of the application -- we use Heroku's scheduler in production.
 
-- `rails heroku_scheduler:queue_update_from_streak` every hour
-- `rails heroku_scheduler:queue_update_hackbot_slack_username` every hour
+- `rails heroku_scheduler:queue_update_hackbot_slack_username_job` hourly
+- `rails heroku_scheduler:queue_record_slack_stats_job` daily
+- `rails heroku_scheduler:queue_activate_clubs_job` daily
+- `rails heroku_scheduler:queue_collect_projects_shipped_job` daily
+- `rails heroku_scheduler:queue_schedule_leader_check_ins_job` daily
+- `rails heroku_scheduler:queue_handle_spam_club_applications_job` every 10 minutes
+- `rails heroku_scheduler:queue_update_from_streak_job` hourly
+- `rails heroku_scheduler:queue_close_check_ins_job` daily
 
 ### Deployment on Heroku
 
