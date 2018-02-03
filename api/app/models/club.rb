@@ -4,9 +4,12 @@ class Club < ApplicationRecord
   ACTIVE_STAGE = '5003'
   DORMANT_STAGE = '5014'
   DEAD_STAGE = '5007'
+  INDIA_STAGE = '5020'
 
   include Streakable
   include Geocodeable
+
+  scope :india, -> { where(stage_key: INDIA_STAGE) }
 
   streak_pipeline_key Rails.application.secrets.streak_club_pipeline_key
   streak_default_field_mappings key: :streak_key, name: :name, notes: :notes,

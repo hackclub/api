@@ -17,6 +17,8 @@ class CloseCheckInsJob < ApplicationJob
 
       close check_in
     end
+
+    AthulClubMailer.check_in_recap.deliver_later
   end
 
   # Not allowing when blocks with events is currently broken. Tracked in:
