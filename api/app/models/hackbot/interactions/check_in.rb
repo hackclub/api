@@ -21,6 +21,60 @@ module Hackbot
         deadline = formatted_deadline leader
         key = 'greeting.' + (first_check_in? ? 'if_first_check_in' : 'default')
         key = 'greeting.restart' if @restart
+
+        msg_channel copy(key,
+                         first_name: first_name,
+                         flavor_text: flavor_text,
+                         deadline: deadline)
+        msg_channel copy('nps.introduction')
+        msg_channel copy('nps.score')
+
+        default_follow_up 'wait_for_nps_score'
+        :wait_for_nps_score
+      end
+
+      def wait_for_nps_score
+        return :wait_for_nps_score unless msg
+
+        unless integer?(msg)
+          msg_channel copy('nps.invalid')
+          return :wait_for_nps_score
+        end
+
+        nps_score = msg.to_i
+
+        unless (0..10).cover?(nps_score)
+          msg_channel copy('nps.out_of_bounds')
+          return :wait_for_nps_score
+        end
+
+        data['nps_score'] = nps_score
+
+        msg_channel copy('nps.score_confirmation', score: nps_score)
+        msg_channel copy('nps.improve')
+
+        default_follow_up 'wait_for_nps_improve'
+        :wait_for_nps_improve
+      end
+
+      def wait_for_nps_improve
+        return unless msg
+
+        data['something_we_can_improve'] = msg
+
+        msg_channel copy('nps.did_well')
+
+        default_follow_up 'wait_for_nps_did_well'
+        :wait_for_nps_did_well
+      end
+
+      def wait_for_nps_did_well
+        return unless msg
+
+        data['something_we_did_well'] = msg
+
+        msg_channel copy('nps.completed')
+
         actions = []
 
         if previous_meeting_day
@@ -38,16 +92,13 @@ module Hackbot
         actions << { text: 'No' }
 
         msg_channel(
-          text: copy(key, first_name: first_name,
-                          deadline: deadline,
-                          flavor_text: flavor_text),
+          text: copy('meeting_confirmation.question'),
           attachments: [
             actions: actions
           ]
         )
 
         default_follow_up 'wait_for_meeting_confirmation'
-
         :wait_for_meeting_confirmation
       end
 
@@ -276,8 +327,6 @@ module Hackbot
         :wait_for_women_demographics
       end
 
-      # rubocop:disable Metrics/MethodLength
-      # rubocop:disable Metrics/AbcSize
       def wait_for_women_demographics
         msg_wo_percent_sign = msg.tr('%', '')
 
@@ -289,7 +338,7 @@ module Hackbot
         end
 
         percent = msg_wo_percent_sign.to_i
-        if percent < 0 || percent > 100
+        unless (0..100).cover?(percent)
           msg_channel copy('demographics.out_of_bounds', percent: percent)
 
           default_follow_up 'wait_for_women_demographics'
@@ -305,11 +354,7 @@ module Hackbot
         default_follow_up 'wait_for_racial_minority_demographics'
         :wait_for_racial_minority_demographics
       end
-      # rubocop:enable Metrics/AbcSize
-      # rubocop:enable Metrics/MethodLength
 
-      # rubocop:disable Metrics/MethodLength
-      # rubocop:disable Metrics/AbcSize
       def wait_for_racial_minority_demographics
         msg_wo_percent_sign = msg.tr('%', '')
         unless integer?(msg_wo_percent_sign) && msg.include?('%')
@@ -320,7 +365,7 @@ module Hackbot
         end
 
         percent = msg_wo_percent_sign.to_i
-        if percent < 0 || percent > 100
+        unless (0..100).cover?(percent)
           msg_channel copy('demographics.out_of_bounds', percent: percent)
 
           default_follow_up 'wait_for_racial_minority_demographics'
@@ -342,10 +387,7 @@ module Hackbot
         default_follow_up 'wait_for_notes_confirmation'
         :wait_for_notes_confirmation
       end
-      # rubocop:enable Metrics/AbcSize
-      # rubocop:enable Metrics/MethodLength
 
-      # rubocop:disable Metrics/MethodLength
       def wait_for_notes_confirmation
         return :wait_for_notes_confirmation unless action
 
