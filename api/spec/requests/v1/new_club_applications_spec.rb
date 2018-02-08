@@ -758,6 +758,17 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       ).to include('leader profiles not complete')
     end
 
+    it 'fails if already submitted' do
+      post "/v1/new_club_applications/#{application.id}/submit",
+           headers: auth_headers
+      expect(response.status).to eq(200)
+
+      post "/v1/new_club_applications/#{application.id}/submit",
+           headers: auth_headers
+      expect(response.status).to eq(422)
+      expect(json['errors']['base']).to include('already submitted')
+    end
+
     it 'submits successfully when all fields are present' do
       post "/v1/new_club_applications/#{application.id}/submit",
            headers: auth_headers

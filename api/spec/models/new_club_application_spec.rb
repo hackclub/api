@@ -215,6 +215,15 @@ RSpec.describe NewClubApplication, type: :model do
       )
     end
 
+    it 'fails if already submitted' do
+      # submit twice
+      subject.submit!
+      res = subject.submit!
+
+      expect(res).to eq(false)
+      expect(subject.errors[:base]).to include 'already submitted'
+    end
+
     it 'succeeds when required fields are set & leader profiles complete' do
       res = subject.submit!
 

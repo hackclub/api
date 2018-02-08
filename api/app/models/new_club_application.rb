@@ -77,6 +77,11 @@ class NewClubApplication < ApplicationRecord
             }
 
   def submit!
+    if submitted?
+      errors.add(:base, 'already submitted')
+      return false
+    end
+
     self.submitted_at = Time.current
 
     if valid?
