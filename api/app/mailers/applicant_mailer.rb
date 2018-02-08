@@ -13,7 +13,7 @@ class ApplicantMailer < ApplicationMailer
     @adder_email = adder.email
 
     mail(to: user.email,
-         subject: "You've been added to a Hack Club application")
+         subject: "You’ve been added to a Hack Club application")
   end
 
   def application_submission(application, user)
