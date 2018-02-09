@@ -25,6 +25,10 @@ class NewClubApplicationPolicy < ApplicationPolicy
     user_added?
   end
 
+  def accept?
+    user.admin?
+  end
+
   private
 
   def user_added?

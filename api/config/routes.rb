@@ -24,6 +24,7 @@ Rails.application.routes.draw do
       post 'add_user'
       delete 'remove_user'
       post 'submit'
+      post 'accept'
 
       resources :notes, only: %i[index create]
     end

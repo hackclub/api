@@ -48,5 +48,23 @@ FactoryBot.define do
         application.point_of_contact = application.users.first
       end
     end
+
+    factory :submitted_new_club_application,
+            parent: :completed_new_club_application do
+      after(:create) do |application|
+        application.submitted_at = 3.days.ago
+        application.save
+      end
+    end
+
+    factory :interviewed_new_club_application,
+            parent: :submitted_new_club_application do
+      after(:create) do |application|
+        application.interviewed_at = 1.day.ago
+        application.interview_duration = 30.minutes
+        application.interview_notes = Faker::Lorem.paragraph
+        application.save
+      end
+    end
   end
 end

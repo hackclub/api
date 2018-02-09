@@ -250,4 +250,45 @@ RSpec.describe NewClubApplication, type: :model do
       expect(subject.submitted?).to eq(true)
     end
   end
+
+  describe ':interviewed?' do
+    subject { create(:submitted_new_club_application) }
+
+    it 'returns false when interview fields are blank' do
+      expect(subject.interviewed?).to eq(false)
+    end
+
+    it 'returns true when interview fields are set' do
+      subject.interviewed_at = 1.day.ago
+      subject.interview_duration = 30.minutes
+      subject.interview_notes = 'Test notes'
+      expect(subject.interviewed?).to eq(true)
+    end
+  end
+
+  describe ':accepted?' do
+    subject { create(:interviewed_new_club_application) }
+
+    it 'returns false when accepted_at is blank' do
+      expect(subject.accepted?).to eq(false)
+    end
+
+    it 'returns true when accepted_at is set' do
+      subject.accept!
+      expect(subject.accepted?).to eq(true)
+    end
+  end
+
+  describe ':rejected?' do
+    subject { create(:interviewed_new_club_application) }
+
+    it 'returns false when rejected_at is blank' do
+      expect(subject.rejected?).to eq(false)
+    end
+
+    it 'returns true when rejected_at is set' do
+      subject.rejected_at = Time.current
+      expect(subject.rejected?).to eq(true)
+    end
+  end
 end

@@ -101,6 +101,44 @@ class NewClubApplication < ApplicationRecord
     submitted_at.present?
   end
 
+  def interviewed?
+    interviewed_at.present?
+  end
+
+  def accept!
+    unless submitted?
+      errors.add(:base, 'must be submitted')
+      return false
+    end
+
+    unless interviewed?
+      errors.add(:base, 'must be interviewed')
+      return false
+    end
+
+    if rejected?
+      errors.add(:base, 'already rejected')
+      return false
+    end
+
+    if accepted?
+      errors.add(:base, 'already accepted')
+      return false
+    end
+
+    self.accepted_at = Time.current
+
+    true
+  end
+
+  def accepted?
+    accepted_at.present?
+  end
+
+  def rejected?
+    rejected_at.present?
+  end
+
   # ensure that the point of contact is an associated applicant
   def point_of_contact_is_associated
     return unless point_of_contact
