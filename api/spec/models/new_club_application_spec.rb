@@ -184,6 +184,33 @@ RSpec.describe NewClubApplication, type: :model do
     end
   end
 
+  describe 'accepted_at' do
+    subject { create(:interviewed_new_club_application) }
+
+    it "can't be set if not interviewed" do
+      subject = create(:submitted_new_club_application)
+      subject.accept!
+      expect(subject.errors['interviewed_at']).to include("can't be blank")
+    end
+
+    it "can't be set if rejected" do
+      subject = create(:rejected_new_club_application)
+      subject.accept!
+      expect(subject.errors['rejected_at']).to include('must be blank')
+    end
+
+    it "can't be changed after being set" do
+      subject.accept!
+      subject.save
+      subject.validate
+      expect(subject.valid?).to eq(true)
+
+      subject.accepted_at = 1.day.ago
+      subject.validate
+      expect(subject.valid?).to eq(false)
+    end
+  end
+
   describe ':submit!' do
     subject { create(:completed_new_club_application, profile_count: 3) }
     let(:user) { subject.point_of_contact }

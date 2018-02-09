@@ -797,7 +797,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
            headers: auth_headers
 
       expect(response.status).to eq(422)
-      expect(json['errors']['base']).to include('must be submitted')
+      expect(json['errors']['submitted_at']).to include("can't be blank")
     end
 
     it 'fails if not interviewed' do
@@ -807,7 +807,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
            headers: auth_headers
 
       expect(response.status).to eq(422)
-      expect(json['errors']['base']).to include('must be interviewed')
+      expect(json['errors']['interviewed_at']).to include("can't be blank")
     end
 
     it 'fails if already accepted' do
@@ -834,7 +834,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       post "/v1/new_club_applications/#{application.id}/accept",
            headers: auth_headers
       expect(response.status).to eq(422)
-      expect(json['errors']['base']).to include('already rejected')
+      expect(json['errors']['rejected_at']).to include('must be blank')
     end
 
     it 'succeeds when submitted, interviewed, and not already accepted' do

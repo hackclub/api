@@ -66,5 +66,13 @@ FactoryBot.define do
         application.save
       end
     end
+
+    factory :rejected_new_club_application,
+            parent: :interviewed_new_club_application do
+      after(:create) do |application|
+        application.rejected_at = Time.current
+        application.save
+      end
+    end
   end
 end
