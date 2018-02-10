@@ -3,7 +3,7 @@
 module Hackbot
   module Interactions
     class UpdateWorkshops < AdminCommand
-      REPO_TO_UPDATE = 'hackclub/monolith'
+      REPO_TO_UPDATE = 'hackclub/site'
 
       TRIGGER = /update-workshops/
 
