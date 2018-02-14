@@ -7,7 +7,7 @@ module V1
     # All applications
     def full_index
       return render_access_denied unless @user.admin?
-      render_success NewClubApplication.all.includes(:leader_profiles)
+      render_success NewClubApplication.all.includes(leader_profiles: [ :user ])
     end
 
     # Applications for a specific user
