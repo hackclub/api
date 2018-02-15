@@ -46,6 +46,16 @@ FactoryBot.define do
                     new_club_application: application)
 
         application.point_of_contact = application.users.first
+        application.save
+      end
+    end
+
+    factory :submitted_new_club_application,
+            parent: :completed_new_club_application do
+
+      after(:create) do |application|
+        application.submitted_at = Time.current
+        application.save
       end
     end
   end

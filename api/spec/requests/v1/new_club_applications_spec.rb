@@ -17,19 +17,32 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       expect(response.status).to eq(403)
     end
 
-    it 'lists all applications' do
-      my_app = create(:new_club_application)
-      my_app.users << user
+    context 'as admin' do
+      let(:user) { create(:user_admin_authed) }
 
-      create(:new_club_application) # someone else's application
+      it 'lists all applications' do
+        create(:new_club_application)
+        create(:new_club_application)
 
-      # make user an admin
-      user.make_admin! && user.save
+        get '/v1/new_club_applications', headers: auth_headers
 
-      get '/v1/new_club_applications', headers: auth_headers
-      expect(response.status).to eq(200)
+        expect(response.status).to eq(200)
+        expect(json.length).to eq(2)
+      end
 
-      expect(json.length).to eq(2)
+      it 'allows retrieving just submitted applications' do
+        create(:new_club_application)
+        create(:submitted_new_club_application)
+
+        get '/v1/new_club_applications',
+            headers: auth_headers,
+            params: {
+              submitted: true
+            }
+
+        expect(response.status).to eq(200)
+        expect(json.length).to eq(1)
+      end
     end
   end
 
