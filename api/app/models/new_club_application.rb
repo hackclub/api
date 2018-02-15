@@ -3,6 +3,8 @@
 class NewClubApplication < ApplicationRecord
   include Geocodeable
 
+  scope :submitted, -> { where.not(submitted_at: nil) }
+
   validate :point_of_contact_is_associated
 
   has_many :leader_profiles
