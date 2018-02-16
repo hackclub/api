@@ -3,11 +3,13 @@ greeting:
         Hey <%= first_name %>! I'm Orpheus, Hack Club's friendly robot dinosaur.
 
         I'll be reaching out to you every week, typically on Fridays, to check in and see how your club's doing. I'll be in the loop every step of the way 🙂
+
+        To start, did you have a club meeting this week?
     default: |
       Hey <%= first_name %>, <%= flavor_text %>
 
-      Please be sure to complete this check-in by <%= deadline %>.
-    restart: Let's restart
+      Let's get started — please be sure to complete this check-in by <%= deadline %>. Did your club meet this week?
+    restart: Let's start again! Did your club meet this week?
     dormant:
         text: Hey! We've been getting feedback that a lot of schools are heading into summer and/or exams right now, and are no longer planning on meeting this school year. Basically, if you're one of these leaders, we'd like to give you a way to opt-out of check-ins. So, are you on a school break right now and not planning on meeting until the next school year?
         actions:
@@ -25,16 +27,6 @@ greeting:
         - you're a star ★️!
         - you're looking great today! 👀
 
-nps:
-    introduction: We just got out of a major funding crisis last semester, so now we have some room to grow as an organization and get better at what we're doing. As part of that it'd be really helpful to know how we've done so far.
-    score: Assuming you had a friend at another high school that was technical, how likely is it that you would recommend starting a Hack Club to them? Please answer from 0 to 10, where 0 is not likely at all and 10 is very likely.
-    score_confirmation: You picked *<%= score %>*
-    invalid: I'm not very smart, so I can only understand numbers like `0` and `10`.
-    out_of_bounds: Make sure the number is from 0 to 10.
-    improve: What is one way you would improve Hack Club if you had a month, enough money to live, and no other obligations?
-    did_well: What is one thing Hack Club did particularly well this past semester?
-    completed: Thanks for the info. Now back to our regularly scheduled check-in...
-
 is_dormant:
     positive:
         text: That's cool. When will your break end? (Say something like "in two months")
@@ -47,7 +39,6 @@ resurrection_date:
     success: Awesome! I'll be in touch a few weeks before then. Please let the Hack Club staff know if you have any questions.
 
 meeting_confirmation:
-    question: Did you have a club meeting this week?
     had_meeting:
         action_result: "✅ You had a meeting"
         ask_day_of_week: Okay, sweet! On which day was it? (say something like "monday" or "today" – I'm not very clever)
@@ -81,21 +72,7 @@ attendance:
     not_realistic:
         negative: I'm going to need a positive number, silly. How many people came to the last meeting?
         too_large: That number is too big for our database! How many people actually came to your last meeting?
-    valid: <%= judgement %>
-
-demographics:
-    introduction: Hack Club HQ is applying for a grant this week and the Motorola Foundation is asking for demographic info from every club, so I need to ask you a couple follow-up questions. Estimates are OK.
-    women: What percentage of your members are women?
-    racial_minority: What percentage are a racial minority in the technology industry, defined as not being white or Asian?
-    confirm_recorded:
-      - Okay, *<%= percent %>%* of your attendees are <%= metric %>.
-      - Got it. I've recorded that *<%= percent %>%* of your hackers are <%= metric %>.
-      - Gotcha, *<%= percent %>%* of your club's attendees are <%= metric %>.
-      - '*<%= percent %>%* of your club members are <%= metric %>.'
-      - I'm writing down that *<%= percent %>%* of your club members are <%= metric %>.
-    not_percentage: I don't understand that too well. Can you tell me in the format `x%` where x is a number from 0 to 100? For example, `75%`.
-    out_of_bounds: <%= percent %>%? Percentages should be from 0 to 100.
-    finished: Is there anything the Hack Club team can be helpful with?
+    valid: <%= judgement %> Is there anything the Hack Club team can be helpful with?
 
 notes_confirmation:
     has_notes:
