@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180131005432) do
+ActiveRecord::Schema.define(version: 20180221080704) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -219,6 +219,15 @@ ActiveRecord::Schema.define(version: 20180131005432) do
     t.index ["streak_key"], name: "index_leaders_on_streak_key"
   end
 
+  create_table "leadership_positions", force: :cascade do |t|
+    t.bigint "new_club_id"
+    t.bigint "new_leader_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["new_club_id"], name: "index_leadership_positions_on_new_club_id"
+    t.index ["new_leader_id"], name: "index_leadership_positions_on_new_leader_id"
+  end
+
   create_table "letters", id: :serial, force: :cascade do |t|
     t.text "name"
     t.text "streak_key"
@@ -281,7 +290,55 @@ ActiveRecord::Schema.define(version: 20180131005432) do
     t.datetime "rejected_at"
     t.integer "rejected_reason"
     t.text "rejected_notes"
+    t.bigint "new_club_id"
+    t.datetime "accepted_at"
+    t.index ["new_club_id"], name: "index_new_club_applications_on_new_club_id"
     t.index ["point_of_contact_id"], name: "index_new_club_applications_on_point_of_contact_id"
+  end
+
+  create_table "new_clubs", force: :cascade do |t|
+    t.text "high_school_name"
+    t.text "high_school_url"
+    t.integer "high_school_type"
+    t.text "high_school_address"
+    t.decimal "high_school_latitude"
+    t.decimal "high_school_longitude"
+    t.text "high_school_parsed_address"
+    t.text "high_school_parsed_city"
+    t.text "high_school_parsed_state"
+    t.text "high_school_parsed_state_code"
+    t.text "high_school_parsed_postal_code"
+    t.text "high_school_parsed_country"
+    t.text "high_school_parsed_country_code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "new_leaders", force: :cascade do |t|
+    t.text "name"
+    t.text "email"
+    t.date "birthday"
+    t.date "expected_graduation"
+    t.integer "gender"
+    t.integer "ethnicity"
+    t.text "phone_number"
+    t.text "address"
+    t.decimal "latitude"
+    t.decimal "longitude"
+    t.text "parsed_address"
+    t.text "parsed_city"
+    t.text "parsed_state"
+    t.text "parsed_state_code"
+    t.text "parsed_postal_code"
+    t.text "parsed_country"
+    t.text "parsed_country_code"
+    t.text "personal_website"
+    t.text "github_url"
+    t.text "linkedin_url"
+    t.text "facebook_url"
+    t.text "twitter_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "notes", force: :cascade do |t|
@@ -369,7 +426,10 @@ ActiveRecord::Schema.define(version: 20180131005432) do
   add_foreign_key "check_ins", "clubs"
   add_foreign_key "check_ins", "leaders"
   add_foreign_key "clubs", "leaders", column: "point_of_contact_id"
+  add_foreign_key "leadership_positions", "new_clubs"
+  add_foreign_key "leadership_positions", "new_leaders"
   add_foreign_key "net_promoter_score_surveys", "leaders"
+  add_foreign_key "new_club_applications", "new_clubs"
   add_foreign_key "new_club_applications", "users", column: "point_of_contact_id"
   add_foreign_key "notes", "users"
   add_foreign_key "slack_invite_strategies", "hackbot_teams"

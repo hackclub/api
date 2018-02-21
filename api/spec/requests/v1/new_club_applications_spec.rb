@@ -792,4 +792,44 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       ).to be_within(1.minute).of(Time.current)
     end
   end
+
+  describe 'POST /v1/new_club_applications/:id/accept' do
+    let(:application) { create(:submitted_new_club_application) }
+
+    it 'requires authentication' do
+      post "/v1/new_club_applications/#{application.id}/accept"
+      expect(response.status).to eq(401)
+    end
+
+    it 'requires admin access' do
+      post "/v1/new_club_applications/#{application.id}/accept",
+           headers: auth_headers
+      expect(response.status).to eq(403)
+    end
+
+    context 'as admin' do
+      let(:user) { create(:user_admin_authed) }
+
+      it 'succeeds' do
+        post "/v1/new_club_applications/#{application.id}/accept",
+             headers: auth_headers
+        expect(response.status).to eq(200)
+        expect(
+          Time.zone.parse(json['accepted_at'])
+        ).to be_within(1.minute).of(Time.current)
+      end
+
+      context 'when application has not been submitted' do
+        let(:application) { create(:completed_new_club_application) }
+
+        it 'fails' do
+          post "/v1/new_club_applications/#{application.id}/accept",
+               headers: auth_headers
+
+          expect(response.status).to eq(422)
+          expect(json['errors']).to include('submitted_at')
+        end
+      end
+    end
+  end
 end

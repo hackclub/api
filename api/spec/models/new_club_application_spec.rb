@@ -7,6 +7,7 @@ RSpec.describe NewClubApplication, type: :model do
 
   # relations
   it { should have_db_column :point_of_contact_id }
+  it { should have_db_column :new_club_id }
 
   # school
   it { should have_db_column :high_school_name }
@@ -59,6 +60,8 @@ RSpec.describe NewClubApplication, type: :model do
   it { should have_db_column :rejected_reason }
   it { should have_db_column :rejected_notes }
 
+  it { should have_db_column :accepted_at }
+
   ## enums ##
 
   it { should define_enum_for :high_school_type }
@@ -72,8 +75,11 @@ RSpec.describe NewClubApplication, type: :model do
 
   it { should have_many(:leader_profiles) }
   it { should have_many(:users).through(:leader_profiles) }
+
   it { should belong_to(:point_of_contact) }
   it { should have_many :notes }
+
+  it { should belong_to :new_club }
 
   it 'requires points of contact to be associated users' do
     bad_poc = create(:user)
@@ -176,11 +182,62 @@ RSpec.describe NewClubApplication, type: :model do
       expect(subject.errors).to include('rejected_reason')
     end
 
+    it 'does not allow rejection if club is accepted' do
+      expect(subject.valid?).to be(true)
+
+      subject.accepted_at = Time.current
+      subject.rejected_at = Time.current
+
+      expect(subject.valid?).to eq(false)
+    end
+
     it 'should be valid if all rejected fields are set' do
       subject.rejected_at = Time.current
       subject.rejected_reason = :other
       subject.rejected_notes = 'Example rejection reason.'
       expect(subject.valid?).to eq(true)
+    end
+  end
+
+  describe 'accepted fields' do
+    subject { create(:submitted_new_club_application) }
+
+    it 'requires that submitted_at to be set if accepted_at is' do
+      subject = create(:completed_new_club_application)
+      expect(subject.submitted_at).to be(nil)
+
+      subject.accepted_at = Time.current
+
+      expect(subject.valid?).to be(false)
+      expect(subject.errors).to include('submitted_at')
+    end
+
+    it 'requires that new_club be set if accepted_at is' do
+      expect(subject.valid?).to be(true)
+
+      subject.accepted_at = Time.current
+
+      expect(subject.valid?).to be(false)
+      expect(subject.errors).to include('new_club')
+    end
+
+    it 'requires that accepted_at to be set if new_club is' do
+      expect(subject.valid?).to be(true)
+
+      subject.new_club = create(:new_club)
+
+      expect(subject.valid?).to be(false)
+      expect(subject.errors).to include('accepted_at')
+    end
+
+    it 'does not allow acceptance if club is rejected' do
+      expect(subject.valid?).to be(true)
+
+      subject.rejected_at = Time.current
+      subject.accepted_at = Time.current
+
+      expect(subject.valid?).to be(false)
+      expect(subject.errors).to include('rejected_at')
     end
   end
 
@@ -257,6 +314,42 @@ RSpec.describe NewClubApplication, type: :model do
     it 'returns true when submitted' do
       subject.submit!
       expect(subject.submitted?).to eq(true)
+    end
+  end
+
+  describe ':accept!' do
+    subject { create(:submitted_new_club_application) }
+
+    it 'fails when already accepted' do
+      subject.accept!
+      res = subject.accept!
+
+      expect(res).to eq(false)
+      expect(subject.errors[:base]).to include('already accepted')
+    end
+
+    it 'succeeds' do
+      res = subject.accept!
+
+      expect(res).to eq(true)
+      expect(subject.accepted_at).to be_within(1.minute).of(Time.current)
+      expect(subject.new_club).to_not be_nil
+
+      # tests for club creation from existing applications are in specs for
+      # NewClub
+    end
+  end
+
+  describe ':accepted?' do
+    subject { create(:submitted_new_club_application) }
+
+    it 'returns false when not accepted' do
+      expect(subject.accepted?).to eq(false)
+    end
+
+    it 'returns true when accepted' do
+      subject.accepted_at = Time.current
+      expect(subject.accepted?).to eq(true)
     end
   end
 end
