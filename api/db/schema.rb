@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180131005432) do
+ActiveRecord::Schema.define(version: 20180219200355) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -282,6 +282,24 @@ ActiveRecord::Schema.define(version: 20180131005432) do
     t.integer "rejected_reason"
     t.text "rejected_notes"
     t.index ["point_of_contact_id"], name: "index_new_club_applications_on_point_of_contact_id"
+  end
+
+  create_table "new_clubs", force: :cascade do |t|
+    t.text "high_school_name"
+    t.text "high_school_url"
+    t.integer "high_school_type"
+    t.text "high_school_address"
+    t.decimal "high_school_latitude"
+    t.decimal "high_school_longitude"
+    t.text "high_school_parsed_address"
+    t.text "high_school_parsed_city"
+    t.text "high_school_parsed_state"
+    t.text "high_school_parsed_state_code"
+    t.text "high_school_parsed_postal_code"
+    t.text "high_school_parsed_country"
+    t.text "high_school_parsed_country_code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "notes", force: :cascade do |t|
