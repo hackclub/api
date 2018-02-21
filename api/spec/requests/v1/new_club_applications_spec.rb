@@ -721,11 +721,6 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
     # and make them the point of contact
     before { application.update_attributes(point_of_contact: user) }
 
-    let(:application) do
-      create(:completed_new_club_application,
-             profile_count: 0)
-    end
-
     it 'requires authentication' do
       post "/v1/new_club_applications/#{application.id}/submit"
       expect(response.status).to eq(401)
@@ -789,6 +784,90 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       expect(response.status).to eq(200)
       expect(
         Time.zone.parse(json['submitted_at'])
+      ).to be_within(1.minute).of(Time.current)
+    end
+  end
+
+  describe 'POST /v1/new_club_applications/:id/accept' do
+    let(:application) do
+      create(:interviewed_new_club_application)
+    end
+
+    # make user admin
+    before do
+      user.make_admin!
+      user.save
+    end
+
+    it 'requires authentication' do
+      post "/v1/new_club_applications/#{application.id}/accept"
+      expect(response.status).to eq(401)
+    end
+
+    it 'fails if not admin' do
+      user.remove_admin!
+      user.save
+
+      post "/v1/new_club_applications/#{application.id}/accept",
+           headers: auth_headers
+
+      expect(response.status).to eq(403)
+    end
+
+    it 'fails if not submitted' do
+      application = create(:completed_new_club_application)
+
+      post "/v1/new_club_applications/#{application.id}/accept",
+           headers: auth_headers
+
+      expect(response.status).to eq(422)
+      expect(json['errors']['submitted_at']).to include("can't be blank")
+    end
+
+    it 'fails if not interviewed' do
+      application = create(:submitted_new_club_application)
+
+      post "/v1/new_club_applications/#{application.id}/accept",
+           headers: auth_headers
+
+      expect(response.status).to eq(422)
+      expect(json['errors']['interviewed_at']).to include("can't be blank")
+    end
+
+    it 'fails if already accepted' do
+      post "/v1/new_club_applications/#{application.id}/accept",
+           headers: auth_headers
+      expect(response.status).to eq(200)
+
+      post "/v1/new_club_applications/#{application.id}/accept",
+           headers: auth_headers
+      expect(response.status).to eq(422)
+      expect(json['errors']['base']).to include('already accepted')
+    end
+
+    it 'fails if rejected' do
+      patch "/v1/new_club_applications/#{application.id}",
+            headers: auth_headers,
+            params: {
+              rejected_at: Time.current,
+              rejected_reason: :other,
+              rejected_notes: 'Test notes'
+            }
+      expect(response.status).to eq(200)
+
+      post "/v1/new_club_applications/#{application.id}/accept",
+           headers: auth_headers
+      expect(response.status).to eq(422)
+      expect(json['errors']['rejected_at']).to include('must be blank')
+    end
+
+    it 'succeeds when submitted, interviewed, and not already accepted' do
+      post "/v1/new_club_applications/#{application.id}/accept",
+           headers: auth_headers
+
+      expect(response.status).to eq(200)
+      expect(
+        Time.zone.parse(json['accepted_at'])
       ).to be_within(1.minute).of(Time.current)
     end
   end

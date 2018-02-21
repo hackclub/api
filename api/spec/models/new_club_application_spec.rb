@@ -184,6 +184,33 @@ RSpec.describe NewClubApplication, type: :model do
     end
   end
 
+  describe 'accepted_at' do
+    subject { create(:interviewed_new_club_application) }
+
+    it "can't be set if not interviewed" do
+      subject = create(:submitted_new_club_application)
+      subject.accept!
+      expect(subject.errors['interviewed_at']).to include("can't be blank")
+    end
+
+    it "can't be set if rejected" do
+      subject = create(:rejected_new_club_application)
+      subject.accept!
+      expect(subject.errors['rejected_at']).to include('must be blank')
+    end
+
+    it "can't be changed after being set" do
+      subject.accept!
+      subject.save
+      subject.validate
+      expect(subject.valid?).to eq(true)
+
+      subject.accepted_at = 1.day.ago
+      subject.validate
+      expect(subject.valid?).to eq(false)
+    end
+  end
+
   describe ':submit!' do
     subject { create(:completed_new_club_application, profile_count: 3) }
     let(:user) { subject.point_of_contact }
@@ -257,6 +284,47 @@ RSpec.describe NewClubApplication, type: :model do
     it 'returns true when submitted' do
       subject.submit!
       expect(subject.submitted?).to eq(true)
+    end
+  end
+
+  describe ':interviewed?' do
+    subject { create(:submitted_new_club_application) }
+
+    it 'returns false when interview fields are blank' do
+      expect(subject.interviewed?).to eq(false)
+    end
+
+    it 'returns true when interview fields are set' do
+      subject.interviewed_at = 1.day.ago
+      subject.interview_duration = 30.minutes
+      subject.interview_notes = 'Test notes'
+      expect(subject.interviewed?).to eq(true)
+    end
+  end
+
+  describe ':accepted?' do
+    subject { create(:interviewed_new_club_application) }
+
+    it 'returns false when accepted_at is blank' do
+      expect(subject.accepted?).to eq(false)
+    end
+
+    it 'returns true when accepted_at is set' do
+      subject.accept!
+      expect(subject.accepted?).to eq(true)
+    end
+  end
+
+  describe ':rejected?' do
+    subject { create(:interviewed_new_club_application) }
+
+    it 'returns false when rejected_at is blank' do
+      expect(subject.rejected?).to eq(false)
+    end
+
+    it 'returns true when rejected_at is set' do
+      subject.rejected_at = Time.current
+      expect(subject.rejected?).to eq(true)
     end
   end
 end

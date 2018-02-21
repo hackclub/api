@@ -69,6 +69,15 @@ class NewClubApplication < ApplicationRecord
                 interview_notes.present?
             }
 
+  # submitted_at and interviewed_at must be set for accepted_at to be set.
+  # rejected_at must not be set.
+  validates :submitted_at, presence: true, if: -> { accepted_at.present? }
+  validates :interviewed_at, presence: true, if: -> { accepted_at.present? }
+  validates :rejected_at, absence: true, if: -> { accepted_at.present? }
+
+  # don't allow changing accepted_at after it's set
+  validate :forbid_changing_accepted_at, on: :update
+
   # submitted_at must be set for rejected_at to be set
   validates :submitted_at, presence: true, if: -> { rejected_at.present? }
   validates :rejected_at, :rejected_reason, :rejected_notes,
@@ -108,11 +117,46 @@ class NewClubApplication < ApplicationRecord
     submitted_at.present?
   end
 
+  def interviewed?
+    interviewed_at.present?
+  end
+
+  def accept!
+    if accepted?
+      errors.add(:base, 'already accepted')
+      return false
+    end
+
+    self.accepted_at = Time.current
+
+    if valid?
+      true
+    else
+      self.accepted_at = nil
+      false
+    end
+  end
+
+  def accepted?
+    accepted_at.present?
+  end
+
+  def rejected?
+    rejected_at.present?
+  end
+
   # ensure that the point of contact is an associated applicant
   def point_of_contact_is_associated
     return unless point_of_contact
     return if users.include? point_of_contact
 
     errors.add(:point_of_contact, 'must be an associated applicant')
+  end
+
+  def forbid_changing_accepted_at
+    # if accepted_at was previously set, do not allow it to change
+    return unless accepted_at_changed? && accepted_at_was.present?
+
+    errors.add(:accepted_at, 'cannot be changed')
   end
 end
