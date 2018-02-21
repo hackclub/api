@@ -18,6 +18,7 @@ class NewClub < ApplicationRecord
   def from_application(app)
     self.high_school_name = app.high_school_name
     self.high_school_url = app.high_school_url
+    self.high_school_type = app.high_school_type
     self.high_school_address = app.high_school_address
     self.high_school_latitude = app.high_school_latitude
     self.high_school_longitude = app.high_school_longitude

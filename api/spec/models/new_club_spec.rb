@@ -47,6 +47,7 @@ RSpec.describe NewClub, type: :model do
     it 'properly sets club fields' do
       expect(subject.high_school_name).to eq(app.high_school_name)
       expect(subject.high_school_url).to eq(app.high_school_url)
+      expect(subject.high_school_type).to eq(app.high_school_type)
       expect(subject.high_school_address).to eq(app.high_school_address)
       expect(subject.high_school_latitude).to eq(app.high_school_latitude)
       expect(subject.high_school_longitude).to eq(app.high_school_longitude)
