@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class NewLeader < ApplicationRecord
+  include Geocodeable
+
   has_many :leadership_positions
   has_many :new_clubs, through: :leadership_positions
 
@@ -21,8 +23,19 @@ class NewLeader < ApplicationRecord
     other_ethnicity
   ]
 
-  validates :name, :email, :expected_graduation, :gender, :ethnicity,
-            :phone_number, :address, presence: true
+  validates :name, :email, :gender, :ethnicity, :phone_number, :address,
+            presence: true
+
+  geocode_attrs address: :address,
+                latitude: :latitude,
+                longitude: :longitude,
+                res_address: :parsed_address,
+                city: :parsed_city,
+                state: :parsed_state,
+                state_code: :parsed_state_code,
+                postal_code: :parsed_postal_code,
+                country: :parsed_country,
+                country_code: :parsed_country_code
 
   def from_leader_profile(profile)
     self.name = profile.leader_name

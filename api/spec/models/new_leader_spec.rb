@@ -47,11 +47,12 @@ RSpec.describe NewLeader, type: :model do
 
   it { should validate_presence_of :name }
   it { should validate_presence_of :email }
-  it { should validate_presence_of :expected_graduation }
   it { should validate_presence_of :gender }
   it { should validate_presence_of :ethnicity }
   it { should validate_presence_of :phone_number }
   it { should validate_presence_of :address }
+
+  it_behaves_like 'Geocodeable'
 
   describe ':from_leader_profile' do
     let(:leader_profile) do
