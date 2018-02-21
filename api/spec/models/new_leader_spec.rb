@@ -64,6 +64,7 @@ RSpec.describe NewLeader, type: :model do
         leader_gender: :agender,
         leader_ethnicity: :other_ethnicity,
         leader_phone_number: '333-333-3333',
+        leader_address: 'The Internet',
         presence_personal_website: 'https://orpheus.com',
         presence_github_url: 'https://github.com/orpheus',
         presence_linkedin_url: 'https://linkedin.com/in/orpheus',

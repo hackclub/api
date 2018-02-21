@@ -34,7 +34,18 @@ class NewLeader < ApplicationRecord
     self.gender = profile.leader_gender
     self.ethnicity = profile.leader_ethnicity
     self.phone_number = profile.leader_phone_number
+
     self.address = profile.leader_address
+    self.latitude = profile.leader_latitude
+    self.longitude = profile.leader_longitude
+    self.parsed_address = profile.leader_parsed_address
+    self.parsed_city = profile.leader_parsed_city
+    self.parsed_state = profile.leader_parsed_state
+    self.parsed_state_code = profile.leader_parsed_state_code
+    self.parsed_postal_code = profile.leader_parsed_postal_code
+    self.parsed_country = profile.leader_parsed_country
+    self.parsed_country_code = profile.leader_parsed_country_code
+
     self.personal_website = profile.presence_personal_website
     self.github_url = profile.presence_github_url
     self.linkedin_url = profile.presence_linkedin_url
