@@ -118,6 +118,22 @@ class NewClubApplication < ApplicationRecord
     submitted_at.present?
   end
 
+  def accept!
+    if accepted?
+      errors.add(:base, 'already accepted')
+      return false
+    end
+
+    self.accepted_at = Time.current
+    self.new_club = NewClub.new.from_application(self)
+
+    true
+  end
+
+  def accepted?
+    accepted_at.present?
+  end
+
   # ensure that the point of contact is an associated applicant
   def point_of_contact_is_associated
     return unless point_of_contact

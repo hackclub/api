@@ -316,4 +316,40 @@ RSpec.describe NewClubApplication, type: :model do
       expect(subject.submitted?).to eq(true)
     end
   end
+
+  describe ':accept!' do
+    subject { create(:submitted_new_club_application) }
+
+    it 'fails when already accepted' do
+      subject.accept!
+      res = subject.accept!
+
+      expect(res).to eq(false)
+      expect(subject.errors[:base]).to include('already accepted')
+    end
+
+    it 'succeeds' do
+      res = subject.accept!
+
+      expect(res).to eq(true)
+      expect(subject.accepted_at).to be_within(1.minute).of(Time.current)
+      expect(subject.new_club).to_not be_nil
+
+      # tests for club creation from existing applications are in specs for
+      # NewClub
+    end
+  end
+
+  describe ':accepted?' do
+    subject { create(:submitted_new_club_application) }
+
+    it 'returns false when not accepted' do
+      expect(subject.accepted?).to eq(false)
+    end
+
+    it 'returns true when accepted' do
+      subject.accepted_at = Time.current
+      expect(subject.accepted?).to eq(true)
+    end
+  end
 end
