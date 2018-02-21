@@ -9,8 +9,11 @@ class NewClubApplication < ApplicationRecord
 
   has_many :leader_profiles
   has_many :users, through: :leader_profiles
+
   belongs_to :point_of_contact, class_name: 'User'
   has_many :notes, as: :noteable
+
+  belongs_to :new_club
 
   geocode_attrs address: :high_school_address,
                 latitude: :high_school_latitude,
@@ -77,6 +80,13 @@ class NewClubApplication < ApplicationRecord
                 rejected_reason.present? ||
                 rejected_notes.present?
             }
+
+  # submitted_at must be set for accepted_at to be
+  validates :submitted_at, presence: true, if: -> { accepted_at.present? }
+  validates :accepted_at, :new_club, presence: true, if: lambda {
+    accepted_at.present? || new_club.present?
+  }
+  validates :rejected_at, absence: true, if: -> { accepted_at.present? }
 
   def submit!
     if submitted?

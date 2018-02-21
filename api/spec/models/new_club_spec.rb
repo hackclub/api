@@ -26,6 +26,7 @@ RSpec.describe NewClub, type: :model do
 
   ## associations ##
 
+  it { should have_many(:new_club_applications) }
   it { should have_many(:leadership_positions) }
   it { should have_many(:new_leaders).through(:leadership_positions) }
 
