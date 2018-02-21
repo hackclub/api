@@ -24,6 +24,11 @@ RSpec.describe NewClub, type: :model do
 
   it { should define_enum_for :high_school_type }
 
+  ## associations ##
+
+  it { should have_many(:leadership_positions) }
+  it { should have_many(:new_leaders).through(:leadership_positions) }
+
   ## validations ##
 
   it { should validate_presence_of :high_school_name }
