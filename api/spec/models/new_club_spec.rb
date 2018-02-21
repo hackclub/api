@@ -20,8 +20,12 @@ RSpec.describe NewClub, type: :model do
   it { should have_db_column :high_school_parsed_country }
   it { should have_db_column :high_school_parsed_country_code }
 
-  it { should validate_presence_of :high_school_name }
-  it { should validate_presence_of :high_school_address }
+  ## types ##
 
   it { should define_enum_for :high_school_type }
+
+  ## validations ##
+
+  it { should validate_presence_of :high_school_name }
+  it { should validate_presence_of :high_school_address }
 end
