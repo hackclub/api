@@ -31,7 +31,8 @@ class NewClubApplicationSerializer < ActiveModel::Serializer
              :submitted_at,
              :interviewed_at,
              :interview_duration,
-             :rejected_at
+             :rejected_at,
+             :accepted_at
 
   attribute :interview_notes, if: :admin?
   attribute :rejected_reason, if: :admin?

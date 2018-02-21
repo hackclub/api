@@ -114,6 +114,17 @@ module V1
       end
     end
 
+    def accept
+      app = NewClubApplication.find(params[:new_club_application_id])
+      authorize app
+
+      if app.accept! && app.save
+        render_success(app)
+      else
+        render_field_errors(app.errors)
+      end
+    end
+
     private
 
     def club_application_params
