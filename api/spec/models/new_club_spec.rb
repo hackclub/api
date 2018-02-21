@@ -35,6 +35,8 @@ RSpec.describe NewClub, type: :model do
   it { should validate_presence_of :high_school_name }
   it { should validate_presence_of :high_school_address }
 
+  it_behaves_like 'Geocodeable'
+
   describe ':from_application' do
     let(:application) do
       create(:submitted_new_club_application, profile_count: 3)

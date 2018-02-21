@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class NewClub < ApplicationRecord
+  include Geocodeable
+
   has_many :new_club_applications
 
   has_many :leadership_positions
@@ -14,6 +16,17 @@ class NewClub < ApplicationRecord
     charter_school
     other
   ]
+
+  geocode_attrs address: :high_school_address,
+                latitude: :high_school_latitude,
+                longitude: :high_school_longitude,
+                res_address: :high_school_parsed_address,
+                city: :high_school_parsed_city,
+                state: :high_school_parsed_state,
+                state_code: :high_school_parsed_state_code,
+                postal_code: :high_school_parsed_postal_code,
+                country: :high_school_parsed_country,
+                country_code: :high_school_parsed_country_code
 
   def from_application(app)
     self.high_school_name = app.high_school_name
