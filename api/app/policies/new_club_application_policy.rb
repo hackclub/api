@@ -32,6 +32,6 @@ class NewClubApplicationPolicy < ApplicationPolicy
   private
 
   def user_added?
-    record.users.include? user
+    record.users.exists? user.id
   end
 end
