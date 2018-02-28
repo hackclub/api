@@ -8,6 +8,12 @@ class User < ApplicationRecord
   has_many :leader_profiles
   has_many :new_club_applications, through: :leader_profiles
 
+  before_save :downcase_email
+
+  def downcase_email
+    email.downcase!
+  end
+
   def generate_login_code!
     loop do
       self.login_code = SecureRandom.random_number(999_999).to_s

@@ -80,4 +80,10 @@ RSpec.describe User, type: :model do
     expect(subject.admin_at).to eq(nil)
     expect(subject.admin?).to eq(false)
   end
+
+  it 'lowercases the provided email' do
+    subject.email = 'CamelCase@gmail.com'
+    subject.save
+    expect(subject.email).to eq('camelcase@gmail.com')
+  end
 end
