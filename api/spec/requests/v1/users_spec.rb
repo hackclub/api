@@ -135,4 +135,29 @@ RSpec.describe 'V1::Users', type: :request do
       expect(json).to include('error' => 'not found')
     end
   end
+
+  describe 'GET /v1/users/current' do
+    it 'returns 401' do
+      get '/v1/users/current'
+
+      expect(response.status).to eq(401)
+    end
+
+    context 'when authenticated' do
+      let(:user) { create(:user_authed) }
+
+      it 'returns the current user' do
+        get '/v1/users/current', headers: {
+          'Authorization': "Bearer #{user.auth_token}"
+        }
+
+        expect(response.status).to eq(200)
+        expect(json).to include('created_at', 'updated_at', 'email', 'admin_at')
+        expect(json).to_not include(
+          'login_code', 'login_code_generation',
+          'auth_token', 'auth_token_generation'
+        )
+      end
+    end
+  end
 end

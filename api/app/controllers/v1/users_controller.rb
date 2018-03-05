@@ -2,6 +2,9 @@
 
 module V1
   class UsersController < ApiController
+    USER_AUTH = { only: [:current] }.freeze
+    include UserAuth
+
     def auth
       user = User.find_or_initialize_by(email: params[:email])
 
@@ -35,6 +38,10 @@ module V1
       end
 
       render_field_error(:login_code, 'invalid', 401)
+    end
+
+    def current
+      render_success current_user
     end
   end
 end

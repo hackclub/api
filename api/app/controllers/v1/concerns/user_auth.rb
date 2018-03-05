@@ -4,8 +4,15 @@
 module UserAuth
   extend ActiveSupport::Concern
 
-  included do
-    before_action :authenticate_user
+  included do |base|
+    params = base.const_defined?('USER_AUTH') &&
+             base.const_get('USER_AUTH')
+
+    if params
+      before_action :authenticate_user, params
+    else
+      before_action :authenticate_user
+    end
   end
 
   def authenticate_user
