@@ -6,7 +6,7 @@ module UserAuth
 
   included do |base|
     params = base.const_defined?('USER_AUTH') &&
-             base.const_get('USER_AUTH').clone # clone bc constants are frozen
+             base.const_get('USER_AUTH').dup # dup bc constants are frozen
 
     if params
       before_action :authenticate_user, params
