@@ -9,7 +9,7 @@ module UserAuth
              base.const_get('USER_AUTH').clone # clone bc constants are frozen
 
     if params
-      before_action :authenticate_user
+      before_action :authenticate_user, params
     else
       before_action :authenticate_user
     end
