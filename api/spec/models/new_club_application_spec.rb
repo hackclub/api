@@ -65,7 +65,7 @@ RSpec.describe NewClubApplication, type: :model do
   ## enums ##
 
   it { should define_enum_for :high_school_type }
-  it { should define_enum_for :rejected_reason }
+  it { should define_enum_for(:rejected_reason).with(%i[other dev]) }
 
   ## validations ##
 

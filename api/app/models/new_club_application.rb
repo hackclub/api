@@ -33,6 +33,7 @@ class NewClubApplication < ApplicationRecord
 
   enum rejected_reason: %i[
     other
+    dev
   ]
 
   with_options if: -> { submitted_at.present? } do |application|
