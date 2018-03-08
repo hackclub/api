@@ -26,7 +26,7 @@ greeting:
         - you're looking great today! 👀
 
 nps:
-    introduction: We've been working on improving Hack Club and it'd be really helpful to know how we're doing.
+    introduction: We're constantly trying to improve Hack Club and it'd be really helpful to know how we've been doing.
     score: Assuming you had a friend at another high school that was technical, how likely is it that you would recommend starting a Hack Club to them? Please answer from 0 to 10, where 0 is not likely at all and 10 is very likely.
     score_confirmation: You picked *<%= score %>*
     invalid: I'm not very smart, so I can only understand numbers like `0` and `10`.
@@ -46,7 +46,7 @@ events:
         action_result:
             'true': ✅ Your club attended an event this semester
             'false': ⛔️ Your club hasn't attended an event this semester
-    end_note: Fantastic! Expect <@U0C7B14Q3|msw> to reach out soon and ask more about the <%= 'event'.pluralize(count) %> you <%= involvement %>.
+    end_note: Fantastic! Expect <@U0C7B14Q3|msw> to reach out soon and ask about the <%= 'event'.pluralize(count) %> you <%= involvement %>.
 
 demographics:
     introduction: <@U0266FRGP|zrl> is working on raising funds from a few large donors who we can't mention by name yet and they're asking for demographic info from our clubs. This info is only collected in aggregate. Estimates are OK.
