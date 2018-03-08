@@ -9,6 +9,7 @@ class NewLeader < ApplicationRecord
   enum gender: %i[
     male
     female
+    non_binary
     genderqueer
     agender
     other_gender
