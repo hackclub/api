@@ -82,7 +82,7 @@ meeting_confirmation:
         action_result: "⛔️ You did not have a meeting"
         ask_why: That's a shame! Why didn't you meet?
     previous_meeting_day: "✅ You had a meeting on <%= day %>"
-    on_break: "❄️ Your club didn't meet because it's winter break"
+    on_break: "Your club didn't meet because of school break"
 
 no_meeting_reason: Gotcha. Are you planning on having a club meeting in the future?
 
