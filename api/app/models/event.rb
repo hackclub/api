@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class Event < ApplicationRecord
   include Geocodeable
 
-  validates_presence_of :start, :end, :name, :address
+  validates :start, :end, :name, :address, presence: true
 
   geocode_attrs address: :address,
                 latitude: :latitude,

@@ -45,6 +45,8 @@ Rails.application.routes.draw do
       resources :new_club_applications, only: %i[index create]
     end
 
+    resources :events, only: %i[index]
+
     namespace :home do
       resources :slack_users, only: [:index]
     end
