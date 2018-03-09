@@ -17,9 +17,11 @@ module Hackbot
         opts[:attachments] = insert_attachment_defaults(opts[:attachments])
       end
 
-      ::SlackClient::Chat.send_msg(channel, nil, access_token, opts)
+      resp = ::SlackClient::Chat.send_msg(channel, nil, access_token, opts)
 
       sleep 1 # space out calls to slack's api to prevent rate limiting
+
+      resp
     end
 
     def attach(channel, *attachments)
