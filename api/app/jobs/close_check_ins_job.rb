@@ -5,7 +5,7 @@ class CloseCheckInsJob < ApplicationJob
 
   SLACK_TEAM_ID = 'T0266FRGM'
 
-  def perform(interaction_ids = nil)
+  def perform(interaction_ids = nil, send_athul_report = false)
     interactions = if interaction_ids
                      check_ins_from_array interaction_ids
                    else
@@ -18,7 +18,7 @@ class CloseCheckInsJob < ApplicationJob
       close check_in
     end
 
-    AthulClubMailer.check_in_recap.deliver_later
+    AthulClubMailer.check_in_recap.deliver_later if send_athul_report
   end
 
   # Not allowing when blocks with events is currently broken. Tracked in:
