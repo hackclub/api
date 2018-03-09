@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180228163235) do
+ActiveRecord::Schema.define(version: 20180309050520) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -115,6 +115,28 @@ ActiveRecord::Schema.define(version: 20180228163235) do
   create_table "donors", id: :serial, force: :cascade do |t|
     t.string "email"
     t.string "stripe_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.date "start"
+    t.date "end"
+    t.text "name"
+    t.text "website"
+    t.text "website_archived"
+    t.integer "total_attendance"
+    t.integer "first_time_hackathon_estimate"
+    t.text "address"
+    t.decimal "latitude"
+    t.decimal "longitude"
+    t.text "parsed_address"
+    t.text "parsed_city"
+    t.text "parsed_state"
+    t.text "parsed_state_code"
+    t.text "parsed_postal_code"
+    t.text "parsed_country"
+    t.text "parsed_country_code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
