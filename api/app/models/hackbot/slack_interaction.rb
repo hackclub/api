@@ -18,6 +18,8 @@ module Hackbot
       end
 
       ::SlackClient::Chat.send_msg(channel, nil, access_token, opts)
+      
+      sleep 1 # space out calls to slack's api to prevent rate limiting
     end
 
     def attach(channel, *attachments)
