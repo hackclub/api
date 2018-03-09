@@ -94,4 +94,7 @@ Rails.application.configure do
     domain: Rails.application.secrets.smtp_domain,
     enable_starttls_auto: true
   }
+
+  # Use S3 for ActiveStorage
+  config.active_storage.service = :amazon
 end
