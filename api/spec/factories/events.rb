@@ -6,6 +6,6 @@ FactoryBot.define do
     start { 3.days.from_now }
     add_attribute(:end) { 4.days.from_now }
     name { "#{Faker::Hacker.verb.capitalize}Hacks" }
-    address { HCFaker::Address }
+    address { HCFaker::Address.full_address }
   end
 end

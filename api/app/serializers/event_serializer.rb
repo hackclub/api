@@ -10,5 +10,12 @@ class EventSerializer < ActiveModel::Serializer
              :website,
              :address,
              :latitude,
-             :longitude
+             :longitude,
+             :parsed_address,
+             :parsed_city,
+             :parsed_state,
+             :parsed_state_code,
+             :parsed_postal_code,
+             :parsed_country,
+             :parsed_country_code
 end
