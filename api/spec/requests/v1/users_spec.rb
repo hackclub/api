@@ -56,6 +56,17 @@ RSpec.describe 'V1::Users', type: :request do
       # queued email
       expect(ApplicantMailer.deliveries.length).to be(1)
     end
+
+    it "doesn't care about case when emails already exist" do
+      u = create(:user, email: 'foo@bar.com')
+
+      post '/v1/users/auth', params: { email: 'Foo@bar.com' }
+
+      expect(response.status).to eq(200)
+
+      # returns existing user
+      expect(json).to include('id' => u.id)
+    end
   end
 
   describe 'POST /v1/users/:id/exchange_login_code' do

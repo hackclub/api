@@ -6,7 +6,7 @@ module V1
     include UserAuth
 
     def auth
-      user = User.find_or_initialize_by(email: params[:email])
+      user = User.find_or_initialize_by(email: params[:email].downcase)
 
       user.generate_login_code!
 
