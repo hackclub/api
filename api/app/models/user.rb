@@ -8,7 +8,7 @@ class User < ApplicationRecord
   has_many :leader_profiles
   has_many :new_club_applications, through: :leader_profiles
 
-  before_save :downcase_email
+  before_validate :downcase_email
 
   def downcase_email
     email.downcase!
