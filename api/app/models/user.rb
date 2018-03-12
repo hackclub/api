@@ -8,10 +8,10 @@ class User < ApplicationRecord
   has_many :leader_profiles
   has_many :new_club_applications, through: :leader_profiles
 
-  before_validate :downcase_email
+  before_validation :downcase_email
 
   def downcase_email
-    email.downcase!
+    email&.downcase!
   end
 
   def generate_login_code!

@@ -15,7 +15,7 @@ RSpec.describe User, type: :model do
   it { should validate_presence_of :email }
   it { should validate_email_format_of :email }
 
-  it { should validate_uniqueness_of :email }
+  # had to write a custom validation for uniqueness, at bottom of this file
   it { should validate_uniqueness_of :login_code }
   it { should validate_uniqueness_of :auth_token }
 
@@ -85,5 +85,12 @@ RSpec.describe User, type: :model do
     subject.email = 'CamelCase@gmail.com'
     subject.save
     expect(subject.email).to eq('camelcase@gmail.com')
+  end
+
+  it 'does not allow duplicate emails to be created, regardless of case' do
+    create(:user, email: 'existinguser@gmail.com')
+
+    subject.email = 'ExistingUser@gmail.com'
+    expect(subject.valid?).to eq(false)
   end
 end
