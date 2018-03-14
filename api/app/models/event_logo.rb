@@ -8,6 +8,6 @@ class EventLogo < Attachment
   end
 
   def file_to_render
-    file.variant(resize: '120x120', trim: true)
+    file.variant(resize: '150x', trim: true)
   end
 end
