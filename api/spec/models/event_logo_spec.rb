@@ -20,8 +20,10 @@ RSpec.describe EventLogo, type: :model do
     expect(subject.errors[:file]).to include('must be an image')
   end
 
-  it 'renders a variant 250px wide' do
+  it 'renders an appropriate variant' do
     transformations = subject.file_to_render.variation.transformations
-    expect(transformations[:resize]).to eq('250x250')
+
+    expect(transformations[:resize]).to eq('120x120')
+    expect(transformations[:trim]).to eq(true)
   end
 end
