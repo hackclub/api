@@ -46,6 +46,7 @@ Rails.application.routes.draw do
     end
 
     resources :events, only: %i[index create]
+    resources :attachments, only: %i[create show]
 
     namespace :home do
       resources :slack_users, only: [:index]

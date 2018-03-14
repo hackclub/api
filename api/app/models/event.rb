@@ -5,6 +5,9 @@ class Event < ApplicationRecord
 
   validates :start, :end, :name, :address, presence: true
 
+  has_one :logo, as: :attachable, class_name: 'EventLogo'
+  has_one :banner, as: :attachable, class_name: 'EventBanner'
+
   geocode_attrs address: :address,
                 latitude: :latitude,
                 longitude: :longitude,

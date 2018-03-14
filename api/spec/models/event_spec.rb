@@ -32,5 +32,10 @@ RSpec.describe Event, type: :model do
   it { should validate_presence_of :name }
   it { should validate_presence_of :address }
 
+  ## relations ##
+
+  it { should have_one :logo }
+  it { should have_one :banner }
+
   it_behaves_like 'Geocodeable'
 end

@@ -19,6 +19,9 @@ class EventSerializer < ActiveModel::Serializer
              :parsed_country,
              :parsed_country_code
 
+  has_one :logo
+  has_one :banner
+
   attribute :total_attendance, if: :admin?
   attribute :first_time_hackathon_estimate, if: :admin?
 

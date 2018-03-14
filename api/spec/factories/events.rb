@@ -7,5 +7,10 @@ FactoryBot.define do
     add_attribute(:end) { 4.days.from_now }
     name { "#{Faker::Hacker.verb.capitalize}Hacks" }
     address { HCFaker::Address.full_address }
+
+    factory :event_w_photos do
+      association :logo, factory: :event_logo
+      association :banner, factory: :event_banner
+    end
   end
 end

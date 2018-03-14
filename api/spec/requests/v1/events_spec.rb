@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'V1::Events', type: :request do
   describe 'GET /v1/events' do
-    before { 5.times { create(:event) } }
+    before { 5.times { create(:event_w_photos) } }
 
     it 'properly lists events' do
       get '/v1/events'
@@ -32,6 +32,14 @@ RSpec.describe 'V1::Events', type: :request do
         'parsed_postal_code',
         'parsed_country',
         'parsed_country_code'
+      )
+      expect(json[0]['logo']).to include(
+        'id', 'created_at', 'updated_at', 'file_path',
+        'type' => 'event_logo'
+      )
+      expect(json[0]['banner']).to include(
+        'id', 'created_at', 'updated_at', 'file_path',
+        'type' => 'event_banner'
       )
     end
   end

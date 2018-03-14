@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_03_09_173320) do
+ActiveRecord::Schema.define(version: 2018_03_14_012340) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -53,6 +53,14 @@ ActiveRecord::Schema.define(version: 2018_03_09_173320) do
     t.index ["club_id"], name: "index_athul_clubs_on_club_id"
     t.index ["leader_id"], name: "index_athul_clubs_on_leader_id"
     t.index ["letter_id"], name: "index_athul_clubs_on_letter_id"
+  end
+
+  create_table "attachments", force: :cascade do |t|
+    t.text "type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "attachable_id"
+    t.text "attachable_type"
   end
 
   create_table "check_ins", id: :serial, force: :cascade do |t|
