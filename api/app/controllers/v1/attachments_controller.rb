@@ -15,10 +15,5 @@ module V1
       # that isn't specified through STI.
       render_field_errors(type: ['unknown type'])
     end
-
-    def show
-      a = Attachment.find(params[:id])
-      render_success(a)
-    end
   end
 end
