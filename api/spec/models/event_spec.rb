@@ -30,6 +30,7 @@ RSpec.describe Event, type: :model do
   it { should validate_presence_of :start }
   it { should validate_presence_of :end }
   it { should validate_presence_of :name }
+  it { should validate_presence_of :website }
   it { should validate_presence_of :address }
 
   ## relations ##
