@@ -55,6 +55,8 @@ machine:
     S3_REGION: fake_region
     S3_BUCKET: fake_bucket
 
+    HACKATHONS_SITE_REBUILD_HOOK: fake_rebuild_url
+
     DATABASE_URL: postgresql://ubuntu:@127.0.0.1:5432/circle_test
 dependencies:
   cache_directories:

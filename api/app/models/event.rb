@@ -18,4 +18,10 @@ class Event < ApplicationRecord
                 postal_code: :parsed_postal_code,
                 country: :parsed_country,
                 country_code: :parsed_country_code
+
+  after_commit :trigger_rebuild
+
+  def trigger_rebuild
+    RebuildHackathonsSiteJob.perform_later
+  end
 end

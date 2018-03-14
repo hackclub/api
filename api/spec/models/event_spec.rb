@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe Event, type: :model do
+  subject { build(:event) }
+
   ## db columns ##
 
   it { should have_db_column :created_at }
@@ -39,4 +41,12 @@ RSpec.describe Event, type: :model do
   it { should have_one :banner }
 
   it_behaves_like 'Geocodeable'
+
+  ## custom model stuff ##
+
+  it 'queues rebuild triggers after committing changes' do
+    expect do
+      subject.update_attributes(name: 'New Name!')
+    end.to have_enqueued_job(RebuildHackathonsSiteJob)
+  end
 end
