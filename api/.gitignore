@@ -25,3 +25,6 @@
 
 # Ignore test coverage reports from SimpleCov
 /coverage
+
+# Ignore local files from development w/ ActiveStorage
+/storage

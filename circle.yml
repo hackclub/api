@@ -50,6 +50,11 @@ machine:
     SIDEKIQ_HTTP_USERNAME: fake_username
     SIDEKIQ_HTTP_PASSWORD: fake_password
 
+    S3_ACCESS_KEY_ID: fake_id
+    S3_SECRET_ACCESS_KEY: fake_key
+    S3_REGION: fake_region
+    S3_BUCKET: fake_bucket
+
     DATABASE_URL: postgresql://ubuntu:@127.0.0.1:5432/circle_test
 dependencies:
   cache_directories:

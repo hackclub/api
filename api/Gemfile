@@ -4,18 +4,20 @@
 # convention, not an actual technical requirement)
 source 'https://rubygems.org'
 
-gem 'rails', '~> 5.1'
+gem 'rails', '~> 5.2.0.rc1'
 
 gem 'pg', '~> 0.18.4'
 gem 'puma', '~> 3.0'
 
 gem 'active_model_serializers', '~> 0.10.2'
 gem 'analytics-ruby', require: 'segment'
+gem 'aws-sdk-s3', '~> 1.8', '>= 1.8.2'
 gem 'chronic', '~> 0.10.2'
 gem 'concurrent-ruby', require: 'concurrent'
 gem 'faker', '~> 1.6'
 gem 'geocoder', '~> 1.4'
 gem 'mimemagic', '~> 0.3'
+gem 'mini_magick', '~> 4.8'
 gem 'octokit', '~> 4.7'
 gem 'paranoia', '~> 2.4'
 gem 'pdfkit', '~> 0.8.2'

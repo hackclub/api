@@ -6,6 +6,12 @@ FactoryBot.define do
     start { 3.days.from_now }
     add_attribute(:end) { 4.days.from_now }
     name { "#{Faker::Hacker.verb.capitalize}Hacks" }
+    website { 'https://' + Faker::Internet.domain_name }
     address { HCFaker::Address.full_address }
+
+    factory :event_w_photos do
+      association :logo, factory: :event_logo
+      association :banner, factory: :event_banner
+    end
   end
 end
