@@ -39,6 +39,7 @@ ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
+  config.include ActiveJob::TestHelper
 
   # Include our helpers
   config.include Requests::RequestHelpers, type: :request

@@ -297,7 +297,7 @@ RSpec.describe NewClubApplication, type: :model do
     end
 
     it 'sends confirmation emails to applicants and staff' do
-      subject.submit!
+      perform_enqueued_jobs { subject.submit! }
 
       # three emails to applicants and one email to staff
       expect(ApplicantMailer.deliveries.length).to eq(3 + 1)

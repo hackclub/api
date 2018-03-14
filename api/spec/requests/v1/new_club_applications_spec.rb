@@ -490,9 +490,11 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
     it 'creates new user and sends email when given email is new' do
       starting_profile_count = User.count
 
-      post "/v1/new_club_applications/#{club_application.id}/add_user",
-           headers: auth_headers,
-           params: { email: 'john@johnsmith.com' }
+      perform_enqueued_jobs do
+        post "/v1/new_club_applications/#{club_application.id}/add_user",
+             headers: auth_headers,
+             params: { email: 'john@johnsmith.com' }
+      end
 
       expect(response.status).to eq(200)
       expect(json).to include('success' => true)
@@ -511,9 +513,11 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       new_user = create(:user)
       starting_profile_count = User.count
 
-      post "/v1/new_club_applications/#{club_application.id}/add_user",
-           headers: auth_headers,
-           params: { email: new_user.email }
+      perform_enqueued_jobs do
+        post "/v1/new_club_applications/#{club_application.id}/add_user",
+             headers: auth_headers,
+             params: { email: new_user.email }
+      end
 
       expect(response.status).to eq(200)
       expect(json).to include('success' => true)

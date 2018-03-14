@@ -12,7 +12,10 @@ RSpec.describe 'V1::Users', type: :request do
     end
 
     it 'creates new object and sends email with new and valid email' do
-      post '/v1/users/auth', params: { email: 'foo@bar.com' }
+      # ensure any jobs are ran during request
+      perform_enqueued_jobs do
+        post '/v1/users/auth', params: { email: 'foo@bar.com' }
+      end
 
       expect(response.status).to eq(200)
 
@@ -42,7 +45,9 @@ RSpec.describe 'V1::Users', type: :request do
       user.generate_login_code!
       user.save
 
-      post '/v1/users/auth', params: { email: user.email }
+      perform_enqueued_jobs do
+        post '/v1/users/auth', params: { email: user.email }
+      end
 
       expect(response.status).to eq(200)
 
