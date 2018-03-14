@@ -8,6 +8,7 @@ RSpec.describe Attachment, type: :model do
       subject.file.attach(
         io: f, filename: 'event_logo.png', content_type: 'image/png'
       )
+      subject.save # ensure everything - including the file - is persisted
     end
   end
 
