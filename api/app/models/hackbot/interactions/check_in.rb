@@ -10,6 +10,7 @@ module Hackbot
       include Concerns::Followupable
 
       TASK_ASSIGNEE = Rails.application.secrets.default_streak_task_assignee
+      SURVEY_WEEK = false
 
       def should_start?
         false
@@ -26,11 +27,7 @@ module Hackbot
                          first_name: first_name,
                          flavor_text: flavor_text,
                          deadline: deadline)
-        msg_channel copy('nps.introduction')
-        msg_channel copy('nps.score')
-
-        default_follow_up 'wait_for_nps_score'
-        :wait_for_nps_score
+        SURVEY_WEEK ? initialize_survey_questions : initialize_weekly_questions
       end
 
       def wait_for_nps_score
@@ -204,31 +201,7 @@ module Hackbot
 
         msg_channel copy('demographics.finished')
 
-        actions = []
-
-        if previous_meeting_day
-          actions << {
-            text: "Yes, on #{previous_meeting_day}",
-            value: 'previous_meeting_day'
-          }
-        end
-
-        actions << { text: 'Yes' }
-        actions << {
-          text: "No, we're on break",
-          value: 'on_break'
-        }
-        actions << { text: 'No' }
-
-        msg_channel(
-          text: copy('meeting_confirmation.question'),
-          attachments: [
-            actions: actions
-          ]
-        )
-
-        default_follow_up 'wait_for_meeting_confirmation'
-        :wait_for_meeting_confirmation
+        initialize_weekly_questions
       end
 
       # rubocop:enable Metrics/LineLength
@@ -567,6 +540,42 @@ module Hackbot
       end
 
       private
+
+      def initialize_survey_questions
+        msg_channel copy('nps.introduction')
+        msg_channel copy('nps.score')
+
+        default_follow_up 'wait_for_nps_score'
+        :wait_for_nps_score
+      end
+
+      def initialize_weekly_questions
+        actions = []
+
+        if previous_meeting_day
+          actions << {
+            text: "Yes, on #{previous_meeting_day}",
+            value: 'previous_meeting_day'
+          }
+        end
+
+        actions << { text: 'Yes' }
+        actions << {
+          text: "No, we're on break",
+          value: 'on_break'
+        }
+        actions << { text: 'No' }
+
+        msg_channel(
+          text: copy('meeting_confirmation.question'),
+          attachments: [
+            actions: actions
+          ]
+        )
+
+        default_follow_up 'wait_for_meeting_confirmation'
+        :wait_for_meeting_confirmation
+      end
 
       def restart_check_in
         keys_to_save = %w[channel last_message_ts club_id leader_id]
