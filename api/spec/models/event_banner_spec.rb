@@ -22,6 +22,6 @@ RSpec.describe EventBanner, type: :model do
 
   it 'renders a variant 500px wide' do
     transformations = subject.file_to_render.variation.transformations
-    expect(transformations[:resize]).to eq('500x')
+    expect(transformations[:resize]).to eq('750x')
   end
 end

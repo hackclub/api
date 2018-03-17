@@ -8,6 +8,6 @@ class EventBanner < Attachment
   end
 
   def file_to_render
-    file.variant(resize: '500x')
+    file.variant(resize: '750x')
   end
 end
