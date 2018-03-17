@@ -23,7 +23,7 @@ RSpec.describe EventLogo, type: :model do
   it 'renders an appropriate variant' do
     transformations = subject.file_to_render.variation.transformations
 
-    expect(transformations[:resize]).to eq('150x')
+    expect(transformations[:resize]).to eq('x150')
     expect(transformations[:trim]).to eq(true)
   end
 end
