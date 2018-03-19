@@ -20,7 +20,8 @@ module V1
     # Applications for a specific user
     def index
       if params[:user_id] == @user.id.to_s
-        render_success(@user.new_club_applications)
+        apps = @user.new_club_applications.includes(leader_profiles: [:user])
+        render_success apps
       else
         render_access_denied
       end
