@@ -6,7 +6,10 @@ module V1
     include UserAuth
 
     def index
-      render_success Event.all
+      render_success Event.all.includes(
+        logo: [file_attachment: :blob],
+        banner: [file_attachment: :blob]
+      )
     end
 
     def create
