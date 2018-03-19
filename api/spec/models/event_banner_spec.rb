@@ -32,7 +32,7 @@ RSpec.describe EventBanner, type: :model do
     expect(transformations[:quality]).to eq('85%')
 
     # for width of cards
-    expect(transformations[:resize]).to eq('300x')
+    expect(transformations[:resize]).to eq('500x')
 
     # successfully processes
     expect(subject.file_to_render.processed.service_url).to_not be(nil)
