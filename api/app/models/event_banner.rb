@@ -14,6 +14,8 @@ class EventBanner < Attachment
       interlace: 'Plane',
       gaussian_blur: 0.05,
       quality: '85%',
+      define: 'jpeg:dct-method=float',
+      sampling_factor: '4:2:0',
       # resize
       resize: '750x'
     )

@@ -27,6 +27,8 @@ RSpec.describe EventBanner, type: :model do
     expect(transformations[:strip]).to eq(true)
     expect(transformations[:interlace]).to eq('Plane')
     expect(transformations[:gaussian_blur]).to eq(0.05)
+    expect(transformations[:define]).to eq('jpeg:dct-method=float')
+    expect(transformations[:sampling_factor]).to eq('4:2:0')
     expect(transformations[:quality]).to eq('85%')
 
     # for width of cards
