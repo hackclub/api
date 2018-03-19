@@ -17,7 +17,7 @@ class EventBanner < Attachment
       define: 'jpeg:dct-method=float',
       sampling_factor: '4:2:0',
       # resize
-      resize: '750x'
+      resize: '500x'
     )
   end
 end
