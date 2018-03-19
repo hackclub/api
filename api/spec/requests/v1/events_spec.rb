@@ -106,4 +106,79 @@ RSpec.describe 'V1::Events', type: :request do
       end
     end
   end
+
+  describe 'PATCH /v1/events/:id' do
+    let(:event) { create(:event) }
+
+    let(:user) { nil } # set this in subtests
+    let(:auth_headers) { { 'Authorization': "Bearer #{user.auth_token}" } }
+
+    it 'requires authentication' do
+      patch "/v1/events/#{event.id}", params: { name: 'TestEvent' }
+      expect(response.status).to eq(401)
+    end
+
+    context 'when authenticated as non-admin' do
+      let(:user) { create(:user_authed) }
+
+      it 'fails' do
+        patch "/v1/events/#{event.id}",
+              headers: auth_headers,
+              params: { name: 'TestEvent' }
+        expect(response.status).to eq(403)
+      end
+    end
+
+    context 'when authenticated as admin' do
+      let(:user) { create(:user_admin_authed) }
+
+      context 'with valid params' do
+        let(:params) { { name: 'TestEvent' } }
+
+        before do
+          patch "/v1/events/#{event.id}",
+                headers: auth_headers,
+                params: params
+        end
+
+        it 'succeeds' do
+          expect(response.status).to eq(200)
+          expect(json['name']).to eq('TestEvent')
+        end
+
+        context 'and trying to update banner / logo' do
+          let(:logo) { create(:event_logo) }
+          let(:banner) { create(:event_banner) }
+
+          let(:params) do
+            {
+              logo_id: logo.id,
+              banner_id: banner.id
+            }
+          end
+
+          it 'successfully updates' do
+            expect(response.status).to eq(200)
+            expect(json['logo']['id']).to eq(logo.id)
+            expect(json['banner']['id']).to eq(banner.id)
+          end
+        end
+      end
+
+      context 'with invalid params' do
+        let(:params) { { name: nil } }
+
+        before do
+          patch "/v1/events/#{event.id}",
+                headers: auth_headers,
+                params: params
+        end
+
+        it 'fails gracefully' do
+          expect(response.status).to eq(422)
+          expect(json['errors']).to include('name')
+        end
+      end
+    end
+  end
 end
