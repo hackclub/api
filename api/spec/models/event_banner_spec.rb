@@ -20,8 +20,19 @@ RSpec.describe EventBanner, type: :model do
     expect(subject.errors[:file]).to include('must be an image')
   end
 
-  it 'renders a variant 500px wide' do
+  it 'renders an optimized variant' do
     transformations = subject.file_to_render.variation.transformations
+
+    # optimization from https://stackoverflow.com/a/7262050
+    expect(transformations[:strip]).to eq(true)
+    expect(transformations[:interlace]).to eq('Plane')
+    expect(transformations[:gaussian_blur]).to eq(0.05)
+    expect(transformations[:quality]).to eq('85%')
+
+    # for width of cards
     expect(transformations[:resize]).to eq('750x')
+
+    # successfully processes
+    expect(subject.file_to_render.processed.service_url).to_not be(nil)
   end
 end

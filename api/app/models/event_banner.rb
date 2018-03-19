@@ -8,6 +8,14 @@ class EventBanner < Attachment
   end
 
   def file_to_render
-    file.variant(resize: '750x')
+    file.variant(
+      # optimize
+      strip: true,
+      interlace: 'Plane',
+      gaussian_blur: 0.05,
+      quality: '85%',
+      # resize
+      resize: '750x'
+    )
   end
 end
