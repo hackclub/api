@@ -11,6 +11,9 @@
   <a href="https://codeclimate.com/github/hackclub/monolith">
     <img alt="Test Coverage" src="https://img.shields.io/codeclimate/c/hackclub/monolith.svg">
   </a>
+  <a href="https://oss.skylight.io/app/applications/WFTfslPPiTpG">
+    <img alt="Skylight" src="https://badges.skylight.io/status/WFTfslPPiTpG.svg">
+  </a>
 </p>
 
 <p align="center">
