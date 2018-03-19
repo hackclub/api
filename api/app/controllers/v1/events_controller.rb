@@ -20,6 +20,21 @@ module V1
       end
     end
 
+    def update
+      event = Event.find(params[:id])
+      authorize event
+
+      event.assign_attributes(event_params)
+      event.logo = logo if logo
+      event.banner = banner if banner
+
+      if event.save
+        render_success(event)
+      else
+        render_field_errors(event.errors)
+      end
+    end
+
     private
 
     def event_params
@@ -32,6 +47,16 @@ module V1
         :first_time_hackathon_estimate,
         :address
       )
+    end
+
+    def logo
+      id = params[:logo_id]
+      EventLogo.find(id) if id
+    end
+
+    def banner
+      id = params[:banner_id]
+      EventBanner.find(id) if id
     end
   end
 end
