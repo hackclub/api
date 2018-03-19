@@ -2,7 +2,7 @@
 
 module V1
   class UsersController < ApiController
-    USER_AUTH = { only: [:current] }.freeze
+    USER_AUTH = { only: %i[current show] }.freeze
     include UserAuth
 
     def auth
@@ -42,6 +42,13 @@ module V1
 
     def current
       render_success current_user
+    end
+
+    def show
+      u = User.find(params[:id])
+      authorize u
+
+      render_success u
     end
   end
 end

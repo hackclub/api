@@ -176,4 +176,41 @@ RSpec.describe 'V1::Users', type: :request do
       end
     end
   end
+
+  describe 'GET /v1/users/:id' do
+    let(:user) { create(:user) }
+    let(:headers) { {} } # override this
+
+    before { get "/v1/users/#{user.id}", headers: headers }
+
+    it 'requires authentication' do
+      expect(response.status).to eq(401)
+    end
+
+    context 'when authed' do
+      let(:authed_user) { nil } # override this
+      let(:headers) { { 'Authorization': "Bearer #{authed_user.auth_token}" } }
+
+      context 'as non-admin' do
+        let(:authed_user) { create(:user_authed) }
+
+        it 'fails' do
+          expect(response.status).to eq(403)
+        end
+      end
+
+      context 'as admin' do
+        let(:authed_user) { create(:user_admin_authed) }
+
+        it 'returns all expected user info' do
+          expect(response.status).to eq(200)
+          expect(json).to include('id', 'created_at', 'updated_at', 'email')
+          expect(json).to_not include(
+            'auth_token', 'auth_token_generation',
+            'login_code', 'login_code_generation'
+          )
+        end
+      end
+    end
+  end
 end
