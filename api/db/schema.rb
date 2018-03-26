@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_03_14_012340) do
+ActiveRecord::Schema.define(version: 2018_03_26_021720) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -61,6 +61,39 @@ ActiveRecord::Schema.define(version: 2018_03_14_012340) do
     t.datetime "updated_at", null: false
     t.integer "attachable_id"
     t.text "attachable_type"
+  end
+
+  create_table "challenge_post_upvotes", force: :cascade do |t|
+    t.bigint "challenge_post_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["challenge_post_id", "user_id"], name: "index_challenge_post_upvotes_on_challenge_post_id_and_user_id", unique: true
+    t.index ["challenge_post_id"], name: "index_challenge_post_upvotes_on_challenge_post_id"
+    t.index ["user_id"], name: "index_challenge_post_upvotes_on_user_id"
+  end
+
+  create_table "challenge_posts", force: :cascade do |t|
+    t.text "name"
+    t.text "url"
+    t.text "description"
+    t.bigint "creator_id"
+    t.bigint "challenge_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["challenge_id"], name: "index_challenge_posts_on_challenge_id"
+    t.index ["creator_id"], name: "index_challenge_posts_on_creator_id"
+  end
+
+  create_table "challenges", force: :cascade do |t|
+    t.text "name"
+    t.text "description"
+    t.datetime "start"
+    t.datetime "end"
+    t.bigint "creator_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["creator_id"], name: "index_challenges_on_creator_id"
   end
 
   create_table "check_ins", id: :serial, force: :cascade do |t|
@@ -476,6 +509,11 @@ ActiveRecord::Schema.define(version: 2018_03_14_012340) do
   add_foreign_key "athul_clubs", "clubs"
   add_foreign_key "athul_clubs", "leaders"
   add_foreign_key "athul_clubs", "letters"
+  add_foreign_key "challenge_post_upvotes", "challenge_posts"
+  add_foreign_key "challenge_post_upvotes", "users"
+  add_foreign_key "challenge_posts", "challenges"
+  add_foreign_key "challenge_posts", "users", column: "creator_id"
+  add_foreign_key "challenges", "users", column: "creator_id"
   add_foreign_key "check_ins", "clubs"
   add_foreign_key "check_ins", "leaders"
   add_foreign_key "clubs", "leaders", column: "point_of_contact_id"
