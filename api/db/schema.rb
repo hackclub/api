@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_03_26_012539) do
+ActiveRecord::Schema.define(version: 2018_03_26_020424) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -61,6 +61,18 @@ ActiveRecord::Schema.define(version: 2018_03_26_012539) do
     t.datetime "updated_at", null: false
     t.integer "attachable_id"
     t.text "attachable_type"
+  end
+
+  create_table "challenge_posts", force: :cascade do |t|
+    t.text "name"
+    t.text "url"
+    t.text "description"
+    t.bigint "creator_id"
+    t.bigint "challenge_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["challenge_id"], name: "index_challenge_posts_on_challenge_id"
+    t.index ["creator_id"], name: "index_challenge_posts_on_creator_id"
   end
 
   create_table "challenges", force: :cascade do |t|
@@ -487,6 +499,8 @@ ActiveRecord::Schema.define(version: 2018_03_26_012539) do
   add_foreign_key "athul_clubs", "clubs"
   add_foreign_key "athul_clubs", "leaders"
   add_foreign_key "athul_clubs", "letters"
+  add_foreign_key "challenge_posts", "challenges"
+  add_foreign_key "challenge_posts", "users", column: "creator_id"
   add_foreign_key "challenges", "users", column: "creator_id"
   add_foreign_key "check_ins", "clubs"
   add_foreign_key "check_ins", "leaders"
