@@ -18,6 +18,14 @@ RSpec.describe 'V1::ChallengePostUpvote', type: :request do
       post "/v1/posts/#{cpost.id}/upvotes", headers: auth_headers
       expect(response.status).to eq(201)
     end
+
+    it 'gracefully fails when trying to create a duplicate upvote' do
+      ChallengePostUpvote.create(challenge_post: cpost, user: user)
+
+      post "/v1/posts/#{cpost.id}/upvotes", headers: auth_headers
+
+      expect(response.status).to eq(422)
+    end
   end
 
   describe 'DELETE /v1/upvotes/:id' do

@@ -5,12 +5,16 @@ module V1
     include UserAuth
 
     def create
-      upvote = ChallengePostUpvote.create(
+      upvote = ChallengePostUpvote.new(
         user: current_user,
         challenge_post: ChallengePost.find(params[:post_id])
       )
 
-      render_success upvote, 201
+      if upvote.save
+        render_success upvote, 201
+      else
+        render_field_errors upvote.errors
+      end
     end
 
     def destroy
