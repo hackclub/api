@@ -47,7 +47,9 @@ Rails.application.routes.draw do
 
     resources :events, only: %i[index create update]
     resources :attachments, only: %i[create show]
-    resources :challenges, only: %i[index create show]
+    resources :challenges, only: %i[index create show] do
+      resources :posts, controller: 'challenge_posts', only: %i[index create]
+    end
 
     namespace :home do
       resources :slack_users, only: [:index]

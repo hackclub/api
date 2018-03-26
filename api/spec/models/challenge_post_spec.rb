@@ -15,6 +15,7 @@ RSpec.describe ChallengePost, type: :model do
 
   it { should belong_to :creator }
   it { should belong_to :challenge }
+  it { should have_many :upvotes }
 
   it { should validate_presence_of :name }
   it { should validate_presence_of :url }

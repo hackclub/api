@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Challenge < ApplicationRecord
+  has_many :posts, class_name: 'ChallengePost'
   belongs_to :creator, class_name: 'User'
 
   validates :name, :start, :end, :creator, presence: true

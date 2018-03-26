@@ -13,6 +13,7 @@ RSpec.describe Challenge, type: :model do
   it { should have_db_column :end }
   it { should have_db_column :creator_id }
 
+  it { should have_many :posts }
   it { should belong_to :creator }
 
   it { should validate_presence_of :name }
