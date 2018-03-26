@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_03_14_012340) do
+ActiveRecord::Schema.define(version: 2018_03_26_012539) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -61,6 +61,17 @@ ActiveRecord::Schema.define(version: 2018_03_14_012340) do
     t.datetime "updated_at", null: false
     t.integer "attachable_id"
     t.text "attachable_type"
+  end
+
+  create_table "challenges", force: :cascade do |t|
+    t.text "name"
+    t.text "description"
+    t.datetime "start"
+    t.datetime "end"
+    t.bigint "creator_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["creator_id"], name: "index_challenges_on_creator_id"
   end
 
   create_table "check_ins", id: :serial, force: :cascade do |t|
@@ -476,6 +487,7 @@ ActiveRecord::Schema.define(version: 2018_03_14_012340) do
   add_foreign_key "athul_clubs", "clubs"
   add_foreign_key "athul_clubs", "leaders"
   add_foreign_key "athul_clubs", "letters"
+  add_foreign_key "challenges", "users", column: "creator_id"
   add_foreign_key "check_ins", "clubs"
   add_foreign_key "check_ins", "leaders"
   add_foreign_key "clubs", "leaders", column: "point_of_contact_id"
