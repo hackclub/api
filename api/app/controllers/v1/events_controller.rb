@@ -38,6 +38,15 @@ module V1
       end
     end
 
+    def destroy
+      event = Event.find(params[:id])
+      authorize event
+
+      event.destroy!
+
+      render_success event
+    end
+
     private
 
     def event_params

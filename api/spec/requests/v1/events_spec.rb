@@ -3,6 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe 'V1::Events', type: :request do
+  let(:user) { nil } # set this in subtests
+  let(:auth_headers) { { 'Authorization': "Bearer #{user.auth_token}" } }
+
   describe 'GET /v1/events' do
     before { 5.times { create(:event_w_photos) } }
 
@@ -46,7 +49,6 @@ RSpec.describe 'V1::Events', type: :request do
 
   describe 'POST /v1/events' do
     let(:user) { create(:user_authed) }
-    let(:auth_headers) { { 'Authorization': "Bearer #{user.auth_token}" } }
 
     it 'requires authentication' do
       post '/v1/events'
@@ -109,9 +111,6 @@ RSpec.describe 'V1::Events', type: :request do
 
   describe 'PATCH /v1/events/:id' do
     let(:event) { create(:event) }
-
-    let(:user) { nil } # set this in subtests
-    let(:auth_headers) { { 'Authorization': "Bearer #{user.auth_token}" } }
 
     it 'requires authentication' do
       patch "/v1/events/#{event.id}", params: { name: 'TestEvent' }
@@ -177,6 +176,36 @@ RSpec.describe 'V1::Events', type: :request do
         it 'fails gracefully' do
           expect(response.status).to eq(422)
           expect(json['errors']).to include('name')
+        end
+      end
+    end
+  end
+
+  describe 'DELETE /v1/events/:id' do
+    let(:event) { create(:event) }
+
+    let(:headers) { {} }
+
+    before { delete "/v1/events/#{event.id}", headers: headers }
+
+    it 'requires authentication' do
+      expect(response.status).to eq(401)
+    end
+
+    context 'when authenticated' do
+      let(:user) { create(:user_authed) }
+      let(:headers) { auth_headers }
+
+      it 'requires admin' do
+        expect(response.status).to eq(403)
+      end
+
+      context 'as admin' do
+        let(:user) { create(:user_admin_authed) }
+
+        it 'succeeds' do
+          expect(response.status).to eq(200)
+          expect(Event.find_by(id: event.id)).to eq(nil)
         end
       end
     end

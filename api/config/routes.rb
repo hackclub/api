@@ -45,7 +45,7 @@ Rails.application.routes.draw do
       resources :new_club_applications, only: %i[index create]
     end
 
-    resources :events, only: %i[index create update]
+    resources :events, only: %i[index create update destroy]
     resources :attachments, only: %i[create show]
 
     resources :challenges, only: %i[index create show] do
