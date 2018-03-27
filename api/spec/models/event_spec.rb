@@ -9,6 +9,7 @@ RSpec.describe Event, type: :model do
 
   it { should have_db_column :created_at }
   it { should have_db_column :updated_at }
+  it { should have_db_column :deleted_at }
   it { should have_db_column :start }
   it { should have_db_column :end }
   it { should have_db_column :name }
@@ -48,5 +49,17 @@ RSpec.describe Event, type: :model do
     expect do
       subject.update_attributes(name: 'New Name!')
     end.to have_enqueued_job(RebuildHackathonsSiteJob)
+  end
+
+  it 'soft deletes, not permanently' do
+    event = create(:event)
+
+    event.destroy
+
+    expect(Event.find_by(id: event.id)).to eq(nil)
+
+    Event.with_deleted.find(event.id).restore
+
+    expect(Event.find_by(id: event.id)).to_not eq(nil)
   end
 end

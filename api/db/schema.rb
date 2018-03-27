@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_03_26_021720) do
+ActiveRecord::Schema.define(version: 2018_03_27_190842) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -201,6 +201,8 @@ ActiveRecord::Schema.define(version: 2018_03_26_021720) do
     t.text "parsed_country_code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_events_on_deleted_at"
   end
 
   create_table "fundraising_deals", id: :serial, force: :cascade do |t|

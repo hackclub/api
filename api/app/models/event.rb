@@ -3,6 +3,8 @@
 class Event < ApplicationRecord
   include Geocodeable
 
+  acts_as_paranoid
+
   validates :start, :end, :name, :website, :address, presence: true
 
   has_one :logo, as: :attachable, class_name: 'EventLogo'
