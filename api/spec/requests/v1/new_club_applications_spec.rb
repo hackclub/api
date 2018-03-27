@@ -797,6 +797,60 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
     end
   end
 
+  describe 'POST /v1/new_club_applications/:id/unsubmit' do
+    let(:application) { create(:submitted_new_club_application) }
+
+    let(:headers) { {} } # override in subtests
+
+    before do
+      post "/v1/new_club_applications/#{application.id}/unsubmit",
+           headers: headers
+    end
+
+    it 'requires authentication' do
+      expect(response.status).to eq(401)
+    end
+
+    context 'when authed' do
+      let(:headers) { auth_headers }
+
+      it 'requires admin' do
+        expect(response.status).to eq(403)
+      end
+
+      context 'as admin' do
+        let(:user) { create(:user_admin_authed) }
+
+        it 'succeeds' do
+          expect(response.status).to eq(200)
+
+          # marks application as not submitted
+          expect(application.reload.submitted?).to eq(false)
+
+          # it returns the club application object
+          expect(json['id']).to eq(application.id)
+          expect(json['submitted_at']).to eq(nil)
+        end
+
+        context 'when application is not submitted' do
+          let(:application) { create(:completed_new_club_application) }
+
+          it 'fails' do
+            expect(response.status).to eq(422)
+          end
+        end
+
+        context 'when application has associated interiew' do
+          let(:application) { create(:interviewed_new_club_application) }
+
+          it 'fails' do
+            expect(response.status).to eq(422)
+          end
+        end
+      end
+    end
+  end
+
   describe 'POST /v1/new_club_applications/:id/accept' do
     let(:application) { create(:submitted_new_club_application) }
 

@@ -317,6 +317,20 @@ RSpec.describe NewClubApplication, type: :model do
     end
   end
 
+  describe ':interviewed?' do
+    it 'returns false' do
+      expect(subject.interviewed?).to eq(false)
+    end
+
+    context 'after interview fields are set' do
+      subject { create(:interviewed_new_club_application) }
+
+      it 'returns true' do
+        expect(subject.interviewed?).to eq(true)
+      end
+    end
+  end
+
   describe ':accept!' do
     subject { create(:submitted_new_club_application) }
 

@@ -115,6 +115,29 @@ module V1
       end
     end
 
+    def unsubmit
+      app = NewClubApplication.find(params[:new_club_application_id])
+      authorize app
+
+      unless app.submitted?
+        return render_field_error(:base, 'application not submitted')
+      end
+
+      # give descriptive error, it will fail without this check anyways - just
+      # not with a very good error message
+      if app.interviewed?
+        return render_field_error(:base, 'cannot unsubmit after interview')
+      end
+
+      app.submitted_at = nil
+
+      if app.save
+        render_success app
+      else
+        render_field_errors app.errors
+      end
+    end
+
     def accept
       app = NewClubApplication.find(params[:new_club_application_id])
       authorize app

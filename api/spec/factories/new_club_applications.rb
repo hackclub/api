@@ -58,5 +58,16 @@ FactoryBot.define do
         application.save
       end
     end
+
+    factory :interviewed_new_club_application,
+            parent: :submitted_new_club_application do
+
+      after(:create) do |application|
+        application.interviewed_at = Time.current
+        application.interview_duration = 1.hour
+        application.interview_notes = Faker::Lorem.paragraph
+        application.save
+      end
+    end
   end
 end

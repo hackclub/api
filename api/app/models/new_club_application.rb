@@ -119,6 +119,10 @@ class NewClubApplication < ApplicationRecord
     submitted_at.present?
   end
 
+  def interviewed?
+    interviewed_at.present?
+  end
+
   def accept!
     if accepted?
       errors.add(:base, 'already accepted')

@@ -25,6 +25,10 @@ class NewClubApplicationPolicy < ApplicationPolicy
     user_added?
   end
 
+  def unsubmit?
+    user.admin?
+  end
+
   def accept?
     user.admin?
   end
