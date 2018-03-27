@@ -10,7 +10,7 @@ module Hackbot
       include Concerns::Followupable
 
       TASK_ASSIGNEE = Rails.application.secrets.default_streak_task_assignee
-      SURVEY_WEEK = false
+      SURVEY_WEEK = true
 
       def should_start?
         false
