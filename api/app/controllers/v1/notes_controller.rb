@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module V1
-  # This controller is set up in a bit of a unique way -- since notes can be
+  # This controller is set up in a bit of a unique way. Since notes can be
   # created and listed at multiple routes, like so:
   #
   #   GET or POST /v1/new_club_applications/:id/notes
