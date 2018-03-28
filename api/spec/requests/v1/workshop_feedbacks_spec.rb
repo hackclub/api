@@ -7,7 +7,12 @@ RSpec.describe 'V1::WorkshopFeedbacks', type: :request do
     let(:params) { {} } # override in subtests
 
     before do
-      post '/v1/workshop_feedbacks', params: params
+      # wrap in perform_enqueued_jobs so the job to send out the notification
+      # email is ran so we can test that the admin notification was actually
+      # queued
+      perform_enqueued_jobs do
+        post '/v1/workshop_feedbacks', params: params
+      end
     end
 
     it 'fails gracefully' do
@@ -29,6 +34,9 @@ RSpec.describe 'V1::WorkshopFeedbacks', type: :request do
       it 'succeeds' do
         expect(response.status).to eq(201)
         expect(json['id']).to be_present
+
+        # queues email
+        expect(WorkshopFeedbackMailer.deliveries.length).to eq(1)
       end
     end
   end

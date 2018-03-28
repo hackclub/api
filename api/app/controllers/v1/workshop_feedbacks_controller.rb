@@ -10,6 +10,7 @@ module V1
       )
 
       if feedback.save
+        WorkshopFeedbackMailer.admin_notification(feedback).deliver_later
         render_success feedback, 201
       else
         render_field_errors feedback.errors

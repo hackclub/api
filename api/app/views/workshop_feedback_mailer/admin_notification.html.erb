@@ -1,0 +1,23 @@
+<p>
+  <b>Workshop:</b>
+  <a href="https://hackclub.com/workshops/<%= @feedback.workshop_slug %>">
+    https://hackclub.com/workshops/<%= @feedback.workshop_slug %>
+  </a>
+</p>
+<p><b>IP Address:</b> <%= @feedback.ip_address %></p>
+<p><b>Feedback:</b></p>
+<ul>
+<% @feedback.feedback.each do |question, answer| %>
+  <li>
+    <b><%= question %></b>
+    <ul>
+      <li><%= answer %></li>
+    </ul>
+  </li>
+</li>
+<% end %>
+</uL>
+<p>
+Yours truly,<br />
+Monolith
+</p>

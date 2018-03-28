@@ -1,0 +1,11 @@
+Workshop: https://hackclub.com/workshops/<%= @feedback.workshop_slug %>
+IP Address: <%= @feedback.ip_address %>
+<% @feedback.feedback.each do |question, answer| %>
+
+| <%= question %> |
+
+<%= answer %>
+<% end %>
+
+Yours truly,
+Monolith
