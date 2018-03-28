@@ -7,6 +7,7 @@ class NewClub < ApplicationRecord
 
   has_many :leadership_positions
   has_many :new_leaders, through: :leadership_positions
+  has_many :notes, as: :noteable
 
   validates :high_school_name, :high_school_address, presence: true
 

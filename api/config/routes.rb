@@ -35,6 +35,10 @@ Rails.application.routes.draw do
 
     resources :leader_profiles, only: %i[show update]
 
+    resources :new_clubs, only: [] do
+      resources :notes, only: %i[index create]
+    end
+
     resources :users, only: [:show] do
       collection do
         post 'auth'

@@ -3,13 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe 'V1::Notes', type: :request do
-  let(:user) { create(:user_authed) }
+  let(:user) { create(:user_admin_authed) }
   let(:auth_headers) { { Authorization: "Bearer #{user.auth_token}" } }
-
-  before do
-    user.make_admin!
-    user.save
-  end
 
   describe 'GET /v1/new_club_applications/:id/notes' do
     let(:application) { create(:new_club_application) }
@@ -39,6 +34,40 @@ RSpec.describe 'V1::Notes', type: :request do
 
       expect(response.status).to eq(200)
       expect(json.length).to eq(3)
+    end
+  end
+
+  describe 'GET /v1/new_clubs/:id/notes' do
+    let(:club) { create(:new_club) }
+
+    let(:headers) { {} } # override in subtests
+
+    before do
+      3.times { club.notes.create(user: user, body: 'Test note') }
+
+      get "/v1/new_clubs/#{club.id}/notes", headers: headers
+    end
+
+    it 'requires authentication' do
+      expect(response.status).to eq(401)
+    end
+
+    context 'when logged in' do
+      let(:user) { create(:user_authed) }
+      let(:headers) { auth_headers }
+
+      it 'fails due to lack of permissions' do
+        expect(response.status).to eq(403)
+      end
+
+      context 'as admin' do
+        let(:user) { create(:user_admin_authed) }
+
+        it 'succeeds' do
+          expect(response.status).to eq(200)
+          expect(json.length).to eq(3)
+        end
+      end
     end
   end
 
@@ -80,6 +109,50 @@ RSpec.describe 'V1::Notes', type: :request do
 
       expect(response.status).to eq(422)
       expect(json['errors']).to include('body')
+    end
+  end
+
+  describe 'POST /v1/new_clubs/:id/notes' do
+    let(:club) { create(:new_club) }
+
+    # override in subtests
+    let(:headers) { {} }
+    let(:params) { {} }
+
+    before do
+      post "/v1/new_clubs/#{club.id}/notes",
+           headers: headers,
+           params: params
+    end
+
+    it 'requires authentication' do
+      expect(response.status).to eq(401)
+    end
+
+    context 'when logged in' do
+      let(:user) { create(:user_authed) }
+      let(:headers) { auth_headers }
+
+      it 'fails due to lack of authorization' do
+        expect(response.status).to eq(403)
+      end
+
+      context 'as admin' do
+        let(:user) { create(:user_admin_authed) }
+
+        it 'fails due to invalid params' do
+          expect(response.status).to eq(422)
+        end
+
+        context 'with valid params' do
+          let(:params) { { body: 'Test note' } }
+
+          it 'creates a new note' do
+            expect(response.status).to eq(201)
+            expect(json['body']).to eq('Test note')
+          end
+        end
+      end
     end
   end
 
