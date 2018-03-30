@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_03_28_010217) do
+ActiveRecord::Schema.define(version: 2018_03_30_220755) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -179,6 +179,26 @@ ActiveRecord::Schema.define(version: 2018_03_28_010217) do
     t.string "stripe_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "event_email_subscribers", force: :cascade do |t|
+    t.text "email"
+    t.text "location"
+    t.decimal "latitude"
+    t.decimal "longitude"
+    t.text "parsed_address"
+    t.text "parsed_city"
+    t.text "parsed_state"
+    t.text "parsed_state_code"
+    t.text "parsed_postal_code"
+    t.text "parsed_country"
+    t.text "parsed_country_code"
+    t.datetime "unsubscribed_at"
+    t.text "unsubscribe_token"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_event_email_subscribers_on_email", unique: true
+    t.index ["unsubscribe_token"], name: "index_event_email_subscribers_on_unsubscribe_token", unique: true
   end
 
   create_table "events", force: :cascade do |t|
