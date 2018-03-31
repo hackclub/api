@@ -37,7 +37,9 @@ module V1
 
       subscriber.update_attributes(confirmed_at: Time.current)
 
-      render_success subscriber
+      render plain: 'Email confirmed! You will now receive notifications for '\
+        "events added near #{subscriber.parsed_city}, "\
+        "#{subscriber.parsed_state}."
     end
 
     def unsubscribe
@@ -53,7 +55,9 @@ module V1
 
       subscriber.update_attributes(unsubscribed_at: Time.current)
 
-      render_success subscriber
+      render plain: "Successfully unsubscribed. If you'd like to re-subscribe "\
+        'in the future, go ahead and fill out the form on '\
+        'https://hackathons.hackclub.com.'
     end
 
     private

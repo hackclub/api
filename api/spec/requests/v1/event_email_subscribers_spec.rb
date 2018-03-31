@@ -79,7 +79,7 @@ RSpec.describe 'V1::EventEmailSubscribers', type: :request do
       it 'succeeds' do
         expect(response.status).to eq(200)
         expect(
-          Time.zone.parse(json['confirmed_at'])
+          subscriber.reload.confirmed_at
         ).to be_within(1.minute).of(Time.current)
       end
 
@@ -118,7 +118,7 @@ RSpec.describe 'V1::EventEmailSubscribers', type: :request do
       it 'succeeds' do
         expect(response.status).to eq(200)
         expect(
-          Time.zone.parse(json['unsubscribed_at'])
+          subscriber.reload.unsubscribed_at
         ).to be_within(1.minute).of(Time.current)
       end
 

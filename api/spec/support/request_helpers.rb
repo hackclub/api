@@ -3,6 +3,8 @@
 module Requests
   module RequestHelpers
     def json
+      return nil unless response['Content-Type'].include?('application/json')
+
       @json || JSON.parse(response.body)
     end
 
