@@ -30,6 +30,10 @@ RSpec.describe 'V1::EventEmailSubscribers', type: :request do
         expect(json['id']).to be_present
         expect(json['email']).to eq('foo@bar.com')
 
+        # does not return sensitive fields
+        expect(json['confirmation_token']).to_not be_present
+        expect(json['unsubscribe_token']).to_not be_present
+
         # sent confirmation email
         expect(EventEmailSubscriberMailer.deliveries.length).to be(1)
       end
