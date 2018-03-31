@@ -38,8 +38,7 @@ module V1
       subscriber.update_attributes(confirmed_at: Time.current)
 
       render plain: 'Email confirmed! You will now receive notifications for '\
-        "events added near #{subscriber.parsed_city}, "\
-        "#{subscriber.parsed_state}."
+        "events added near #{subscriber.parsed_address}."
     end
 
     def unsubscribe
