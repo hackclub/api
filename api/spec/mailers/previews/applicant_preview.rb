@@ -3,8 +3,7 @@
 # Preview all emails at http://localhost:3000/rails/mailers/applicant
 class ApplicantPreview < ActionMailer::Preview
   def login_code
-    applicant = FactoryBot.create(:applicant)
-    applicant.generate_login_code && applicant.save
+    applicant = FactoryBot.create(:user_authed)
 
     ApplicantMailer.login_code(applicant)
   end

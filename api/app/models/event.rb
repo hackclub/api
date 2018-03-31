@@ -21,7 +21,12 @@ class Event < ApplicationRecord
                 country: :parsed_country,
                 country_code: :parsed_country_code
 
+  after_create :queue_notification_emails
   after_commit :trigger_rebuild
+
+  def queue_notification_emails
+    SendEventNotificationEmailsJob.set(wait: 1.day).perform_later(id)
+  end
 
   def trigger_rebuild
     RebuildHackathonsSiteJob.perform_later

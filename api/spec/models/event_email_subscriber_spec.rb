@@ -27,8 +27,13 @@ RSpec.describe EventEmailSubscriber, type: :model do
   it { should have_db_column :unsubscribed_at }
   it { should have_db_column :unsubscribe_token }
 
+  # for confirming the email is valid
+  it { should have_db_column :confirmed_at }
+  it { should have_db_column :confirmation_token }
+
   it { should have_db_index(:email).unique(true) }
   it { should have_db_index(:unsubscribe_token).unique(true) }
+  it { should have_db_index(:confirmation_token).unique(true) }
 
   ## validations ##
 
@@ -37,16 +42,21 @@ RSpec.describe EventEmailSubscriber, type: :model do
 
   it { should validate_uniqueness_of :email }
   it { should validate_uniqueness_of :unsubscribe_token }
+  it { should validate_uniqueness_of :confirmation_token }
 
   ## other stuff ##
 
   it_behaves_like 'Geocodeable'
 
-  it 'generates unsubscription token on first save' do
+  it 'generates unsubscription token on creation' do
     expect(subject.persisted?).to eq(false)
-
     subject.save
-
     expect(subject.unsubscribe_token).to match(/.{32}/)
+  end
+
+  it 'generates confirmation token on creation' do
+    expect(subject.persisted?).to eq(false)
+    subject.save
+    expect(subject.confirmation_token).to match(/.{32}/)
   end
 end

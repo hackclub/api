@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_03_30_220755) do
+ActiveRecord::Schema.define(version: 2018_03_30_224038) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -197,6 +197,9 @@ ActiveRecord::Schema.define(version: 2018_03_30_220755) do
     t.text "unsubscribe_token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "confirmed_at"
+    t.text "confirmation_token"
+    t.index ["confirmation_token"], name: "index_event_email_subscribers_on_confirmation_token", unique: true
     t.index ["email"], name: "index_event_email_subscribers_on_email", unique: true
     t.index ["unsubscribe_token"], name: "index_event_email_subscribers_on_unsubscribe_token", unique: true
   end

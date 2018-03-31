@@ -1,0 +1,26 @@
+<p>Hi,</p>
+<p>A new event on <a href="https://hackathons.hackclub.com">https://hackathons.hackclub.com</a> has been added near you.</p>
+<p>
+  <b><%= @event.name %></b><br />
+  <b>
+    <%= @event.start.strftime('%b %e') %> -
+    <%= @event.end.strftime('%b %e') %>,
+    <%= @event.end.strftime('%Y') %>
+  </b><br />
+  <b>Location: <%= @event.parsed_city %>, <%= @event.parsed_state %></b><br />
+  <b>Address: <%= link_to @event.website, @event.website %></b><br />
+</p>
+<p>
+As a reminder, all events listed are:
+<ul>
+  <li>Organized by students</li>
+  <li>Target high schoolers</li>
+  <li>Free for attendees</li>
+</ul>
+</p>
+<p>- Hack Club</p>
+<p><em>
+  (if you no longer want to receive these emails, please click
+  <%= link_to 'here', unsubscribe_v1_event_email_subscribers_url(token: @subscriber.unsubscribe_token) %>
+  )
+</em></p>

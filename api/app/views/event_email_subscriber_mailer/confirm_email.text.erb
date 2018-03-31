@@ -1,0 +1,9 @@
+Hi,
+
+Somebody (hopefully you!) requested to add <%= @subscriber.email %> to the events mailing list for https://hackathons.hackclub.com. 
+
+Subscribing means that you'll receive an automated email whenever a new event is added in your area. We'll never spam you and you can always unsubscribe.
+
+To confirm, please go to <%= confirm_v1_event_email_subscribers_url(token: @subscriber.confirmation_token) %>. If you don't want to subscribe, you can safely ignore this email.
+
+- Hack Club

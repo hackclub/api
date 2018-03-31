@@ -52,6 +52,13 @@ Rails.application.routes.draw do
     end
 
     resources :events, only: %i[index create update destroy]
+    resources :event_email_subscribers, only: :create do
+      collection do
+        get 'confirm'
+        get 'unsubscribe'
+      end
+    end
+
     resources :attachments, only: %i[create show]
 
     resources :challenges, only: %i[index create show] do

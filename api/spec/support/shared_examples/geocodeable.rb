@@ -74,5 +74,21 @@ RSpec.shared_examples 'Geocodeable' do
         obj.save
       end
     end
+
+    it "doesn't geocode when latitude or longitude is manually set" do
+      # test lat
+      set_address(obj, 'Los Angeles')
+      set_address(obj, 12.34, attr_mappings[:latitude])
+      obj.save
+
+      expect(get_val(obj.reload, attr_mappings[:latitude])).to eq(12.34)
+
+      # test lng
+      set_address(obj, 'Chicago')
+      set_address(obj, 43.21, attr_mappings[:longitude])
+      obj.save
+
+      expect(get_val(obj.reload, attr_mappings[:longitude])).to eq(43.21)
+    end
   end
 end

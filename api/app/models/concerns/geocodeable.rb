@@ -36,6 +36,11 @@ module Geocodeable
       end
 
       before_validation :geocode, if: (lambda do |obj|
+        # if the latitude or longitude were manually set, do not geocode
+        if obj.send("#{attr_mappings[:latitude]}_changed?") ||
+           obj.send("#{attr_mappings[:longitude]}_changed?")
+          return false
+        end
         obj.send(address).present? && obj.send("#{address}_changed?")
       end)
     end

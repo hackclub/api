@@ -50,5 +50,10 @@ module Api
       g.view_specs false
       g.helper_specs false
     end
+
+    # Default URL for generated links in email templates
+    config.action_mailer.default_url_options = {
+      host: Rails.application.secrets.action_mailer_default_host || 'localhost'
+    }
   end
 end

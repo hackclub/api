@@ -51,6 +51,12 @@ RSpec.describe Event, type: :model do
     end.to have_enqueued_job(RebuildHackathonsSiteJob)
   end
 
+  it 'sends notification email after creation' do
+    expect do
+      subject.save
+    end.to have_enqueued_job(SendEventNotificationEmailsJob)
+  end
+
   it 'soft deletes, not permanently' do
     event = create(:event)
 
