@@ -51,10 +51,20 @@ RSpec.describe Event, type: :model do
     end.to have_enqueued_job(RebuildHackathonsSiteJob)
   end
 
-  it 'sends notification email after creation' do
-    expect do
-      subject.save
-    end.to have_enqueued_job(SendEventNotificationEmailsJob)
+  describe '#queue_notification_emails' do
+    it 'sends notification email after creation if event is in the future' do
+      expect(subject.start > Time.current).to be(true)
+      expect do
+        subject.save
+      end.to have_enqueued_job(SendEventNotificationEmailsJob)
+    end
+
+    it 'does not sent notification if event is in the past' do
+      subject.start = 3.days.ago
+      expect do
+        subject.save
+      end.to_not have_enqueued_job(SendEventNotificationEmailsJob)
+    end
   end
 
   it 'soft deletes, not permanently' do

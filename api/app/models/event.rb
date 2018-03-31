@@ -25,7 +25,9 @@ class Event < ApplicationRecord
   after_commit :trigger_rebuild
 
   def queue_notification_emails
-    SendEventNotificationEmailsJob.set(wait: 1.day).perform_later(id)
+    if self.start > Time.current
+      SendEventNotificationEmailsJob.set(wait: 1.day).perform_later(id)
+    end
   end
 
   def trigger_rebuild
