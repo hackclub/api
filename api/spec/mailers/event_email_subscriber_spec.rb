@@ -42,7 +42,7 @@ RSpec.describe EventEmailSubscriberMailer, type: :mailer do
     end
 
     it 'includes event info' do
-      expect(mail).to have_body_text(event.title)
+      expect(mail).to have_body_text(event.name)
       expect(mail).to have_body_text(event.website)
     end
   end
