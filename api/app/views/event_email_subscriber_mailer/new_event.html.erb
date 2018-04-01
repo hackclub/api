@@ -20,7 +20,9 @@ As a reminder, all events listed are:
 </p>
 <p>- Hack Club</p>
 <p><em>
-  (if you no longer want to receive these emails, please click
-  <%= link_to 'here', unsubscribe_v1_event_email_subscribers_url(token: @subscriber.unsubscribe_token) %>
-  )
+  (click
+  <%= link_to 'here', "https://docs.google.com/forms/d/e/1FAIpQLSc-gMsQQB8egFAo4kaQkEmXJNp8QOp6d09LFbN5yyYmo6U1-Q/viewform?entry.985618367=#{@subscriber.link_tracking_token}&entry.1421053073=#{@event.id}" %>
+  to share feedback on this email. if you no longer want to receive these
+  emails, please click
+  <%= link_to 'here', unsubscribe_v1_event_email_subscribers_url(token: @subscriber.unsubscribe_token) %>)
 </em></p>

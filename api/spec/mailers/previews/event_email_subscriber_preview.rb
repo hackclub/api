@@ -10,7 +10,11 @@ class EventEmailSubscriberPreview < ActionMailer::Preview
 
   def new_event
     subscriber = FactoryBot.create(:event_email_subscriber_confirmed)
-    event = FactoryBot.build(:event, parsed_city: 'Chicago', parsed_state: 'IL')
+    event = FactoryBot.create(
+      :event,
+      parsed_city: 'Chicago',
+      parsed_state: 'IL'
+    )
 
     EventEmailSubscriberMailer.new_event(subscriber, event)
   end
