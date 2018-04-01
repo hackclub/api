@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Event < ApplicationRecord
+  include Rails.application.routes.url_helpers
   include Geocodeable
 
   acts_as_paranoid
@@ -32,5 +33,19 @@ class Event < ApplicationRecord
 
   def trigger_rebuild
     RebuildHackathonsSiteJob.perform_later
+  end
+
+  def website_redirect(event_email_subscriber = nil)
+    return nil unless persisted?
+
+    if event_email_subscriber
+      url_for [
+        :v1_event_redirect,
+        event_id: id,
+        token: event_email_subscriber.link_tracking_token
+      ]
+    else
+      url_for [:v1_event_redirect, event_id: id]
+    end
   end
 end

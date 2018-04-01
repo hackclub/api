@@ -43,7 +43,7 @@ RSpec.describe EventEmailSubscriberMailer, type: :mailer do
 
     it 'includes event info' do
       expect(mail).to have_body_text(event.name)
-      expect(mail).to have_body_text(event.website)
+      expect(mail).to have_body_text(event.website_redirect(subscriber))
     end
   end
 

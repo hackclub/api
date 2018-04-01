@@ -12,9 +12,14 @@ class EventEmailSubscriber < ApplicationRecord
 
   before_create :generate_unsubscribe_token
   before_create :generate_confirmation_token
+  before_create :generate_link_tracking_token
 
   validates :email, :location, presence: true
-  validates :email, :unsubscribe_token, :confirmation_token, uniqueness: true
+  validates :email,
+            :unsubscribe_token,
+            :confirmation_token,
+            :link_tracking_token,
+            uniqueness: true
 
   geocode_attrs address: :location,
                 latitude: :latitude,
@@ -33,5 +38,9 @@ class EventEmailSubscriber < ApplicationRecord
 
   def generate_confirmation_token
     self.confirmation_token = SecureRandom.hex
+  end
+
+  def generate_link_tracking_token
+    self.link_tracking_token = SecureRandom.hex
   end
 end

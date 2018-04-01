@@ -55,5 +55,9 @@ module Api
     config.action_mailer.default_url_options = {
       host: Rails.application.secrets.action_mailer_default_host || 'localhost'
     }
+
+    # set default url options to same stuff as actionmailer - see
+    # https://stackoverflow.com/a/48530150
+    routes.default_url_options = config.action_mailer.default_url_options
   end
 end

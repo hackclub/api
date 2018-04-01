@@ -8,7 +8,7 @@
     <%= @event.end.strftime('%Y') %>
   </b><br />
   <b>Location: <%= @event.parsed_city %>, <%= @event.parsed_state %></b><br />
-  <b>Address: <%= link_to @event.website, @event.website %></b><br />
+  <b>Website: <%= link_to @event.website, @event.website_redirect(@subscriber) %></b><br />
 </p>
 <p>
 As a reminder, all events listed are:

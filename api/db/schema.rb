@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_03_30_224038) do
+ActiveRecord::Schema.define(version: 2018_04_01_015333) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -199,9 +199,23 @@ ActiveRecord::Schema.define(version: 2018_03_30_224038) do
     t.datetime "updated_at", null: false
     t.datetime "confirmed_at"
     t.text "confirmation_token"
+    t.text "link_tracking_token"
     t.index ["confirmation_token"], name: "index_event_email_subscribers_on_confirmation_token", unique: true
     t.index ["email"], name: "index_event_email_subscribers_on_email", unique: true
+    t.index ["link_tracking_token"], name: "index_event_email_subscribers_on_link_tracking_token", unique: true
     t.index ["unsubscribe_token"], name: "index_event_email_subscribers_on_unsubscribe_token", unique: true
+  end
+
+  create_table "event_website_clicks", force: :cascade do |t|
+    t.bigint "event_id"
+    t.bigint "event_email_subscriber_id"
+    t.inet "ip_address"
+    t.text "referer"
+    t.text "user_agent"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_email_subscriber_id"], name: "index_event_website_clicks_on_event_email_subscriber_id"
+    t.index ["event_id"], name: "index_event_website_clicks_on_event_id"
   end
 
   create_table "events", force: :cascade do |t|
@@ -552,6 +566,8 @@ ActiveRecord::Schema.define(version: 2018_03_30_224038) do
   add_foreign_key "check_ins", "clubs"
   add_foreign_key "check_ins", "leaders"
   add_foreign_key "clubs", "leaders", column: "point_of_contact_id"
+  add_foreign_key "event_website_clicks", "event_email_subscribers"
+  add_foreign_key "event_website_clicks", "events"
   add_foreign_key "leadership_positions", "new_clubs"
   add_foreign_key "leadership_positions", "new_leaders"
   add_foreign_key "net_promoter_score_surveys", "leaders"
