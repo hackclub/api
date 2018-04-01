@@ -54,6 +54,9 @@ module V1
 
       subscriber.update_attributes(unsubscribed_at: Time.current)
 
+      # send confirmation email
+      EventEmailSubscriberMailer.unsubscribe(subscriber).deliver_later
+
       render plain: "Successfully unsubscribed. If you'd like to re-subscribe "\
         'in the future, go ahead and fill out the form on '\
         'https://hackathons.hackclub.com.'

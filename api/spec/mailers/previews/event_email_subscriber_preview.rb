@@ -14,4 +14,10 @@ class EventEmailSubscriberPreview < ActionMailer::Preview
 
     EventEmailSubscriberMailer.new_event(subscriber, event)
   end
+
+  def unsubscribe
+    subscriber = FactoryBot.create(:event_email_subscriber_unsubscribed)
+
+    EventEmailSubscriberMailer.unsubscribe(subscriber)
+  end
 end

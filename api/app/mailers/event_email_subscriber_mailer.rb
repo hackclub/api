@@ -17,4 +17,9 @@ class EventEmailSubscriberMailer < ApplicationMailer
 
     mail to: subscriber.email, subject: "EVENT: #{@event.name}"
   end
+
+  def unsubscribe(subscriber)
+    @subscriber = subscriber
+    mail to: subscriber.email, subject: 'Unsubscription Confirmation'
+  end
 end

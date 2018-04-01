@@ -46,4 +46,19 @@ RSpec.describe EventEmailSubscriberMailer, type: :mailer do
       expect(mail).to have_body_text(event.website)
     end
   end
+
+  describe 'unsubscribe' do
+    let(:subscriber) { create(:event_email_subscriber_unsubscribed) }
+    let(:mail) { EventEmailSubscriberMailer.unsubscribe(subscriber) }
+
+    it 'is from hackathons@hackclub.com' do
+      email = 'Hack Club Hackathons <hackathons@hackclub.com>'
+      expect(mail).to deliver_from(email)
+      expect(mail).to reply_to(email)
+    end
+
+    it 'is sent to subscriber' do
+      expect(mail).to deliver_to(subscriber.email)
+    end
+  end
 end

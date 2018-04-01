@@ -100,7 +100,12 @@ RSpec.describe 'V1::EventEmailSubscribers', type: :request do
   describe 'GET /v1/event_email_subscribers/unsubscribe?token=...' do
     let(:params) { {} } # override in subtests
 
-    before { get '/v1/event_email_subscribers/unsubscribe', params: params }
+    before do
+      # so we can check if activemailer is triggered
+      perform_enqueued_jobs do
+        get '/v1/event_email_subscribers/unsubscribe', params: params
+      end
+    end
 
     it 'fails gracefully' do
       expect(response.status).to eq(422)
@@ -124,6 +129,9 @@ RSpec.describe 'V1::EventEmailSubscribers', type: :request do
         expect(
           subscriber.reload.unsubscribed_at
         ).to be_within(1.minute).of(Time.current)
+
+        # sends email confirming unsubscription
+        expect(EventEmailSubscriberMailer.deliveries.length).to be(1)
       end
 
       context 'when subscriber has already unsubscribed' do
