@@ -13,7 +13,7 @@ class SendEventNotificationEmailsJob < ApplicationJob
 
     EventEmailSubscriber
       .subscribed
-      .near([e.latitude, e.longitude], 100)
+      .near([e.latitude, e.longitude], 60)
       .find_each do |subscriber|
       EventEmailSubscriberMailer.new_event(subscriber, e).deliver_later
     end
