@@ -67,6 +67,32 @@ RSpec.describe Event, type: :model do
     end
   end
 
+  describe '#website_redirect' do
+    it 'returns nil when website is not persisted' do
+      expect(subject.website_redirect).to be_nil
+    end
+
+    context 'after persistence' do
+      before { subject.save }
+
+      it 'returns redirect url as expected' do
+        expect(subject.website_redirect).to include(
+          "/v1/events/#{subject.id}/redirect"
+        )
+      end
+
+      context 'with passed subscriber' do
+        let(:subscriber) { create(:event_email_subscriber_confirmed) }
+
+        it 'includes link tracking token' do
+          expect(subject.website_redirect(subscriber)).to include(
+            "?token=#{subscriber.link_tracking_token}"
+          )
+        end
+      end
+    end
+  end
+
   it 'soft deletes, not permanently' do
     event = create(:event)
 

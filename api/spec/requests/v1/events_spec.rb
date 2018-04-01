@@ -25,6 +25,7 @@ RSpec.describe 'V1::Events', type: :request do
         'end',
         'name',
         'website',
+        'website_redirect',
         'address',
         'latitude',
         'longitude',

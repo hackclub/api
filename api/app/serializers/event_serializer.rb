@@ -8,6 +8,7 @@ class EventSerializer < ActiveModel::Serializer
              :end,
              :name,
              :website,
+             :website_redirect,
              :address,
              :latitude,
              :longitude,

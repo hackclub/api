@@ -51,7 +51,10 @@ Rails.application.routes.draw do
       resources :new_club_applications, only: %i[index create]
     end
 
-    resources :events, only: %i[index create update destroy]
+    resources :events, only: %i[index create update destroy] do
+      get 'redirect', to: 'event_website_clicks#create'
+    end
+
     resources :event_email_subscribers, only: :create do
       collection do
         get 'confirm'
