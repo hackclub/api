@@ -4,12 +4,8 @@ require 'rails_helper'
 
 RSpec.describe Attachment, type: :model do
   before do
-    File.open(test_files.join('event_logo.png')) do |f|
-      subject.file.attach(
-        io: f, filename: 'event_logo.png', content_type: 'image/png'
-      )
-      subject.save # ensure everything - including the file - is persisted
-    end
+    attach_file(subject.file, test_files.join('event_logo.png'))
+    subject.save # ensure everything - including the file - is persisted
   end
 
   ## db columns ##

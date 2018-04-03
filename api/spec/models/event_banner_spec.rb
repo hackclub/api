@@ -10,11 +10,7 @@ RSpec.describe EventBanner, type: :model do
   end
 
   it 'ensures uploaded file is an image' do
-    File.open(test_files.join('poem.txt')) do |f|
-      subject.file.attach(
-        io: f, filename: File.basename(f.path), content_type: 'text/plain'
-      )
-    end
+    attach_file(subject.file, test_files.join('poem.txt'))
 
     expect(subject.valid?).to eq(false)
     expect(subject.errors[:file]).to include('must be an image')

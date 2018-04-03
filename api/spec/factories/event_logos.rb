@@ -3,11 +3,7 @@
 FactoryBot.define do
   factory :event_logo do
     after(:build) do |logo|
-      File.open(test_files.join('event_logo.png')) do |f|
-        logo.file.attach(
-          io: f, filename: File.basename(f.path), content_type: 'image/png'
-        )
-      end
+      attach_file(logo.file, test_files.join('event_logo.png'))
     end
   end
 end
