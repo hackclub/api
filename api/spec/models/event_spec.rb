@@ -40,6 +40,7 @@ RSpec.describe Event, type: :model do
 
   it { should have_one :logo }
   it { should have_one :banner }
+  it { should have_many :photos }
 
   it_behaves_like 'Geocodeable'
 

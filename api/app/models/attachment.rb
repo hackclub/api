@@ -18,7 +18,7 @@ class Attachment < ApplicationRecord
     file
   end
 
-  def file_path
-    polymorphic_url(file_to_render, only_path: true)
+  def file_path(file = file_to_render)
+    polymorphic_url(file, only_path: true)
   end
 end

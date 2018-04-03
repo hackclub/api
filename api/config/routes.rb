@@ -53,6 +53,8 @@ Rails.application.routes.draw do
 
     resources :events, only: %i[index create update destroy] do
       get 'redirect', to: 'event_website_clicks#create'
+
+      resources :event_media, path: '/media', only: %i[index create destroy]
     end
 
     resources :event_email_subscribers, only: :create do
