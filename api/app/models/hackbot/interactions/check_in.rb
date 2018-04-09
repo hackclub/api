@@ -590,7 +590,7 @@ module Hackbot
       def submit_check_in
         task_description = data['notes'] || data['no_meeting_reason']
 
-        if task_description
+        if task_description && task_description != 'School break'
           src = data['meeting_date'] ? 'check_in' : 'a failed meeting'
           create_task(leader, "Follow-up on notes from #{src}: "\
                               "#{task_description}")
