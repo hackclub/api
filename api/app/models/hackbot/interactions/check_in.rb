@@ -82,8 +82,8 @@ module Hackbot
           ]
         )
 
-        default_follow_up 'wait_for_organized_events'
-        :wait_for_organized_events
+        default_follow_up 'wait_for_women_demographics'
+        :wait_for_women_demographics
       end
 
       def wait_for_organized_events
