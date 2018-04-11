@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_04_01_015333) do
+ActiveRecord::Schema.define(version: 2018_04_11_232136) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -239,6 +239,8 @@ ActiveRecord::Schema.define(version: 2018_04_01_015333) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
+    t.boolean "hack_club_associated"
+    t.text "hack_club_associated_notes"
     t.index ["deleted_at"], name: "index_events_on_deleted_at"
   end
 
@@ -489,6 +491,24 @@ ActiveRecord::Schema.define(version: 2018_04_01_015333) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "recognized_faces", force: :cascade do |t|
+    t.bigint "attachment_id"
+    t.bigint "recognized_person_id"
+    t.text "external_face_id"
+    t.json "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["attachment_id"], name: "index_recognized_faces_on_attachment_id"
+    t.index ["external_face_id"], name: "index_recognized_faces_on_external_face_id"
+    t.index ["recognized_person_id"], name: "index_recognized_faces_on_recognized_person_id"
+  end
+
+  create_table "recognized_people", force: :cascade do |t|
+    t.text "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "slack_analytic_logs", id: :serial, force: :cascade do |t|
     t.json "data"
     t.datetime "created_at", null: false
@@ -574,6 +594,8 @@ ActiveRecord::Schema.define(version: 2018_04_01_015333) do
   add_foreign_key "new_club_applications", "new_clubs"
   add_foreign_key "new_club_applications", "users", column: "point_of_contact_id"
   add_foreign_key "notes", "users"
+  add_foreign_key "recognized_faces", "attachments"
+  add_foreign_key "recognized_faces", "recognized_people"
   add_foreign_key "slack_invite_strategies", "hackbot_teams"
   add_foreign_key "slack_invites", "hackbot_teams"
   add_foreign_key "slack_invites", "slack_invite_strategies"

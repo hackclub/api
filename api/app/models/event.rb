@@ -7,6 +7,17 @@ class Event < ApplicationRecord
   acts_as_paranoid
 
   validates :start, :end, :name, :website, :address, presence: true
+  validates :hack_club_associated, inclusion: { in: [true, false] }
+
+  validate :hack_club_associated_notes_set_if_needed
+
+  # hack_club_associated_notes should be set if hack_club_associated is true
+  def hack_club_associated_notes_set_if_needed
+    return unless hack_club_associated
+    return if hack_club_associated_notes.present?
+
+    errors.add(:hack_club_associated_notes, "can't be blank")
+  end
 
   has_one :logo, as: :attachable, class_name: 'EventLogo'
   has_one :banner, as: :attachable, class_name: 'EventBanner'
@@ -23,8 +34,15 @@ class Event < ApplicationRecord
                 country: :parsed_country,
                 country_code: :parsed_country_code
 
+  after_initialize :default_values
   after_create :queue_notification_emails
   after_commit :trigger_rebuild
+
+  def default_values
+    return if persisted?
+
+    self.hack_club_associated ||= false
+  end
 
   def queue_notification_emails
     return if start < Time.current

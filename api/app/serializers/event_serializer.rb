@@ -9,6 +9,7 @@ class EventSerializer < ActiveModel::Serializer
              :name,
              :website,
              :website_redirect,
+             :hack_club_associated,
              :address,
              :latitude,
              :longitude,

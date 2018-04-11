@@ -26,6 +26,7 @@ RSpec.describe 'V1::Events', type: :request do
         'name',
         'website',
         'website_redirect',
+        'hack_club_associated',
         'address',
         'latitude',
         'longitude',
@@ -45,6 +46,23 @@ RSpec.describe 'V1::Events', type: :request do
         'id', 'created_at', 'updated_at', 'file_path',
         'type' => 'event_banner'
       )
+
+      # excludes bad fields for regular users
+      expect(json[0]).to_not include(
+        'hack_club_associated_notes',
+        'total_attendance',
+        'first_time_hackathon_estimate'
+      )
+    end
+
+    context 'as admin' do
+      let(:user) { create(:user_admin_authed) }
+
+      it 'includes hidden fields' do
+        get '/v1/events', headers: auth_headers
+
+        # TODO: implement
+      end
     end
   end
 

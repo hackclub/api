@@ -15,6 +15,8 @@ RSpec.describe Event, type: :model do
   it { should have_db_column :name }
   it { should have_db_column :website }
   it { should have_db_column :website_archived }
+  it { should have_db_column :hack_club_associated }
+  it { should have_db_column :hack_club_associated_notes }
   it { should have_db_column :total_attendance }
   it { should have_db_column :first_time_hackathon_estimate }
   it { should have_db_column :address }
@@ -36,6 +38,26 @@ RSpec.describe Event, type: :model do
   it { should validate_presence_of :website }
   it { should validate_presence_of :address }
 
+  describe 'hack_club_associated fields' do
+    it 'requires hack_club_associated_notes to be set if associated' do
+      expect(subject.valid?).to eq(true)
+
+      subject.hack_club_associated = true
+
+      expect(subject.valid?).to eq(false)
+      expect(subject.errors).to include('hack_club_associated_notes')
+    end
+
+    it 'does not allow hack_club_associated to be nil' do
+      expect(subject.valid?).to eq(true)
+
+      subject.hack_club_associated = nil
+
+      expect(subject.valid?).to eq(false)
+      expect(subject.errors).to include('hack_club_associated')
+    end
+  end
+
   ## relations ##
 
   it { should have_one :logo }
@@ -50,6 +72,12 @@ RSpec.describe Event, type: :model do
     expect do
       subject.update_attributes(name: 'New Name!')
     end.to have_enqueued_job(RebuildHackathonsSiteJob)
+  end
+
+  it 'sets false as default value for hack_club_associated' do
+    e = Event.new
+
+    expect(e.hack_club_associated).to eq(false)
   end
 
   describe '#queue_notification_emails' do
