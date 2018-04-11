@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 class EventEmailSubscriberMailer < ApplicationMailer
-  default from: 'Hack Club Hackathons <hackathons@hackclub.com>',
-          reply_to: 'Hack Club Hackathons <hackathons@hackclub.com>'
+  default from: 'Hack Club Hackathons <hackathons@hackclub.com>'
 
   def confirm_email(subscriber)
     @subscriber = subscriber

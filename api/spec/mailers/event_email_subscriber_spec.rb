@@ -10,7 +10,6 @@ RSpec.describe EventEmailSubscriberMailer, type: :mailer do
     it 'is from hackathons@hackclub.com' do
       email = 'Hack Club Hackathons <hackathons@hackclub.com>'
       expect(mail).to deliver_from(email)
-      expect(mail).to reply_to(email)
     end
 
     it 'is sent to subscriber' do
@@ -30,7 +29,6 @@ RSpec.describe EventEmailSubscriberMailer, type: :mailer do
     it 'is from hackathons@hackclub.com' do
       email = 'Hack Club Hackathons <hackathons@hackclub.com>'
       expect(mail).to deliver_from(email)
-      expect(mail).to reply_to(email)
     end
 
     it 'is sent to subscriber' do
@@ -54,7 +52,6 @@ RSpec.describe EventEmailSubscriberMailer, type: :mailer do
     it 'is from hackathons@hackclub.com' do
       email = 'Hack Club Hackathons <hackathons@hackclub.com>'
       expect(mail).to deliver_from(email)
-      expect(mail).to reply_to(email)
     end
 
     it 'is sent to subscriber' do

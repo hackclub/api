@@ -14,12 +14,8 @@ RSpec.describe ApplicantMailer, type: :mailer do
 
     let(:mail) { ApplicantMailer.login_code(user) }
 
-    it 'is from team@mail.hackclub.com' do
-      expect(mail).to deliver_from('Hack Club Team <team@mail.hackclub.com>')
-    end
-
-    it 'replies to team@hackclub.com' do
-      expect(mail).to reply_to('team@hackclub.com')
+    it 'is from team@hackclub.com' do
+      expect(mail).to deliver_from('Hack Club Team <team@hackclub.com>')
     end
 
     it 'is sent to the user' do
