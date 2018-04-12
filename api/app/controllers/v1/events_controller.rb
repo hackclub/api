@@ -6,6 +6,8 @@ module V1
     include UserAuth
 
     def index
+      authenticate_user if request.headers.include? 'Authorization'
+
       render_success Event.all.includes(
         logo: [file_attachment: :blob],
         banner: [file_attachment: :blob]
@@ -55,6 +57,8 @@ module V1
         :end,
         :name,
         :website,
+        :hack_club_associated,
+        :hack_club_associated_notes,
         :total_attendance,
         :first_time_hackathon_estimate,
         :address

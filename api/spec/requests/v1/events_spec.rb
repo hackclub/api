@@ -61,7 +61,11 @@ RSpec.describe 'V1::Events', type: :request do
       it 'includes hidden fields' do
         get '/v1/events', headers: auth_headers
 
-        # TODO: implement
+        expect(json[0]).to include(
+          'hack_club_associated_notes',
+          'total_attendance',
+          'first_time_hackathon_estimate'
+        )
       end
     end
   end
@@ -98,6 +102,8 @@ RSpec.describe 'V1::Events', type: :request do
                end: 4.days.from_now,
                name: 'TestHacks',
                website: 'https://example.com',
+               hack_club_associated: true,
+               hack_club_associated_notes: 'Just testing!',
                total_attendance: 100,
                first_time_hackathon_estimate: 120,
                address: 'Test Address'
@@ -109,6 +115,8 @@ RSpec.describe 'V1::Events', type: :request do
           'end' => 4.days.from_now.to_date.to_s,
           'name' => 'TestHacks',
           'website' => 'https://example.com',
+          'hack_club_associated' => true,
+          'hack_club_associated_notes' => 'Just testing!',
           'total_attendance' => 100,
           'first_time_hackathon_estimate' => 120,
           'address' => 'Test Address'

@@ -24,6 +24,7 @@ class EventSerializer < ActiveModel::Serializer
   has_one :logo
   has_one :banner
 
+  attribute :hack_club_associated_notes, if: :admin?
   attribute :total_attendance, if: :admin?
   attribute :first_time_hackathon_estimate, if: :admin?
 
