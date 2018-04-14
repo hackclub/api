@@ -13,6 +13,7 @@ RSpec.describe Event, type: :model do
   it { should have_db_column :start }
   it { should have_db_column :end }
   it { should have_db_column :name }
+  it { should have_db_column :public }
   it { should have_db_column :website }
   it { should have_db_column :website_archived }
   it { should have_db_column :hack_club_associated }
@@ -37,6 +38,15 @@ RSpec.describe Event, type: :model do
   it { should validate_presence_of :name }
   it { should validate_presence_of :website }
   it { should validate_presence_of :address }
+
+  it 'requires public to be set' do
+    expect(subject.valid?).to eq(true)
+
+    subject.public = nil
+
+    expect(subject.valid?).to eq(false)
+    expect(subject.errors).to include('public')
+  end
 
   describe 'hack_club_associated fields' do
     it 'requires hack_club_associated_notes to be set if associated' do
@@ -72,6 +82,12 @@ RSpec.describe Event, type: :model do
     expect do
       subject.update_attributes(name: 'New Name!')
     end.to have_enqueued_job(RebuildHackathonsSiteJob)
+  end
+
+  it 'sets true as default value for public' do
+    e = Event.new
+
+    expect(e.public).to eq(true)
   end
 
   it 'sets false as default value for hack_club_associated' do

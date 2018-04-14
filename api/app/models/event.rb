@@ -7,7 +7,7 @@ class Event < ApplicationRecord
   acts_as_paranoid
 
   validates :start, :end, :name, :website, :address, presence: true
-  validates :hack_club_associated, inclusion: { in: [true, false] }
+  validates :public, :hack_club_associated, inclusion: { in: [true, false] }
 
   validate :hack_club_associated_notes_set_if_needed
 
@@ -41,6 +41,7 @@ class Event < ApplicationRecord
   def default_values
     return if persisted?
 
+    self.public = true if public.blank?
     self.hack_club_associated ||= false
   end
 

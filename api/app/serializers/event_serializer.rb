@@ -7,6 +7,7 @@ class EventSerializer < ActiveModel::Serializer
              :start,
              :end,
              :name,
+             :public,
              :website,
              :website_redirect,
              :hack_club_associated,

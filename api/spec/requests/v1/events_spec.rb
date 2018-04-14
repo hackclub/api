@@ -24,6 +24,7 @@ RSpec.describe 'V1::Events', type: :request do
         'start',
         'end',
         'name',
+        'public',
         'website',
         'website_redirect',
         'hack_club_associated',
@@ -55,6 +56,15 @@ RSpec.describe 'V1::Events', type: :request do
       )
     end
 
+    it 'does not return non-public events' do
+      create(:event_w_photos, public: false)
+
+      get '/v1/events'
+
+      # only returns public events
+      expect(json.length).to eq(5)
+    end
+
     context 'as admin' do
       let(:user) { create(:user_admin_authed) }
 
@@ -66,6 +76,16 @@ RSpec.describe 'V1::Events', type: :request do
           'total_attendance',
           'first_time_hackathon_estimate'
         )
+      end
+
+      it 'includes non-public events' do
+        create(:event_w_photos, public: false)
+
+        get '/v1/events', headers: auth_headers
+
+        # also returns private events
+        expect(json.length).to eq(6)
+        expect(json.first).to include('public' => false)
       end
     end
   end
@@ -101,6 +121,7 @@ RSpec.describe 'V1::Events', type: :request do
                start: 3.days.from_now,
                end: 4.days.from_now,
                name: 'TestHacks',
+               public: false,
                website: 'https://example.com',
                hack_club_associated: true,
                hack_club_associated_notes: 'Just testing!',
@@ -114,6 +135,7 @@ RSpec.describe 'V1::Events', type: :request do
           'start' => 3.days.from_now.to_date.to_s,
           'end' => 4.days.from_now.to_date.to_s,
           'name' => 'TestHacks',
+          'public' => false,
           'website' => 'https://example.com',
           'hack_club_associated' => true,
           'hack_club_associated_notes' => 'Just testing!',

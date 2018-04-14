@@ -8,7 +8,9 @@ module V1
     def index
       authenticate_user if request.headers.include? 'Authorization'
 
-      render_success Event.all.includes(
+      events = current_user ? Event.all : Event.where(public: true)
+
+      render_success events.includes(
         logo: [file_attachment: :blob],
         banner: [file_attachment: :blob]
       )
@@ -56,6 +58,7 @@ module V1
         :start,
         :end,
         :name,
+        :public,
         :website,
         :hack_club_associated,
         :hack_club_associated_notes,
