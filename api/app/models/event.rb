@@ -41,7 +41,7 @@ class Event < ApplicationRecord
   def default_values
     return if persisted?
 
-    self.public = true if public.blank?
+    self.public = true if public.nil?
     self.hack_club_associated ||= false
   end
 
