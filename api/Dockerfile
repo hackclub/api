@@ -18,5 +18,3 @@ ENV BUNDLE_GEMFILE=Gemfile \
 RUN bundle install
 
 ADD . /usr/src/app
-
-ENTRYPOINT bin/rails server -p $PORT -e $RAILS_ENV
