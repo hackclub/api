@@ -6,7 +6,9 @@ class ChallengePostSerializer < ActiveModel::Serializer
              :updated_at,
              :name,
              :url,
-             :description
+             :url_redirect,
+             :description,
+             :click_count
 
   has_one :creator
   has_many :upvotes

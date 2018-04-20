@@ -41,8 +41,10 @@ RSpec.describe 'V1::ChallengePost', type: :request do
             'updated_at',
             'name',
             'url',
+            'url_redirect',
             'description',
-            'creator'
+            'creator',
+            'click_count'
           )
           expect(json['creator']).to include(
             'id' => user.id,

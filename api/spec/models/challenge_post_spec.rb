@@ -16,9 +16,46 @@ RSpec.describe ChallengePost, type: :model do
   it { should belong_to :creator }
   it { should belong_to :challenge }
   it { should have_many :upvotes }
+  it { should have_many :clicks }
 
   it { should validate_presence_of :name }
   it { should validate_presence_of :url }
   it { should validate_presence_of :creator }
   it { should validate_presence_of :challenge }
+
+  describe '#url_redirect' do
+    it 'returns nil when url is not persisted' do
+      expect(subject.url_redirect).to be_nil
+    end
+
+    context 'after persistence' do
+      before { subject.save }
+      it 'returns redirect url' do
+        expect(subject.url_redirect). to include(
+          "/v1/posts/#{subject.id}/redirect"
+        )
+      end
+    end
+  end
+
+  describe '#click_count' do
+    it 'returns 0' do
+      expect(subject.click_count).to eq(0)
+    end
+
+    context 'with clicks' do
+      before do
+        5.times do
+          ChallengePostClick.create(
+            challenge_post: subject,
+            ip_address: '127.0.0.1'
+          )
+        end
+      end
+
+      it 'returns the correct amount' do
+        expect(subject.click_count).to eq(5)
+      end
+    end
+  end
 end

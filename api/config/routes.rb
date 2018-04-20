@@ -71,6 +71,7 @@ Rails.application.routes.draw do
     end
     resources :posts, controller: 'challenge_posts', only: [] do
       resources :upvotes, controller: 'challenge_post_upvotes', only: %i[create]
+      get :redirect, to: 'challenge_post_clicks#create'
     end
     resources :upvotes, controller: 'challenge_post_upvotes', only: %i[destroy]
 

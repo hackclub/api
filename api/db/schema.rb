@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_04_14_182253) do
+ActiveRecord::Schema.define(version: 2018_04_20_045844) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -61,6 +61,18 @@ ActiveRecord::Schema.define(version: 2018_04_14_182253) do
     t.datetime "updated_at", null: false
     t.integer "attachable_id"
     t.text "attachable_type"
+  end
+
+  create_table "challenge_post_clicks", force: :cascade do |t|
+    t.bigint "challenge_post_id"
+    t.bigint "user_id"
+    t.inet "ip_address"
+    t.text "referer"
+    t.text "user_agent"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["challenge_post_id"], name: "index_challenge_post_clicks_on_challenge_post_id"
+    t.index ["user_id"], name: "index_challenge_post_clicks_on_user_id"
   end
 
   create_table "challenge_post_upvotes", force: :cascade do |t|
@@ -579,6 +591,8 @@ ActiveRecord::Schema.define(version: 2018_04_14_182253) do
   add_foreign_key "athul_clubs", "clubs"
   add_foreign_key "athul_clubs", "leaders"
   add_foreign_key "athul_clubs", "letters"
+  add_foreign_key "challenge_post_clicks", "challenge_posts"
+  add_foreign_key "challenge_post_clicks", "users"
   add_foreign_key "challenge_post_upvotes", "challenge_posts"
   add_foreign_key "challenge_post_upvotes", "users"
   add_foreign_key "challenge_posts", "challenges"
