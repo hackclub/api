@@ -3,11 +3,14 @@
 require 'rails_helper'
 
 RSpec.describe LeaderProfile, type: :model do
+  subject { build(:leader_profile) }
+
   ## db columns ##
 
   # metadata
   it { should have_db_column :created_at }
   it { should have_db_column :updated_at }
+  it { should have_db_column :deleted_at }
 
   # relations
   it { should have_db_column :user_id }
@@ -45,7 +48,6 @@ RSpec.describe LeaderProfile, type: :model do
   it { should have_db_column :skills_is_technical }
 
   # misc
-  it { should have_db_column :deleted_at }
   it { should have_db_column :completed_at }
 
   ## enums
@@ -61,6 +63,7 @@ RSpec.describe LeaderProfile, type: :model do
   it { should validate_email_format_of :leader_email }
 
   it_behaves_like 'Geocodeable'
+  it_behaves_like 'Recoverable'
 
   ## relationships ##
 
@@ -122,15 +125,5 @@ RSpec.describe LeaderProfile, type: :model do
     expect(profile.errors[:base]).to include(
       'cannot edit leader profile after submit'
     )
-  end
-
-  it 'should preserve information on deletion' do
-    profile = create(:completed_leader_profile)
-    profile.destroy
-
-    deleted = LeaderProfile.with_deleted.find_by(id: profile.id)
-    expect(deleted).to_not be_nil
-    expect(deleted.deleted_at).to be_within(1.minute).of(Time.current)
-    expect(deleted.leader_name).to eq(profile.leader_name)
   end
 end

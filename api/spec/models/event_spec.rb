@@ -31,6 +31,11 @@ RSpec.describe Event, type: :model do
   it { should have_db_column :parsed_country }
   it { should have_db_column :parsed_country_code }
 
+  ## concerns ##
+
+  it_behaves_like 'Recoverable'
+  it_behaves_like 'Geocodeable'
+
   ## validations ##
 
   it { should validate_presence_of :start }
@@ -73,8 +78,6 @@ RSpec.describe Event, type: :model do
   it { should have_one :logo }
   it { should have_one :banner }
   it { should have_many :photos }
-
-  it_behaves_like 'Geocodeable'
 
   ## custom model stuff ##
 
@@ -136,17 +139,5 @@ RSpec.describe Event, type: :model do
         end
       end
     end
-  end
-
-  it 'soft deletes, not permanently' do
-    event = create(:event)
-
-    event.destroy
-
-    expect(Event.find_by(id: event.id)).to eq(nil)
-
-    Event.with_deleted.find(event.id).restore
-
-    expect(Event.find_by(id: event.id)).to_not eq(nil)
   end
 end

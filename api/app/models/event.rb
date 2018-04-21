@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 class Event < ApplicationRecord
-  include Rails.application.routes.url_helpers
+  include Recoverable
   include Geocodeable
 
-  acts_as_paranoid
+  include Rails.application.routes.url_helpers
 
   validates :start, :end, :name, :website, :address, presence: true
   validates :public, :hack_club_associated, inclusion: { in: [true, false] }

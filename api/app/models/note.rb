@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Note < ApplicationRecord
-  acts_as_paranoid
+  include Recoverable
 
   belongs_to :noteable, polymorphic: true
   belongs_to :user

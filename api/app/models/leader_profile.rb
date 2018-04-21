@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
 class LeaderProfile < ApplicationRecord
+  include Recoverable
   include Geocodeable
-
-  # preserve information from record deletions
-  acts_as_paranoid
 
   belongs_to :user
   belongs_to :new_club_application
