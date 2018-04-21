@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 class Challenge < ApplicationRecord
-  has_many :posts, class_name: 'ChallengePost'
+  include Recoverable
+
+  has_many :posts, class_name: 'ChallengePost', dependent: :destroy
   belongs_to :creator, class_name: 'User'
 
   validates :name, :start, :end, :creator, presence: true

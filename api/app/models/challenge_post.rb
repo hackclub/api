@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
 class ChallengePost < ApplicationRecord
+  include Recoverable
   include Rails.application.routes.url_helpers
 
   belongs_to :creator, class_name: 'User'
   belongs_to :challenge
 
-  has_many :upvotes, class_name: 'ChallengePostUpvote'
-  has_many :clicks, class_name: 'ChallengePostClick'
+  has_many :upvotes, class_name: 'ChallengePostUpvote', dependent: :destroy
+  has_many :clicks, class_name: 'ChallengePostClick', dependent: :destroy
 
   validates :name, :url, :creator, :challenge, presence: true
 

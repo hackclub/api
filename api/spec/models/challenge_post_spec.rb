@@ -7,16 +7,19 @@ RSpec.describe ChallengePost, type: :model do
 
   it { should have_db_column :created_at }
   it { should have_db_column :updated_at }
+  it { should have_db_column :deleted_at }
   it { should have_db_column :name }
   it { should have_db_column :url }
   it { should have_db_column :description }
   it { should have_db_column :creator_id }
   it { should have_db_column :challenge_id }
 
+  it_behaves_like 'Recoverable'
+
   it { should belong_to :creator }
   it { should belong_to :challenge }
-  it { should have_many :upvotes }
-  it { should have_many :clicks }
+  it { should have_many(:upvotes).dependent(:destroy) }
+  it { should have_many(:clicks).dependent(:destroy) }
 
   it { should validate_presence_of :name }
   it { should validate_presence_of :url }

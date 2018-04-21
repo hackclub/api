@@ -7,13 +7,18 @@ RSpec.describe Challenge, type: :model do
 
   it { should have_db_column :created_at }
   it { should have_db_column :updated_at }
+  it { should have_db_column :deleted_at }
   it { should have_db_column :name }
   it { should have_db_column :description }
   it { should have_db_column :start }
   it { should have_db_column :end }
   it { should have_db_column :creator_id }
 
-  it { should have_many :posts }
+  it { should have_db_index :deleted_at }
+
+  it_behaves_like 'Recoverable'
+
+  it { should have_many(:posts).dependent(:destroy) }
   it { should belong_to :creator }
 
   it { should validate_presence_of :name }
