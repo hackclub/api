@@ -31,4 +31,20 @@ RSpec.describe ChallengePostUpvote, type: :model do
     dupe = ChallengePostUpvote.new(challenge_post: post, user: user)
     expect(dupe.save).to eq(false)
   end
+
+  it "shouldn't allow upvotes to be created before challenges start" do
+    challenge = create(:challenge, start: 1.day.from_now)
+    post = create(:challenge_post, challenge: challenge)
+    subject.challenge_post = post
+
+    expect(subject.save).to eq(false)
+  end
+
+  it "shouldn't allow upvotes to be created after challenges end" do
+    challenge = create(:challenge, end: 1.day.ago)
+    post = create(:challenge_post, challenge: challenge)
+    subject.challenge_post = post
+
+    expect(subject.save).to eq(false)
+  end
 end
