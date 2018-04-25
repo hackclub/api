@@ -12,6 +12,18 @@ class ChallengePost < ApplicationRecord
 
   validates :name, :url, :creator, :challenge, presence: true
 
+  validate :challenge_is_open
+
+  def challenge_is_open
+    return unless challenge
+
+    if Time.current < challenge.start
+      errors.add(:base, 'challenge has not started yet')
+    elsif Time.current > challenge.end
+      errors.add(:base, 'challenge has already ended')
+    end
+  end
+
   def url_redirect
     return nil unless persisted?
 

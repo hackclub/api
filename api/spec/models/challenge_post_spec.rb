@@ -26,6 +26,18 @@ RSpec.describe ChallengePost, type: :model do
   it { should validate_presence_of :creator }
   it { should validate_presence_of :challenge }
 
+  it 'should not be able to be created before challenge starts' do
+    subject.challenge = build(:challenge, start: 1.day.from_now)
+
+    expect(subject.save).to eq(false)
+  end
+
+  it 'should not be able to be created after challenge ends' do
+    subject.challenge = build(:challenge, end: 1.day.ago)
+
+    expect(subject.save).to eq(false)
+  end
+
   describe '#url_redirect' do
     it 'returns nil when url is not persisted' do
       expect(subject.url_redirect).to be_nil
