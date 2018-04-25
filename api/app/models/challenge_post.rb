@@ -34,4 +34,8 @@ class ChallengePost < ApplicationRecord
   def click_count
     clicks.count
   end
+
+  def comment_count
+    comments.count
+  end
 end

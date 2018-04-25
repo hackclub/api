@@ -74,4 +74,22 @@ RSpec.describe ChallengePost, type: :model do
       end
     end
   end
+
+  describe '#comment_count' do
+    it 'returns 0' do
+      expect(subject.comment_count).to eq(0)
+    end
+
+    context 'with comments' do
+      before do
+        5.times do
+          create(:challenge_post_comment, challenge_post: subject)
+        end
+      end
+
+      it 'returns the correct amount' do
+        expect(subject.comment_count).to eq(5)
+      end
+    end
+  end
 end
