@@ -22,6 +22,26 @@ module V1
       end
     end
 
+    def update
+      comment = ChallengePostComment.find(params[:id])
+      authorize comment
+
+      if comment.update_attributes(comment_params)
+        render_success comment
+      else
+        render_field_errors comment.errors
+      end
+    end
+
+    def destroy
+      comment = ChallengePostComment.find(params[:id])
+      authorize comment
+
+      comment.destroy
+
+      render_success comment
+    end
+
     private
 
     def comment_params

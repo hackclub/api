@@ -101,21 +101,18 @@ RSpec.describe 'V1::ChallengePostComments', type: :request do
         let(:setup) do
           comment = create(:challenge_post_comment, challenge_post: cpost)
 
-          # child1
-          create(
+          child1 = create(
             :challenge_post_comment,
             challenge_post: cpost,
             parent: comment
           )
-          # child2
-          create(
+          _child2 = create(
             :challenge_post_comment,
             challenge_post: cpost,
             parent: comment
           )
 
-          # subchild1
-          create(
+          _subchild1 = create(
             :challenge_post_comment,
             challenge_post: cpost,
             parent: child1
@@ -129,6 +126,95 @@ RSpec.describe 'V1::ChallengePostComments', type: :request do
           expect(json[0]['children'].length).to eq(2)
           expect(json[0]['children'][0]['children'].length).to eq(1)
           expect(json[0]['children'][1]['children'].length).to eq(0)
+        end
+      end
+    end
+  end
+
+  describe 'PATCH /v1/post_comments/:id' do
+    let(:comment) { create(:challenge_post_comment, challenge_post: cpost) }
+
+    let(:method) { :patch }
+    let(:url) { "/v1/post_comments/#{comment.id}" }
+
+    let(:params) do
+      {
+        "body": 'New body!'
+      }
+    end
+
+    it 'requires authentication' do
+      expect(response.status).to eq(401)
+    end
+
+    context 'when authenticated' do
+      let(:user) { create(:user_authed) }
+      let(:headers) { auth_headers }
+
+      it 'requires you to be the comment creator' do
+        expect(response.status).to eq(403)
+      end
+
+      context 'as creator' do
+        let(:comment) do
+          create(
+            :challenge_post_comment,
+            challenge_post: cpost,
+            user: user
+          )
+        end
+
+        it 'succeeds' do
+          expect(response.status).to eq(200)
+          expect(json['body']).to eq('New body!')
+        end
+
+        context 'with invalid params' do
+          let(:params) do
+            {
+              body: nil
+            }
+          end
+
+          it 'gracefully fails' do
+            expect(response.status).to eq(422)
+            expect(json['errors']).to include('body')
+          end
+        end
+      end
+    end
+  end
+
+  describe 'DELETE /v1/post_comments/:id' do
+    let(:comment) { create(:challenge_post_comment, challenge_post: cpost) }
+
+    let(:method) { :delete }
+    let(:url) { "/v1/post_comments/#{comment.id}" }
+
+    it 'requires authentication' do
+      expect(response.status).to eq(401)
+    end
+
+    context 'when authenticated' do
+      let(:user) { create(:user_authed) }
+      let(:headers) { auth_headers }
+
+      it 'requires you to be the comment creator' do
+        expect(response.status).to eq(403)
+      end
+
+      context 'as comment creator' do
+        let(:comment) do
+          create(
+            :challenge_post_comment,
+            challenge_post: cpost,
+            user: user
+          )
+        end
+
+        it 'succeeds' do
+          expect(response.status).to eq(200)
+          expect(ChallengePostComment.find_by(id: comment.id)).to eq(nil)
         end
       end
     end

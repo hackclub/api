@@ -78,6 +78,9 @@ Rails.application.routes.draw do
       get :redirect, to: 'challenge_post_clicks#create'
     end
     resources :upvotes, controller: 'challenge_post_upvotes', only: %i[destroy]
+    resources :post_comments,
+              controller: 'challenge_post_comments',
+              only: %i[update destroy]
 
     namespace :home do
       resources :slack_users, only: [:index]

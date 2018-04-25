@@ -25,4 +25,17 @@ RSpec.describe ChallengePostComment, type: :model do
   it { should validate_presence_of :user }
   it { should validate_presence_of :challenge_post }
   it { should validate_presence_of :body }
+
+  context 'with parent' do
+    before { subject.parent = build(:challenge_post_comment) }
+
+    it "requires challenge_post to match parent's" do
+      expect(subject.valid?).to eq(false)
+      expect(subject.errors).to include(:parent)
+
+      subject.parent.challenge_post = subject.challenge_post
+
+      expect(subject.valid?).to eq(true)
+    end
+  end
 end
