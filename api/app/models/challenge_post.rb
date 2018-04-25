@@ -9,6 +9,7 @@ class ChallengePost < ApplicationRecord
 
   has_many :upvotes, class_name: 'ChallengePostUpvote', dependent: :destroy
   has_many :clicks, class_name: 'ChallengePostClick', dependent: :destroy
+  has_many :comments, class_name: 'ChallengePostComment', dependent: :destroy
 
   validates :name, :url, :creator, :challenge, presence: true
 

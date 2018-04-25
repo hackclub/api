@@ -20,6 +20,7 @@ RSpec.describe ChallengePost, type: :model do
   it { should belong_to :challenge }
   it { should have_many(:upvotes).dependent(:destroy) }
   it { should have_many(:clicks).dependent(:destroy) }
+  it { should have_many(:comments).dependent(:destroy) }
 
   it { should validate_presence_of :name }
   it { should validate_presence_of :url }
