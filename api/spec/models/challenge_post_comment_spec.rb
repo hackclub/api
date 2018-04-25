@@ -20,6 +20,7 @@ RSpec.describe ChallengePostComment, type: :model do
   it { should belong_to :user }
   it { should belong_to :challenge_post }
   it { should belong_to :parent }
+  it { should have_many :children }
 
   it { should validate_presence_of :user }
   it { should validate_presence_of :challenge_post }
