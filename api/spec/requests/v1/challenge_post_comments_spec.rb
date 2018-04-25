@@ -46,8 +46,6 @@ RSpec.describe 'V1::ChallengePostComments', type: :request do
         # bare minimum
         let(:params) do
           {
-            user_id: user.id,
-            challenge_post_id: cpost.id,
             body: 'Test!'
           }
         end

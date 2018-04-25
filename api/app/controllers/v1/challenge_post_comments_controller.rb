@@ -13,7 +13,11 @@ module V1
     end
 
     def create
+      post = ChallengePost.find(params[:post_id])
+
       comment = ChallengePostComment.new(comment_params)
+      comment.user = current_user
+      comment.challenge_post = post
 
       if comment.save
         render_success comment, 201
@@ -46,8 +50,6 @@ module V1
 
     def comment_params
       params.permit(
-        :user_id,
-        :challenge_post_id,
         :parent_id,
         :body
       )
