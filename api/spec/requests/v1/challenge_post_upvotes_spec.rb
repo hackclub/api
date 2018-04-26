@@ -54,5 +54,14 @@ RSpec.describe 'V1::ChallengePostUpvote', type: :request do
         'challenge_post_id'
       )
     end
+
+    it 'allows creating another upvote for the same post' do
+      delete "/v1/upvotes/#{upvote.id}", headers: auth_headers
+      expect(response.status).to eq(200)
+
+      post "/v1/posts/#{upvote.challenge_post.id}/upvotes",
+           headers: auth_headers
+      expect(response.status).to eq(201)
+    end
   end
 end
