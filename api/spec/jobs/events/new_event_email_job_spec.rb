@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe SendEventNotificationEmailsJob, type: :job do
+RSpec.describe Events::NewEventEmailJob, type: :job do
   let(:event) do
     create(
       :event,
@@ -59,7 +59,7 @@ RSpec.describe SendEventNotificationEmailsJob, type: :job do
       expect(EventEmailSubscriberMailer.deliveries.length).to eq(0)
 
       perform_enqueued_jobs do
-        SendEventNotificationEmailsJob.perform_now(event.id)
+        Events::NewEventEmailJob.perform_now(event.id)
       end
 
       # only sends to the 5 confirmed nearby
@@ -73,7 +73,7 @@ RSpec.describe SendEventNotificationEmailsJob, type: :job do
     before { event.destroy }
 
     it 'handles gracefully' do # no exceptions are thrown
-      SendEventNotificationEmailsJob.perform_now(event.id)
+      Events::NewEventEmailJob.perform_now(event.id)
     end
   end
 end

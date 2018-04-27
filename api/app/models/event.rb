@@ -48,7 +48,7 @@ class Event < ApplicationRecord
   def queue_notification_emails
     return if start < Time.current
 
-    SendEventNotificationEmailsJob.set(wait: 1.day).perform_later(id)
+    Events::NewEventEmailJob.set(wait: 1.day).perform_later(id)
   end
 
   def trigger_rebuild

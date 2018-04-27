@@ -104,14 +104,14 @@ RSpec.describe Event, type: :model do
       expect(subject.start > Time.current).to be(true)
       expect do
         subject.save
-      end.to have_enqueued_job(SendEventNotificationEmailsJob)
+      end.to have_enqueued_job(Events::NewEventEmailJob)
     end
 
     it 'does not sent notification if event is in the past' do
       subject.start = 3.days.ago
       expect do
         subject.save
-      end.to_not have_enqueued_job(SendEventNotificationEmailsJob)
+      end.to_not have_enqueued_job(Events::NewEventEmailJob)
     end
   end
 
