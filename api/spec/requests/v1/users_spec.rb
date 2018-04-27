@@ -174,7 +174,8 @@ RSpec.describe 'V1::Users', type: :request do
           'updated_at',
           'email',
           'username',
-          'admin_at'
+          'admin_at',
+          'email_on_new_challenge_posts'
         )
         expect(json).to_not include(
           'login_code', 'login_code_generation',
@@ -229,7 +230,8 @@ RSpec.describe 'V1::Users', type: :request do
     let(:params) do
       {
         email: 'shouldntupdate@example.com',
-        username: 'newusername'
+        username: 'newusername',
+        email_on_new_challenge_posts: true
       }
     end
 
@@ -263,7 +265,8 @@ RSpec.describe 'V1::Users', type: :request do
 
           expect(json).to include(
             'email' => user.email,
-            'username' => 'newusername'
+            'username' => 'newusername',
+            'email_on_new_challenge_posts' => true
           )
         end
 

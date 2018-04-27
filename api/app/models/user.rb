@@ -7,12 +7,14 @@ class User < ApplicationRecord
             format: { with: /\A[a-z0-9]+\z/, unless: -> { username.nil? } }
   validates :login_code, uniqueness: { if: -> { login_code.present? } }
   validates :auth_token, uniqueness: { if: -> { auth_token.present? } }
+  validates :email_on_new_challenge_posts, inclusion: { in: [true, false] }
 
   validate :username_cannot_be_unset
 
   has_many :leader_profiles
   has_many :new_club_applications, through: :leader_profiles
 
+  after_initialize :default_values
   before_validation :downcase_email
 
   def username_cannot_be_unset
@@ -21,6 +23,12 @@ class User < ApplicationRecord
     return if username.present?
 
     errors.add(:username, 'cannot unset username')
+  end
+
+  def default_values
+    return if persisted?
+
+    self.email_on_new_challenge_posts ||= false
   end
 
   def downcase_email

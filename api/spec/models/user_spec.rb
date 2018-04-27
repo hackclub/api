@@ -12,6 +12,7 @@ RSpec.describe User, type: :model do
   it { should have_db_column :auth_token }
   it { should have_db_column :auth_token_generation }
   it { should have_db_column :admin_at }
+  it { should have_db_column :email_on_new_challenge_posts }
 
   it { should have_db_index(:username).unique(true) }
 
@@ -24,8 +25,58 @@ RSpec.describe User, type: :model do
   it { should validate_uniqueness_of :login_code }
   it { should validate_uniqueness_of :auth_token }
 
+  it 'should not allow email_on_new_challenge_posts to be nil' do
+    expect(subject.valid?).to eq(true)
+
+    subject.email_on_new_challenge_posts = nil
+
+    expect(subject.valid?).to eq(false)
+    expect(subject.errors).to include('email_on_new_challenge_posts')
+  end
+
+  it 'does not allow duplicate emails to be created, regardless of case' do
+    create(:user, email: 'existinguser@gmail.com')
+
+    subject.email = 'ExistingUser@gmail.com'
+    expect(subject.valid?).to eq(false)
+  end
+
+  it 'requires usernames to be lowercase' do
+    expect(subject.valid?).to eq(true)
+
+    subject.username = 'FooBar'
+
+    expect(subject.valid?).to eq(false)
+  end
+
+  it 'requires usernames to be at least one character' do
+    expect(subject.valid?).to eq(true)
+
+    subject.username = ''
+
+    expect(subject.valid?).to eq(false)
+  end
+
+  it "doesn't allow users to unset usernames" do
+    subject.username = 'foobar'
+    subject.save!
+
+    subject.username = nil
+    expect(subject.valid?).to eq(false)
+  end
+
   it { should have_many(:leader_profiles) }
   it { should have_many(:new_club_applications).through(:leader_profiles) }
+
+  it 'lowercases provided email' do
+    subject.email = 'CamelCase@gmail.com'
+    subject.save
+    expect(subject.email).to eq('camelcase@gmail.com')
+  end
+
+  it 'sets email_on_new_challenge_posts to false by default' do
+    expect(User.new.email_on_new_challenge_posts).to eq(false)
+  end
 
   example ':generate_login_code!' do
     subject.login_code = nil
@@ -84,42 +135,5 @@ RSpec.describe User, type: :model do
     subject.remove_admin!
     expect(subject.admin_at).to eq(nil)
     expect(subject.admin?).to eq(false)
-  end
-
-  it 'lowercases the provided email' do
-    subject.email = 'CamelCase@gmail.com'
-    subject.save
-    expect(subject.email).to eq('camelcase@gmail.com')
-  end
-
-  it 'does not allow duplicate emails to be created, regardless of case' do
-    create(:user, email: 'existinguser@gmail.com')
-
-    subject.email = 'ExistingUser@gmail.com'
-    expect(subject.valid?).to eq(false)
-  end
-
-  it 'requires usernames to be lowercase' do
-    expect(subject.valid?).to eq(true)
-
-    subject.username = 'FooBar'
-
-    expect(subject.valid?).to eq(false)
-  end
-
-  it 'requires usernames to be at least one character' do
-    expect(subject.valid?).to eq(true)
-
-    subject.username = ''
-
-    expect(subject.valid?).to eq(false)
-  end
-
-  it "doesn't allow users to unset usernames" do
-    subject.username = 'foobar'
-    subject.save!
-
-    subject.username = nil
-    expect(subject.valid?).to eq(false)
   end
 end
