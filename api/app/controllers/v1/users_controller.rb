@@ -2,7 +2,7 @@
 
 module V1
   class UsersController < ApiController
-    USER_AUTH = { only: %i[current show] }.freeze
+    USER_AUTH = { only: %i[current show update] }.freeze
     include UserAuth
 
     def auth
@@ -49,6 +49,25 @@ module V1
       authorize u
 
       render_success u
+    end
+
+    def update
+      u = User.find(params[:id])
+      authorize u
+
+      if u.update_attributes(user_params)
+        render_success u
+      else
+        render_field_errors u.errors
+      end
+    end
+
+    private
+
+    def user_params
+      params.permit(
+        :username
+      )
     end
   end
 end

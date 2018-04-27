@@ -3,6 +3,7 @@
 class UserSerializer < ActiveModel::Serializer
   attributes :id, :email
 
+  attribute :username, if: :logged_in?
   attribute :created_at, if: :logged_in?
   attribute :updated_at, if: :logged_in?
   attribute :admin_at, if: :logged_in?

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_04_26_195219) do
+ActiveRecord::Schema.define(version: 2018_04_27_045759) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -596,8 +596,10 @@ ActiveRecord::Schema.define(version: 2018_04_26_195219) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "admin_at"
+    t.text "username"
     t.index ["auth_token"], name: "index_users_on_auth_token"
     t.index ["email"], name: "index_users_on_email"
+    t.index ["username"], name: "index_users_on_username", unique: true
   end
 
   create_table "workshop_feedbacks", force: :cascade do |t|

@@ -40,7 +40,7 @@ Rails.application.routes.draw do
       resources :notes, only: %i[index create]
     end
 
-    resources :users, only: [:show] do
+    resources :users, only: %i[show update] do
       collection do
         post 'auth'
         get 'current'

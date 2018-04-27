@@ -6,16 +6,21 @@ RSpec.describe User, type: :model do
   subject { build(:user) }
 
   it { should have_db_column :email }
+  it { should have_db_column :username }
   it { should have_db_column :login_code }
   it { should have_db_column :login_code_generation }
   it { should have_db_column :auth_token }
   it { should have_db_column :auth_token_generation }
   it { should have_db_column :admin_at }
 
+  it { should have_db_index(:username).unique(true) }
+
   it { should validate_presence_of :email }
   it { should validate_email_format_of :email }
 
-  # had to write a custom validation for uniqueness, at bottom of this file
+  # had to write a custom validation for uniqueness of emails, at bottom of
+  # this file
+  it { should validate_uniqueness_of :username }
   it { should validate_uniqueness_of :login_code }
   it { should validate_uniqueness_of :auth_token }
 
@@ -91,6 +96,30 @@ RSpec.describe User, type: :model do
     create(:user, email: 'existinguser@gmail.com')
 
     subject.email = 'ExistingUser@gmail.com'
+    expect(subject.valid?).to eq(false)
+  end
+
+  it 'requires usernames to be lowercase' do
+    expect(subject.valid?).to eq(true)
+
+    subject.username = 'FooBar'
+
+    expect(subject.valid?).to eq(false)
+  end
+
+  it 'requires usernames to be at least one character' do
+    expect(subject.valid?).to eq(true)
+
+    subject.username = ''
+
+    expect(subject.valid?).to eq(false)
+  end
+
+  it "doesn't allow users to unset usernames" do
+    subject.username = 'foobar'
+    subject.save!
+
+    subject.username = nil
     expect(subject.valid?).to eq(false)
   end
 end

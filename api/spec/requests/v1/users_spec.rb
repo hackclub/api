@@ -26,6 +26,7 @@ RSpec.describe 'V1::Users', type: :request do
       # do not return fields that give away information
       expect(json).to_not include('created_at')
       expect(json).to_not include('updated_at')
+      expect(json).to_not include('username')
 
       # but not secret fields
       expect(json).to_not include('auth_token')
@@ -168,7 +169,13 @@ RSpec.describe 'V1::Users', type: :request do
         }
 
         expect(response.status).to eq(200)
-        expect(json).to include('created_at', 'updated_at', 'email', 'admin_at')
+        expect(json).to include(
+          'created_at',
+          'updated_at',
+          'email',
+          'username',
+          'admin_at'
+        )
         expect(json).to_not include(
           'login_code', 'login_code_generation',
           'auth_token', 'auth_token_generation'
@@ -209,6 +216,69 @@ RSpec.describe 'V1::Users', type: :request do
             'auth_token', 'auth_token_generation',
             'login_code', 'login_code_generation'
           )
+        end
+      end
+    end
+  end
+
+  describe 'PATCH /v1/users/:id' do
+    let(:user) { create(:user_authed) }
+
+    # override in subtests
+    let(:headers) { {} }
+    let(:params) do
+      {
+        email: 'shouldntupdate@example.com',
+        username: 'newusername'
+      }
+    end
+
+    before do
+      patch "/v1/users/#{user.id}",
+            headers: headers,
+            params: params
+    end
+
+    it 'requires authentication' do
+      expect(response.status).to eq(401)
+    end
+
+    context 'when authenticated' do
+      let(:authed_user) { {} } # override in subtest
+      let(:headers) { { 'Authorization': "Bearer #{authed_user.auth_token}" } }
+
+      context 'as different user' do
+        let(:authed_user) { create(:user_authed) }
+
+        it 'is unauthorized' do
+          expect(response.status).to eq(403)
+        end
+      end
+
+      context 'as same user' do
+        let(:authed_user) { user }
+
+        it 'updates appropriate fields' do
+          expect(response.status).to eq(200)
+
+          expect(json).to include(
+            'email' => user.email,
+            'username' => 'newusername'
+          )
+        end
+
+        context 'with invalid params' do
+          let(:params) do
+            {
+              username: 'CapitalUsername'
+            }
+          end
+
+          it 'gracefully fails' do
+            expect(response.status).to eq(422)
+
+            expect(json['errors']).to include('username')
+          end
         end
       end
     end
