@@ -5,7 +5,6 @@ require 'sidekiq/web'
 Rails.application.routes.draw do
   namespace :v1 do
     get 'ping', to: 'ping#ping'
-    get 'repo/*all', constraints: { all: /.*/ }, to: 'repo#file'
 
     get 'clubs/intake', to: 'intake#show'
 
