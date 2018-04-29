@@ -28,6 +28,7 @@ RSpec.describe 'V1::Events', type: :request do
         'website',
         'website_redirect',
         'hack_club_associated',
+        'collegiate',
         'address',
         'latitude',
         'longitude',
@@ -125,6 +126,7 @@ RSpec.describe 'V1::Events', type: :request do
                website: 'https://example.com',
                hack_club_associated: true,
                hack_club_associated_notes: 'Just testing!',
+               collegiate: true,
                total_attendance: 100,
                first_time_hackathon_estimate: 120,
                address: 'Test Address'
@@ -139,6 +141,7 @@ RSpec.describe 'V1::Events', type: :request do
           'website' => 'https://example.com',
           'hack_club_associated' => true,
           'hack_club_associated_notes' => 'Just testing!',
+          'collegiate' => true,
           'total_attendance' => 100,
           'first_time_hackathon_estimate' => 120,
           'address' => 'Test Address'

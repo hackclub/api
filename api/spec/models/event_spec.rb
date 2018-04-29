@@ -18,6 +18,7 @@ RSpec.describe Event, type: :model do
   it { should have_db_column :website_archived }
   it { should have_db_column :hack_club_associated }
   it { should have_db_column :hack_club_associated_notes }
+  it { should have_db_column :collegiate }
   it { should have_db_column :total_attendance }
   it { should have_db_column :first_time_hackathon_estimate }
   it { should have_db_column :address }
@@ -51,6 +52,15 @@ RSpec.describe Event, type: :model do
 
     expect(subject.valid?).to eq(false)
     expect(subject.errors).to include('public')
+  end
+
+  it 'requires collegiate to be set' do
+    expect(subject.valid?).to eq(true)
+
+    subject.collegiate = nil
+
+    expect(subject.valid?).to eq(false)
+    expect(subject.errors).to include('collegiate')
   end
 
   describe 'hack_club_associated fields' do
@@ -87,16 +97,18 @@ RSpec.describe Event, type: :model do
     end.to have_enqueued_job(RebuildHackathonsSiteJob)
   end
 
-  it 'sets true as default value for public' do
-    e = Event.new
+  describe 'default values' do
+    it 'true for public' do
+      expect(Event.new.public).to eq(true)
+    end
 
-    expect(e.public).to eq(true)
-  end
+    it 'false for hack_club_associated' do
+      expect(Event.new.hack_club_associated).to eq(false)
+    end
 
-  it 'sets false as default value for hack_club_associated' do
-    e = Event.new
-
-    expect(e.hack_club_associated).to eq(false)
+    it 'false for collegiate' do
+      expect(Event.new.collegiate).to eq(false)
+    end
   end
 
   describe '#queue_notification_emails' do
