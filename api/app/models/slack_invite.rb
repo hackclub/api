@@ -15,8 +15,6 @@ class SlackInvite < ApplicationRecord
              foreign_key: 'hackbot_team_id',
              class_name: 'Hackbot::Team'
 
-  belongs_to :slack_invite_strategy
-
   validates :team, presence: true
   validates :username, uniqueness: true
 
