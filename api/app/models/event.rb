@@ -7,7 +7,10 @@ class Event < ApplicationRecord
   include Rails.application.routes.url_helpers
 
   validates :start, :end, :name, :website, :address, presence: true
-  validates :public, :hack_club_associated, inclusion: { in: [true, false] }
+  validates :public,
+            :hack_club_associated,
+            :collegiate,
+            inclusion: { in: [true, false] }
 
   validate :hack_club_associated_notes_set_if_needed
 
@@ -43,6 +46,7 @@ class Event < ApplicationRecord
 
     self.public = true if public.nil?
     self.hack_club_associated ||= false
+    self.collegiate ||= false
   end
 
   def queue_notification_emails

@@ -62,6 +62,7 @@ module V1
         :website,
         :hack_club_associated,
         :hack_club_associated_notes,
+        :collegiate,
         :total_attendance,
         :first_time_hackathon_estimate,
         :address
