@@ -18,6 +18,7 @@ RSpec.describe Event, type: :model do
   it { should have_db_column :website_archived }
   it { should have_db_column :hack_club_associated }
   it { should have_db_column :hack_club_associated_notes }
+  it { should have_db_column :mlh_associated }
   it { should have_db_column :collegiate }
   it { should have_db_column :total_attendance }
   it { should have_db_column :first_time_hackathon_estimate }
@@ -63,6 +64,15 @@ RSpec.describe Event, type: :model do
     expect(subject.errors).to include('collegiate')
   end
 
+  it 'requires mlh_associated to be set' do
+    expect(subject.valid?).to eq(true)
+
+    subject.mlh_associated = nil
+
+    expect(subject.valid?).to eq(false)
+    expect(subject.errors).to include('mlh_associated')
+  end
+
   describe 'hack_club_associated fields' do
     it 'requires hack_club_associated_notes to be set if associated' do
       expect(subject.valid?).to eq(true)
@@ -104,6 +114,10 @@ RSpec.describe Event, type: :model do
 
     it 'false for hack_club_associated' do
       expect(Event.new.hack_club_associated).to eq(false)
+    end
+
+    it 'false for mlh' do
+      expect(Event.new.mlh_associated).to eq(false)
     end
 
     it 'false for collegiate' do

@@ -9,6 +9,7 @@ class Event < ApplicationRecord
   validates :start, :end, :name, :website, :address, presence: true
   validates :public,
             :hack_club_associated,
+            :mlh_associated,
             :collegiate,
             inclusion: { in: [true, false] }
 
@@ -46,6 +47,7 @@ class Event < ApplicationRecord
 
     self.public = true if public.nil?
     self.hack_club_associated ||= false
+    self.mlh_associated ||= false
     self.collegiate ||= false
   end
 
