@@ -7,6 +7,7 @@ require 'slack_client/im'
 require 'slack_client/mpim'
 require 'slack_client/oauth'
 require 'slack_client/users'
+require 'slack_client/team'
 
 module SlackClient
   @api_base = 'https://www.slack.com/api'

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_04_29_194110) do
+ActiveRecord::Schema.define(version: 2018_04_30_011448) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -551,21 +551,8 @@ ActiveRecord::Schema.define(version: 2018_04_29_194110) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "slack_invite_strategies", id: :serial, force: :cascade do |t|
-    t.text "name"
-    t.text "greeting"
-    t.text "club_name"
-    t.text "primary_color"
-    t.text "user_groups", default: [], array: true
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "hackbot_team_id"
-    t.text "theme"
-    t.index ["hackbot_team_id"], name: "index_slack_invite_strategies_on_hackbot_team_id"
-  end
-
   create_table "slack_invites", id: :serial, force: :cascade do |t|
-    t.string "email"
+    t.text "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "slack_invite_id"
@@ -574,10 +561,9 @@ ActiveRecord::Schema.define(version: 2018_04_29_194110) do
     t.text "password"
     t.text "state"
     t.text "token"
-    t.integer "slack_invite_strategy_id"
     t.integer "hackbot_team_id"
+    t.index ["email"], name: "index_slack_invites_on_email", unique: true
     t.index ["hackbot_team_id"], name: "index_slack_invites_on_hackbot_team_id"
-    t.index ["slack_invite_strategy_id"], name: "index_slack_invites_on_slack_invite_strategy_id"
   end
 
   create_table "tech_domain_redemptions", id: :serial, force: :cascade do |t|
@@ -640,7 +626,5 @@ ActiveRecord::Schema.define(version: 2018_04_29_194110) do
   add_foreign_key "notes", "users"
   add_foreign_key "recognized_faces", "attachments"
   add_foreign_key "recognized_faces", "recognized_people"
-  add_foreign_key "slack_invite_strategies", "hackbot_teams"
   add_foreign_key "slack_invites", "hackbot_teams"
-  add_foreign_key "slack_invites", "slack_invite_strategies"
 end

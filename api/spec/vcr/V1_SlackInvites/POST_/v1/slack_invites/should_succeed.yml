@@ -1,0 +1,79 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://www.slack.com/api/users.admin.invite
+    body:
+      encoding: UTF-8
+      string: email=foo%40example.com&token=<SLACK_ACCESS_TOKEN>
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.2 (linux-gnu x86_64) ruby/2.3.1p112
+      Content-Length:
+      - '79'
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Host:
+      - www.slack.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '31'
+      Connection:
+      - keep-alive
+      Date:
+      - Mon, 30 Apr 2018 01:43:22 GMT
+      Server:
+      - Apache
+      Expires:
+      - Mon, 26 Jul 1997 05:00:00 GMT
+      X-Content-Type-Options:
+      - nosniff
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Referrer-Policy:
+      - no-referrer
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
+      X-Oauth-Scopes:
+      - read,client,admin,identify,post,apps
+      Pragma:
+      - no-cache
+      X-Accepted-Oauth-Scopes:
+      - client
+      X-Xss-Protection:
+      - '0'
+      X-Slack-Req-Id:
+      - 1aa27915-b65c-40ec-b5cb-53e9a90e794d
+      X-Slack-Backend:
+      - h
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Via:
+      - haproxy-www-zuny
+      X-Cache:
+      - Miss from cloudfront
+      Via:
+      - 1.1 e1eb7447ab46f530f6009f1d93917c54.cloudfront.net (CloudFront)
+      X-Amz-Cf-Id:
+      - X2syv_VK3GBPulTlUU2PNG6pmjAm0K6oScF0Cmj1yRpTK3lvkrrxww==
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAAAAAAAAA6tWys9WsiopKk2tBQCQX9SnCwAAAA==
+    http_version: 
+  recorded_at: Mon, 30 Apr 2018 01:43:30 GMT
+recorded_with: VCR 3.0.3

@@ -5,6 +5,10 @@
 # the methods as needed.
 #
 # Happy testing!
+
+# Ensure we require the existing client so we don't fuck with autoloading.
+require Rails.root.join('lib', 'slack_client')
+
 module SlackClient
   module Users
     @users = []
