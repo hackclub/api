@@ -7,7 +7,6 @@ module Hackbot
       Hackbot::Interactions::Accountability,
       Hackbot::Interactions::AddAdminUser,
       Hackbot::Interactions::CheckIn,
-      Hackbot::Interactions::CreateSlackInviteStrategy,
       Hackbot::Interactions::DemoCheckIn,
       Hackbot::Interactions::Delete,
       Hackbot::Interactions::DeleteJoins,
