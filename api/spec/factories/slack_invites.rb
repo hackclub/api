@@ -2,6 +2,6 @@
 
 FactoryBot.define do
   factory :slack_invite do
-    email 'MyString'
+    email { Faker::Internet.email }
   end
 end

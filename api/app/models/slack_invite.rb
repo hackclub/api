@@ -1,49 +1,19 @@
 # frozen_string_literal: true
 
 class SlackInvite < ApplicationRecord
-  STATE_INVITED = 'invited'
-  STATE_INVITE_RECEIVED = 'invite_received'
-  STATE_SIGNED_UP = 'signed_up'
-  STATE_CONFIGURED_CLIENT = 'configured_client'
-  STATE_EMAIL_CHANGED = 'changed_email'
+  SLACK_TEAM = Rails.application.secrets.default_slack_team_id
+  ACCESS_TOKEN = Rails.application.secrets.slack_admin_access_token
 
-  TOKEN_LENGTH = 6
+  validates :email, presence: true, email: true
+  validates :email, uniqueness: { case_sensitive: false }
 
-  after_initialize :defaults
+  before_create :send_invite
 
-  belongs_to :team,
-             foreign_key: 'hackbot_team_id',
-             class_name: 'Hackbot::Team'
+  def send_invite
+    resp = SlackClient::Team.invite_user(email, ACCESS_TOKEN)
+    return if resp[:ok] == true
 
-  validates :team, presence: true
-  validates :username, uniqueness: true
-
-  def dispatch
-    resp = SlackClient::Team.invite_user(temp_email, admin_access_token)
-
-    update(state: STATE_INVITED)
-
-    return if resp[:ok]
-
-    errors[:base] << "Slack API error: #{resp[:error]}"
+    errors.add(:base, "Slack API error: #{resp[:error]}")
     throw :abort
-  end
-
-  def temp_email
-    "slack+#{token}@mail.hackclub.com"
-  end
-
-  def slack_invite_url
-    "https://join.slack.com/t/hackclub/invite/#{slack_invite_id}"
-  end
-
-  private
-
-  def defaults
-    self.token ||= rand(36**TOKEN_LENGTH - 1).to_s(36)
-  end
-
-  def admin_access_token
-    AdminUser.find_by(team: team.team_id).try(:access_token)
   end
 end

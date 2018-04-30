@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_04_29_203321) do
+ActiveRecord::Schema.define(version: 2018_04_30_011448) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -552,7 +552,7 @@ ActiveRecord::Schema.define(version: 2018_04_29_203321) do
   end
 
   create_table "slack_invites", id: :serial, force: :cascade do |t|
-    t.string "email"
+    t.text "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "slack_invite_id"
@@ -562,6 +562,7 @@ ActiveRecord::Schema.define(version: 2018_04_29_203321) do
     t.text "state"
     t.text "token"
     t.integer "hackbot_team_id"
+    t.index ["email"], name: "index_slack_invites_on_email", unique: true
     t.index ["hackbot_team_id"], name: "index_slack_invites_on_hackbot_team_id"
   end
 
