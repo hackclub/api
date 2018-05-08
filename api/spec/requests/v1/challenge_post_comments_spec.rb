@@ -82,49 +82,28 @@ RSpec.describe 'V1::ChallengePostComments', type: :request do
       expect(json.length).to eq(0)
     end
 
-    context 'with root-level comments' do
+    context 'with comments created' do
+      let!(:parent) { create(:challenge_post_comment, challenge_post: cpost) }
+
       let(:setup) do
-        5.times { create(:challenge_post_comment, challenge_post: cpost) }
+        # root comments
+        4.times { create(:challenge_post_comment, challenge_post: cpost) }
 
-        cpost2 = create(:challenge_post)
-        2.times { create(:challenge_post_comment, challenge_post: cpost2) }
+        # child comments
+        2.times do
+          create(
+            :challenge_post_comment,
+            challenge_post: cpost,
+            parent: parent
+          )
+        end
       end
 
-      it 'returns commits from current challenge post' do
+      it 'returns comments in expected format' do
         expect(response.status).to eq(200)
-        expect(json.length).to eq(5)
-      end
+        expect(json.length).to eq(7)
 
-      context 'with child comments' do
-        let(:setup) do
-          comment = create(:challenge_post_comment, challenge_post: cpost)
-
-          child1 = create(
-            :challenge_post_comment,
-            challenge_post: cpost,
-            parent: comment
-          )
-          _child2 = create(
-            :challenge_post_comment,
-            challenge_post: cpost,
-            parent: comment
-          )
-
-          _subchild1 = create(
-            :challenge_post_comment,
-            challenge_post: cpost,
-            parent: child1
-          )
-        end
-
-        it 'nests child comments' do
-          expect(response.status).to eq(200)
-          expect(json.length).to eq(1)
-
-          expect(json[0]['children'].length).to eq(2)
-          expect(json[0]['children'][0]['children'].length).to eq(1)
-          expect(json[0]['children'][1]['children'].length).to eq(0)
-        end
+        expect(json.last['parent_id']).to eq(parent.id)
       end
     end
   end

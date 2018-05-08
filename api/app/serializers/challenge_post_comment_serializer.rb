@@ -4,10 +4,10 @@ class ChallengePostCommentSerializer < ActiveModel::Serializer
   attributes :id,
              :created_at,
              :updated_at,
+             :parent_id,
              :body
 
   belongs_to :user
-  has_many :children
 
   # for serializing creator
   class UserSerializer < ActiveModel::Serializer

@@ -9,7 +9,6 @@ module V1
       render_success ChallengePost
         .find(params[:post_id])
         .comments
-        .where(parent: nil)
     end
 
     def create
