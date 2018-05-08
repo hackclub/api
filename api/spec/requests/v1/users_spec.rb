@@ -175,6 +175,7 @@ RSpec.describe 'V1::Users', type: :request do
           'email',
           'username',
           'admin_at',
+          'email_on_new_challenges',
           'email_on_new_challenge_posts'
         )
         expect(json).to_not include(
@@ -231,6 +232,7 @@ RSpec.describe 'V1::Users', type: :request do
       {
         email: 'shouldntupdate@example.com',
         username: 'newusername',
+        email_on_new_challenges: true,
         email_on_new_challenge_posts: true
       }
     end
@@ -266,6 +268,7 @@ RSpec.describe 'V1::Users', type: :request do
           expect(json).to include(
             'email' => user.email,
             'username' => 'newusername',
+            'email_on_new_challenges' => true,
             'email_on_new_challenge_posts' => true
           )
         end

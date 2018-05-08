@@ -12,6 +12,7 @@ RSpec.describe User, type: :model do
   it { should have_db_column :auth_token }
   it { should have_db_column :auth_token_generation }
   it { should have_db_column :admin_at }
+  it { should have_db_column :email_on_new_challenges }
   it { should have_db_column :email_on_new_challenge_posts }
 
   it { should have_db_index(:username).unique(true) }
@@ -24,6 +25,15 @@ RSpec.describe User, type: :model do
   it { should validate_uniqueness_of :username }
   it { should validate_uniqueness_of :login_code }
   it { should validate_uniqueness_of :auth_token }
+
+  it ' should not allow email_on_new_challenges to be nil' do
+    expect(subject.valid?).to eq(true)
+
+    subject.email_on_new_challenges = nil
+
+    expect(subject.valid?).to eq(false)
+    expect(subject.errors).to include('email_on_new_challenges')
+  end
 
   it 'should not allow email_on_new_challenge_posts to be nil' do
     expect(subject.valid?).to eq(true)
@@ -72,6 +82,10 @@ RSpec.describe User, type: :model do
     subject.email = 'CamelCase@gmail.com'
     subject.save
     expect(subject.email).to eq('camelcase@gmail.com')
+  end
+
+  it 'sets email_on_new_challenges to false by default' do
+    expect(User.new.email_on_new_challenges).to eq(false)
   end
 
   it 'sets email_on_new_challenge_posts to false by default' do

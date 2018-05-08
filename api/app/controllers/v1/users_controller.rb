@@ -67,6 +67,7 @@ module V1
     def user_params
       params.permit(
         :username,
+        :email_on_new_challenges,
         :email_on_new_challenge_posts
       )
     end
