@@ -118,6 +118,6 @@ jobs:
           name: Deploy to Heroku if on master 
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              git push heroku master
+              git push heroku master --force
               heroku run db:migrate
             fi
