@@ -9,8 +9,7 @@ jobs:
       - image: ruby:2.3.1
         environment:
           RAILS_ENV: test
-          PGHOST: 127.0.0.1
-          PGUSER: root
+          DATABASE_URL: postgresql://root:@127.0.0.1:5432/postgres
 
           ACTION_MAILER_DEFAULT_HOST: example-for-circleci.com
           GOOGLE_MAPS_API_KEY: test_maps_api_key
@@ -96,7 +95,7 @@ jobs:
 
       - run:
           name: Parallel RSpec
-          command: bin/rails test
+          command: bin/rails spec
 
       # Save artifacts
       - store_test_results:
