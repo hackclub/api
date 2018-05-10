@@ -98,8 +98,11 @@ jobs:
 
       - run:
           name: Parallel RSpec
-          command: bin/rails spec
+          command: |
+            rspec --format progress \
+                  --format RspecJunitFormatter \
+                  --out tmp/rspec.xml
 
       # Save artifacts
       - store_test_results:
-          path: /tmp/test-results
+          path: tmp/rspec.xml
