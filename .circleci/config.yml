@@ -110,21 +110,12 @@ jobs:
       - store_test_results:
           path: /tmp/test-results
   
-  deploy:
-    steps:
-      - checkout
-      - run:
-        name: Deploy to Heroku
-        command: git push git@heroku.com:api-hackclub.git --force
-
-workflows:
-  version: 2
-  build-deploy:
-    jobs:
-      - build
+      # Deploy to Heroku
+      - run: bash .circleci/setup-heroku.sh
       - deploy:
-          requires:
-            - build
-          filters:
-            branches:
-              only: master
+        name: Deploy Master to Heroku
+        command: |
+          if [ "${CIRCLE_BRANCH}" == "master" ]; then
+            git push heroku master
+            heroku run db:migrate
+          fi
