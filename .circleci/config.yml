@@ -6,7 +6,7 @@ jobs:
     # Primary container image where all commands run
     
     docker:
-      - image: circleci/ruby:2.3.1-node
+      - image: ruby:2.3.1
         environment:
           RAILS_ENV: test
           PGHOST: 127.0.0.1
