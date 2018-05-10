@@ -4,11 +4,11 @@ services:
     image: postgres
   cache:
     image: redis
-  api:
-    build: ./api
+  web:
+    build: ./
     command: bundle exec rails s -p 3000 -b '0.0.0.0'
     volumes:
-      - ./api:/usr/src/app
+      - ./:/usr/src/app
     volumes_from:
       - bundle
     ports:
@@ -19,10 +19,10 @@ services:
     environment:
       REDIS_URL: redis://cache:6379
   worker:
-    build: ./api
+    build: ./
     command: bundle exec sidekiq
     volumes:
-      - ./api:/usr/src/app
+      - ./:/usr/src/app
     volumes_from:
       - bundle
     depends_on:
@@ -36,12 +36,3 @@ services:
     command: echo "I'm a little data volume, short and stout"
     volumes:
       - /bundle
-  web:
-    build: ./web
-    environment:
-      - PORT=3001
-    command: yarn start
-    volumes:
-      - ./web:/usr/src/app
-    ports:
-      - "3001:3001"
