@@ -115,9 +115,9 @@ jobs:
           name: Setup Heroku
           command: bash .circleci/setup-heroku.sh
       - deploy:
-        name: Deploy Master to Heroku
-        command: |
-          if [ "${CIRCLE_BRANCH}" == "master" ]; then
-            git push heroku master
-            heroku run db:migrate
-          fi
+          name: Deploy Master to Heroku
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              git push heroku master
+              heroku run db:migrate
+            fi
