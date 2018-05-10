@@ -1,0 +1,123 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/api
+    
+    # Primary container image where all commands run
+    
+    docker:
+      - image: ruby:2.3.1
+        environment:
+          RAILS_ENV: test
+          DATABASE_URL: postgresql://root:@127.0.0.1:5432/postgres
+          REDIS_URL: redis://127.0.0.1:6379/cache
+
+          ACTION_MAILER_DEFAULT_HOST: example-for-circleci.com
+          GOOGLE_MAPS_API_KEY: test_maps_api_key
+          STREAK_CLUB_PIPELINE_KEY: clubs
+          STREAK_LEADER_PIPELINE_KEY: leaders
+          STREAK_CLUB_APPLICATIONS_PIPELINE_KEY: club_applications
+          STREAK_LETTER_PIPELINE_KEY: letters
+          STREAK_FUNDRAISING_PIPELINE_KEY: fundraising
+          STREAK_API_KEY: test_api_key
+          CLOUD9_USERNAME: test_username
+          CLOUD9_PASSWORD: test_password
+          CLOUD9_TEAM_NAME: fake_team_name
+          STREAK_OUTREACH_SCHOOL_PIPELINE_KEY: schools
+          STREAK_OUTREACH_TEACHER_PIPELINE_KEY: teachers
+          SLACK_CLIENT_ID: fake_client_id
+          SLACK_CLIENT_SECRET: fake_client_secret
+          DEFAULT_SLACK_TEAM_ID: fake_slack_team_id
+          TECH_DOMAIN_REDEMPTION_SECRET_CODE: fake_secret_code
+          GUGGY_API_KEY: fake_guggy_api_key
+          DEFAULT_STREAK_TASK_ASSIGNEE: email@email.email
+          HACKBOT_MIRROR_CHANNEL_ID: fake_channel_id
+          HACKBOT_ADMINS: fake,admin,list
+          STREAK_DEMO_USER_BOX_KEY: fake_streak_key
+          GITHUB_BOT_ACCESS_TOKEN: fake_access_token
+          SLACK_ADMIN_ACCESS_TOKEN: fake_slack_access_token
+          SLACK_ADMIN_EMAIL: fake_slack_email
+          SLACK_ADMIN_PASSWORD: fake_slack_password
+          SEGMENT_WRITE_KEY: fake_write_key
+          ATHUL_AUTH_TOKEN: fake_auth_token
+
+          SMTP_ADDRESS: fake_smtp_address
+          SMTP_PORT: fake_smtp_port
+          SMTP_USERNAME: fake_smtp_username
+          SMTP_PASSWORD: fake_smtp_password
+          SMTP_DOMAIN: fake_smtp_domain
+          STRIPE_PUBLISHABLE_KEY: fake_public_key
+          STRIPE_SECRET_KEY: fake_secret_key
+
+          CHANNELS_TO_CLEAR: ''
+
+          SIDEKIQ_HTTP_USERNAME: fake_username
+          SIDEKIQ_HTTP_PASSWORD: fake_password
+
+          S3_ACCESS_KEY_ID: fake_id
+          S3_SECRET_ACCESS_KEY: fake_key
+          S3_REGION: fake_region
+          S3_BUCKET: fake_bucket
+
+          HACKATHONS_SITE_REBUILD_HOOK: fake_rebuild_url
+    
+    # Service container image available at `host: localhost`
+    
+      - image: circleci/postgres:9.6.2-alpine
+        environment:
+          POSTGRES_USER: root
+          POSTGRES_DB: circle-test_test
+
+      - image: redis
+        
+    steps:
+      - checkout
+
+      # Restore bundle cache
+      - restore_cache:
+          keys:
+            - api-{{ checksum "Gemfile.lock" }}
+            - api-
+
+      # Bundle install dependencies
+      - run:
+          name: Install dependencies
+          command: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs 4 --retry 3
+
+      # Store bundle cache
+      - save_cache:
+          key: api-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+
+      - run:
+          name: Database Setup
+          command: bundle exec rake db:setup
+
+      - run:
+          name: Rubocop
+          command: bundle exec rubocop
+
+      - run:
+          name: RSpec
+          command: |
+            bundle exec rspec \
+                  --format progress \
+                  --format RspecJunitFormatter \
+                  --out /tmp/test-results/rspec/results.xml
+
+      # Save artifacts
+      - store_test_results:
+          path: /tmp/test-results
+  
+      # Deploy to Heroku
+      - run:
+          name: Setup Heroku
+          command: bash .circleci/setup-heroku.sh
+      - deploy:
+          name: Deploy to Heroku if on master 
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              git push heroku master --force
+              heroku run db:migrate
+            fi
