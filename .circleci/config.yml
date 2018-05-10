@@ -95,7 +95,7 @@ jobs:
           command: bundle exec rake db:setup
 
       - run:
-          name: Parallel RSpec
+          name: RSpec
           command: |
             bundle exec rspec \
                   --format progress \
