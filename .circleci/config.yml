@@ -10,7 +10,7 @@ jobs:
         environment:
           RAILS_ENV: test
           DATABASE_URL: postgresql://root:@127.0.0.1:5432/postgres
-          REDIS_URL: redis://cache:@127.0.0.1:6379
+          REDIS_URL: redis://@127.0.0.1:6379/cache
 
           ACTION_MAILER_DEFAULT_HOST: example-for-circleci.com
           GOOGLE_MAPS_API_KEY: test_maps_api_key
