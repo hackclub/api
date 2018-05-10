@@ -57,7 +57,7 @@ group :development, :test do
 
   # Allow formatting rspec test results in junit's format, giving CircleCI
   # better insight into tests
-  gem 'rspec_junit_formatter', '~> 0.2.3'
+  gem 'rspec_junit_formatter', '~> 0.3.0'
 
   # For test coverage reports, which are sent to CodeClimate in CircleCI
   gem 'simplecov', '~> 0.15.1', require: false
