@@ -1,0 +1,54 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/api
+    
+    # Primary container image where all commands run
+    
+    docker:
+      - image: circleci/ruby:2.3.1-node
+        environment:
+          RAILS_ENV: test
+          PGHOST: 127.0.0.1
+          PGUSER: root
+    
+    # Service container image available at `host: localhost`
+    
+      - image: circleci/postgres:9.6.2-alpine
+        environment:
+          POSTGRES_USER: root
+          POSTGRES_DB: circle-test_test
+        
+    steps:
+      - checkout
+
+      # Restore bundle cache
+      - restore_cache:
+          keys:
+            - api-{{ checksum "Gemfile.lock" }}
+            - api-
+
+      # Bundle install dependencies
+      - run:
+          name: Install dependencies
+          command: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs 4 --retry 3
+
+      - run: sudo apt install postgresql-client
+
+      # Store bundle cache
+      - save_cache:
+          key: api-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+
+      - run:
+          name: Database Setup
+          command: bundle exec rake db:setup
+
+      - run:
+          name: Parallel RSpec
+          command: bin/rails test
+
+      # Save artifacts
+      - store_test_results:
+          path: /tmp/test-results
