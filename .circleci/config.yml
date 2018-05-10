@@ -102,8 +102,8 @@ jobs:
             bundle exec rspec \
                   --format progress \
                   --format RspecJunitFormatter \
-                  --out tmp/rspec.xml
+                  --out /tmp/test-results/rspec/results.xml
 
       # Save artifacts
       - store_test_results:
-          path: tmp/rspec.xml
+          path: /tmp/test-results
