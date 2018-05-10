@@ -99,7 +99,8 @@ jobs:
       - run:
           name: Parallel RSpec
           command: |
-            rspec --format progress \
+            bundle exec rspec \
+                  --format progress \
                   --format RspecJunitFormatter \
                   --out tmp/rspec.xml
 
