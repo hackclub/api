@@ -95,6 +95,10 @@ jobs:
           command: bundle exec rake db:setup
 
       - run:
+          name: Rubocop
+          command: bundle exec rubocop
+
+      - run:
           name: RSpec
           command: |
             bundle exec rspec \
