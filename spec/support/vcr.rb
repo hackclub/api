@@ -5,6 +5,9 @@ VCR.configure do |c|
   c.hook_into :webmock
   c.configure_rspec_metadata!
 
+  # Allow code coverage report submission to Codacy
+  c.ignore_hosts 'api.codacy.com'
+
   # Filter out everything in config/secrets.yml
   Rails.application.secrets.each do |k, v|
     c.filter_sensitive_data("ENV-#{k}") { v }

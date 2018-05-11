@@ -59,8 +59,8 @@ group :development, :test do
   # better insight into tests
   gem 'rspec_junit_formatter', '~> 0.3.0'
 
-  # For test coverage reports, which are sent to CodeClimate in CircleCI
-  gem 'simplecov', '~> 0.15.1', require: false
+  # For test coverage reports on Codacy
+  gem 'codacy-coverage', '~> 1.1', '>= 1.1.8', require: false
 
   gem 'rubocop', '~> 0.52.1', require: false
 end

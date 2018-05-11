@@ -2,8 +2,8 @@
 
 # For test coverage. Must be the *first* thing ran during tests for coverage to
 # work properly, even before application code is loaded.
-require 'simplecov'
-SimpleCov.start 'rails'
+require 'codacy-coverage'
+Codacy::Reporter.start
 
 # This file is copied to spec/ when you run "rails generate rspec:install"
 ENV['RAILS_ENV'] ||= 'test'
