@@ -5,12 +5,6 @@
   <a href="https://circleci.com/gh/hackclub/monolith">
     <img alt="CircleCI" src="https://img.shields.io/circleci/project/github/hackclub/monolith.svg">
   </a>
-  <a href="https://codeclimate.com/github/hackclub/monolith">
-    <img alt="CodeClimate" src="https://img.shields.io/codeclimate/maintainability/hackclub/monolith.svg">
-  </a>
-  <a href="https://codeclimate.com/github/hackclub/monolith">
-    <img alt="Test Coverage" src="https://img.shields.io/codeclimate/c/hackclub/monolith.svg">
-  </a>
   <a href="https://oss.skylight.io/app/applications/WFTfslPPiTpG">
     <img alt="Skylight" src="https://badges.skylight.io/status/WFTfslPPiTpG.svg">
   </a>
