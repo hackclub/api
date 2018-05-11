@@ -1,6 +1,6 @@
 <p align="center"><img alt="Monolith icon" src="https://i.imgur.com/J9seIVR.png"></a>
-<h1 align="center">Monolith</h1>
-<p align="center"><i>The home of Hack Club's code. Illustrated above.</i></p>
+<h1 align="center">API</h1>
+<p align="center"><i>The backend powering https://hackclub.com. Illustrated above.</i></p>
 <p align="center">
   <a href="https://circleci.com/gh/hackclub/monolith">
     <img alt="CircleCI" src="https://img.shields.io/circleci/project/github/hackclub/monolith.svg">
@@ -16,67 +16,11 @@
   </a>
 </p>
 
-<p align="center">
-Monolith currently includes our backend API hosted at https://api.hackclub.com and our legacy frontend codebase. Our new frontend codebase is at <code><a href="https://github.com/hackclub/site">hackclub/site</a></code>.
-</p>
+## Development Setup
 
-## How to run it
+### Environment Variables
 
-Go through the [web setup](#web-setup) and [api setup](#api-setup). Once you've got that done you can spin up both at the same time with this command:
-
-```sh
-docker-compose up
-```
-
-And then `api` and `web` should be live on `localhost:3000` and `localhost:3001` respectively!
-
-## Web Setup
-
-Create a file called `web/.env` with the following contents, replacing "REPLACEME" with actual values:
-
-```sh
-# For server-rendered meta tags
-REACT_APP_META_TITLE="Start your own Hack Club!"
-REACT_APP_META_DESCRIPTION="Learn in your own environment, your own way. Join a network of club leaders around the world who can help you every step of the way."
-# In production this is set to "https://hackclub.com/meta_og_image.png"
-REACT_APP_META_OG_IMAGE="localhost:3001/meta_og_image.png"
-
-# For Segment analytics
-REACT_APP_SEGMENT_KEY=REPLACEME
-
-# For requests to the API used in workshops, slack invites, etc.
-# In production this is set to "https://api.hackclub.com"
-REACT_APP_API_BASE_URL=localhost:3000
-
-# For Hackbot new team auth
-REACT_APP_SLACK_CLIENT_ID=REPLACEME
-
-# For error tracking
-REACT_APP_SENTRY_DSN=REPLACEME
-
-# For Stripe donations
-REACT_APP_STRIPE_PUBLISHABLE_KEY=REPLACEME
-```
-
-All these values are mandatory.
-
-Right now we only maintain web running on docker. While just spinning up the server with node on your own machine should work, milage may vary.
-
-```sh
-docker-compose build web
-docker-compose run web yarn
-```
-
-```sh
-# Now you can start up web anytime you want
-docker-compose up web
-```
-
-## API Setup
-
-### Environmental Variables
-
-Create a file called `api/.env`. The following configuration options are available to set in it:
+Create a file called `.env`. The following configuration options are available to set in it:
 
 ```
 # Number of Rails threads to run per server instance. One database connection is
@@ -187,23 +131,26 @@ SIDEKIQ_HTTP_USERNAME
 SIDEKIQ_HTTP_PASSWORD
 ```
 
-### Build the container
+### Build the container & install dependencies for runtime environment
 
-```sh
-git submodule init
-git submodule update
-docker-compose build api
-docker-compose run api bundle
-docker-compose run api rails db:create db:setup
-```
+    $ docker-compose build
+    $ docker-compose run web bundle
+    $ docker-compose run web rails db:create db:setup
 
-### Setting up the Slack App
+Run tests to ensure everything is working as expected:
+
+    $ docker-compose run web rails spec
+
+### Setting up the integrated Slack bot
 
 1. Create a new Slack app on Slack
 2. Create one (and only one) bot user and set "Always Show My Bot as Online" to "On"
 3. Click "Event Subscriptions" on the sidebar in the left and set the request URL to `HOSTNAME/v1/hackbot/webhooks/events`, replacing `HOSTNAME` with your actual hostname.
 4. Subscribe to the following bot events: `message.channels`, `message.im`, `message.groups`, `message.mpim`
 5. Click "Interactive Messages" on the left sidebar and set the request URL to `HOSTNAME/v1/hackbot/webhooks/interactive_messages`, replacing `HOSTNAME` with your actual hostname.
+6. Manually go through the Oauth flow and POST `code` to `/v1/hackbot/auth`
+
+## Production Setup
 
 ### Scheduled Jobs
 
@@ -231,6 +178,6 @@ heroku/ruby
 
 Refer to https://devcenter.heroku.com/articles/buildpacks for instructions on configuring buildpacks.
 
-#### Profiling
+### Profiling
 
 We use [Skylight](https://www.skylight.io) to profile the performance of our backend in production. To use it, you must set `SKYLIGHT_AUTHENTICATION` in the environment to the value that Skylight gives you.
