@@ -119,5 +119,5 @@ jobs:
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               git push heroku master
-              heroku run db:migrate
+              heroku run rails db:migrate
             fi
