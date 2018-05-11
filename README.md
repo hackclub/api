@@ -2,7 +2,7 @@
 <h1 align="center">API</h1>
 <p align="center"><i>The backend powering https://hackclub.com. Illustrated above.</i></p>
 <p align="center">
-  <a href="https://circleci.com/gh/hackclub/monolith">
+  <a href="https://circleci.com/gh/hackclub/api">
     <img alt="CircleCI" src="https://img.shields.io/circleci/project/github/hackclub/monolith.svg">
   </a>
   <a href="https://oss.skylight.io/app/applications/WFTfslPPiTpG">
