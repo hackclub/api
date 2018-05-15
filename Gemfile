@@ -31,9 +31,9 @@ gem 'sidekiq', '~> 5.0', '>= 5.0.5'
 gem 'skylight', '~> 1.5', '>= 1.5.1'
 gem 'stripe', '~> 3.0'
 gem 'terminal-table', '~> 1.7'
+gem 'timber', '~> 2.6', '>= 2.6.1'
 gem 'timezone', '~> 1.0'
 gem 'wkhtmltopdf-binary', '~> 0.12.3'
-gem 'timber', '~> 2.6', '>= 2.6.1'
 
 group :development, :test do
   gem 'listen', '~> 3.0.5'
