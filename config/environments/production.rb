@@ -97,4 +97,7 @@ Rails.application.configure do
 
   # Use S3 for ActiveStorage
   config.active_storage.service = :amazon
+
+  # Enable Lograge in prod
+  config.lograge.enabled = true
 end
