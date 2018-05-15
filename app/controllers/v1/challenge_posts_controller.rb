@@ -7,7 +7,9 @@ module V1
 
     def index
       challenge = Challenge.find(params[:challenge_id])
-      render_success challenge.posts.includes(:creator, :upvotes, :clicks)
+      posts = challenge.posts.includes(:creator, :upvotes, :clicks)
+
+      render_success posts
     end
 
     def create

@@ -70,13 +70,11 @@ RSpec.describe 'V1::ChallengePost', type: :request do
     let(:challenge) { create(:challenge) }
 
     before do
-      5.times do
-        post = create(:challenge_post, challenge: challenge)
-
-        5.times do
-          ChallengePostUpvote.create(challenge_post: post, user: create(:user))
-        end
-      end
+      create_list(
+        :challenge_post_with_upvotes,
+        5,
+        challenge: challenge,
+        upvote_count: 5)
     end
 
     it 'returns all posts' do
