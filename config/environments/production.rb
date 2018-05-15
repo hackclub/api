@@ -99,5 +99,6 @@ Rails.application.configure do
   config.active_storage.service = :amazon
 
   # Enable Lograge in prod
+  config.lograge.base_controller_class = 'ActionController::API'
   config.lograge.enabled = true
 end
