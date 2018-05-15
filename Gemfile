@@ -33,6 +33,7 @@ gem 'stripe', '~> 3.0'
 gem 'terminal-table', '~> 1.7'
 gem 'timezone', '~> 1.0'
 gem 'wkhtmltopdf-binary', '~> 0.12.3'
+gem 'timber', '~> 2.6', '>= 2.6.1'
 
 group :development, :test do
   gem 'listen', '~> 3.0.5'
