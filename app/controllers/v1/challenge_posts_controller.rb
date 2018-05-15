@@ -6,10 +6,16 @@ module V1
     include UserAuth
 
     def index
-      challenge = Challenge.find(params[:challenge_id])
-      posts = challenge.posts.includes(:creator, :upvotes, :clicks)
+      challenge = Challenge
+                  .includes(
+                    posts: [
+                      :creator,
+                      { upvotes: [:user] }
+                    ]
+                  )
+                  .find(params[:challenge_id])
 
-      render_success posts
+      render_success challenge.posts
     end
 
     def create
