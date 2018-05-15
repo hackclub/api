@@ -7,7 +7,7 @@ module V1
 
     def index
       challenge = Challenge
-                  .includes(
+                  .eager_load(
                     posts: [
                       :creator,
                       { upvotes: [:user] }
