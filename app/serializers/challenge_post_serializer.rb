@@ -9,7 +9,8 @@ class ChallengePostSerializer < ActiveModel::Serializer
              :url_redirect,
              :description,
              :click_count,
-             :comment_count
+             :comment_count,
+             :rank_score
 
   has_one :creator
   has_many :upvotes

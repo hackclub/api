@@ -38,4 +38,13 @@ class ChallengePost < ApplicationRecord
   def comment_count
     comments.count
   end
+
+  def rank_score
+    return unless persisted?
+
+    gravity = 1.5 # adjust as necessary
+    hours_since_creation = (Time.current - created_at) / 1.hour
+
+    (upvotes.count - 1) / (hours_since_creation + 2)**gravity
+  end
 end

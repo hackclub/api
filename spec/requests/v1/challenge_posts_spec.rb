@@ -45,7 +45,8 @@ RSpec.describe 'V1::ChallengePost', type: :request do
             'description',
             'creator',
             'click_count',
-            'comment_count'
+            'comment_count',
+            'rank_score'
           )
           expect(json['creator']).to include(
             'id' => user.id,
@@ -74,7 +75,8 @@ RSpec.describe 'V1::ChallengePost', type: :request do
         :challenge_post_with_upvotes,
         5,
         challenge: challenge,
-        upvote_count: 5)
+        upvote_count: 5
+      )
     end
 
     it 'returns all posts' do

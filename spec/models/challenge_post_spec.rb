@@ -92,4 +92,28 @@ RSpec.describe ChallengePost, type: :model do
       end
     end
   end
+
+  describe '#rank_score' do
+    it 'returns nil when not persisted' do
+      expect(subject.rank_score).to eq(nil)
+    end
+
+    context 'when persisted' do
+      before { subject.save }
+
+      it 'returns a low value' do
+        expect(subject.rank_score).to be <= 0
+      end
+
+      context 'with lots of recent upvotes' do
+        before do
+          create_list(:challenge_post_upvote, 5, challenge_post: subject)
+        end
+
+        it 'returns a high value' do
+          expect(subject.rank_score).to be > 0
+        end
+      end
+    end
+  end
 end
