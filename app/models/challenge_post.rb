@@ -15,6 +15,15 @@ class ChallengePost < ApplicationRecord
 
   validate :challenge_is_open
 
+  after_initialize :default_values
+
+  def default_values
+    return if persisted?
+
+    self.click_count ||= 0
+    self.comment_count ||= 0
+  end
+
   def challenge_is_open
     return unless challenge
 
@@ -29,14 +38,6 @@ class ChallengePost < ApplicationRecord
     return nil unless persisted?
 
     url_for [:v1_post_redirect, post_id: id]
-  end
-
-  def click_count
-    clicks.size
-  end
-
-  def comment_count
-    comments.size
   end
 
   def rank_score

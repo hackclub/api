@@ -16,7 +16,7 @@ RSpec.describe ChallengePostClick, type: :model do
 
   it_behaves_like 'Recoverable'
 
-  it { should belong_to :challenge_post }
+  it { should belong_to(:challenge_post).counter_cache(:click_count) }
   it { should belong_to :user }
 
   it { should validate_presence_of :challenge_post }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_08_232057) do
+ActiveRecord::Schema.define(version: 2018_05_16_010221) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -112,6 +112,8 @@ ActiveRecord::Schema.define(version: 2018_05_08_232057) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
+    t.integer "comment_count"
+    t.integer "click_count"
     t.index ["challenge_id"], name: "index_challenge_posts_on_challenge_id"
     t.index ["creator_id"], name: "index_challenge_posts_on_creator_id"
     t.index ["deleted_at"], name: "index_challenge_posts_on_deleted_at"

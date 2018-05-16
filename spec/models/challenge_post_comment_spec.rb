@@ -18,7 +18,7 @@ RSpec.describe ChallengePostComment, type: :model do
   it_behaves_like 'Recoverable'
 
   it { should belong_to :user }
-  it { should belong_to :challenge_post }
+  it { should belong_to(:challenge_post).counter_cache(:comment_count) }
   it { should belong_to :parent }
   it { should have_many :children }
 

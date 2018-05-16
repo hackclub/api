@@ -4,7 +4,7 @@ class ChallengePostComment < ApplicationRecord
   include Recoverable
 
   belongs_to :user
-  belongs_to :challenge_post
+  belongs_to :challenge_post, counter_cache: :comment_count
   belongs_to :parent, class_name: 'ChallengePostComment'
 
   has_many :children,

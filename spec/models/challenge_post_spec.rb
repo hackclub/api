@@ -13,6 +13,8 @@ RSpec.describe ChallengePost, type: :model do
   it { should have_db_column :description }
   it { should have_db_column :creator_id }
   it { should have_db_column :challenge_id }
+  it { should have_db_column :click_count }
+  it { should have_db_column :comment_count }
 
   it_behaves_like 'Recoverable'
 
