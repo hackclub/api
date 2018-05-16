@@ -54,6 +54,20 @@ RSpec.describe ChallengePostComment, type: :model do
       end
     end
 
+    context 'when creator has unsubscribed' do
+      before { subject.user.email_on_new_challenge_post_comments = false }
+
+      it 'does not notify' do
+        expect(ChallengePostCommentMailer.deliveries.length).to eq(0)
+
+        perform_enqueued_jobs do
+          subject.save
+        end
+
+        expect(ChallengePostCommentMailer.deliveries.length).to eq(0)
+      end
+    end
+
     context 'when comment is by creator' do
       subject do
         comment = build(:challenge_post_comment)

@@ -31,9 +31,12 @@ class User < ApplicationRecord
   def default_values
     return if persisted?
 
+    if email_on_new_challenge_post_comments.nil?
+      self.email_on_new_challenge_post_comments = true
+    end
+
     self.email_on_new_challenges ||= false
     self.email_on_new_challenge_posts ||= false
-    self.email_on_new_challenge_post_comments ||= true
   end
 
   def downcase_email
