@@ -15,10 +15,21 @@ class ChallengePostComment < ApplicationRecord
 
   validate :parent_challenge_post_matches_challenge_post
 
+  after_commit :notify_post_creator, on: :create
+
   def parent_challenge_post_matches_challenge_post
     return unless parent
     return if parent.challenge_post == challenge_post
 
     errors.add(:parent, "parent's challenge_post must match")
+  end
+
+  def notify_post_creator
+    return if user == challenge_post.creator
+
+    ChallengePostCommentMailer
+      .with(comment: self)
+      .notify_post_creator
+      .deliver_later
   end
 end

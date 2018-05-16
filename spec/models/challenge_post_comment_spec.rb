@@ -38,4 +38,39 @@ RSpec.describe ChallengePostComment, type: :model do
       expect(subject.valid?).to eq(true)
     end
   end
+
+  describe '#notify_post_creator' do
+    context 'when comment is not by creator' do
+      subject { build(:challenge_post_comment, user: build(:user)) }
+
+      it 'notifies' do
+        expect(ChallengePostCommentMailer.deliveries.length).to eq(0)
+
+        perform_enqueued_jobs do
+          subject.save
+        end
+
+        expect(ChallengePostCommentMailer.deliveries.length).to eq(1)
+      end
+    end
+
+    context 'when comment is by creator' do
+      subject do
+        comment = build(:challenge_post_comment)
+        comment.user = comment.challenge_post.creator
+
+        comment
+      end
+
+      it 'does not notify' do
+        expect(ChallengePostCommentMailer.deliveries.length).to eq(0)
+
+        perform_enqueued_jobs do
+          subject.save
+        end
+
+        expect(ChallengePostCommentMailer.deliveries.length).to eq(0)
+      end
+    end
+  end
 end

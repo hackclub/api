@@ -1,0 +1,12 @@
+<div style="background-color: #fdc2c8; padding: 15px;">
+  <strong>Re: <%= link_to @post.name, 'https://hackclub.com/challenge' %></strong>
+</div>
+<div style="margin-left: 15px; margin-right: 15px;">
+  <p><%= mail_to @comment.user.email %> commented on <u><%= @post.name %></ul>:</p>
+  <p><%= @comment.body %></p>
+  <hr>
+  <p>
+    Head over to <a href="https://hackclub.com/challenge">https://hackclub.com/challenge</a>
+    to reply. <a href="#">Click to unsubscribe</a>.
+  </p>
+</div>
