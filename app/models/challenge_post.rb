@@ -44,7 +44,7 @@ class ChallengePost < ApplicationRecord
   def rank_score
     return unless persisted?
 
-    gravity = 1.8 # adjust as necessary
+    gravity = 2 # adjust as necessary
     hours_since_creation = (Time.current - created_at) / 1.hour
 
     (upvote_count + 1) / (hours_since_creation + 2)**gravity
