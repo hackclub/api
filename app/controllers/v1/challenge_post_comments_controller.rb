@@ -6,9 +6,12 @@ module V1
     include UserAuth
 
     def index
-      render_success ChallengePost
-        .find(params[:post_id])
-        .comments
+      comments = ChallengePost
+                 .eager_load(comments: [:user])
+                 .find(params[:post_id])
+                 .comments
+
+      render_success comments
     end
 
     def create
