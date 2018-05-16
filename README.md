@@ -166,6 +166,7 @@ We use Heroku for managing our deployment of this project and that brings along 
 Here are the buildpacks that need to be configured (they must be in the given order):
 
 ```
+https://github.com/heroku/heroku-buildpack-activestorage-preview
 https://github.com/heroku/heroku-buildpack-apt
 heroku/ruby
 ```
