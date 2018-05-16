@@ -32,11 +32,11 @@ class ChallengePost < ApplicationRecord
   end
 
   def click_count
-    clicks.count
+    clicks.size
   end
 
   def comment_count
-    comments.count
+    comments.size
   end
 
   def rank_score
