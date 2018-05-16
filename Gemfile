@@ -65,6 +65,10 @@ group :development, :test do
   gem 'rubocop', '~> 0.52.1', require: false
 end
 
+group :production do
+  gem 'rails_autoscale_agent', '~> 0.3.1'
+end
+
 gem 'gruff'
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
