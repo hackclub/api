@@ -22,6 +22,7 @@ class ChallengePost < ApplicationRecord
 
     self.click_count ||= 0
     self.comment_count ||= 0
+    self.upvote_count ||= 0
   end
 
   def challenge_is_open
