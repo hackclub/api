@@ -7,7 +7,9 @@ class User < ApplicationRecord
             format: { with: /\A[a-z0-9]+\z/, unless: -> { username.nil? } }
   validates :login_code, uniqueness: { if: -> { login_code.present? } }
   validates :auth_token, uniqueness: { if: -> { auth_token.present? } }
-  validates :email_on_new_challenges, :email_on_new_challenge_posts,
+  validates :email_on_new_challenges,
+            :email_on_new_challenge_posts,
+            :email_on_new_challenge_post_comments,
             inclusion: { in: [true, false] }
 
   validate :username_cannot_be_unset
@@ -28,6 +30,10 @@ class User < ApplicationRecord
 
   def default_values
     return if persisted?
+
+    if email_on_new_challenge_post_comments.nil?
+      self.email_on_new_challenge_post_comments = true
+    end
 
     self.email_on_new_challenges ||= false
     self.email_on_new_challenge_posts ||= false

@@ -176,7 +176,8 @@ RSpec.describe 'V1::Users', type: :request do
           'username',
           'admin_at',
           'email_on_new_challenges',
-          'email_on_new_challenge_posts'
+          'email_on_new_challenge_posts',
+          'email_on_new_challenge_post_comments'
         )
         expect(json).to_not include(
           'login_code', 'login_code_generation',
@@ -233,7 +234,8 @@ RSpec.describe 'V1::Users', type: :request do
         email: 'shouldntupdate@example.com',
         username: 'newusername',
         email_on_new_challenges: true,
-        email_on_new_challenge_posts: true
+        email_on_new_challenge_posts: true,
+        email_on_new_challenge_post_comments: false
       }
     end
 
@@ -269,7 +271,8 @@ RSpec.describe 'V1::Users', type: :request do
             'email' => user.email,
             'username' => 'newusername',
             'email_on_new_challenges' => true,
-            'email_on_new_challenge_posts' => true
+            'email_on_new_challenge_posts' => true,
+            'email_on_new_challenge_post_comments' => false
           )
         end
 
