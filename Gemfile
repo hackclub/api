@@ -34,6 +34,8 @@ gem 'terminal-table', '~> 1.7'
 gem 'timezone', '~> 1.0'
 gem 'wkhtmltopdf-binary', '~> 0.12.3'
 
+gem 'rails_autoscale_agent', '~> 0.3.1'
+
 group :development, :test do
   gem 'listen', '~> 3.0.5'
 
@@ -63,10 +65,6 @@ group :development, :test do
   gem 'codacy-coverage', '~> 1.1', '>= 1.1.8', require: false
 
   gem 'rubocop', '~> 0.52.1', require: false
-end
-
-group :production do
-  gem 'rails_autoscale_agent', '~> 0.3.1'
 end
 
 gem 'gruff'
