@@ -10,6 +10,8 @@ module V1
                   .eager_load(
                     posts: [
                       :creator,
+                      :comments,
+                      :clicks,
                       { upvotes: [:user] }
                     ]
                   )
