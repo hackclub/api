@@ -101,18 +101,10 @@ RSpec.describe ChallengePost, type: :model do
     context 'when persisted' do
       before { subject.save }
 
-      it 'returns a low value' do
-        expect(subject.rank_score).to be <= 0
-      end
+      it 'returns a lower value than an instance with lots of upvotes' do
+        upvoted = create(:challenge_post_with_upvotes, upvote_count: 10)
 
-      context 'with lots of recent upvotes' do
-        before do
-          create_list(:challenge_post_upvote, 5, challenge_post: subject)
-        end
-
-        it 'returns a high value' do
-          expect(subject.rank_score).to be > 0
-        end
+        expect(subject.rank_score).to be <= upvoted.rank_score
       end
     end
   end
