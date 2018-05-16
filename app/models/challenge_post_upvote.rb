@@ -3,7 +3,7 @@
 class ChallengePostUpvote < ApplicationRecord
   include Recoverable
 
-  belongs_to :challenge_post
+  belongs_to :challenge_post, counter_cache: :upvote_count
   belongs_to :user
 
   validates :challenge_post, :user, presence: true
