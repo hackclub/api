@@ -14,6 +14,7 @@ RSpec.describe User, type: :model do
   it { should have_db_column :admin_at }
   it { should have_db_column :email_on_new_challenges }
   it { should have_db_column :email_on_new_challenge_posts }
+  it { should have_db_column :email_on_new_challenge_post_comments }
 
   it { should have_db_index(:username).unique(true) }
 
@@ -42,6 +43,15 @@ RSpec.describe User, type: :model do
 
     expect(subject.valid?).to eq(false)
     expect(subject.errors).to include('email_on_new_challenge_posts')
+  end
+
+  it 'should not allow email_on_new_challenge_post_comments to be nil' do
+    expect(subject.valid?).to eq(true)
+
+    subject.email_on_new_challenge_post_comments = nil
+
+    expect(subject.valid?).to eq(false)
+    expect(subject.errors).to include('email_on_new_challenge_post_comments')
   end
 
   it 'does not allow duplicate emails to be created, regardless of case' do
@@ -90,6 +100,10 @@ RSpec.describe User, type: :model do
 
   it 'sets email_on_new_challenge_posts to false by default' do
     expect(User.new.email_on_new_challenge_posts).to eq(false)
+  end
+
+  it 'sets email_on_new_challenge_post_comments to true by default' do
+    expect(User.new.email_on_new_challenge_post_comments).to eq(true)
   end
 
   example ':generate_login_code!' do
