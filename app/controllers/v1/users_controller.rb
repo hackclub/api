@@ -68,7 +68,8 @@ module V1
       params.permit(
         :username,
         :email_on_new_challenges,
-        :email_on_new_challenge_posts
+        :email_on_new_challenge_posts,
+        :email_on_new_challenge_post_comments
       )
     end
   end
