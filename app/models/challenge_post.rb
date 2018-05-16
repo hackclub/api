@@ -46,7 +46,7 @@ class ChallengePost < ApplicationRecord
 
     gravity = 2 # adjust as necessary
     hours_since_creation = (Time.current - created_at) / 1.hour
-    recent_creation_bonus = [3 - hours_since_creation, 0].max
+    recent_creation_bonus = [6 - hours_since_creation, 0].max
 
     (upvote_count + recent_creation_bonus) / (hours_since_creation + 2)**gravity
   end
