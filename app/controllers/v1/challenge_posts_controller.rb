@@ -6,16 +6,17 @@ module V1
     include UserAuth
 
     def index
-      challenge = Challenge
-                  .eager_load(
-                    posts: [
-                      :creator,
-                      { upvotes: [:user] }
-                    ]
-                  )
-                  .find(params[:challenge_id])
+      posts = Challenge
+              .eager_load(
+                posts: [
+                  :creator,
+                  { upvotes: [:user] }
+                ]
+              )
+              .find(params[:challenge_id])
+              .posts
 
-      render_success challenge.posts
+      render_success posts
     end
 
     def create
