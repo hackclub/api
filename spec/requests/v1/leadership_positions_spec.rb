@@ -59,6 +59,47 @@ RSpec.describe 'V1::LeadershipPositions', type: :request do
           expect(LeadershipPosition.find_by(id: position.id)).to_not be_nil
         end
       end
+
+      # TODO: also allow if user is an admin
+    end
+  end
+
+  describe 'DELETE /v1/leadership_positions/:id' do
+    let(:position) { create(:leadership_position) }
+
+    let(:method) { :delete }
+    let(:url) { "/v1/leadership_positions/#{position.id}" }
+
+    it 'requires authentication' do
+      expect(response.status).to eq(401)
+    end
+
+    context 'when authenticated' do
+      let(:user) { create(:user_authed) }
+      let(:headers) { auth_headers }
+
+      it 'requires you to be associated with the club' do
+        expect(response.status).to eq(403)
+      end
+
+      context 'when associated with the club' do
+        let(:setup) { position.new_leader.update_attributes(user: user) }
+
+        it 'successfully deletes' do
+          expect(response.status).to eq(200)
+          expect(json['id']).to eq(position.id)
+
+          expect(LeadershipPosition.find_by(id: position.id)).to be_nil
+        end
+      end
+
+      context 'when admin' do
+        let(:user) { create(:user_admin_authed) }
+
+        it 'successfully deletes' do
+          expect(response.status).to eq(200)
+        end
+      end
     end
   end
 end

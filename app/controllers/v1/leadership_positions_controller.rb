@@ -24,5 +24,14 @@ module V1
 
       render_success position
     end
+
+    def destroy
+      position = LeadershipPosition.find(params[:id])
+      authorize position
+
+      position.destroy
+
+      render_success position
+    end
   end
 end
