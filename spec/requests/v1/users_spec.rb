@@ -14,19 +14,21 @@ RSpec.describe 'V1::Users', type: :request do
     it 'creates new object and sends email with new and valid email' do
       # ensure any jobs are ran during request
       perform_enqueued_jobs do
-        post '/v1/users/auth', params: { email: 'foo@bar.com' }
+        post '/v1/users/auth', params: {
+          email: 'foo@bar.com'
+        }
       end
 
       expect(response.status).to eq(200)
 
       # return created object
       expect(json).to include('email' => 'foo@bar.com')
+      expect(json).to include('username')
       expect(json).to include('id')
 
       # do not return fields that give away information
       expect(json).to_not include('created_at')
       expect(json).to_not include('updated_at')
-      expect(json).to_not include('username')
 
       # but not secret fields
       expect(json).to_not include('auth_token')

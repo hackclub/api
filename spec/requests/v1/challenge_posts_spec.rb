@@ -50,7 +50,8 @@ RSpec.describe 'V1::ChallengePost', type: :request do
           )
           expect(json['creator']).to include(
             'id' => user.id,
-            'email' => user.email
+            'email' => user.email,
+            'username' => user.username
           )
           expect(json['creator']).to_not include('created_at', 'updated_at')
         end
@@ -92,7 +93,11 @@ RSpec.describe 'V1::ChallengePost', type: :request do
         'created_at',
         'updated_at'
       )
-      expect(json[0]['upvotes'][0]['user']).to include('id', 'email')
+      expect(json[0]['upvotes'][0]['user']).to include(
+        'id',
+        'email',
+        'username'
+      )
       expect(json[0]['upvotes'][0]).to_not include('challenge_post_id')
     end
   end
