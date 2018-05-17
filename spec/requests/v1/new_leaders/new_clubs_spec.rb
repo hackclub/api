@@ -34,7 +34,7 @@ RSpec.describe 'V1::NewLeaders::NewClubs' do
         expect(json[0]).to include('leadership_positions')
 
         # ensure all proper data is included here
-        expect(json[0]['leadership_positions']).to include(
+        expect(json[0]['leadership_positions'][0]).to include(
           'id',
           'created_at',
           'updated_at',
