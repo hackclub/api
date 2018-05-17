@@ -19,4 +19,5 @@ class NewClubSerializer < ActiveModel::Serializer
              :high_school_parsed_country_code
 
   has_many :new_leaders
+  has_many :leadership_positions
 end
