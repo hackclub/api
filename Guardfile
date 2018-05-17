@@ -26,6 +26,13 @@ guard :rspec, cmd: 'bin/bundle exec spring rspec' do
     ]
   end
 
+  watch(%r{^app/serializers/(.+)_serializer\.rb$}) do |m|
+    [
+      rspec.spec.call("controllers/v1/#{m[1]}s"),
+      rspec.spec.call("requests/v1/#{m[1]}s")
+    ]
+  end
+
   watch(%r{^app/(.+/concerns/.+)\.rb$}) { |m| "spec/#{m[1]}_spec.rb" }
   watch(%r{^app/(mailers/.+)_mailer\.rb$}) { |m| "spec/#{m[1]}_spec.rb" }
 
