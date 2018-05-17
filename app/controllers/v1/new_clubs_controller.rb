@@ -14,7 +14,11 @@ module V1
       club = NewClub.find(params[:id])
       authorize club
 
-      render_success club if club.update_attributes(club_params)
+      if club.update_attributes(club_params)
+        render_success club
+      else
+        render_field_errors club.errors
+      end
     end
 
     private

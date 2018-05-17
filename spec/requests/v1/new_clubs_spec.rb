@@ -90,6 +90,19 @@ RSpec.describe 'V1::NewClubs', type: :request do
             'high_school_address' => 'Fake Street, NYC'
           )
         end
+
+        context 'with invalid params' do
+          let(:params) do
+            {
+              high_school_name: nil
+            }
+          end
+
+          it 'gracefully fails' do
+            expect(response.status).to eq(422)
+            expect(json['errors']).to include('high_school_name')
+          end
+        end
       end
 
       context 'with leadership position' do
