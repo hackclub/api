@@ -38,7 +38,6 @@ guard :rspec, cmd: 'bin/bundle exec spring rspec' do
 
   # Rails config changes
   watch(rails.spec_helper) { rspec.spec_dir }
-  watch(rails.routes) { "#{rspec.spec_dir}/requests" }
   watch(rails.app_controller) do
     [
       "#{rspec.spec_dir}/controllers",
