@@ -2,7 +2,7 @@
   <strong>Re: <%= link_to @post.name, 'https://hackclub.com/challenge' %></strong>
 </div>
 <div style="margin-left: 15px; margin-right: 15px;">
-  <p><%= mail_to @comment.user.email %> commented on <u><%= @post.name %></ul>:</p>
+  <p><%= mail_to @comment.user.email %> commented on <u><%= @post.name %></u>:</p>
   <p><%= @comment.body %></p>
   <hr>
   <p>
