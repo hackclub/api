@@ -42,6 +42,7 @@ RSpec.describe NewLeader, type: :model do
 
   it { should have_many(:leadership_positions) }
   it { should have_many(:new_clubs).through(:leadership_positions) }
+  it { should have_one(:user) }
 
   ## validations ##
 

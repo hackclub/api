@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_16_202111) do
+ActiveRecord::Schema.define(version: 2018_05_17_043347) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -591,8 +591,10 @@ ActiveRecord::Schema.define(version: 2018_05_16_202111) do
     t.boolean "email_on_new_challenge_posts"
     t.boolean "email_on_new_challenges"
     t.boolean "email_on_new_challenge_post_comments"
+    t.bigint "new_leader_id"
     t.index ["auth_token"], name: "index_users_on_auth_token"
     t.index ["email"], name: "index_users_on_email"
+    t.index ["new_leader_id"], name: "index_users_on_new_leader_id"
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
@@ -633,4 +635,5 @@ ActiveRecord::Schema.define(version: 2018_05_16_202111) do
   add_foreign_key "recognized_faces", "attachments"
   add_foreign_key "recognized_faces", "recognized_people"
   add_foreign_key "slack_invites", "hackbot_teams"
+  add_foreign_key "users", "new_leaders"
 end

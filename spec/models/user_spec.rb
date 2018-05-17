@@ -15,6 +15,7 @@ RSpec.describe User, type: :model do
   it { should have_db_column :email_on_new_challenges }
   it { should have_db_column :email_on_new_challenge_posts }
   it { should have_db_column :email_on_new_challenge_post_comments }
+  it { should have_db_column :new_leader_id }
 
   it { should have_db_index(:username).unique(true) }
 
@@ -85,6 +86,7 @@ RSpec.describe User, type: :model do
     expect(subject.valid?).to eq(false)
   end
 
+  it { should belong_to(:new_leader) }
   it { should have_many(:leader_profiles) }
   it { should have_many(:new_club_applications).through(:leader_profiles) }
 

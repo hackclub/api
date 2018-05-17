@@ -5,6 +5,7 @@ class NewLeader < ApplicationRecord
 
   has_many :leadership_positions
   has_many :new_clubs, through: :leadership_positions
+  has_one :user
 
   enum gender: %i[
     male
