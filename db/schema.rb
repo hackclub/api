@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_17_102942) do
+ActiveRecord::Schema.define(version: 2018_05_17_125005) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -384,6 +384,19 @@ ActiveRecord::Schema.define(version: 2018_05_17_102942) do
     t.index ["streak_key"], name: "index_leaders_on_streak_key"
   end
 
+  create_table "leadership_position_invites", force: :cascade do |t|
+    t.bigint "sender_id"
+    t.bigint "new_club_id"
+    t.bigint "user_id"
+    t.datetime "accepted_at"
+    t.datetime "rejected_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["new_club_id"], name: "index_leadership_position_invites_on_new_club_id"
+    t.index ["sender_id"], name: "index_leadership_position_invites_on_sender_id"
+    t.index ["user_id"], name: "index_leadership_position_invites_on_user_id"
+  end
+
   create_table "leadership_positions", force: :cascade do |t|
     t.bigint "new_club_id"
     t.bigint "new_leader_id"
@@ -628,6 +641,9 @@ ActiveRecord::Schema.define(version: 2018_05_17_102942) do
   add_foreign_key "clubs", "leaders", column: "point_of_contact_id"
   add_foreign_key "event_website_clicks", "event_email_subscribers"
   add_foreign_key "event_website_clicks", "events"
+  add_foreign_key "leadership_position_invites", "new_clubs"
+  add_foreign_key "leadership_position_invites", "users"
+  add_foreign_key "leadership_position_invites", "users", column: "sender_id"
   add_foreign_key "leadership_positions", "new_clubs"
   add_foreign_key "leadership_positions", "new_leaders"
   add_foreign_key "net_promoter_score_surveys", "leaders"
