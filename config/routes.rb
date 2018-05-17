@@ -40,6 +40,8 @@ Rails.application.routes.draw do
       resources :notes, only: %i[index create]
     end
 
+    resources :leadership_positions, only: [:update]
+
     resources :new_leaders, only: [:update] do
       resources :new_clubs, controller: 'new_leaders/new_clubs', only: [:index]
     end
