@@ -10,6 +10,13 @@ module V1
       render_success NewClub.all
     end
 
+    def show
+      club = NewClub.find(params[:id])
+      authorize club
+
+      render_success club
+    end
+
     def update
       club = NewClub.find(params[:id])
       authorize club

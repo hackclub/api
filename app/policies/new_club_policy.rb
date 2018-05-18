@@ -1,9 +1,18 @@
 # frozen_string_literal: true
 
 class NewClubPolicy < ApplicationPolicy
-  def update?
-    leader = NewLeader.find_by(user: user)
+  def show?
+    user.admin? || holds_leadership_position?
+  end
 
-    user.admin? || record.new_leaders.include?(leader)
+  def update?
+    user.admin? || holds_leadership_position?
+  end
+
+  private
+
+  def holds_leadership_position?
+    leader = NewLeader.find_by(user: user)
+    record.new_leaders.include?(leader)
   end
 end

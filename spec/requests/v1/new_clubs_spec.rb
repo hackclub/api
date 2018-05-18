@@ -54,6 +54,44 @@ RSpec.describe 'V1::NewClubs', type: :request do
     end
   end
 
+  describe 'GET /v1/new_clubs/:id' do
+    let(:club) { create(:new_club) }
+
+    let(:method) { :get }
+    let(:url) { "/v1/new_clubs/#{club.id}" }
+
+    it 'requires authentication' do
+      expect(response.status).to eq(401)
+    end
+
+    context 'when authenticated' do
+      let(:user) { create(:user_authed) }
+      let(:headers) { auth_headers }
+
+      it 'requires either leadership position or admin' do
+        expect(response.status).to eq(403)
+      end
+
+      context 'with leadership position' do
+        let(:leader) { create(:new_leader, user: user) }
+        let(:setup) { club.new_leaders << leader }
+
+        it 'succeeds' do
+          expect(response.status).to eq(200)
+          expect(json['id']).to eq(club.id)
+        end
+      end
+
+      context 'as admin' do
+        let(:user) { create(:user_admin_authed) }
+
+        it 'succeeds' do
+          expect(response.status).to eq(200)
+        end
+      end
+    end
+  end
+
   describe 'PATCH /v1/new_clubs/:id' do
     let(:club) { create(:new_club) }
 

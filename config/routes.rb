@@ -36,7 +36,7 @@ Rails.application.routes.draw do
 
     resources :leader_profiles, only: %i[show update]
 
-    resources :new_clubs, only: %i[index update] do
+    resources :new_clubs, only: %i[index show update] do
       resources :notes, only: %i[index create]
     end
 
