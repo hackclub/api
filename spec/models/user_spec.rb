@@ -28,31 +28,25 @@ RSpec.describe User, type: :model do
   it { should validate_uniqueness_of :login_code }
   it { should validate_uniqueness_of :auth_token }
 
-  it ' should not allow email_on_new_challenges to be nil' do
-    expect(subject.valid?).to eq(true)
+  it 'should not allow boolean values to be nil' do
+    fields = %i[
+      email_on_new_challenges
+      email_on_new_challenge_posts
+      email_on_new_challenge_post_comments
+    ]
 
-    subject.email_on_new_challenges = nil
+    fields.each do |field|
+      old_val = subject.send(field)
 
-    expect(subject.valid?).to eq(false)
-    expect(subject.errors).to include('email_on_new_challenges')
-  end
+      expect(subject.valid?).to eq(true)
 
-  it 'should not allow email_on_new_challenge_posts to be nil' do
-    expect(subject.valid?).to eq(true)
+      subject.send("#{field}=", nil) # set to nil
 
-    subject.email_on_new_challenge_posts = nil
+      expect(subject.valid?).to eq(false)
+      expect(subject.errors).to include(field)
 
-    expect(subject.valid?).to eq(false)
-    expect(subject.errors).to include('email_on_new_challenge_posts')
-  end
-
-  it 'should not allow email_on_new_challenge_post_comments to be nil' do
-    expect(subject.valid?).to eq(true)
-
-    subject.email_on_new_challenge_post_comments = nil
-
-    expect(subject.valid?).to eq(false)
-    expect(subject.errors).to include('email_on_new_challenge_post_comments')
+      subject.send("#{field}=", old_val) # reset val
+    end
   end
 
   it 'does not allow duplicate emails to be created, regardless of case' do
@@ -90,22 +84,56 @@ RSpec.describe User, type: :model do
   it { should have_many(:leader_profiles) }
   it { should have_many(:new_club_applications).through(:leader_profiles) }
 
+  it 'properly sets default values' do
+    expect(User.new.email_on_new_challenges).to eq(false)
+    expect(User.new.email_on_new_challenge_posts).to eq(false)
+    expect(User.new.email_on_new_challenge_post_comments).to eq(true)
+  end
+
   it 'lowercases provided email' do
     subject.email = 'CamelCase@gmail.com'
     subject.save
     expect(subject.email).to eq('camelcase@gmail.com')
   end
 
-  it 'sets email_on_new_challenges to false by default' do
-    expect(User.new.email_on_new_challenges).to eq(false)
-  end
+  describe 'automatic setting of usernames' do
+    context 'when username is provided' do
+      before { subject.username = 'myuniqueusername' }
 
-  it 'sets email_on_new_challenge_posts to false by default' do
-    expect(User.new.email_on_new_challenge_posts).to eq(false)
-  end
+      it 'does not change username' do
+        subject.save
+        expect(subject.username).to eq('myuniqueusername')
+      end
+    end
 
-  it 'sets email_on_new_challenge_post_comments to true by default' do
-    expect(User.new.email_on_new_challenge_post_comments).to eq(true)
+    context 'when username is not provided' do
+      before { subject.email = 'jeremy@example.com' }
+      it 'truncates email' do
+        subject.save
+        expect(subject.username).to eq('jeremy')
+      end
+
+      context '& email has special chars' do
+        before { subject.email = '_jerEm4*2+3@example.com' }
+
+        it 'removes special chars' do
+          subject.save
+          expect(subject.username).to eq('jerem423')
+        end
+      end
+
+      context 'and a username conflict exists' do
+        before do
+          create(:user, username: 'jeremy')
+          create(:user, username: 'jeremy2')
+        end
+
+        it 'picks an unused username' do
+          subject.save
+          expect(subject.username).to eq('jeremy3')
+        end
+      end
+    end
   end
 
   example ':generate_login_code!' do
