@@ -13,7 +13,7 @@ module V1
       if user.save
         ApplicantMailer.login_code(user).deliver_later
 
-        render_success(user)
+        render_success(id: user.id, status: 'login code sent')
       else
         render_field_errors(user.errors)
       end

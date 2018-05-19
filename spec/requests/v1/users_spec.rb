@@ -21,17 +21,9 @@ RSpec.describe 'V1::Users', type: :request do
 
       expect(response.status).to eq(200)
 
-      # return created object
-      expect(json).to include('email' => 'foo@bar.com')
-      expect(json).to include('username')
-      expect(json).to include('id')
-
-      # do not return fields that give away information
-      expect(json).to_not include('created_at')
-      expect(json).to_not include('updated_at')
-
-      # but not secret fields
-      expect(json).to_not include('auth_token')
+      # returns success message & user id
+      expect(json['id']).to eq(User.last.id)
+      expect(json['status']).to eq('login code sent')
 
       # creates user object w/ generated login code
       user = User.last
@@ -55,8 +47,7 @@ RSpec.describe 'V1::Users', type: :request do
       expect(response.status).to eq(200)
 
       # returns existing object
-      expect(json).to include('email' => user.email)
-      expect(json).to include('id' => user.id)
+      expect(json['status']).to eq('login code sent')
 
       # generates new login code
       expect(user.login_code).to_not eq(user.reload.login_code)
@@ -66,14 +57,14 @@ RSpec.describe 'V1::Users', type: :request do
     end
 
     it "doesn't care about case when emails already exist" do
-      u = create(:user, email: 'foo@bar.com')
+      create(:user, email: 'foo@bar.com')
 
       post '/v1/users/auth', params: { email: 'Foo@bar.com' }
 
       expect(response.status).to eq(200)
 
-      # returns existing user
-      expect(json).to include('id' => u.id)
+      # returns success
+      expect(json['status']).to eq('login code sent')
     end
   end
 
