@@ -38,6 +38,8 @@ Rails.application.routes.draw do
 
     resources :new_clubs, only: %i[index show update] do
       resources :notes, only: %i[index create]
+
+      post 'invite_leader', to: 'new_clubs/leadership_position_invites#create'
     end
 
     resources :leadership_positions, only: %i[update destroy]

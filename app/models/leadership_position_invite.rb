@@ -8,4 +8,7 @@ class LeadershipPositionInvite < ApplicationRecord
   validates :sender, :new_club, :user, presence: true
   validates :accepted_at, absence: true, if: -> { rejected_at.present? }
   validates :rejected_at, absence: true, if: -> { accepted_at.present? }
+
+  # a user cannot have multiple invites out to join the same club
+  validates :user, uniqueness: { scope: %i[new_club rejected_at] }
 end

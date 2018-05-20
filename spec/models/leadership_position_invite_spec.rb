@@ -29,4 +29,22 @@ RSpec.describe LeadershipPositionInvite, type: :model do
 
     expect(subject.valid?).to eq(false)
   end
+
+  it 'should not allow multiple invites for same club & user' do
+    second_invite = build(
+      :leadership_position_invite,
+      new_club: subject.new_club,
+      user: subject.user
+    )
+
+    expect(second_invite.save).to eq(false)
+    expect(second_invite.valid?).to eq(false)
+
+    # however, it should allow another invite to be created after an invite has
+    # been rejected
+    subject.update_attributes(rejected_at: Time.current)
+
+    expect(second_invite.save).to eq(true)
+    expect(second_invite.valid?).to eq(true)
+  end
 end
