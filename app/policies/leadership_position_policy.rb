@@ -2,7 +2,7 @@
 
 class LeadershipPositionPolicy < ApplicationPolicy
   def update?
-    record.new_leader.user == user
+    record.new_leader.user == user || user.admin?
   end
 
   def destroy?

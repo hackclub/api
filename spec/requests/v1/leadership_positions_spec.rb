@@ -60,7 +60,13 @@ RSpec.describe 'V1::LeadershipPositions', type: :request do
         end
       end
 
-      # TODO: also allow if user is an admin
+      context 'as admin' do
+        let(:user) { create(:user_admin_authed) }
+
+        it 'successfully undeletes' do
+          expect(response.status).to eq(200)
+        end
+      end
     end
   end
 
