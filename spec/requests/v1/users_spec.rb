@@ -216,14 +216,6 @@ RSpec.describe 'V1::Users', type: :request do
       let(:authed_user) { nil } # override this
       let(:headers) { { 'Authorization': "Bearer #{authed_user.auth_token}" } }
 
-      context 'as non-admin' do
-        let(:authed_user) { create(:user_authed) }
-
-        it 'fails' do
-          expect(response.status).to eq(403)
-        end
-      end
-
       context 'as admin' do
         let(:authed_user) { create(:user_admin_authed) }
 
@@ -234,6 +226,23 @@ RSpec.describe 'V1::Users', type: :request do
             'auth_token', 'auth_token_generation',
             'login_code', 'login_code_generation'
           )
+        end
+      end
+
+      context 'as different user' do
+        let(:authed_user) { create(:user_authed) }
+
+        it 'fails' do
+          expect(response.status).to eq(403)
+        end
+      end
+
+      context 'as current user' do
+        let(:user) { create(:user_authed) }
+        let(:authed_user) { user }
+
+        it 'succeeds' do
+          expect(response.status).to eq(200)
         end
       end
     end

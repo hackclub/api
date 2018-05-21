@@ -2,7 +2,7 @@
 
 class UserPolicy < ApplicationPolicy
   def show?
-    user.admin?
+    record == user || user.admin?
   end
 
   def update?
