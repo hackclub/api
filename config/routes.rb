@@ -55,6 +55,7 @@ Rails.application.routes.draw do
       end
 
       post 'exchange_login_code'
+      post 'new_leader', to: 'users/new_leaders#create'
 
       resources :new_club_applications, only: %i[index create]
     end
