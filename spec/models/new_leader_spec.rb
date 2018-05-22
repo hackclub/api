@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe NewLeader, type: :model do
+  subject { build(:new_leader) }
+
   # for time warping
   include ActiveSupport::Testing::TimeHelpers
 
@@ -52,6 +54,26 @@ RSpec.describe NewLeader, type: :model do
   it { should validate_presence_of :ethnicity }
   it { should validate_presence_of :phone_number }
   it { should validate_presence_of :address }
+
+  it 'validates urls' do
+    expect(subject.valid?).to eq(true)
+
+    subject.personal_website = 'bad'
+    subject.github_url = 'bad'
+    subject.linkedin_url = 'bad'
+    subject.facebook_url = 'bad'
+    subject.twitter_url = 'bad'
+
+    expect(subject.valid?).to eq(false)
+
+    expect(subject.errors).to include(
+      :personal_website,
+      :github_url,
+      :linkedin_url,
+      :facebook_url,
+      :twitter_url
+    )
+  end
 
   it_behaves_like 'Geocodeable'
 
