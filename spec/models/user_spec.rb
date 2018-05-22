@@ -12,6 +12,7 @@ RSpec.describe User, type: :model do
   it { should have_db_column :auth_token }
   it { should have_db_column :auth_token_generation }
   it { should have_db_column :admin_at }
+  it { should have_db_column :shadow_banned_at }
   it { should have_db_column :email_on_new_challenges }
   it { should have_db_column :email_on_new_challenge_posts }
   it { should have_db_column :email_on_new_challenge_post_comments }
@@ -194,5 +195,27 @@ RSpec.describe User, type: :model do
     subject.remove_admin!
     expect(subject.admin_at).to eq(nil)
     expect(subject.admin?).to eq(false)
+  end
+
+  describe 'shadow_banned_at' do
+    describe ':shadow_ban!' do
+      it 'works as expected' do
+        expect(subject.shadow_banned?).to eq(false)
+
+        subject.shadow_ban!
+
+        expect(subject.shadow_banned?).to eq(true)
+      end
+    end
+
+    describe ':shadow_banned?' do
+      it 'works as expected' do
+        expect(subject.shadow_banned?).to eq(false)
+
+        subject.shadow_banned_at = Time.current
+
+        expect(subject.shadow_banned?).to eq(true)
+      end
+    end
   end
 end

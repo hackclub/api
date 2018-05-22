@@ -102,4 +102,12 @@ class User < ApplicationRecord
   def admin?
     admin_at.present?
   end
+
+  def shadow_ban!
+    self.shadow_banned_at = Time.current
+  end
+
+  def shadow_banned?
+    shadow_banned_at.present?
+  end
 end

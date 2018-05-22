@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_22_024306) do
+ActiveRecord::Schema.define(version: 2018_05_22_185735) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -609,6 +609,7 @@ ActiveRecord::Schema.define(version: 2018_05_22_024306) do
     t.boolean "email_on_new_challenges"
     t.boolean "email_on_new_challenge_post_comments"
     t.bigint "new_leader_id"
+    t.datetime "shadow_banned_at"
     t.index ["auth_token"], name: "index_users_on_auth_token"
     t.index ["email"], name: "index_users_on_email"
     t.index ["new_leader_id"], name: "index_users_on_new_leader_id"
