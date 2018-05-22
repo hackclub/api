@@ -11,6 +11,7 @@ class UserSerializer < ActiveModel::Serializer
   attribute :email_on_new_challenge_post_comments, if: :logged_in?
 
   belongs_to :new_leader
+  has_many :leadership_position_invites
 
   def logged_in?
     current_user.present?

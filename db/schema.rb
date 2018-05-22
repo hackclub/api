@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_17_125005) do
+ActiveRecord::Schema.define(version: 2018_05_22_024306) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -392,6 +392,8 @@ ActiveRecord::Schema.define(version: 2018_05_17_125005) do
     t.datetime "rejected_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "leadership_position_id"
+    t.index ["leadership_position_id"], name: "index_leadership_position_invites_on_leadership_position_id"
     t.index ["new_club_id"], name: "index_leadership_position_invites_on_new_club_id"
     t.index ["sender_id"], name: "index_leadership_position_invites_on_sender_id"
     t.index ["user_id"], name: "index_leadership_position_invites_on_user_id"
@@ -641,6 +643,7 @@ ActiveRecord::Schema.define(version: 2018_05_17_125005) do
   add_foreign_key "clubs", "leaders", column: "point_of_contact_id"
   add_foreign_key "event_website_clicks", "event_email_subscribers"
   add_foreign_key "event_website_clicks", "events"
+  add_foreign_key "leadership_position_invites", "leadership_positions"
   add_foreign_key "leadership_position_invites", "new_clubs"
   add_foreign_key "leadership_position_invites", "users"
   add_foreign_key "leadership_position_invites", "users", column: "sender_id"

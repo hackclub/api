@@ -8,7 +8,7 @@ module V1
       def create
         user = User.find(params[:user_id])
         unless current_user.admin? || user == current_user
-          return render_unauthorized
+          return render_access_denied
         end
 
         if user.new_leader

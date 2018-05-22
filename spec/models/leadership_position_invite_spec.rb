@@ -10,12 +10,14 @@ RSpec.describe LeadershipPositionInvite, type: :model do
   it { should have_db_column :sender_id }
   it { should have_db_column :new_club_id }
   it { should have_db_column :user_id }
+  it { should have_db_column :leadership_position_id }
   it { should have_db_column :accepted_at }
   it { should have_db_column :rejected_at }
 
   it { should belong_to :sender }
   it { should belong_to :new_club }
   it { should belong_to :user }
+  it { should belong_to :leadership_position }
 
   it { should validate_presence_of :sender }
   it { should validate_presence_of :new_club }

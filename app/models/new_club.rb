@@ -6,6 +6,7 @@ class NewClub < ApplicationRecord
   has_many :new_club_applications
 
   has_many :leadership_positions
+  has_many :leadership_position_invites
   has_many :new_leaders, through: :leadership_positions
   has_many :notes, as: :noteable
 
