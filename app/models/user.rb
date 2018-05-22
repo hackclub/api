@@ -66,6 +66,7 @@ class User < ApplicationRecord
   end
 
   def shadow_ban_if_email_blocked
+    # find domains that match the end of the user's email
     matches = Users::BlockedEmailDomain.where("? LIKE ('%' || domain)", email)
     return if matches.empty?
 
