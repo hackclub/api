@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module V1
   module Users
     class NewLeadersController < ApiController
@@ -9,10 +11,12 @@ module V1
           return render_unauthorized
         end
 
-        return render_field_error(
-          :base,
-          'user already has a new_leader associated'
-        ) if user.new_leader
+        if user.new_leader
+          return render_field_error(
+            :base,
+            'user already has a new_leader associated'
+          )
+        end
 
         user.new_leader = NewLeader.new(leader_params)
 
