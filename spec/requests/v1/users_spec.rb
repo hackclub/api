@@ -21,17 +21,10 @@ RSpec.describe 'V1::Users', type: :request do
 
       expect(response.status).to eq(200)
 
-      # return created object
-      expect(json).to include('email' => 'foo@bar.com')
-      expect(json).to include('username')
-      expect(json).to include('id')
-
-      # do not return fields that give away information
-      expect(json).to_not include('created_at')
-      expect(json).to_not include('updated_at')
-
-      # but not secret fields
-      expect(json).to_not include('auth_token')
+      # returns success message & user id
+      expect(json['id']).to eq(User.last.id)
+      expect(json['email']).to eq('foo@bar.com')
+      expect(json['status']).to eq('login code sent')
 
       # creates user object w/ generated login code
       user = User.last
@@ -55,8 +48,7 @@ RSpec.describe 'V1::Users', type: :request do
       expect(response.status).to eq(200)
 
       # returns existing object
-      expect(json).to include('email' => user.email)
-      expect(json).to include('id' => user.id)
+      expect(json['status']).to eq('login code sent')
 
       # generates new login code
       expect(user.login_code).to_not eq(user.reload.login_code)
@@ -66,14 +58,14 @@ RSpec.describe 'V1::Users', type: :request do
     end
 
     it "doesn't care about case when emails already exist" do
-      u = create(:user, email: 'foo@bar.com')
+      create(:user, email: 'foo@bar.com')
 
       post '/v1/users/auth', params: { email: 'Foo@bar.com' }
 
       expect(response.status).to eq(200)
 
-      # returns existing user
-      expect(json).to include('id' => u.id)
+      # returns success
+      expect(json['status']).to eq('login code sent')
     end
   end
 
@@ -179,12 +171,34 @@ RSpec.describe 'V1::Users', type: :request do
           'admin_at',
           'email_on_new_challenges',
           'email_on_new_challenge_posts',
-          'email_on_new_challenge_post_comments'
+          'email_on_new_challenge_post_comments',
+          'new_leader'
         )
         expect(json).to_not include(
           'login_code', 'login_code_generation',
           'auth_token', 'auth_token_generation'
         )
+      end
+
+      context 'with associated leader' do
+        before { create(:new_leader, user: user) }
+
+        it 'includes leader fields' do
+          get '/v1/users/current', headers: {
+            'Authorization': "Bearer #{user.auth_token}"
+          }
+
+          expect(response.status).to eq(200)
+
+          # includes new_leader fields
+          expect(json['new_leader']).to include(
+            'id',
+            'created_at',
+            'updated_at',
+            'name'
+            # ... and so on
+          )
+        end
       end
     end
   end
@@ -203,14 +217,6 @@ RSpec.describe 'V1::Users', type: :request do
       let(:authed_user) { nil } # override this
       let(:headers) { { 'Authorization': "Bearer #{authed_user.auth_token}" } }
 
-      context 'as non-admin' do
-        let(:authed_user) { create(:user_authed) }
-
-        it 'fails' do
-          expect(response.status).to eq(403)
-        end
-      end
-
       context 'as admin' do
         let(:authed_user) { create(:user_admin_authed) }
 
@@ -221,6 +227,23 @@ RSpec.describe 'V1::Users', type: :request do
             'auth_token', 'auth_token_generation',
             'login_code', 'login_code_generation'
           )
+        end
+      end
+
+      context 'as different user' do
+        let(:authed_user) { create(:user_authed) }
+
+        it 'fails' do
+          expect(response.status).to eq(403)
+        end
+      end
+
+      context 'as current user' do
+        let(:user) { create(:user_authed) }
+        let(:authed_user) { user }
+
+        it 'succeeds' do
+          expect(response.status).to eq(200)
         end
       end
     end

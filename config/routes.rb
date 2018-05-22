@@ -36,8 +36,20 @@ Rails.application.routes.draw do
 
     resources :leader_profiles, only: %i[show update]
 
-    resources :new_clubs, only: [:index] do
+    resources :new_clubs, only: %i[index show update] do
       resources :notes, only: %i[index create]
+
+      post 'invite_leader', to: 'new_clubs/leadership_position_invites#create'
+    end
+
+    resources :leadership_positions, only: %i[update destroy]
+    resources :leadership_position_invites, only: [:show] do
+      post 'accept'
+      post 'reject'
+    end
+
+    resources :new_leaders, only: [:update] do
+      resources :new_clubs, controller: 'new_leaders/new_clubs', only: [:index]
     end
 
     resources :users, only: %i[show update] do
@@ -47,6 +59,7 @@ Rails.application.routes.draw do
       end
 
       post 'exchange_login_code'
+      post 'new_leader', to: 'users/new_leaders#create'
 
       resources :new_club_applications, only: %i[index create]
     end

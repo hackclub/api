@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_16_202111) do
+ActiveRecord::Schema.define(version: 2018_05_22_024306) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -384,11 +384,28 @@ ActiveRecord::Schema.define(version: 2018_05_16_202111) do
     t.index ["streak_key"], name: "index_leaders_on_streak_key"
   end
 
+  create_table "leadership_position_invites", force: :cascade do |t|
+    t.bigint "sender_id"
+    t.bigint "new_club_id"
+    t.bigint "user_id"
+    t.datetime "accepted_at"
+    t.datetime "rejected_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "leadership_position_id"
+    t.index ["leadership_position_id"], name: "index_leadership_position_invites_on_leadership_position_id"
+    t.index ["new_club_id"], name: "index_leadership_position_invites_on_new_club_id"
+    t.index ["sender_id"], name: "index_leadership_position_invites_on_sender_id"
+    t.index ["user_id"], name: "index_leadership_position_invites_on_user_id"
+  end
+
   create_table "leadership_positions", force: :cascade do |t|
     t.bigint "new_club_id"
     t.bigint "new_leader_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_leadership_positions_on_deleted_at"
     t.index ["new_club_id"], name: "index_leadership_positions_on_new_club_id"
     t.index ["new_leader_id"], name: "index_leadership_positions_on_new_leader_id"
   end
@@ -591,8 +608,10 @@ ActiveRecord::Schema.define(version: 2018_05_16_202111) do
     t.boolean "email_on_new_challenge_posts"
     t.boolean "email_on_new_challenges"
     t.boolean "email_on_new_challenge_post_comments"
+    t.bigint "new_leader_id"
     t.index ["auth_token"], name: "index_users_on_auth_token"
     t.index ["email"], name: "index_users_on_email"
+    t.index ["new_leader_id"], name: "index_users_on_new_leader_id"
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
@@ -624,6 +643,10 @@ ActiveRecord::Schema.define(version: 2018_05_16_202111) do
   add_foreign_key "clubs", "leaders", column: "point_of_contact_id"
   add_foreign_key "event_website_clicks", "event_email_subscribers"
   add_foreign_key "event_website_clicks", "events"
+  add_foreign_key "leadership_position_invites", "leadership_positions"
+  add_foreign_key "leadership_position_invites", "new_clubs"
+  add_foreign_key "leadership_position_invites", "users"
+  add_foreign_key "leadership_position_invites", "users", column: "sender_id"
   add_foreign_key "leadership_positions", "new_clubs"
   add_foreign_key "leadership_positions", "new_leaders"
   add_foreign_key "net_promoter_score_surveys", "leaders"
@@ -633,4 +656,5 @@ ActiveRecord::Schema.define(version: 2018_05_16_202111) do
   add_foreign_key "recognized_faces", "attachments"
   add_foreign_key "recognized_faces", "recognized_people"
   add_foreign_key "slack_invites", "hackbot_teams"
+  add_foreign_key "users", "new_leaders"
 end

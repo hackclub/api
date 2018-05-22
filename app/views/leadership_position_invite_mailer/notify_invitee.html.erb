@@ -1,0 +1,12 @@
+<p>Hi there,</p> 
+<p>
+You've been invited to join the club at <%= @club.high_school_name %> by
+<%= mail_to @invite.sender.email %>.
+</p>
+<p>
+Please go to <a href='https://hackclub.com/confirm_invite'>https://hackclub.com/confirm_invite</a> to accept / deny this invitation.
+</p>
+<p>
+Best,<br/>
+Hack Club
+</p>

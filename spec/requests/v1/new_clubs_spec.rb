@@ -53,4 +53,103 @@ RSpec.describe 'V1::NewClubs', type: :request do
       end
     end
   end
+
+  describe 'GET /v1/new_clubs/:id' do
+    let(:club) { create(:new_club) }
+
+    let(:method) { :get }
+    let(:url) { "/v1/new_clubs/#{club.id}" }
+
+    it 'requires authentication' do
+      expect(response.status).to eq(401)
+    end
+
+    context 'when authenticated' do
+      let(:user) { create(:user_authed) }
+      let(:headers) { auth_headers }
+
+      it 'requires either leadership position or admin' do
+        expect(response.status).to eq(403)
+      end
+
+      context 'with leadership position' do
+        let(:leader) { create(:new_leader, user: user) }
+        let(:setup) { club.new_leaders << leader }
+
+        it 'succeeds' do
+          expect(response.status).to eq(200)
+          expect(json['id']).to eq(club.id)
+        end
+      end
+
+      context 'as admin' do
+        let(:user) { create(:user_admin_authed) }
+
+        it 'succeeds' do
+          expect(response.status).to eq(200)
+        end
+      end
+    end
+  end
+
+  describe 'PATCH /v1/new_clubs/:id' do
+    let(:club) { create(:new_club) }
+
+    let(:method) { :patch }
+    let(:url) { "/v1/new_clubs/#{club.id}" }
+    let(:params) do
+      {
+        high_school_name: 'Sample School',
+        high_school_type: :private_school,
+        high_school_address: 'Fake Street, NYC'
+      }
+    end
+
+    it 'requires authentication' do
+      expect(response.status).to eq(401)
+    end
+
+    context 'when authenticated' do
+      let(:user) { create(:user_authed) }
+      let(:headers) { auth_headers }
+
+      it 'requires admin or leadership position' do
+        expect(response.status).to eq(403)
+      end
+
+      context 'as admin' do
+        let(:user) { create(:user_admin_authed) }
+
+        it 'succeeds' do
+          expect(response.status).to eq(200)
+          expect(json).to include(
+            'high_school_name' => 'Sample School',
+            'high_school_type' => 'private_school',
+            'high_school_address' => 'Fake Street, NYC'
+          )
+        end
+
+        context 'with invalid params' do
+          let(:params) do
+            {
+              high_school_name: nil
+            }
+          end
+
+          it 'gracefully fails' do
+            expect(response.status).to eq(422)
+            expect(json['errors']).to include('high_school_name')
+          end
+        end
+      end
+
+      context 'with leadership position' do
+        let(:setup) { club.new_leaders << create(:new_leader, user: user) }
+
+        it 'succeeds' do
+          expect(response.status).to eq(200)
+        end
+      end
+    end
+  end
 end

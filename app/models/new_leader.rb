@@ -5,6 +5,7 @@ class NewLeader < ApplicationRecord
 
   has_many :leadership_positions
   has_many :new_clubs, through: :leadership_positions
+  has_one :user
 
   enum gender: %i[
     male
@@ -25,6 +26,9 @@ class NewLeader < ApplicationRecord
 
   validates :name, :email, :gender, :ethnicity, :phone_number, :address,
             presence: true
+
+  validates :personal_website, :github_url, :linkedin_url, :facebook_url,
+            :twitter_url, url: true
 
   geocode_attrs address: :address,
                 latitude: :latitude,

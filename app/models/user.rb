@@ -17,8 +17,12 @@ class User < ApplicationRecord
   has_many :leader_profiles
   has_many :new_club_applications, through: :leader_profiles
 
+  belongs_to :new_leader
+  has_many :leadership_position_invites
+
   after_initialize :default_values
   before_validation :downcase_email
+  before_create :set_username_if_unset
 
   def username_cannot_be_unset
     return unless persisted?
@@ -41,6 +45,23 @@ class User < ApplicationRecord
 
   def downcase_email
     email&.downcase!
+  end
+
+  def set_username_if_unset
+    return if username.present?
+
+    self.username = email.split('@').first
+    username.gsub!(/[^a-z0-9]/, '') # strip special chars
+
+    # we good if username is unique
+    return unless User.find_by(username: username)
+
+    # if not unique, make it unique
+    count = 2
+    count += 1 while User.find_by(username: username + count.to_s)
+
+    # set unique value
+    self.username = username + count.to_s
   end
 
   def generate_login_code!
