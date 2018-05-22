@@ -11,8 +11,6 @@ RSpec.describe Users::BlockedEmailDomain, type: :model do
   it { should have_db_column :creator_id }
   it { should have_db_column :domain }
 
-  it { should have_db_index(:domain).unique(true) }
-
   it { should belong_to :creator }
 
   it { should validate_presence_of :creator }
