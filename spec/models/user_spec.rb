@@ -154,7 +154,7 @@ RSpec.describe User, type: :model do
 
     context 'when email is not from a blocked domain' do
       it 'does not shadowban the user' do
-        expect(subject.shadow_banned?).to eq(true)
+        expect(subject.shadow_banned?).to eq(false)
 
         subject.save
 
