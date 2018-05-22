@@ -14,14 +14,15 @@ module V1
         if user.new_leader
           return render_field_error(
             :base,
-            'user already has a new_leader associated'
+            'user already has a new_leader associated',
+            409
           )
         end
 
         user.new_leader = NewLeader.new(leader_params)
 
         if user.new_leader.save
-          render_success user.new_leader
+          render_success user.new_leader, 201
         else
           render_field_errors user.new_leader.errors
         end
