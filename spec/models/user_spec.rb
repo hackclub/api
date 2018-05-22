@@ -81,7 +81,7 @@ RSpec.describe User, type: :model do
   end
 
   it { should belong_to(:new_leader) }
-  it { should have_many(:leadership_position_invites)}
+  it { should have_many(:leadership_position_invites) }
   it { should have_many(:leader_profiles) }
   it { should have_many(:new_club_applications).through(:leader_profiles) }
 

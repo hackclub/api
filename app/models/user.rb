@@ -14,7 +14,6 @@ class User < ApplicationRecord
 
   validate :username_cannot_be_unset
 
-
   has_many :leader_profiles
   has_many :new_club_applications, through: :leader_profiles
 

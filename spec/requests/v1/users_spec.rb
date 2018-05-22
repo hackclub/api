@@ -23,6 +23,7 @@ RSpec.describe 'V1::Users', type: :request do
 
       # returns success message & user id
       expect(json['id']).to eq(User.last.id)
+      expect(json['email']).to eq('foo@bar.com')
       expect(json['status']).to eq('login code sent')
 
       # creates user object w/ generated login code
