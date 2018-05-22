@@ -50,13 +50,24 @@ RSpec.describe 'V1::LeadershipPositions', type: :request do
       end
 
       context 'when associated with the current club' do
-        let(:setup) { position.new_leader.update_attributes(user: user) }
+        let(:setup) do
+          user.update(new_leader: create(:new_leader))
+          position.new_club.new_leaders << user.new_leader
+        end
 
         it 'successfully undeletes' do
           expect(response.status).to eq(200)
 
           expect(json).to include('id' => position.id)
           expect(LeadershipPosition.find_by(id: position.id)).to_not be_nil
+        end
+      end
+
+      context 'when associated through the deleted position' do
+        let(:setup) { position.new_leader.update_attributes(user: user) }
+
+        it 'gracefully fails' do
+          expect(response.status).to eq(403)
         end
       end
 
