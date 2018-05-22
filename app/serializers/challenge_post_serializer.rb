@@ -31,7 +31,7 @@ class ChallengePostSerializer < ActiveModel::Serializer
 
   # for serializing creator
   class UserSerializer < ActiveModel::Serializer
-    attributes :id, :email, :username
+    attributes :id, :username
   end
 
   class ChallengePostUpvoteSerializer < ActiveModel::Serializer

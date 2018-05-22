@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :email, :username
+  attributes :id, :username
 
   attribute :created_at, if: :logged_in?
   attribute :updated_at, if: :logged_in?
+  attribute :email, if: :logged_in?
   attribute :admin_at, if: :logged_in?
   attribute :email_on_new_challenges, if: :logged_in?
   attribute :email_on_new_challenge_posts, if: :logged_in?

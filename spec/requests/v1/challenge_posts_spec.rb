@@ -50,7 +50,6 @@ RSpec.describe 'V1::ChallengePost', type: :request do
           )
           expect(json['creator']).to include(
             'id' => user.id,
-            'email' => user.email,
             'username' => user.username
           )
           expect(json['creator']).to_not include('created_at', 'updated_at')
@@ -95,10 +94,10 @@ RSpec.describe 'V1::ChallengePost', type: :request do
       )
       expect(json[0]['upvotes'][0]['user']).to include(
         'id',
-        'email',
         'username'
       )
       expect(json[0]['upvotes'][0]).to_not include('challenge_post_id')
+      expect(json[0]['upvotes'][0]['user']).to_not include('email')
     end
 
     context 'with shadowbanned votes' do
