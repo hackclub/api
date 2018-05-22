@@ -138,6 +138,31 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe 'automatic shadowbanning' do
+    context 'when email is from a blocked domain' do
+      before { create(:users_blocked_email_domain, domain: 'foobar.com') }
+
+      it 'automatically shadowbans the user' do
+        expect(subject.shadow_banned?).to eq(false)
+
+        subject.email = 'foo@foobar.com'
+        subject.save
+
+        expect(subject.shadow_banned?).to eq(true)
+      end
+    end
+
+    context 'when email is not from a blocked domain' do
+      it 'does not shadowban the user' do
+        expect(subject.shadow_banned?).to eq(true)
+
+        subject.save
+
+        expect(subject.shadow_banned?).to eq(false)
+      end
+    end
+  end
+
   example ':generate_login_code!' do
     subject.login_code = nil
     subject.login_code_generation = nil

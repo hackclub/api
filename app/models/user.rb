@@ -23,6 +23,7 @@ class User < ApplicationRecord
   after_initialize :default_values
   before_validation :downcase_email
   before_create :set_username_if_unset
+  before_create :shadow_ban_if_email_blocked
 
   def username_cannot_be_unset
     return unless persisted?
@@ -62,6 +63,13 @@ class User < ApplicationRecord
 
     # set unique value
     self.username = username + count.to_s
+  end
+
+  def shadow_ban_if_email_blocked
+    matches = Users::BlockedEmailDomain.where("? LIKE ('%' || domain)", email)
+    return if matches.empty?
+
+    shadow_ban!
   end
 
   def generate_login_code!
