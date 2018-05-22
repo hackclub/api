@@ -38,6 +38,11 @@ class LeadershipPositionInvite < ApplicationRecord
   end
 
   def reject!
+    if rejected_at.present?
+      errors.add(:base, 'already rejected')
+      return
+    end
+
     self.rejected_at = Time.current
 
     save

@@ -5,6 +5,12 @@ class LeadershipPositionInvitePolicy < ApplicationPolicy
     user.admin? || record.new_club.new_leaders.include?(user.new_leader)
   end
 
+  def show?
+    user.admin? ||
+      record.new_club.new_leaders.include?(user.new_leader) ||
+      record.user == user
+  end
+
   def accept?
     record.user == user
   end

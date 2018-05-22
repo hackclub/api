@@ -43,7 +43,7 @@ Rails.application.routes.draw do
     end
 
     resources :leadership_positions, only: %i[update destroy]
-    resources :leadership_position_invites, only: [] do
+    resources :leadership_position_invites, only: [:show] do
       post 'accept'
       post 'reject'
     end

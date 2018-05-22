@@ -4,6 +4,13 @@ module V1
   class LeadershipPositionInvitesController < ApiController
     include UserAuth
 
+    def show
+      invite = LeadershipPositionInvite.find(params[:id])
+      authorize invite
+
+      render_success invite
+    end
+
     def accept
       id = params[:leadership_position_invite_id]
       invite = LeadershipPositionInvite.find(id)

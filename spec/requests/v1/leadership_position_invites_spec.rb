@@ -24,6 +24,53 @@ RSpec.describe 'V1::LeadershipPositionInvites', type: :request do
 
   let(:invite) { create(:leadership_position_invite) }
 
+  describe 'GET /v1/leadership_position_invites/:id' do
+    let(:method) { :get }
+    let(:url) { "/v1/leadership_position_invites/#{invite.id}" }
+
+    it 'requires authentication' do
+      expect(response.status).to eq(401)
+    end
+
+    context 'when authenticated' do
+      let(:user) { create(:user_authed) }
+      let(:headers) { auth_headers }
+
+      it 'fails due to not being associated' do
+        expect(response.status).to eq(403)
+      end
+
+      context 'as someone associated with the club' do
+        let(:setup) do
+          user.update(new_leader: create(:new_leader))
+          invite.new_club.new_leaders << user.new_leader
+        end
+
+        it 'succeeds' do
+          expect(response.status).to eq(200)
+
+          # TODO: check inclusion of all expected fields
+        end
+      end
+
+      context 'as the invitee' do
+        let(:setup) { invite.update(user: user) }
+
+        it 'succeeds' do
+          expect(response.status).to eq(200)
+        end
+      end
+
+      context 'as admin' do
+        let(:user) { create(:user_admin_authed) }
+
+        it 'succeeds' do
+          expect(response.status).to eq(200)
+        end
+      end
+    end
+  end
+
   describe 'POST /v1/leadership_position_invites/:id/accept' do
     let(:method) { :post }
     let(:url) { "/v1/leadership_position_invites/#{invite.id}/accept" }
