@@ -6,6 +6,8 @@ module V1
     include UserAuth
 
     def index
+      authenticate_user if request.headers.include? 'Authorization'
+
       posts = Challenge
               .eager_load(
                 posts: [

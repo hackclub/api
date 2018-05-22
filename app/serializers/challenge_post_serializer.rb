@@ -15,6 +15,20 @@ class ChallengePostSerializer < ActiveModel::Serializer
   has_one :creator
   has_many :upvotes
 
+  # Filter upvotes to include / not include upvotes created by shadowbanned
+  # users depending on who's authenticated.
+  def upvotes
+    if current_user == object.creator # return everything
+      object.upvotes
+    elsif current_user&.shadow_banned? # return non-shadowbanned + own votes
+      object.upvotes.select do |u|
+        u.user.shadow_banned? == false || u.user == current_user
+      end
+    else # return non-shadowbanned
+      object.upvotes.select { |u| u.user.shadow_banned? == false }
+    end
+  end
+
   # for serializing creator
   class UserSerializer < ActiveModel::Serializer
     attributes :id, :email, :username

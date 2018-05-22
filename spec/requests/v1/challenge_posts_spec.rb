@@ -100,5 +100,57 @@ RSpec.describe 'V1::ChallengePost', type: :request do
       )
       expect(json[0]['upvotes'][0]).to_not include('challenge_post_id')
     end
+
+    context 'with shadowbanned votes' do
+      let(:user) do
+        u = create(:user_authed)
+        u.shadow_ban!
+        u.save
+
+        u
+      end
+
+      before do
+        create(
+          :challenge_post_upvote,
+          challenge_post: ChallengePost.first,
+          user: user
+        )
+      end
+
+      it 'does not include shadowbanned upvotes' do
+        get "/v1/challenges/#{challenge.id}/posts"
+
+        expect(json[0]['upvotes'].length).to eq(5)
+      end
+
+      context 'and authenticated as shadowbanned user' do
+        let(:headers) { { "Authorization": "Bearer #{user.auth_token}" } }
+
+        it 'includes shadowbanned upvotes' do
+          get "/v1/challenges/#{challenge.id}/posts", headers: headers
+
+          expect(json[0]['upvotes'].length).to eq(6)
+        end
+      end
+
+      context 'and authenticated as post creator' do
+        let(:user) do
+          u = ChallengePost.first.creator
+          u.generate_auth_token!
+          u.save
+
+          u
+        end
+
+        let(:headers) { { "Authorization": "Bearer #{user.auth_token}" } }
+
+        it 'includes shadowbanned upvotes' do
+          get "/v1/challenges/#{challenge.id}/posts", headers: headers
+
+          expect(json[0]['upvotes'].length).to eq(6)
+        end
+      end
+    end
   end
 end
