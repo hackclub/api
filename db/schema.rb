@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_22_185735) do
+ActiveRecord::Schema.define(version: 2018_05_22_210110) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -616,6 +616,16 @@ ActiveRecord::Schema.define(version: 2018_05_22_185735) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  create_table "users_blocked_email_domains", force: :cascade do |t|
+    t.text "domain"
+    t.bigint "creator_id"
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["creator_id"], name: "index_users_blocked_email_domains_on_creator_id"
+    t.index ["domain", "deleted_at"], name: "index_users_blocked_email_domains_on_domain_and_deleted_at", unique: true
+  end
+
   create_table "workshop_feedbacks", force: :cascade do |t|
     t.text "workshop_slug"
     t.json "feedback"
@@ -658,4 +668,5 @@ ActiveRecord::Schema.define(version: 2018_05_22_185735) do
   add_foreign_key "recognized_faces", "recognized_people"
   add_foreign_key "slack_invites", "hackbot_teams"
   add_foreign_key "users", "new_leaders"
+  add_foreign_key "users_blocked_email_domains", "users", column: "creator_id"
 end
