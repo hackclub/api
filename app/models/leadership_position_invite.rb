@@ -12,4 +12,34 @@ class LeadershipPositionInvite < ApplicationRecord
 
   # a user cannot have multiple invites out to join the same club
   validates :user, uniqueness: { scope: %i[new_club rejected_at] }
+
+  validate :sender_is_not_user
+
+  def sender_is_not_user
+    return unless sender == user
+
+    errors.add(:user, 'cannot be the same as sender')
+  end
+
+  def accept!
+    if user.new_leader.blank?
+      errors.add(:user, 'must have associated new_leader')
+
+      return false
+    end
+
+    self.leadership_position = LeadershipPosition.new(
+      new_club: new_club,
+      new_leader: user.new_leader
+    )
+    self.accepted_at = Time.current
+
+    save
+  end
+
+  def reject!
+    self.rejected_at = Time.current
+
+    save
+  end
 end

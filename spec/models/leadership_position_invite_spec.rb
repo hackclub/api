@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe LeadershipPositionInvite, type: :model do
-  subject { create(:leadership_position_invite) }
+  subject { build(:leadership_position_invite) }
 
   it { should have_db_column :created_at }
   it { should have_db_column :updated_at }
@@ -33,6 +33,7 @@ RSpec.describe LeadershipPositionInvite, type: :model do
   end
 
   it 'should not allow multiple invites for same club & user' do
+    subject.save
     second_invite = build(
       :leadership_position_invite,
       new_club: subject.new_club,
@@ -48,5 +49,13 @@ RSpec.describe LeadershipPositionInvite, type: :model do
 
     expect(second_invite.save).to eq(true)
     expect(second_invite.valid?).to eq(true)
+  end
+
+  it 'should not allow users to invite themselves' do
+    expect(subject.valid?).to eq(true)
+
+    subject.user = subject.sender
+
+    expect(subject.valid?).to eq(false)
   end
 end
