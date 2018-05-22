@@ -7,6 +7,7 @@ module V1
 
     def index
       authenticate_user if request.headers.include? 'Authorization'
+      return if performed? # make sure we don't double render if auth failed
 
       posts = Challenge
               .eager_load(
