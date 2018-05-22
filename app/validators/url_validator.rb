@@ -10,7 +10,7 @@ class UrlValidator < ActiveModel::EachValidator
       resp = false
     end
 
-    return unless resp == true
+    return if resp == true
 
     record.errors[attribute] << (options[:message] || 'is not an url')
   end
