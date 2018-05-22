@@ -49,7 +49,28 @@ RSpec.describe 'V1::LeadershipPositionInvites', type: :request do
         it 'succeeds' do
           expect(response.status).to eq(200)
 
-          # TODO: check inclusion of all expected fields
+          # check inclusion of all expected fields
+          expect(json).to include(
+            'id',
+            'created_at',
+            'updated_at',
+            'sender',
+            'new_club',
+            'user_id',
+            'accepted_at',
+            'rejected_at'
+          )
+
+          expect(json['sender']).to include(
+            'id',
+            'email',
+            'username'
+          )
+
+          expect(json['new_club']).to include(
+            'id',
+            'high_school_name'
+          )
         end
       end
 
