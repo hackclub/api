@@ -15,6 +15,6 @@ class UserSerializer < ActiveModel::Serializer
   has_many :leadership_position_invites, if: :logged_in?
 
   def logged_in?
-    current_user.present?
+    current_user == object || current_user&.admin?
   end
 end
