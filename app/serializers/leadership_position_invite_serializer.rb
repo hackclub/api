@@ -4,11 +4,11 @@ class LeadershipPositionInviteSerializer < ActiveModel::Serializer
   attributes :id,
              :created_at,
              :updated_at,
-             :user_id,
              :accepted_at,
              :rejected_at
 
   belongs_to :sender
+  belongs_to :user
   belongs_to :new_club
 
   class UserSerializer < ActiveModel::Serializer

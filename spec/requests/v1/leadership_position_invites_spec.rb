@@ -55,10 +55,16 @@ RSpec.describe 'V1::LeadershipPositionInvites', type: :request do
             'created_at',
             'updated_at',
             'sender',
+            'user',
             'new_club',
-            'user_id',
             'accepted_at',
             'rejected_at'
+          )
+
+          expect(json['user']).to include(
+            'id',
+            'email',
+            'username'
           )
 
           expect(json['sender']).to include(
