@@ -89,5 +89,24 @@ RSpec.describe ChallengePostComment, type: :model do
         expect(ChallengePostCommentMailer.deliveries.length).to eq(0)
       end
     end
+
+    context 'when comment is by a shadowbanned user' do
+      subject do
+        build(
+          :challenge_post_comment,
+          user: create(:user_shadowbanned_authed)
+        )
+      end
+
+      it 'does not notify' do
+        expect(ChallengePostCommentMailer.deliveries.length).to eq(0)
+
+        perform_enqueued_jobs do
+          subject.save
+        end
+
+        expect(ChallengePostCommentMailer.deliveries.length).to eq(0)
+      end
+    end
   end
 end

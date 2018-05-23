@@ -26,6 +26,7 @@ class ChallengePostComment < ApplicationRecord
 
   def notify_post_creator
     return if user == challenge_post.creator
+    return if user.shadow_banned?
     return unless challenge_post.creator.email_on_new_challenge_post_comments
 
     ChallengePostCommentMailer
