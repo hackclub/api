@@ -4,6 +4,7 @@
 # convention, not an actual technical requirement)
 source 'https://rubygems.org'
 
+gem 'bootsnap', '~> 1.3'
 gem 'rails', '~> 5.2.0.rc1'
 
 gem 'pg', '~> 0.18.4'
