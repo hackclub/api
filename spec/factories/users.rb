@@ -15,10 +15,25 @@ FactoryBot.define do
       end
     end
 
+    factory :user_shadowbanned_authed do
+      after(:build) do |user|
+        # auth the user
+        user.generate_login_code!
+
+        # make it look like the login code was generated a minute ago
+        user.login_code_generation -= 1.minute
+        user.generate_auth_token!
+
+        # shadowban
+        user.shadow_ban!
+      end
+    end
+
     factory :user_admin_authed do
       after(:build) do |user|
         # auth the user
         user.generate_login_code!
+
         # make it look like the login code was generated a minute ago
         user.login_code_generation -= 1.minute
         user.generate_auth_token!

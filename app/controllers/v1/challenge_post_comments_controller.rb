@@ -6,10 +6,20 @@ module V1
     include UserAuth
 
     def index
-      comments = ChallengePost
-                 .eager_load(comments: [:user])
-                 .find(params[:post_id])
-                 .comments
+      authenticate_user if request.headers.include? 'Authorization'
+      return if performed? # make sure we don't double render if auth failed
+
+      post = ChallengePost.find(params[:post_id])
+
+      comments = if current_user&.shadow_banned?
+                   post.comments.select do |c|
+                     c.user.shadow_banned? == false || c.user == current_user
+                   end
+                 else
+                   post.comments.select do |c|
+                     c.user.shadow_banned? == false
+                   end
+                 end
 
       render_success comments
     end

@@ -106,6 +106,38 @@ RSpec.describe 'V1::ChallengePostComments', type: :request do
         expect(json.last['parent_id']).to eq(parent.id)
       end
     end
+
+    context 'with shadowbanned comments created' do
+      let(:shadowbanned_user) { create(:user_shadowbanned_authed) }
+      let(:setup) do
+        # regular comments
+        4.times { create(:challenge_post_comment, challenge_post: cpost) }
+
+        # shadowbanned comments
+        2.times do
+          create(
+            :challenge_post_comment,
+            challenge_post: cpost,
+            user: shadowbanned_user
+          )
+        end
+      end
+
+      it 'does not return shadowbanned comments when unauthenticated' do
+        expect(response.status).to eq(200)
+        expect(json.length).to eq(4)
+      end
+
+      context 'when authenticated as shadowbanned comment creator' do
+        let(:user) { shadowbanned_user }
+        let(:headers) { auth_headers }
+
+        it 'returns shadowbanned comments' do
+          expect(response.status).to eq(200)
+          expect(json.length).to eq(6)
+        end
+      end
+    end
   end
 
   describe 'PATCH /v1/post_comments/:id' do
