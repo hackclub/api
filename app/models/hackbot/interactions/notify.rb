@@ -10,15 +10,15 @@ module Hackbot
 
       def start
         msg_channel 'This command is deprecated'
-        return :finish
-        
-        message = captured[:message]
-        msg_channel copy('start', message: message)
+        :finish
 
-        data['message'] = message
-        data['user'] = event['user']
+        # message = captured[:message]
+        # msg_channel copy('start', message: message)
 
-        :wait_for_should_send
+        # data['message'] = message
+        # data['user'] = event['user']
+
+        # :wait_for_should_send
       end
 
       def wait_for_should_send
@@ -51,18 +51,19 @@ module Hackbot
         end
       end
 
-      def notify(from, to, message)
-        send_msg(
-          to,
-          text: copy('should_send.positive.dispatch', slack_id: from[:id]),
-          attachments: [
-            color: '#e42d40',
-            from_name: "@#{from[:name]}",
-            from_icon: from[:profile][:image_72],
-            text: message,
-            ts: Time.now.to_i
-          ]
-        )
+      def notify(_from, _to, _message)
+        null
+        # send_msg(
+        #   to,
+        #   text: copy('should_send.positive.dispatch', slack_id: from[:id]),
+        #   attachments: [
+        #     color: '#e42d40',
+        #     from_name: "@#{from[:name]}",
+        #     from_icon: from[:profile][:image_72],
+        #     text: message,
+        #     ts: Time.now.to_i
+        #   ]
+        # )
       end
 
       def slack_ids_of_channel(id)
