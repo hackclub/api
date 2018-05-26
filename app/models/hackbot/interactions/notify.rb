@@ -9,6 +9,9 @@ module Hackbot
       DESCRIPTION = 'Send a notification to an entire channel'
 
       def start
+        msg_channel 'This command is deprecated'
+        return :finish
+        
         message = captured[:message]
         msg_channel copy('start', message: message)
 
