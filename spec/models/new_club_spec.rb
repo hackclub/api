@@ -22,6 +22,7 @@ RSpec.describe NewClub, type: :model do
   it { should have_db_column :high_school_parsed_postal_code }
   it { should have_db_column :high_school_parsed_country }
   it { should have_db_column :high_school_parsed_country_code }
+  it { should have_db_column :send_check_ins }
 
   it { should have_db_index :died_at }
 
@@ -43,6 +44,15 @@ RSpec.describe NewClub, type: :model do
 
   it { should validate_presence_of :high_school_name }
   it { should validate_presence_of :high_school_address }
+
+  it 'should not allow send_check_ins to be nil' do
+    expect(subject.valid?).to eq(true)
+
+    subject.send_check_ins = nil
+
+    expect(subject.valid?).to eq(false)
+    expect(subject.errors).to include(:send_check_ins)
+  end
 
   ## other ##
 

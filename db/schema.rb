@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_27_015452) do
+ActiveRecord::Schema.define(version: 2018_05_27_021359) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -499,6 +499,7 @@ ActiveRecord::Schema.define(version: 2018_05_27_015452) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "died_at"
+    t.boolean "send_check_ins"
     t.index ["died_at"], name: "index_new_clubs_on_died_at"
   end
 
