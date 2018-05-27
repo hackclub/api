@@ -63,6 +63,9 @@ class Leader < ApplicationRecord
   has_many :net_promoter_score_surveys
   has_and_belongs_to_many :clubs
 
+  # Store reference to the migrated NewLeader record
+  belongs_to :new_leader
+
   before_destroy do
     # Remove the club leader as the point of contact from any clubs they're
     # associated with.

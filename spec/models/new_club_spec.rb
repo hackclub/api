@@ -32,6 +32,8 @@ RSpec.describe NewClub, type: :model do
   it { should have_many(:new_leaders).through(:leadership_positions) }
   it { should have_many(:notes) }
 
+  it { should have_one :club }
+
   ## validations ##
 
   it { should validate_presence_of :high_school_name }

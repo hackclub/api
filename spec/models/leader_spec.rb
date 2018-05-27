@@ -23,10 +23,13 @@ RSpec.describe Leader, type: :model do
   it { should have_db_column :latitude }
   it { should have_db_column :longitude }
   it { should have_db_column :notes }
+  it { should have_db_column :new_leader_id }
 
   it { should validate_presence_of :name }
 
   it { should have_and_belong_to_many :clubs }
   it { should have_many :check_ins }
   it { should have_many :net_promoter_score_surveys }
+
+  it { should belong_to :new_leader }
 end

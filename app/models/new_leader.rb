@@ -7,6 +7,8 @@ class NewLeader < ApplicationRecord
   has_many :new_clubs, through: :leadership_positions
   has_one :user
 
+  has_one :leader # store reference to associated legacy leader if available
+
   enum gender: %i[
     male
     female

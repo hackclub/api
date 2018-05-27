@@ -10,6 +10,8 @@ class NewClub < ApplicationRecord
   has_many :new_leaders, through: :leadership_positions
   has_many :notes, as: :noteable
 
+  has_one :club # store reference to legacy NewClub if available
+
   validates :high_school_name, :high_school_address, presence: true
 
   enum high_school_type: %i[
