@@ -3,6 +3,8 @@
 class NewClub < ApplicationRecord
   include Geocodeable
 
+  scope :dead, -> { where.not(died_at: nil) }
+
   has_many :new_club_applications
 
   has_many :leadership_positions

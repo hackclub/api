@@ -3,10 +3,13 @@
 require 'rails_helper'
 
 RSpec.describe NewClub, type: :model do
+  subject { build(:new_club) }
+
   ## db columns ##
 
   it { should have_db_column :created_at }
   it { should have_db_column :updated_at }
+  it { should have_db_column :died_at }
   it { should have_db_column :high_school_name }
   it { should have_db_column :high_school_url }
   it { should have_db_column :high_school_type }
@@ -19,6 +22,8 @@ RSpec.describe NewClub, type: :model do
   it { should have_db_column :high_school_parsed_postal_code }
   it { should have_db_column :high_school_parsed_country }
   it { should have_db_column :high_school_parsed_country_code }
+
+  it { should have_db_index :died_at }
 
   ## types ##
 
@@ -39,7 +44,25 @@ RSpec.describe NewClub, type: :model do
   it { should validate_presence_of :high_school_name }
   it { should validate_presence_of :high_school_address }
 
+  ## other ##
+
   it_behaves_like 'Geocodeable'
+
+  describe '#dead scoping' do
+    before { subject.save }
+
+    it "doesn't include subject" do
+      expect(NewClub.dead).to_not include(subject)
+    end
+
+    context 'when died_at is set on subject' do
+      before { subject.update_attributes(died_at: Time.current) }
+
+      it 'includes subject' do
+        expect(NewClub.dead).to include(subject)
+      end
+    end
+  end
 
   describe ':from_application' do
     let(:application) do
