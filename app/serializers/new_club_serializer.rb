@@ -4,6 +4,7 @@ class NewClubSerializer < ActiveModel::Serializer
   attributes :id,
              :created_at,
              :updated_at,
+             :died_at,
              :high_school_name,
              :high_school_url,
              :high_school_type,

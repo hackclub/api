@@ -7,6 +7,8 @@ class NewLeader < ApplicationRecord
   has_many :new_clubs, through: :leadership_positions
   has_one :user
 
+  has_one :leader # store reference to associated legacy leader if available
+
   enum gender: %i[
     male
     female
@@ -22,6 +24,7 @@ class NewLeader < ApplicationRecord
     native_american_or_indian
     asian_or_pacific_islander
     other_ethnicity
+    unknown_ethnicity
   ]
 
   validates :name, :email, :gender, :ethnicity, :phone_number, :address,

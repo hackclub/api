@@ -110,11 +110,13 @@ RSpec.describe 'V1::ChallengePost', type: :request do
       end
 
       before do
-        create(
-          :challenge_post_upvote,
-          challenge_post: ChallengePost.first,
-          user: user
-        )
+        ChallengePost.find_each do |post|
+          create(
+            :challenge_post_upvote,
+            challenge_post: post,
+            user: user
+          )
+        end
       end
 
       it 'does not include shadowbanned upvotes' do

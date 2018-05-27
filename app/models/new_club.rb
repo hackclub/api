@@ -3,6 +3,8 @@
 class NewClub < ApplicationRecord
   include Geocodeable
 
+  scope :dead, -> { where.not(died_at: nil) }
+
   has_many :new_club_applications
 
   has_many :leadership_positions
@@ -10,7 +12,10 @@ class NewClub < ApplicationRecord
   has_many :new_leaders, through: :leadership_positions
   has_many :notes, as: :noteable
 
+  has_one :club # store reference to legacy NewClub if available
+
   validates :high_school_name, :high_school_address, presence: true
+  validates :send_check_ins, inclusion: { in: [true, false] }
 
   enum high_school_type: %i[
     public_school
@@ -29,6 +34,14 @@ class NewClub < ApplicationRecord
                 postal_code: :high_school_parsed_postal_code,
                 country: :high_school_parsed_country,
                 country_code: :high_school_parsed_country_code
+
+  after_initialize :default_values
+
+  def default_values
+    return if persisted?
+
+    self.send_check_ins ||= false
+  end
 
   def from_application(app)
     self.high_school_name = app.high_school_name

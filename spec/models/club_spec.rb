@@ -16,6 +16,7 @@ RSpec.describe Club, type: :model do
   it { should have_db_column :longitude }
   it { should have_db_column :source }
   it { should have_db_column :notes }
+  it { should have_db_column :new_club_id }
 
   # Note: latitude and longitude aren"t included here because they"re
   # automatically set when geocoding, which breaks shoulda's test for
@@ -28,4 +29,6 @@ RSpec.describe Club, type: :model do
 
   it { should have_and_belong_to_many :leaders }
   it { should have_many :check_ins }
+
+  it { should belong_to :new_club }
 end

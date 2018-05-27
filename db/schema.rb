@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_22_210110) do
+ActiveRecord::Schema.define(version: 2018_05_27_021359) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -199,6 +199,8 @@ ActiveRecord::Schema.define(version: 2018_05_22_210110) do
     t.text "parsed_postal_code"
     t.text "parsed_country"
     t.text "parsed_country_code"
+    t.bigint "new_club_id"
+    t.index ["new_club_id"], name: "index_clubs_on_new_club_id"
     t.index ["point_of_contact_id"], name: "index_clubs_on_point_of_contact_id"
     t.index ["streak_key"], name: "index_clubs_on_streak_key"
   end
@@ -381,6 +383,8 @@ ActiveRecord::Schema.define(version: 2018_05_22_210110) do
     t.text "parsed_postal_code"
     t.text "parsed_country"
     t.text "parsed_country_code"
+    t.bigint "new_leader_id"
+    t.index ["new_leader_id"], name: "index_leaders_on_new_leader_id"
     t.index ["streak_key"], name: "index_leaders_on_streak_key"
   end
 
@@ -494,6 +498,9 @@ ActiveRecord::Schema.define(version: 2018_05_22_210110) do
     t.text "high_school_parsed_country_code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "died_at"
+    t.boolean "send_check_ins"
+    t.index ["died_at"], name: "index_new_clubs_on_died_at"
   end
 
   create_table "new_leaders", force: :cascade do |t|
@@ -544,24 +551,6 @@ ActiveRecord::Schema.define(version: 2018_05_22_210110) do
     t.text "live_url"
     t.json "data"
     t.integer "source"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "recognized_faces", force: :cascade do |t|
-    t.bigint "attachment_id"
-    t.bigint "recognized_person_id"
-    t.text "external_face_id"
-    t.json "data"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["attachment_id"], name: "index_recognized_faces_on_attachment_id"
-    t.index ["external_face_id"], name: "index_recognized_faces_on_external_face_id"
-    t.index ["recognized_person_id"], name: "index_recognized_faces_on_recognized_person_id"
-  end
-
-  create_table "recognized_people", force: :cascade do |t|
-    t.text "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -652,8 +641,10 @@ ActiveRecord::Schema.define(version: 2018_05_22_210110) do
   add_foreign_key "check_ins", "clubs"
   add_foreign_key "check_ins", "leaders"
   add_foreign_key "clubs", "leaders", column: "point_of_contact_id"
+  add_foreign_key "clubs", "new_clubs"
   add_foreign_key "event_website_clicks", "event_email_subscribers"
   add_foreign_key "event_website_clicks", "events"
+  add_foreign_key "leaders", "new_leaders"
   add_foreign_key "leadership_position_invites", "leadership_positions"
   add_foreign_key "leadership_position_invites", "new_clubs"
   add_foreign_key "leadership_position_invites", "users"
@@ -664,8 +655,6 @@ ActiveRecord::Schema.define(version: 2018_05_22_210110) do
   add_foreign_key "new_club_applications", "new_clubs"
   add_foreign_key "new_club_applications", "users", column: "point_of_contact_id"
   add_foreign_key "notes", "users"
-  add_foreign_key "recognized_faces", "attachments"
-  add_foreign_key "recognized_faces", "recognized_people"
   add_foreign_key "slack_invites", "hackbot_teams"
   add_foreign_key "users", "new_leaders"
   add_foreign_key "users_blocked_email_domains", "users", column: "creator_id"

@@ -59,6 +59,8 @@ class Club < ApplicationRecord
   belongs_to :point_of_contact, class_name: 'Leader'
   has_and_belongs_to_many :leaders
 
+  belongs_to :new_club # store reference to migrated NewClub if available
+
   validates :name, :address, :latitude, :longitude, presence: true
 
   before_destroy do
