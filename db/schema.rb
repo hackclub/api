@@ -555,24 +555,6 @@ ActiveRecord::Schema.define(version: 2018_05_27_021359) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "recognized_faces", force: :cascade do |t|
-    t.bigint "attachment_id"
-    t.bigint "recognized_person_id"
-    t.text "external_face_id"
-    t.json "data"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["attachment_id"], name: "index_recognized_faces_on_attachment_id"
-    t.index ["external_face_id"], name: "index_recognized_faces_on_external_face_id"
-    t.index ["recognized_person_id"], name: "index_recognized_faces_on_recognized_person_id"
-  end
-
-  create_table "recognized_people", force: :cascade do |t|
-    t.text "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "slack_analytic_logs", id: :serial, force: :cascade do |t|
     t.json "data"
     t.datetime "created_at", null: false
@@ -673,8 +655,6 @@ ActiveRecord::Schema.define(version: 2018_05_27_021359) do
   add_foreign_key "new_club_applications", "new_clubs"
   add_foreign_key "new_club_applications", "users", column: "point_of_contact_id"
   add_foreign_key "notes", "users"
-  add_foreign_key "recognized_faces", "attachments"
-  add_foreign_key "recognized_faces", "recognized_people"
   add_foreign_key "slack_invites", "hackbot_teams"
   add_foreign_key "users", "new_leaders"
   add_foreign_key "users_blocked_email_domains", "users", column: "creator_id"

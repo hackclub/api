@@ -24,6 +24,7 @@ class NewLeader < ApplicationRecord
     native_american_or_indian
     asian_or_pacific_islander
     other_ethnicity
+    unknown_ethnicity
   ]
 
   validates :name, :email, :gender, :ethnicity, :phone_number, :address,
