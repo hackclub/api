@@ -42,4 +42,12 @@ RSpec.describe ChallengePostUpvote, type: :model do
 
     expect(subject.save).to eq(false)
   end
+
+  it "shouldn't allow upvotes to be deleted after challenges end" do
+    subject.save!
+
+    subject.challenge_post.challenge.end = 1.day.ago
+
+    expect(subject.destroy).to eq(false)
+  end
 end

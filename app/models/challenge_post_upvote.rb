@@ -11,6 +11,8 @@ class ChallengePostUpvote < ApplicationRecord
 
   validate :challenge_currently_open
 
+  before_destroy :disallow_destroy_if_challenge_ended
+
   def challenge_currently_open
     return unless challenge_post
 
@@ -19,5 +21,12 @@ class ChallengePostUpvote < ApplicationRecord
     elsif Time.current > challenge_post.challenge.end
       errors.add(:base, 'challenge has already ended')
     end
+  end
+
+  def disallow_destroy_if_challenge_ended
+    return unless Time.current > challenge_post.challenge.end
+
+    errors.add(:base, 'challenge has already ended')
+    throw(:abort)
   end
 end
