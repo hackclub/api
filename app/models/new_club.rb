@@ -17,6 +17,10 @@ class NewClub < ApplicationRecord
   validates :high_school_name, :high_school_address, presence: true
   validates :send_check_ins, inclusion: { in: [true, false] }
 
+  # any num between 0 - 11 or nil
+  validates :high_school_start_month, :high_school_end_month,
+            inclusion: { in: (0..11).to_a + [nil] }
+
   enum high_school_type: %i[
     public_school
     private_school

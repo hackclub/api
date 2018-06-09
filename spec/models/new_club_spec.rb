@@ -22,6 +22,8 @@ RSpec.describe NewClub, type: :model do
   it { should have_db_column :high_school_parsed_postal_code }
   it { should have_db_column :high_school_parsed_country }
   it { should have_db_column :high_school_parsed_country_code }
+  it { should have_db_column :high_school_start_month }
+  it { should have_db_column :high_school_end_month }
   it { should have_db_column :send_check_ins }
 
   it { should have_db_index :died_at }
@@ -52,6 +54,33 @@ RSpec.describe NewClub, type: :model do
 
     expect(subject.valid?).to eq(false)
     expect(subject.errors).to include(:send_check_ins)
+  end
+
+  it 'should not allow start or end months to be out of bounds' do
+    fields = %i[high_school_start_month high_school_end_month]
+
+    fields.each do |field|
+      # so we can reset
+      start_val = subject.send(field)
+
+      expect(subject.valid?).to eq(true)
+
+      # too low
+      subject.send("#{field}=", -1)
+      expect(subject.valid?).to eq(false)
+
+      # good
+      subject.send("#{field}=", 5)
+      expect(subject.valid?).to eq(true)
+
+      # too high
+      subject.send("#{field}=", 12)
+      expect(subject.valid?).to eq(false)
+
+      # reset
+      subject.send("#{field}=", start_val)
+      expect(subject.valid?).to eq(true)
+    end
   end
 
   ## other ##

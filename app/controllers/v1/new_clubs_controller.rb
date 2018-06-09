@@ -34,7 +34,9 @@ module V1
       params.permit(
         :high_school_name,
         :high_school_type,
-        :high_school_address
+        :high_school_address,
+        :high_school_start_month,
+        :high_school_end_month
       )
     end
   end

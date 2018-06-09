@@ -80,6 +80,34 @@ RSpec.describe 'V1::NewClubs', type: :request do
           expect(response.status).to eq(200)
           expect(json['id']).to eq(club.id)
         end
+
+        it 'contains all the expected fields' do
+          expect(json).to include(
+            'id',
+            'created_at',
+            'updated_at',
+            'died_at',
+            'high_school_name',
+            'high_school_url',
+            'high_school_type',
+            'high_school_address',
+            'high_school_latitude',
+            'high_school_longitude',
+            'high_school_parsed_address',
+            'high_school_parsed_city',
+            'high_school_parsed_state',
+            'high_school_parsed_state_code',
+            'high_school_parsed_postal_code',
+            'high_school_parsed_country',
+            'high_school_parsed_country_code',
+            'high_school_start_month',
+            'high_school_end_month',
+            # associations
+            'new_leaders',
+            'leadership_positions',
+            'leadership_position_invites'
+          )
+        end
       end
 
       context 'as admin' do
@@ -101,7 +129,9 @@ RSpec.describe 'V1::NewClubs', type: :request do
       {
         high_school_name: 'Sample School',
         high_school_type: :private_school,
-        high_school_address: 'Fake Street, NYC'
+        high_school_address: 'Fake Street, NYC',
+        high_school_start_month: 7,
+        high_school_end_month: 4
       }
     end
 
@@ -125,7 +155,9 @@ RSpec.describe 'V1::NewClubs', type: :request do
           expect(json).to include(
             'high_school_name' => 'Sample School',
             'high_school_type' => 'private_school',
-            'high_school_address' => 'Fake Street, NYC'
+            'high_school_address' => 'Fake Street, NYC',
+            'high_school_start_month' => 7,
+            'high_school_end_month' => 4
           )
         end
 
