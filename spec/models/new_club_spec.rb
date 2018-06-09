@@ -24,6 +24,7 @@ RSpec.describe NewClub, type: :model do
   it { should have_db_column :high_school_parsed_country_code }
   it { should have_db_column :high_school_start_month }
   it { should have_db_column :high_school_end_month }
+  it { should have_db_column :club_website }
   it { should have_db_column :send_check_ins }
 
   it { should have_db_index :died_at }

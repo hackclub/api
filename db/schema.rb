@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_09_023829) do
+ActiveRecord::Schema.define(version: 2018_06_09_211605) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -502,6 +502,7 @@ ActiveRecord::Schema.define(version: 2018_06_09_023829) do
     t.boolean "send_check_ins"
     t.integer "high_school_start_month"
     t.integer "high_school_end_month"
+    t.text "club_website"
     t.index ["died_at"], name: "index_new_clubs_on_died_at"
   end
 

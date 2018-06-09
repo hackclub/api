@@ -102,6 +102,7 @@ RSpec.describe 'V1::NewClubs', type: :request do
             'high_school_parsed_country_code',
             'high_school_start_month',
             'high_school_end_month',
+            'club_website',
             # associations
             'new_leaders',
             'leadership_positions',
@@ -131,7 +132,8 @@ RSpec.describe 'V1::NewClubs', type: :request do
         high_school_type: :private_school,
         high_school_address: 'Fake Street, NYC',
         high_school_start_month: 7,
-        high_school_end_month: 4
+        high_school_end_month: 4,
+        club_website: 'https://example.com'
       }
     end
 
@@ -157,7 +159,8 @@ RSpec.describe 'V1::NewClubs', type: :request do
             'high_school_type' => 'private_school',
             'high_school_address' => 'Fake Street, NYC',
             'high_school_start_month' => 7,
-            'high_school_end_month' => 4
+            'high_school_end_month' => 4,
+            'club_website' => 'https://example.com'
           )
         end
 

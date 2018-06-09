@@ -19,7 +19,8 @@ class NewClubSerializer < ActiveModel::Serializer
              :high_school_parsed_country,
              :high_school_parsed_country_code,
              :high_school_start_month,
-             :high_school_end_month
+             :high_school_end_month,
+             :club_website
 
   has_many :new_leaders
   has_many :leadership_positions

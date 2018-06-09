@@ -36,7 +36,8 @@ module V1
         :high_school_type,
         :high_school_address,
         :high_school_start_month,
-        :high_school_end_month
+        :high_school_end_month,
+        :club_website
       )
     end
   end
