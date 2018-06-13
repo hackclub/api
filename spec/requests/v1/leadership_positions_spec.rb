@@ -110,6 +110,20 @@ RSpec.describe 'V1::LeadershipPositions', type: :request do
         end
       end
 
+      context "when associated, but deleting someone else's position" do
+        let(:setup) do
+          # associated authed user with club by creating new leadership position
+          p2 = create(:leadership_position, new_club: position.new_club)
+          p2.new_leader.update_attributes(user: user)
+
+          # we'll attempt to delete the original leadership position
+        end
+
+        it 'successfully deletes' do
+          expect(response.status).to eq(200)
+        end
+      end
+
       context 'when admin' do
         let(:user) { create(:user_admin_authed) }
 
