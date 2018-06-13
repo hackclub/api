@@ -14,7 +14,7 @@ module GuggyClient
         lang: 'en'
       }
 
-      resp = SentryRequestClient.execute(
+      resp = RestClient::Request.execute(
         method: :post,
         url: TRANSLATE_URL,
         headers: headers,

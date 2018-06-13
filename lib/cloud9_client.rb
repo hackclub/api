@@ -33,7 +33,7 @@ module Cloud9Client
       end
 
       headers['Accept'] = 'application/json'
-      resp = SentryRequestClient.execute(method: method, url: api_url(path),
+      resp = RestClient::Request.execute(method: method, url: api_url(path),
                                          headers: headers, payload: payload)
 
       JSON.parse(resp, symbolize_names: true)
@@ -44,7 +44,7 @@ module Cloud9Client
       headers[:params] = params
       headers.merge(default_headers) if use_default_headers
 
-      SentryRequestClient.execute(method: method, url: url,
+      RestClient::Request.execute(method: method, url: url,
                                   headers: headers, payload: payload,
                                   cookies: cookies)
     end

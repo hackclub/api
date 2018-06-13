@@ -77,7 +77,7 @@ module StreakClient
     end
 
     def perform_request(method, url, headers, payload, cache)
-      req = SentryRequestClient.new(method: method, url: url,
+      req = RestClient::Request.new(method: method, url: url,
                                     headers: headers, payload: payload)
 
       resp = if cache
