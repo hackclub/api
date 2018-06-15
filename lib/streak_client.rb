@@ -67,8 +67,6 @@ module StreakClient
           Rails.logger.info("Failed Streak API request because of error #{e}. "\
                             "Trying again in #{cooldown} seconds.")
 
-          Raven.extra_context(cooldown: cooldown)
-
           sleep cooldown
         end
       end
