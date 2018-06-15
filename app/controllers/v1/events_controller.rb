@@ -7,6 +7,7 @@ module V1
 
     def index
       authenticate_user if request.headers.include? 'Authorization'
+      return if performed?
 
       events = current_user ? Event.all : Event.where(public: true)
 
