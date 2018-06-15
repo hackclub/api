@@ -63,7 +63,7 @@ class RecordSlackStatsJob < ApplicationJob
       cookies: @cookies
     ).body
 
-    api_token_regex = /api_token: '(.*?)'/
+    api_token_regex = /api_token: "(.*?)"/
     api_token = api_token_regex.match(stats_html).captures.first
 
     api_token
