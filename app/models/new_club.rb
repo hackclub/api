@@ -9,6 +9,8 @@ class NewClub < ApplicationRecord
 
   has_many :leadership_positions
   has_many :leadership_position_invites
+  has_many :information_verification_requests,
+           class_name: 'NewClubs::InformationVerificationRequest'
   has_many :new_leaders, through: :leadership_positions
   has_many :notes, as: :noteable
 

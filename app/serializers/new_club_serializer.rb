@@ -25,4 +25,5 @@ class NewClubSerializer < ActiveModel::Serializer
   has_many :new_leaders
   has_many :leadership_positions
   has_many :leadership_position_invites
+  has_many :information_verification_requests
 end

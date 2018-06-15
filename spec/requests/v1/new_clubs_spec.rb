@@ -106,7 +106,8 @@ RSpec.describe 'V1::NewClubs', type: :request do
             # associations
             'new_leaders',
             'leadership_positions',
-            'leadership_position_invites'
+            'leadership_position_invites',
+            'information_verification_requests'
           )
         end
       end

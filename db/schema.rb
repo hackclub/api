@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_09_211605) do
+ActiveRecord::Schema.define(version: 2018_06_15_042444) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -506,6 +506,16 @@ ActiveRecord::Schema.define(version: 2018_06_09_211605) do
     t.index ["died_at"], name: "index_new_clubs_on_died_at"
   end
 
+  create_table "new_clubs_information_verification_requests", force: :cascade do |t|
+    t.bigint "new_club_id"
+    t.datetime "verified_at"
+    t.bigint "verifier_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["new_club_id"], name: "index_information_verification_requests_new_club_id"
+    t.index ["verifier_id"], name: "index_information_verification_requests_verifier_id"
+  end
+
   create_table "new_leaders", force: :cascade do |t|
     t.text "name"
     t.text "email"
@@ -657,6 +667,8 @@ ActiveRecord::Schema.define(version: 2018_06_09_211605) do
   add_foreign_key "net_promoter_score_surveys", "leaders"
   add_foreign_key "new_club_applications", "new_clubs"
   add_foreign_key "new_club_applications", "users", column: "point_of_contact_id"
+  add_foreign_key "new_clubs_information_verification_requests", "new_clubs"
+  add_foreign_key "new_clubs_information_verification_requests", "users", column: "verifier_id"
   add_foreign_key "notes", "users"
   add_foreign_key "slack_invites", "hackbot_teams"
   add_foreign_key "users", "new_leaders"

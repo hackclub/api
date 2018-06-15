@@ -37,6 +37,14 @@ Rails.application.routes.draw do
     resources :leader_profiles, only: %i[show update]
 
     resources :new_clubs, only: %i[index show update] do
+      collection do
+        scope module: 'new_clubs' do
+          resources :information_verification_requests, only: [] do
+            post 'verify'
+          end
+        end
+      end
+
       resources :notes, only: %i[index create]
 
       post 'invite_leader', to: 'new_clubs/leadership_position_invites#create'
