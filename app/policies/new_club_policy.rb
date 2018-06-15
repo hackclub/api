@@ -9,6 +9,10 @@ class NewClubPolicy < ApplicationPolicy
     user.admin? || holds_leadership_position?
   end
 
+  def check_ins_index?
+    user.admin? || holds_leadership_position?
+  end
+
   private
 
   def holds_leadership_position?

@@ -28,6 +28,14 @@ module V1
       end
     end
 
+    ## TEMP ACTION - MUST BE REMOVED ##
+    def check_ins_index
+      new_club = NewClub.find(params[:new_club_id])
+      authorize new_club
+
+      render_success(new_club&.club&.check_ins || [])
+    end
+
     private
 
     def club_params
