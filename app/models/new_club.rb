@@ -5,6 +5,8 @@ class NewClub < ApplicationRecord
 
   scope :dead, -> { where.not(died_at: nil) }
 
+  belongs_to :owner, class_name: 'User'
+
   has_many :new_club_applications
 
   has_many :leadership_positions

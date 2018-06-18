@@ -20,6 +20,11 @@ class User < ApplicationRecord
   belongs_to :new_leader
   has_many :leadership_position_invites
 
+  has_many :owned_clubs,
+           class_name: 'NewClub',
+           foreign_key: 'owner_id',
+           inverse_of: :owner
+
   after_initialize :default_values
   before_validation :downcase_email
   before_create :set_username_if_unset

@@ -10,6 +10,7 @@ RSpec.describe NewClub, type: :model do
   it { should have_db_column :created_at }
   it { should have_db_column :updated_at }
   it { should have_db_column :died_at }
+  it { should have_db_column :owner_id }
   it { should have_db_column :high_school_name }
   it { should have_db_column :high_school_url }
   it { should have_db_column :high_school_type }
@@ -34,6 +35,8 @@ RSpec.describe NewClub, type: :model do
   it { should define_enum_for :high_school_type }
 
   ## associations ##
+
+  it { should belong_to :owner }
 
   it { should have_many(:new_club_applications) }
   it { should have_many(:leadership_positions) }
