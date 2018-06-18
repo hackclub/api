@@ -57,7 +57,7 @@ Rails.application.routes.draw do
       post 'reject'
     end
 
-    resources :new_leaders, only: [:update] do
+    resources :new_leaders, only: %i[show update] do
       resources :new_clubs, controller: 'new_leaders/new_clubs', only: [:index]
     end
 

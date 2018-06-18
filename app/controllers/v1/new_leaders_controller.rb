@@ -4,6 +4,13 @@ module V1
   class NewLeadersController < ApiController
     include UserAuth
 
+    def show
+      leader = NewLeader.find(params[:id])
+      authorize leader
+
+      render_success leader
+    end
+
     def update
       leader = NewLeader.find(params[:id])
       authorize leader
