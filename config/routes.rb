@@ -63,7 +63,7 @@ Rails.application.routes.draw do
       resources :new_clubs, controller: 'new_leaders/new_clubs', only: [:index]
     end
 
-    resources :users, only: %i[show update] do
+    resources :users, only: %i[index show update] do
       collection do
         post 'auth'
         get 'current'

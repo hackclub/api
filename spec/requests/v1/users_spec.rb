@@ -3,6 +3,46 @@
 require 'rails_helper'
 
 RSpec.describe 'V1::Users', type: :request do
+  describe 'GET /v1/users' do
+    before do
+      create_list(:user, 3)
+      create(:user, email: 'foo123@bar.com')
+    end
+
+    it 'requires authentication' do
+      get '/v1/users'
+      expect(response.status).to eq(401)
+    end
+
+    context 'when authenticated' do
+      let(:user) { create(:user_authed) }
+      let(:headers) { { 'Authorization': "Bearer #{user.auth_token}" } }
+
+      it 'requires admin' do
+        get '/v1/users', headers: headers
+        expect(response.status).to eq(403)
+      end
+
+      context 'as admin' do
+        let(:user) { create(:user_admin_authed) }
+
+        it 'succeeds' do
+          get '/v1/users', headers: headers
+          expect(response.status).to eq(200)
+          expect(json.length).to eq(5)
+        end
+
+        context 'with ?email= url param' do
+          it 'properly filters results' do
+            get '/v1/users?email=foo123', headers: headers
+            expect(response.status).to eq(200)
+            expect(json.length).to eq(1)
+          end
+        end
+      end
+    end
+  end
+
   describe 'POST /v1/users/auth' do
     it 'fails with an invalid email' do
       post '/v1/users/auth', params: { email: 'bad_email' }

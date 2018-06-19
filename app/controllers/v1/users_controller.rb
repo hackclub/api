@@ -2,8 +2,18 @@
 
 module V1
   class UsersController < ApiController
-    USER_AUTH = { only: %i[current show update] }.freeze
+    USER_AUTH = { only: %i[index current show update] }.freeze
     include UserAuth
+
+    def index
+      return render_access_denied unless current_user.admin?
+
+      if params[:email]
+        render_success User.where('email LIKE ?', "%#{params[:email]}%")
+      else
+        render_success User.all
+      end
+    end
 
     def auth
       user = User.find_or_initialize_by(email: params[:email].downcase)
