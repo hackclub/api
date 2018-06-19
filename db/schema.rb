@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_15_042444) do
+ActiveRecord::Schema.define(version: 2018_06_18_204143) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -503,7 +503,9 @@ ActiveRecord::Schema.define(version: 2018_06_15_042444) do
     t.integer "high_school_start_month"
     t.integer "high_school_end_month"
     t.text "club_website"
+    t.bigint "owner_id"
     t.index ["died_at"], name: "index_new_clubs_on_died_at"
+    t.index ["owner_id"], name: "index_new_clubs_on_owner_id"
   end
 
   create_table "new_clubs_information_verification_requests", force: :cascade do |t|
@@ -667,6 +669,7 @@ ActiveRecord::Schema.define(version: 2018_06_15_042444) do
   add_foreign_key "net_promoter_score_surveys", "leaders"
   add_foreign_key "new_club_applications", "new_clubs"
   add_foreign_key "new_club_applications", "users", column: "point_of_contact_id"
+  add_foreign_key "new_clubs", "users", column: "owner_id"
   add_foreign_key "new_clubs_information_verification_requests", "new_clubs"
   add_foreign_key "new_clubs_information_verification_requests", "users", column: "verifier_id"
   add_foreign_key "notes", "users"

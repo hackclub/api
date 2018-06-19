@@ -38,6 +38,8 @@ Rails.application.routes.draw do
 
     resources :new_clubs, only: %i[index show update] do
       collection do
+        get 'owned', to: 'new_clubs#index_owned'
+
         scope module: 'new_clubs' do
           resources :information_verification_requests, only: [] do
             post 'verify'

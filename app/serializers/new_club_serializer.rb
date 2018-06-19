@@ -22,6 +22,7 @@ class NewClubSerializer < ActiveModel::Serializer
              :high_school_end_month,
              :club_website
 
+  belongs_to :owner
   has_many :new_leaders
   has_many :leadership_positions
   has_many :leadership_position_invites
