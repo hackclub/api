@@ -21,7 +21,7 @@ module V1
       club = NewClub.find(params[:id])
       authorize club
 
-      if club.update_attributes(club_params)
+      if club.update_attributes(club_params(club))
         render_success club
       else
         render_field_errors club.errors
@@ -38,15 +38,8 @@ module V1
 
     private
 
-    def club_params
-      params.permit(
-        :high_school_name,
-        :high_school_type,
-        :high_school_address,
-        :high_school_start_month,
-        :high_school_end_month,
-        :club_website
-      )
+    def club_params(club)
+      params.permit(policy(club).permitted_attributes)
     end
   end
 end

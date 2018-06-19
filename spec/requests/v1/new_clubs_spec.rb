@@ -124,11 +124,13 @@ RSpec.describe 'V1::NewClubs', type: :request do
 
   describe 'PATCH /v1/new_clubs/:id' do
     let(:club) { create(:new_club) }
+    let(:owner) { create(:user) }
 
     let(:method) { :patch }
     let(:url) { "/v1/new_clubs/#{club.id}" }
     let(:params) do
       {
+        owner_id: owner.id,
         high_school_name: 'Sample School',
         high_school_type: :private_school,
         high_school_address: 'Fake Street, NYC',
@@ -163,6 +165,10 @@ RSpec.describe 'V1::NewClubs', type: :request do
             'high_school_end_month' => 4,
             'club_website' => 'https://example.com'
           )
+          expect(json['owner']).to include(
+            'id' => owner.id,
+            'username' => owner.username
+          )
         end
 
         context 'with invalid params' do
@@ -182,8 +188,9 @@ RSpec.describe 'V1::NewClubs', type: :request do
       context 'with leadership position' do
         let(:setup) { club.new_leaders << create(:new_leader, user: user) }
 
-        it 'succeeds' do
+        it 'succeeds, but does not update owner' do
           expect(response.status).to eq(200)
+          expect(json).to include('owner' => nil)
         end
       end
     end
