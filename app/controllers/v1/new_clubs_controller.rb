@@ -10,6 +10,11 @@ module V1
       render_success NewClub.all
     end
 
+    # list owned clubs
+    def index_owned
+      render_success current_user.owned_clubs
+    end
+
     def show
       club = NewClub.find(params[:id])
       authorize club
