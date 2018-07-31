@@ -136,13 +136,21 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
         user: user,
         new_club_application: club_application
       )
-      expect(json['leader_profiles'].first).to eq(
+      expect(json['leader_profiles'].first).to include(
         'id' => profile.id,
-        'completed_at' => profile.completed_at,
         'user' => {
           'id' => profile.user.id,
           'email' => profile.user.email
         }
+      )
+      # due to json time serialization, can't straight up check equality of
+      # datetime fields. going to just check for presence - if we wanted to be
+      # perfect, we could parse the times and make sure they're within a second
+      # of what's expected
+      expect(json['leader_profiles'].first).to include(
+        'created_at',
+        'updated_at',
+        'completed_at'
       )
 
       # includes interviewed_at and interview_duration, but not interview_notes

@@ -44,7 +44,7 @@ class NewClubApplicationSerializer < ActiveModel::Serializer
   delegate :admin?, to: :current_user
 
   class LeaderProfileSerializer < ActiveModel::Serializer
-    attributes :id, :completed_at
+    attributes :id, :created_at, :updated_at, :completed_at
     has_one :user
 
     class UserSerializer < ActiveModel::Serializer
