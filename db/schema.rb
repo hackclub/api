@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_18_204143) do
+ActiveRecord::Schema.define(version: 2018_08_12_170059) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -478,6 +478,7 @@ ActiveRecord::Schema.define(version: 2018_06_18_204143) do
     t.text "rejected_notes"
     t.bigint "new_club_id"
     t.datetime "accepted_at"
+    t.boolean "test"
     t.index ["new_club_id"], name: "index_new_club_applications_on_new_club_id"
     t.index ["point_of_contact_id"], name: "index_new_club_applications_on_point_of_contact_id"
   end

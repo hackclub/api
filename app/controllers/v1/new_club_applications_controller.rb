@@ -48,6 +48,10 @@ module V1
         return render_field_error(:base, 'cannot edit application after submit')
       end
 
+      if club_application_params.include?('test') && !current_user.admin?
+        return render_field_error(:test, 'cannot change unless admin')
+      end
+
       if c.update_attributes(club_application_params)
         render_success(c)
       else
@@ -175,7 +179,8 @@ module V1
         :interview_notes,
         :rejected_at,
         :rejected_reason,
-        :rejected_notes
+        :rejected_notes,
+        :test
       )
     end
   end

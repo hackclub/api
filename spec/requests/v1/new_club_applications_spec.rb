@@ -162,6 +162,9 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       expect(json).to include('rejected_at')
       expect(json).to_not include('rejected_reason')
       expect(json).to_not include('rejected_notes')
+
+      # does not include test
+      expect(json).to_not include('test')
     end
 
     it 'includes private fields when authed as an admin' do
@@ -180,6 +183,8 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       expect(json).to include('rejected_at')
       expect(json).to include('rejected_reason')
       expect(json).to include('rejected_notes')
+
+      expect(json).to include('test')
     end
 
     it '404s when application does not exist' do
@@ -364,6 +369,21 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       expect(response.status).to eq(422)
     end
 
+    it 'fails to set test field' do
+      application = create(:completed_new_club_application)
+      create(:completed_leader_profile, new_club_application: application,
+                                        user: user)
+      application.update_attributes(point_of_contact: user)
+
+      patch "/v1/new_club_applications/#{application.id}",
+            headers: auth_headers,
+            params: {
+              test: true
+            }
+
+      expect(response.status).to eq(422)
+    end
+
     context 'when admin' do
       let(:club_application) do
         app = create(:completed_new_club_application)
@@ -459,6 +479,19 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
 
         expect(response.status).to eq(422)
         expect(json['errors']['submitted_at']).to include("can't be blank")
+      end
+
+      it 'allows setting test field' do
+        club_application = create(:new_club_application)
+
+        patch "/v1/new_club_applications/#{club_application.id}",
+              headers: auth_headers,
+              params: {
+                test: true
+              }
+
+        expect(response.status).to eq(200)
+        expect(json['test']).to eq(true)
       end
     end
   end

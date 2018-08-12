@@ -89,6 +89,14 @@ class NewClubApplication < ApplicationRecord
   }
   validates :rejected_at, absence: true, if: -> { accepted_at.present? }
 
+  validates :test, inclusion: { in: [true, false] }
+
+  after_initialize :default_values
+
+  def default_values
+    self.test = false if test.nil?
+  end
+
   def submit!
     if submitted?
       errors.add(:base, 'already submitted')

@@ -62,6 +62,8 @@ RSpec.describe NewClubApplication, type: :model do
 
   it { should have_db_column :accepted_at }
 
+  it { should have_db_column :test }
+
   ## enums ##
 
   it { should define_enum_for :high_school_type }
@@ -80,6 +82,20 @@ RSpec.describe NewClubApplication, type: :model do
   it { should have_many :notes }
 
   it { should belong_to :new_club }
+
+  it 'sets test to false by default' do
+    expect(NewClubApplication.new.test).to eq(false)
+  end
+
+  it 'does not allow test to be nil' do
+    app = build(:new_club_application)
+
+    expect(app.valid?).to eq(true)
+
+    app.test = nil
+
+    expect(app.valid?).to eq(false)
+  end
 
   it 'requires points of contact to be associated users' do
     bad_poc = create(:user)
