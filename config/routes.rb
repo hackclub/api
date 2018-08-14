@@ -106,6 +106,12 @@ Rails.application.routes.draw do
               controller: 'challenge_post_comments',
               only: %i[update destroy]
 
+    resources :utilities, only: [] do
+      collection do
+        post 'new_leader_exists'
+      end
+    end
+
     # Using 'bigbrother' as the path to get past ad-blockers
     post 'bigbrother/identify', to: 'analytics#identify'
     post 'bigbrother/track', to: 'analytics#track'
