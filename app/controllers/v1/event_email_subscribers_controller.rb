@@ -31,11 +31,16 @@ module V1
 
       subscriber = EventEmailSubscriber.unconfirmed.find_by(
         confirmation_token: token
+      ) || EventEmailSubscriber.unsubscribed.find_by(
+        confirmation_token: token
       )
 
       return render_not_found unless subscriber
 
-      subscriber.update_attributes(confirmed_at: Time.current)
+      subscriber.update_attributes(
+        confirmed_at: Time.current,
+        unsubscribed_at: nil
+      )
 
       render plain: 'Email confirmed! You will now receive notifications for '\
         "events added near #{subscriber.parsed_address}."

@@ -94,6 +94,15 @@ RSpec.describe 'V1::EventEmailSubscribers', type: :request do
           expect(response.status).to eq(404)
         end
       end
+
+      context 'when subscriber previously unsubscribed' do
+        let(:subscriber) { create(:event_email_subscriber_unsubscribed) }
+
+        it 'succeeds' do
+          expect(response.status).to eq(200)
+          expect(subscriber.reload.unsubscribed_at).to eq(nil)
+        end
+      end
     end
   end
 
