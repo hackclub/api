@@ -7,8 +7,6 @@ module V1
         email: subscriber_params[:email]
       )
 
-      existing_subscriber.unsubscribed_at = nil if existing_subscriber
-
       subscriber = existing_subscriber || EventEmailSubscriber.new
 
       if subscriber.update_attributes(subscriber_params)
