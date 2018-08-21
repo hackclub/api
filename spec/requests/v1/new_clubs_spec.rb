@@ -24,32 +24,28 @@ RSpec.describe 'V1::NewClubs', type: :request do
 
     let(:setup) { 5.times { create(:new_club_w_leaders, leader_count: 3) } }
 
-    it 'requires authentication' do
-      expect(response.status).to eq(401)
+    it 'returns lat / lng pairs for each club' do
+      expect(response.status).to eq(200)
+      expect(json.length).to eq(5)
+      expect(
+        json[0].keys
+      ).to eq(%w[high_school_latitude high_school_longitude])
     end
 
-    context 'when authenticated' do
-      let(:user) { create(:user_authed) }
+    context 'when authenticated as admin' do
+      let(:user) { create(:user_admin_authed) }
       let(:headers) { auth_headers }
 
-      it 'requires admin' do
-        expect(response.status).to eq(403)
+      it 'succeeds' do
+        expect(response.status).to eq(200)
+        expect(json.length).to eq(5)
       end
 
-      context 'as admin' do
-        let(:user) { create(:user_admin_authed) }
+      it 'includes leadership positions & profiles' do
+        club = json[0]
 
-        it 'succeeds' do
-          expect(response.status).to eq(200)
-          expect(json.length).to eq(5)
-        end
-
-        it 'includes leadership positions & profiles' do
-          club = json[0]
-
-          expect(club['new_leaders'].length).to eq(3)
-          expect(club['new_leaders'][0]).to include('id')
-        end
+        expect(club['new_leaders'].length).to eq(3)
+        expect(club['new_leaders'][0]).to include('id')
       end
     end
   end

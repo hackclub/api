@@ -2,12 +2,25 @@
 
 module V1
   class NewClubsController < ApiController
+    USER_AUTH = { except: :index }.freeze
     include UserAuth
 
     def index
-      return render_access_denied unless current_user.admin?
+      authenticate_user if request.headers.include? 'Authorization'
+      return if performed? # make sure we don't double render if auth failed
 
-      render_success NewClub.all
+      clubs = NewClub.all
+
+      if current_user&.admin?
+        render_success clubs
+      else
+        pairs = clubs.pluck(:high_school_latitude, :high_school_longitude)
+        objs = pairs.map do |p|
+          { high_school_latitude: p[0], high_school_longitude: p[1] }
+        end
+
+        render_success objs
+      end
     end
 
     # list owned clubs
