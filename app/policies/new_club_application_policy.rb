@@ -2,7 +2,7 @@
 
 class NewClubApplicationPolicy < ApplicationPolicy
   def show?
-    user_added?
+    user.admin? || user_added?
   end
 
   def update?

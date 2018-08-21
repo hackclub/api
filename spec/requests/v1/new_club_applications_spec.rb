@@ -167,24 +167,28 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       expect(json).to_not include('test')
     end
 
-    it 'includes private fields when authed as an admin' do
-      user.make_admin!
-      user.save
+    context 'as admin' do
+      let(:user) { create(:user_admin_authed) }
 
-      get "/v1/new_club_applications/#{club_application.id}",
-          headers: auth_headers
+      # unassociate admin w/ club application
+      before { user.new_club_applications.delete(club_application) }
 
-      expect(response.status).to eq(200)
+      it 'includes private fields' do
+        get "/v1/new_club_applications/#{club_application.id}",
+            headers: auth_headers
 
-      expect(json).to include('interviewed_at')
-      expect(json).to include('interview_duration')
-      expect(json).to include('interview_notes')
+        expect(response.status).to eq(200)
 
-      expect(json).to include('rejected_at')
-      expect(json).to include('rejected_reason')
-      expect(json).to include('rejected_notes')
+        expect(json).to include('interviewed_at')
+        expect(json).to include('interview_duration')
+        expect(json).to include('interview_notes')
 
-      expect(json).to include('test')
+        expect(json).to include('rejected_at')
+        expect(json).to include('rejected_reason')
+        expect(json).to include('rejected_notes')
+
+        expect(json).to include('test')
+      end
     end
 
     it '404s when application does not exist' do
