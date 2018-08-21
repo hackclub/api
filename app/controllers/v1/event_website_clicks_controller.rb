@@ -16,7 +16,18 @@ module V1
         referer: request.referer
       )
 
-      redirect_to event.website
+      redirect_to add_params_to_url(event.website, ref: 'hackclub')
+    end
+
+    private
+
+    # code in here based on https://stackoverflow.com/a/26867426
+    def add_params_to_url(url, params)
+      uri = URI.parse(url)
+      new_query_ar = URI.decode_www_form(uri.query || '')
+      params.each { |k, v| new_query_ar << [k, v] }
+      uri.query = URI.encode_www_form(new_query_ar)
+      uri.to_s
     end
   end
 end

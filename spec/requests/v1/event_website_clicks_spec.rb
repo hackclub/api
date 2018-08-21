@@ -16,9 +16,11 @@ RSpec.describe 'V1::EventWebsiteClicks', type: :request do
           headers: headers
     end
 
-    it "redirects to event's website" do
+    it "redirects to event's website with ref param" do
       expect(response.status).to eq(302)
-      expect(response.headers['Location']).to eq(event.website)
+      expect(
+        response.headers['Location']
+      ).to eq(event.website + '?ref=hackclub')
     end
 
     it 'creates a new EventWebsiteClick' do
