@@ -15,7 +15,7 @@ class EventEmailSubscriberMailer < ApplicationMailer
     @event = new_event
 
     mail to: subscriber.email,
-         subject: 'New event added near you: ' + @event.name
+         subject: 'New event near you: ' + @event.name
   end
 
   def unsubscribe(subscriber)
