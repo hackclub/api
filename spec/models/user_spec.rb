@@ -85,6 +85,7 @@ RSpec.describe User, type: :model do
   it { should have_many(:leadership_position_invites) }
   it { should have_many(:leader_profiles) }
   it { should have_many(:new_club_applications).through(:leader_profiles) }
+  it { should have_many(:owned_club_applications) }
   it { should have_many(:owned_clubs) }
 
   it 'properly sets default values' do

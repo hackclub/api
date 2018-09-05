@@ -6,6 +6,7 @@ RSpec.describe NewClubApplication, type: :model do
   ## db columns ##
 
   # relations
+  it { should have_db_column :owner_id }
   it { should have_db_column :point_of_contact_id }
   it { should have_db_column :new_club_id }
 
@@ -78,6 +79,7 @@ RSpec.describe NewClubApplication, type: :model do
   it { should have_many(:leader_profiles) }
   it { should have_many(:users).through(:leader_profiles) }
 
+  it { should belong_to(:owner) }
   it { should belong_to(:point_of_contact) }
   it { should have_many :notes }
 

@@ -163,8 +163,9 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       expect(json).to_not include('rejected_reason')
       expect(json).to_not include('rejected_notes')
 
-      # does not include test
+      # does not include other private fields
       expect(json).to_not include('test')
+      expect(json).to_not include('owner')
     end
 
     context 'as admin' do
@@ -188,6 +189,7 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
         expect(json).to include('rejected_notes')
 
         expect(json).to include('test')
+        expect(json).to include('owner')
       end
     end
 
@@ -388,6 +390,21 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
       expect(response.status).to eq(422)
     end
 
+    it 'fails to set owner' do
+      application = create(:completed_new_club_application)
+      create(:completed_leader_profile, new_club_application: application,
+                                        user: user)
+      application.update_attributes(point_of_contact: user)
+
+      patch "/v1/new_club_applications/#{application.id}",
+            headers: auth_headers,
+            params: {
+              owner_id: create(:user_admin_authed).id
+            }
+
+      expect(response.status).to eq(422)
+    end
+
     context 'when admin' do
       let(:club_application) do
         app = create(:completed_new_club_application)
@@ -496,6 +513,20 @@ RSpec.describe 'V1::NewClubApplications', type: :request do
 
         expect(response.status).to eq(200)
         expect(json['test']).to eq(true)
+      end
+
+      it 'allows setting owner' do
+        club_application = create(:new_club_application)
+        admin = create(:user_admin_authed)
+
+        patch "/v1/new_club_applications/#{club_application.id}",
+              headers: auth_headers,
+              params: {
+                owner_id: admin.id
+              }
+
+        expect(response.status).to eq(200)
+        expect(json['owner']['id']).to eq(admin.id)
       end
     end
   end

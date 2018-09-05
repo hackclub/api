@@ -48,6 +48,10 @@ module V1
         return render_field_error(:base, 'cannot edit application after submit')
       end
 
+      if club_application_params.include?('owner_id') && !current_user.admin?
+        return render_field_error(:owner_id, 'cannot change unless admin')
+      end
+
       if club_application_params.include?('test') && !current_user.admin?
         return render_field_error(:test, 'cannot change unless admin')
       end
@@ -157,6 +161,7 @@ module V1
 
     def club_application_params
       params.permit(
+        :owner_id,
         :high_school_name,
         :high_school_url,
         :high_school_type,

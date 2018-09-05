@@ -10,6 +10,7 @@ class NewClubApplication < ApplicationRecord
   has_many :leader_profiles
   has_many :users, through: :leader_profiles
 
+  belongs_to :owner, class_name: 'User'
   belongs_to :point_of_contact, class_name: 'User'
   has_many :notes, as: :noteable
 

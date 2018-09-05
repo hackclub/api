@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_12_170059) do
+ActiveRecord::Schema.define(version: 2018_09_05_083714) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -479,7 +479,9 @@ ActiveRecord::Schema.define(version: 2018_08_12_170059) do
     t.bigint "new_club_id"
     t.datetime "accepted_at"
     t.boolean "test"
+    t.bigint "owner_id"
     t.index ["new_club_id"], name: "index_new_club_applications_on_new_club_id"
+    t.index ["owner_id"], name: "index_new_club_applications_on_owner_id"
     t.index ["point_of_contact_id"], name: "index_new_club_applications_on_point_of_contact_id"
   end
 
@@ -669,6 +671,7 @@ ActiveRecord::Schema.define(version: 2018_08_12_170059) do
   add_foreign_key "leadership_positions", "new_leaders"
   add_foreign_key "net_promoter_score_surveys", "leaders"
   add_foreign_key "new_club_applications", "new_clubs"
+  add_foreign_key "new_club_applications", "users", column: "owner_id"
   add_foreign_key "new_club_applications", "users", column: "point_of_contact_id"
   add_foreign_key "new_clubs", "users", column: "owner_id"
   add_foreign_key "new_clubs_information_verification_requests", "new_clubs"
