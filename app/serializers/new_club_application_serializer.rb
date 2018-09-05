@@ -38,7 +38,7 @@ class NewClubApplicationSerializer < ActiveModel::Serializer
   attribute :rejected_reason, if: :admin?
   attribute :rejected_notes, if: :admin?
 
-  attribute :owner, if: :admin?
+  belongs_to :owner, if: :admin?
   attribute :test, if: :admin?
 
   has_many :leader_profiles
