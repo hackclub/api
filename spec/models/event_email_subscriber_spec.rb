@@ -70,4 +70,10 @@ RSpec.describe EventEmailSubscriber, type: :model do
     subject.save
     expect(subject.link_tracking_token).to match(/.{32}/)
   end
+
+  it 'queues rebuild triggers after committing changes' do
+    expect do
+      subject.update_attributes(email: 'foo@bar.com')
+    end.to have_enqueued_job(RebuildHackathonsSiteJob)
+  end
 end

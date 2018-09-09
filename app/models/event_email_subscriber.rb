@@ -14,6 +14,8 @@ class EventEmailSubscriber < ApplicationRecord
   before_create :generate_confirmation_token
   before_create :generate_link_tracking_token
 
+  after_commit :trigger_rebuild
+
   validates :email, :location, presence: true
   validates :email,
             :unsubscribe_token,
@@ -51,5 +53,11 @@ class EventEmailSubscriber < ApplicationRecord
 
   def generate_link_tracking_token
     self.link_tracking_token = SecureRandom.hex
+  end
+
+  private
+
+  def trigger_rebuild
+    RebuildHackathonsSiteJob.perform_later
   end
 end
