@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'V1::EventEmailSubscribers', type: :request do
+RSpec.describe 'V1::EventEmailSubscribers', type: :request, vcr: true do
   describe 'POST /v1/event_email_subscribers' do
     let(:params) { {} } # override in subtests
 

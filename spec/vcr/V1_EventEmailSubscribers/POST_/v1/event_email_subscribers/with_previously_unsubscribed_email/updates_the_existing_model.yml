@@ -1,0 +1,183 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: ENV-hackathons_site_rebuild_hook
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.2 (linux-gnu x86_64) ruby/2.3.1p112
+      Host:
+      - api.netlify.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - text/plain; charset=utf-8
+      Date:
+      - Sun, 09 Sep 2018 23:32:01 GMT
+      Vary:
+      - Origin
+      X-Frame-Options:
+      - ALLOWALL
+      X-Request-Id:
+      - ec03f070-ab0c-4497-9006-9353d1c6adee
+      X-Runtime:
+      - '0.017829'
+      Content-Length:
+      - '0'
+      Via:
+      - 1.1 google
+      Alt-Svc:
+      - clear
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Sun, 09 Sep 2018 23:32:01 GMT
+- request:
+    method: post
+    uri: ENV-hackathons_site_rebuild_hook
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.2 (linux-gnu x86_64) ruby/2.3.1p112
+      Host:
+      - api.netlify.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - text/plain; charset=utf-8
+      Date:
+      - Sun, 09 Sep 2018 23:32:02 GMT
+      Vary:
+      - Origin
+      X-Frame-Options:
+      - ALLOWALL
+      X-Request-Id:
+      - d9da2705-07fa-4ac9-a6d5-233421c7d1b8
+      X-Runtime:
+      - '0.016341'
+      Content-Length:
+      - '0'
+      Via:
+      - 1.1 google
+      Alt-Svc:
+      - clear
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Sun, 09 Sep 2018 23:32:02 GMT
+- request:
+    method: post
+    uri: ENV-hackathons_site_rebuild_hook
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.2 (linux-gnu x86_64) ruby/2.3.1p112
+      Host:
+      - api.netlify.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - text/plain; charset=utf-8
+      Date:
+      - Sun, 09 Sep 2018 23:32:02 GMT
+      Vary:
+      - Origin
+      X-Frame-Options:
+      - ALLOWALL
+      X-Request-Id:
+      - 61819c5c-f5a5-48cf-8d8c-7202b1765403
+      X-Runtime:
+      - '0.017573'
+      Content-Length:
+      - '0'
+      Via:
+      - 1.1 google
+      Alt-Svc:
+      - clear
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Sun, 09 Sep 2018 23:32:02 GMT
+- request:
+    method: post
+    uri: ENV-hackathons_site_rebuild_hook
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.2 (linux-gnu x86_64) ruby/2.3.1p112
+      Host:
+      - api.netlify.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - text/plain; charset=utf-8
+      Date:
+      - Sun, 09 Sep 2018 23:32:02 GMT
+      Vary:
+      - Origin
+      X-Frame-Options:
+      - ALLOWALL
+      X-Request-Id:
+      - b11fc83f-cca8-4fee-9677-c31b817e2de2
+      X-Runtime:
+      - '0.020662'
+      Content-Length:
+      - '0'
+      Via:
+      - 1.1 google
+      Alt-Svc:
+      - clear
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Sun, 09 Sep 2018 23:32:02 GMT
+recorded_with: VCR 3.0.3
