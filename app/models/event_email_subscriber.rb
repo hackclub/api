@@ -32,6 +32,15 @@ class EventEmailSubscriber < ApplicationRecord
                 country: :parsed_country,
                 country_code: :parsed_country_code
 
+  def self.stats
+    filtered = subscribed
+
+    {
+      cities: filtered.distinct.count(:parsed_city),
+      countries: filtered.distinct.count(:parsed_country)
+    }
+  end
+
   def generate_unsubscribe_token
     self.unsubscribe_token = SecureRandom.hex
   end

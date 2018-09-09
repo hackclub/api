@@ -85,6 +85,8 @@ Rails.application.routes.draw do
       collection do
         get 'confirm'
         get 'unsubscribe'
+
+        get 'stats', to: 'event_email_subscribers/stats#index'
       end
     end
 

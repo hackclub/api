@@ -152,4 +152,88 @@ RSpec.describe 'V1::EventEmailSubscribers', type: :request do
       end
     end
   end
+
+  describe 'GET /v1/event_email_subscribers/stats' do
+    let(:setup) {}
+
+    before do
+      setup
+      get '/v1/event_email_subscribers/stats'
+    end
+
+    it 'returns no cities & no countries' do
+      expect(response.status).to eq(200)
+      expect(json['cities']).to eq(0)
+      expect(json['countries']).to eq(0)
+    end
+
+    context 'with 5 cities and 3 countries' do
+      def create_subscriber(
+        location,
+        subscriber_type = :event_email_subscriber_confirmed
+      )
+        subscriber = create(
+          subscriber_type,
+          location: "#{location[0]}, #{location[1]}"
+        )
+
+        # since we spec out geocoding for tests to return fake results,
+        # manually override the geocoded city & country
+        subscriber.update(
+          parsed_city: location[0],
+          parsed_country: location[1]
+        )
+      end
+
+      let(:locations) do
+        [
+          ['Los Angeles', 'United States'],
+          ['San Francisco', 'United States'],
+          ['New York City', 'United States'],
+          %w[Tokyo Japan],
+          %w[Maputo Mozambique]
+        ]
+      end
+
+      let(:setup) { locations.each { |l| create_subscriber(l) } }
+
+      it 'returns the correct number of cities and countries' do
+        expect(response.status).to eq(200)
+        expect(json['cities']).to eq(5)
+        expect(json['countries']).to eq(3)
+      end
+
+      context 'with an unconfirmed email subscriber' do
+        let(:setup) do
+          locations.each { |l| create_subscriber(l) }
+          create_subscriber(
+            %w[Paris France],
+            :event_email_subscriber # not confirmed
+          )
+        end
+
+        it 'does not count them' do
+          expect(response.status).to eq(200)
+          expect(json['cities']).to eq(5)
+          expect(json['countries']).to eq(3)
+        end
+      end
+
+      context 'with an unsubscribed email subscriber' do
+        let(:setup) do
+          locations.each { |l| create_subscriber(l) }
+          create_subscriber(
+            %w[Paris France],
+            :event_email_subscriber_unsubscribed
+          )
+        end
+
+        it 'does not count them' do
+          expect(response.status).to eq(200)
+          expect(json['cities']).to eq(5)
+          expect(json['countries']).to eq(3)
+        end
+      end
+    end
+  end
 end
