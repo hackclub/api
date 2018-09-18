@@ -2,7 +2,7 @@
 
 class LeaderProfilePolicy < ApplicationPolicy
   def show?
-    owns_profile?
+    owns_profile? || user.admin?
   end
 
   def update?

@@ -41,6 +41,17 @@ RSpec.describe 'V1::LeaderProfiles', type: :request do
       expect(response.status).to eq(404)
       expect(json).to include('error' => 'not found')
     end
+
+    context 'as admin' do
+      # user we're authing as
+      let(:applicant) { create(:user_admin_authed) }
+
+      it "allows returning someone else's profile" do
+        get "/v1/leader_profiles/#{profile.id}", headers: auth_headers
+
+        expect(response.status).to eq(200)
+      end
+    end
   end
 
   describe 'PATCH /v1/leader_profile/id' do
