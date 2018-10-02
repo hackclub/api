@@ -147,6 +147,10 @@ RSpec.describe NewLeader, type: :model do
       expect(subject.linkedin_url).to eq('https://linkedin.com/in/orpheus')
       expect(subject.facebook_url).to eq('https://facebook.com/orpheus')
       expect(subject.twitter_url).to eq('https://twitter.com/orpheus')
+
+      # links user
+      expect(subject.user).to eq(leader_profile.user)
+      expect(subject.user).to_not be_nil
     end
 
     it 'returns the leader object' do

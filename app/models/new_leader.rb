@@ -72,6 +72,8 @@ class NewLeader < ApplicationRecord
     self.facebook_url = profile.presence_facebook_url
     self.twitter_url = profile.presence_twitter_url
 
+    self.user = profile.user
+
     self
   end
 
