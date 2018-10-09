@@ -62,6 +62,26 @@ RSpec.describe LeaderProfile, type: :model do
   it { should validate_presence_of :new_club_application }
   it { should validate_email_format_of :leader_email }
 
+  it 'validates urls' do
+    expect(subject.valid?).to eq(true)
+
+    subject.presence_personal_website = 'bad'
+    subject.presence_github_url = 'bad'
+    subject.presence_linkedin_url = 'bad'
+    subject.presence_facebook_url = 'bad'
+    subject.presence_twitter_url = 'bad'
+
+    expect(subject.valid?).to eq(false)
+
+    expect(subject.errors).to include(
+      :presence_personal_website,
+      :presence_github_url,
+      :presence_linkedin_url,
+      :presence_facebook_url,
+      :presence_twitter_url
+    )
+  end
+
   it_behaves_like 'Geocodeable'
   it_behaves_like 'Recoverable'
 

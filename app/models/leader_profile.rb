@@ -9,6 +9,9 @@ class LeaderProfile < ApplicationRecord
 
   validates :user, :new_club_application, presence: true
   validates :leader_email, email: true, if: -> { leader_email.present? }
+  validates :presence_personal_website, :presence_github_url,
+            :presence_linkedin_url, :presence_facebook_url,
+            :presence_twitter_url, url: true
 
   enum leader_year_in_school: %i[
     freshman
