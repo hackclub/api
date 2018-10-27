@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_25_215258) do
+ActiveRecord::Schema.define(version: 2018_10_27_232749) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -243,6 +243,13 @@ ActiveRecord::Schema.define(version: 2018_10_25_215258) do
     t.index ["email"], name: "index_event_email_subscribers_on_email", unique: true
     t.index ["link_tracking_token"], name: "index_event_email_subscribers_on_link_tracking_token", unique: true
     t.index ["unsubscribe_token"], name: "index_event_email_subscribers_on_unsubscribe_token", unique: true
+  end
+
+  create_table "event_groups", force: :cascade do |t|
+    t.text "name"
+    t.text "location"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "event_website_clicks", force: :cascade do |t|
