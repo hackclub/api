@@ -8,4 +8,9 @@ class WorkshopProjectSerializer < ActiveModel::Serializer
              :code_url
 
   has_one :screenshot
+  has_one :user
+
+  class UserSerializer < ActiveModel::Serializer
+    attributes :username
+  end
 end

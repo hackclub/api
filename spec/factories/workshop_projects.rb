@@ -6,5 +6,9 @@ FactoryBot.define do
     code_url { Faker::Internet.url('github.com') }
     live_url { Faker::Internet.url }
     screenshot { build(:workshop_project_screenshot) }
+
+    factory :workshop_project_with_user do
+      user { build(:user) }
+    end
   end
 end

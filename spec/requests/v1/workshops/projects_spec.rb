@@ -18,11 +18,45 @@ RSpec.describe 'V1::Workshops::Projects', type: :request do
     send(method, url, params: params, headers: headers)
   end
 
-  # TODO!
-  describe 'POST /v1/workshops/:workshop_slug/projects'
+  describe 'POST /v1/workshops/:workshop_slug/projects' do
+    let(:method) { :post }
+    let(:url) { '/v1/workshops/testshop/projects' }
+
+    it 'fails without params' do
+      expect(response.status).to eq(422)
+    end
+
+    context 'with proper params' do
+      let(:screenshot) { create(:workshop_project_screenshot) }
+      let(:params) do
+        {
+          live_url: 'https://hackclub.com',
+          code_url: 'https://github.com/hackclub/site',
+          screenshot_id: screenshot.id
+        }
+      end
+
+      it 'succeeds' do
+        expect(response.status).to eq(201)
+      end
+
+      context 'when authenticated' do
+        let(:user) { create(:user_authed) }
+        let(:headers) { auth_headers }
+
+        it 'associates the authenticated user' do
+          expect(response.status).to eq(201)
+          expect(json['user']['username']).to eq(user.username)
+        end
+      end
+    end
+  end
 
   describe 'GET /v1/workshops/:workshop_slug/projects' do
-    let(:setup) { create_list(:workshop_project, 5, workshop_slug: 'testshop') }
+    let(:setup) do
+      create_list(:workshop_project, 4, workshop_slug: 'testshop')
+      create(:workshop_project_with_user, workshop_slug: 'testshop')
+    end
 
     let(:method) { :get }
     let(:url) { '/v1/workshops/testshop/projects' }
@@ -46,6 +80,10 @@ RSpec.describe 'V1::Workshops::Projects', type: :request do
         'type',
         'file_path'
       )
+
+      # workshop created w/ authentication
+      expect(json.last).to include('user')
+      expect(json.last['user']).to include('username')
     end
   end
 end
