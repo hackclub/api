@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_27_232749) do
+ActiveRecord::Schema.define(version: 2018_10_27_234029) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -290,7 +290,9 @@ ActiveRecord::Schema.define(version: 2018_10_27_232749) do
     t.boolean "public"
     t.boolean "collegiate"
     t.boolean "mlh_associated"
+    t.bigint "group_id"
     t.index ["deleted_at"], name: "index_events_on_deleted_at"
+    t.index ["group_id"], name: "index_events_on_group_id"
   end
 
   create_table "fundraising_deals", id: :serial, force: :cascade do |t|
@@ -680,6 +682,7 @@ ActiveRecord::Schema.define(version: 2018_10_27_232749) do
   add_foreign_key "clubs", "new_clubs"
   add_foreign_key "event_website_clicks", "event_email_subscribers"
   add_foreign_key "event_website_clicks", "events"
+  add_foreign_key "events", "event_groups", column: "group_id"
   add_foreign_key "leaders", "new_leaders"
   add_foreign_key "leadership_position_invites", "leadership_positions"
   add_foreign_key "leadership_position_invites", "new_clubs"

@@ -39,7 +39,8 @@ RSpec.describe 'V1::Events', type: :request do
         'parsed_state_code',
         'parsed_postal_code',
         'parsed_country',
-        'parsed_country_code'
+        'parsed_country_code',
+        'group_id'
       )
       expect(json[0]['logo']).to include(
         'id', 'created_at', 'updated_at', 'file_path',

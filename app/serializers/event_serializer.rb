@@ -22,7 +22,8 @@ class EventSerializer < ActiveModel::Serializer
              :parsed_state_code,
              :parsed_postal_code,
              :parsed_country,
-             :parsed_country_code
+             :parsed_country_code,
+             :group_id
 
   has_one :logo
   has_one :banner
