@@ -18,6 +18,12 @@ Rails.application.routes.draw do
     resources :donations, only: [:create]
     resources :workshop_feedbacks, only: [:create]
 
+    resources :workshops, param: :slug, only: [] do
+      scope module: 'workshops' do
+        resources :projects, only: %i[index create]
+      end
+    end
+
     resources :club_applications, only: [:create]
 
     get '/new_club_applications', to: 'new_club_applications#full_index'
