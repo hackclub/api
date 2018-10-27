@@ -95,6 +95,7 @@ RSpec.describe 'V1::Events', type: :request do
 
   describe 'POST /v1/events' do
     let(:user) { create(:user_authed) }
+    let(:group) { create(:event_group) }
 
     it 'requires authentication' do
       post '/v1/events'
@@ -132,7 +133,8 @@ RSpec.describe 'V1::Events', type: :request do
                collegiate: true,
                total_attendance: 100,
                first_time_hackathon_estimate: 120,
-               address: 'Test Address'
+               address: 'Test Address',
+               group_id: group.id
              }
 
         expect(response.status).to eq(201)
@@ -148,7 +150,8 @@ RSpec.describe 'V1::Events', type: :request do
           'collegiate' => true,
           'total_attendance' => 100,
           'first_time_hackathon_estimate' => 120,
-          'address' => 'Test Address'
+          'address' => 'Test Address',
+          'group_id' => group.id
         )
       end
 

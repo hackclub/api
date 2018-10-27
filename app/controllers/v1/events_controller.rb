@@ -67,7 +67,8 @@ module V1
         :collegiate,
         :total_attendance,
         :first_time_hackathon_estimate,
-        :address
+        :address,
+        :group_id
       )
     end
 
