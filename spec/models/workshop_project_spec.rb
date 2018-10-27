@@ -17,12 +17,14 @@ RSpec.describe WorkshopProject, type: :model do
   # relationships #
 
   it { should belong_to :user }
+  it { should have_one :screenshot }
 
   # validations #
 
   it { should validate_presence_of :workshop_slug }
   it { should validate_presence_of :code_url }
   it { should validate_presence_of :live_url }
+  it { should validate_presence_of :screenshot }
 
   it 'validates urls' do
     expect(subject.valid?).to eq(true)

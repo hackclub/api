@@ -5,5 +5,6 @@ FactoryBot.define do
     workshop_slug { %w[personal_website that_was_easy dodge].sample }
     code_url { Faker::Internet.url('github.com') }
     live_url { Faker::Internet.url }
+    screenshot { build(:workshop_project_screenshot) }
   end
 end
