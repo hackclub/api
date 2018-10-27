@@ -15,9 +15,9 @@ RSpec.describe EventGroup, type: :model do
 
   # relations #
 
-  # TODO: it { should have_many :events }
   it { should have_one :logo }
   it { should have_one :banner }
+  it { should have_many :events }
 
   # validations #
 

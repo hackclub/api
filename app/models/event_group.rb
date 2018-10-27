@@ -8,4 +8,5 @@ class EventGroup < ApplicationRecord
 
   has_one :logo, as: :attachable, class_name: 'EventLogo'
   has_one :banner, as: :attachable, class_name: 'EventBanner'
+  has_many :events, foreign_key: :group_id
 end
