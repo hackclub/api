@@ -61,6 +61,8 @@ jobs:
           S3_BUCKET: fake_bucket
 
           HACKATHONS_SITE_REBUILD_HOOK: https://fake_rebuild_url.com/fake_project
+
+          SCREENSHOTLAYER_API_KEY: fake_api_key
     
     # Service container image available at `host: localhost`
     
