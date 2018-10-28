@@ -82,6 +82,12 @@ Rails.application.routes.draw do
     end
 
     resources :events, only: %i[index create update destroy] do
+      collection do
+        scope module: 'events' do
+          resources :groups, only: %i[index show]
+        end
+      end
+
       get 'redirect', to: 'event_website_clicks#create'
 
       resources :event_media, path: '/media', only: %i[index create destroy]
