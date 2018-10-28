@@ -26,6 +26,7 @@ class Event < ApplicationRecord
   has_one :logo, as: :attachable, class_name: 'EventLogo'
   has_one :banner, as: :attachable, class_name: 'EventBanner'
   has_many :photos, as: :attachable, class_name: 'EventPhoto'
+  belongs_to :group, class_name: 'EventGroup'
 
   geocode_attrs address: :address,
                 latitude: :latitude,

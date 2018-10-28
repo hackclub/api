@@ -32,6 +32,7 @@ RSpec.describe Event, type: :model do
   it { should have_db_column :parsed_postal_code }
   it { should have_db_column :parsed_country }
   it { should have_db_column :parsed_country_code }
+  it { should have_db_column :group_id }
 
   ## concerns ##
 
@@ -98,6 +99,8 @@ RSpec.describe Event, type: :model do
   it { should have_one :logo }
   it { should have_one :banner }
   it { should have_many :photos }
+
+  it { should belong_to :group }
 
   ## custom model stuff ##
 
