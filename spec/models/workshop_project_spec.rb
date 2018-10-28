@@ -24,7 +24,6 @@ RSpec.describe WorkshopProject, type: :model do
   it { should validate_presence_of :workshop_slug }
   it { should validate_presence_of :code_url }
   it { should validate_presence_of :live_url }
-  it { should validate_presence_of :screenshot }
 
   it 'validates urls' do
     expect(subject.valid?).to eq(true)
@@ -52,5 +51,19 @@ RSpec.describe WorkshopProject, type: :model do
 
     expect(subject.valid?).to eq(false)
     expect(subject.errors).to include(:workshop_slug)
+  end
+
+  # other #
+
+  it 'generates a screenshot from URL when one is not provided', vcr: true do
+    expect(subject.valid?).to eq(true)
+
+    subject.screenshot = nil
+    subject.live_url = 'https://google.com'
+
+    expect do
+      subject.save
+    end.to change { WorkshopProjectScreenshot.count }.by 1
+    expect(subject.screenshot).to_not be_nil
   end
 end
