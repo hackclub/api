@@ -15,11 +15,4 @@ RSpec.describe WorkshopProjectScreenshot, type: :model do
     expect(subject.valid?).to eq(false)
     expect(subject.errors[:file]).to include('must be an image')
   end
-
-  it 'renders an appropriate variant' do
-    transformations = subject.file_to_render.variation.transformations
-
-    expect(transformations[:resize]).to eq('x300')
-    expect(transformations[:trim]).to eq(true)
-  end
 end
