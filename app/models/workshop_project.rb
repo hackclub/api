@@ -10,11 +10,9 @@ class WorkshopProject < ApplicationRecord
 
   before_create :capture_screenshot_if_missing
 
-  private
-
-  def capture_screenshot_if_missing
-    return if screenshot.present?
-
+  # Captures a screenshot from the live_url, overriding the existing screenshot
+  # currently set.
+  def capture_screenshot
     screenshot_file = ScreenshotClient.capture(live_url, format: 'JPG')
 
     self.screenshot = WorkshopProjectScreenshot.new
@@ -22,5 +20,13 @@ class WorkshopProject < ApplicationRecord
       io: screenshot_file,
       filename: 'screenshot.jpg'
     )
+  end
+
+  private
+
+  def capture_screenshot_if_missing
+    return if screenshot.present?
+
+    capture_screenshot
   end
 end
