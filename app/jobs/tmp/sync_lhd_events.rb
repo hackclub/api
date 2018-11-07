@@ -51,8 +51,16 @@ module Tmp
       event.end = '2018-12-01'
       event.group_id = GROUP_ID if GROUP_ID
 
-      event.logo = EventLogo.find(LOGO_ID) if LOGO_ID
-      event.banner = EventBanner.find(BANNER_ID) if BANNER_ID
+      if LOGO_ID
+        event.logo = EventLogo.new(
+          file: EventLogo.find(LOGO_ID).file.blob
+        )
+      end
+      if BANNER_ID
+        event.banner = EventBanner.new(
+          file: EventBanner.find(BANNER_ID).file.blob
+        )
+      end
 
       event.name = "LHD #{json[:organization_name]}"
       event.website = json[:links][:self]
