@@ -33,6 +33,8 @@ class NewLeader < ApplicationRecord
   validates :personal_website, :github_url, :linkedin_url, :facebook_url,
             :twitter_url, url: true
 
+  validates :email, uniqueness: true
+
   geocode_attrs address: :address,
                 latitude: :latitude,
                 longitude: :longitude,

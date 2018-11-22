@@ -57,6 +57,8 @@ RSpec.describe NewLeader, type: :model do
   it { should validate_presence_of :phone_number }
   it { should validate_presence_of :address }
 
+  it { should validate_uniqueness_of :email }
+
   it 'validates urls' do
     expect(subject.valid?).to eq(true)
 
