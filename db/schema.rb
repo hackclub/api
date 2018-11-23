@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_27_234029) do
+ActiveRecord::Schema.define(version: 2018_11_23_210429) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -555,6 +555,7 @@ ActiveRecord::Schema.define(version: 2018_10_27_234029) do
     t.text "twitter_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_new_leaders_on_email", unique: true
   end
 
   create_table "notes", force: :cascade do |t|
@@ -627,7 +628,7 @@ ActiveRecord::Schema.define(version: 2018_10_27_234029) do
     t.bigint "new_leader_id"
     t.datetime "shadow_banned_at"
     t.index ["auth_token"], name: "index_users_on_auth_token"
-    t.index ["email"], name: "index_users_on_email"
+    t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["new_leader_id"], name: "index_users_on_new_leader_id"
     t.index ["username"], name: "index_users_on_username", unique: true
   end
