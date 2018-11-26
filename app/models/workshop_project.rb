@@ -15,11 +15,13 @@ class WorkshopProject < ApplicationRecord
   def capture_screenshot
     screenshot_file = ScreenshotClient.capture(live_url, format: 'JPG')
 
-    self.screenshot = WorkshopProjectScreenshot.new
+    screenshot = WorkshopProjectScreenshot.new
     screenshot.file.attach(
       io: screenshot_file,
       filename: 'screenshot.jpg'
     )
+    
+    self.screenshot = screenshot
   end
 
   private
