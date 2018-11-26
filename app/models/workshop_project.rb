@@ -20,7 +20,7 @@ class WorkshopProject < ApplicationRecord
       io: screenshot_file,
       filename: 'screenshot.jpg'
     )
-    
+
     self.screenshot = screenshot
   end
 
