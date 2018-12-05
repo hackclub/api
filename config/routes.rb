@@ -24,6 +24,10 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :projects, only: [] do
+      get 'redirect/:type_of', to: 'workshop_project_clicks#create'
+    end
+
     resources :club_applications, only: [:create]
 
     get '/new_club_applications', to: 'new_club_applications#full_index'

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_23_210429) do
+ActiveRecord::Schema.define(version: 2018_12_05_022114) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -653,6 +653,19 @@ ActiveRecord::Schema.define(version: 2018_11_23_210429) do
     t.index ["workshop_slug"], name: "index_workshop_feedbacks_on_workshop_slug"
   end
 
+  create_table "workshop_project_clicks", force: :cascade do |t|
+    t.bigint "workshop_project_id"
+    t.bigint "user_id"
+    t.inet "ip_address"
+    t.text "referrer"
+    t.text "user_agent"
+    t.integer "type_of", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_workshop_project_clicks_on_user_id"
+    t.index ["workshop_project_id"], name: "index_workshop_project_clicks_on_workshop_project_id"
+  end
+
   create_table "workshop_projects", force: :cascade do |t|
     t.text "workshop_slug"
     t.text "code_url"
@@ -702,5 +715,7 @@ ActiveRecord::Schema.define(version: 2018_11_23_210429) do
   add_foreign_key "slack_invites", "hackbot_teams"
   add_foreign_key "users", "new_leaders"
   add_foreign_key "users_blocked_email_domains", "users", column: "creator_id"
+  add_foreign_key "workshop_project_clicks", "users"
+  add_foreign_key "workshop_project_clicks", "workshop_projects"
   add_foreign_key "workshop_projects", "users"
 end
