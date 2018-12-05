@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :workshop_project_click do
     workshop_project :workshop_project
