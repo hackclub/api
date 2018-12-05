@@ -13,7 +13,7 @@ RSpec.describe 'V1::WorkshopProjectClick', type: :request do
 
     it 'redirects to correct url' do
       expect(response.status).to eq(302)
-      expect(response.headers['Location']).to eq(post.live_url)
+      expect(response.headers['Location']).to eq(project.live_url)
     end
 
     it 'creates a WorkshopProjectClick' do
@@ -35,7 +35,7 @@ RSpec.describe 'V1::WorkshopProjectClick', type: :request do
 
     context 'when logged in' do
       let(:user) { create(:user_authed) }
-      let(:headers) { { 'Authorizeation': "Bearer #{user.auth_token}" } }
+      let(:headers) { { 'Authorization': "Bearer #{user.auth_token}" } }
 
       it 'properly saves user' do
         expect(WorkshopProjectClick.last.user).to eq(user)
