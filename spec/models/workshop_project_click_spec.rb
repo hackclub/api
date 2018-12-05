@@ -9,7 +9,7 @@ RSpec.describe 'V1::WorkshopProjectClick', type: :request do
     # override in subtests
     let(:headers) { {} }
 
-    before { get "/v1/posts/#{project.id}/redirect/live", headers: headers }
+    before { get "/v1/projects/#{project.id}/redirect/live", headers: headers }
 
     it 'redirects to correct url' do
       expect(response.status).to eq(302)
