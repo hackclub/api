@@ -9,20 +9,27 @@ RSpec.describe 'V1::WorkshopProjectClick', type: :request do
     # override in subtests
     let(:headers) { {} }
 
-    before { get "/v1/projects/#{project.id}/redirect/live", headers: headers }
+    let(:redirect_type) { 'code' }
+    let(:expected_url) { project.code_url }
+
+    before do |example|
+      unless example.metadata[:skip_before]
+        get "/v1/projects/#{project.id}/redirect/#{redirect_type}", headers: headers
+      end
+    end
+
 
     it 'redirects to correct url' do
       expect(response.status).to eq(302)
-      expect(response.headers['Location']).to eq(project.live_url)
+      expect(response.headers['Location']).to eq(expected_url)
     end
 
     it 'creates a WorkshopProjectClick' do
       click = WorkshopProjectClick.last
 
-      # idk
       expect(click.workshop_project).to eq(project)
       expect(click.ip_address).to eq('127.0.0.1')
-      expect(click.type_of).to eq('live')
+      expect(click.type_of).to eq(redirect_type)
     end
 
     context 'when user agent is set' do
@@ -33,12 +40,31 @@ RSpec.describe 'V1::WorkshopProjectClick', type: :request do
       end
     end
 
+    context 'when requesting live url' do
+      let(:redirect_type) { 'live' }
+      let(:expected_url) { project.live_url }
+
+      it 'properly saves click type' do
+        expect(WorkshopProjectClick.last.type_of).to eq('live')
+      end
+    end
+
     context 'when logged in' do
       let(:user) { create(:user_authed) }
       let(:headers) { { 'Authorization': "Bearer #{user.auth_token}" } }
 
       it 'properly saves user' do
         expect(WorkshopProjectClick.last.user).to eq(user)
+      end
+    end
+
+    context 'when requesting invalid url type' do
+      let(:redirect_type) { 'foobar' }
+
+      it 'raises an error', :skip_before do
+        expect {
+          get "/v1/projects/#{project.id}/redirect/#{redirect_type}", headers: headers
+        }.to raise_error(ArgumentError)
       end
     end
   end
