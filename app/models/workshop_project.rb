@@ -25,6 +25,10 @@ class WorkshopProject < ApplicationRecord
     self.screenshot = screenshot
   end
 
+  def click_count
+    workshop_project_clicks.count
+  end
+
   private
 
   def capture_screenshot_if_missing

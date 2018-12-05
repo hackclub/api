@@ -30,6 +30,7 @@ RSpec.describe 'V1::WorkshopProjectClick', type: :request do
       expect(click.workshop_project).to eq(project)
       expect(click.ip_address).to eq('127.0.0.1')
       expect(click.type_of).to eq(redirect_type)
+      expect(click.workshop_project.click_count).to eq(1)
     end
 
     context 'when user agent is set' do
