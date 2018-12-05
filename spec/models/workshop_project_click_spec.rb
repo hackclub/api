@@ -14,10 +14,10 @@ RSpec.describe 'V1::WorkshopProjectClick', type: :request do
 
     before do |example|
       unless example.metadata[:skip_before]
-        get "/v1/projects/#{project.id}/redirect/#{redirect_type}", headers: headers
+        get "/v1/projects/#{project.id}/redirect/#{redirect_type}",
+            headers: headers
       end
     end
-
 
     it 'redirects to correct url' do
       expect(response.status).to eq(302)
@@ -62,9 +62,10 @@ RSpec.describe 'V1::WorkshopProjectClick', type: :request do
       let(:redirect_type) { 'foobar' }
 
       it 'raises an error', :skip_before do
-        expect {
-          get "/v1/projects/#{project.id}/redirect/#{redirect_type}", headers: headers
-        }.to raise_error(ArgumentError)
+        expect do
+          get "/v1/projects/#{project.id}/redirect/#{redirect_type}",
+              headers: headers
+        end.to raise_error(ArgumentError)
       end
     end
   end

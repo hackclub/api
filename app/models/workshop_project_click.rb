@@ -6,5 +6,5 @@ class WorkshopProjectClick < ApplicationRecord
   belongs_to :workshop_project
   belongs_to :user
 
-  validates_presence_of :type_of
+  validates :type_of, presence: true
 end

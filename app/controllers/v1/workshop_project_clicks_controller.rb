@@ -10,7 +10,6 @@ module V1
 
       project = WorkshopProject.find(params[:project_id])
 
-
       click = WorkshopProjectClick.create!(
         type_of: params[:type_of],
         workshop_project: project,
