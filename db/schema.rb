@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_05_022114) do
+ActiveRecord::Schema.define(version: 2018_12_06_064203) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -673,6 +673,7 @@ ActiveRecord::Schema.define(version: 2018_12_05_022114) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "clicks_count"
     t.index ["user_id"], name: "index_workshop_projects_on_user_id"
     t.index ["workshop_slug"], name: "index_workshop_projects_on_workshop_slug"
   end

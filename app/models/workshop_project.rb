@@ -26,7 +26,7 @@ class WorkshopProject < ApplicationRecord
   end
 
   def click_count
-    workshop_project_clicks.count
+    workshop_project_clicks.size
   end
 
   private

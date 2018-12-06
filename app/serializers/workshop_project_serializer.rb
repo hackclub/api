@@ -16,10 +16,6 @@ class WorkshopProjectSerializer < ActiveModel::Serializer
   has_one :user
   has_many :workshop_project_clicks
 
-  def click_count
-    object.click_count
-  end
-
   def code_url
     v1_project_redirect_url(project_id: object.id, type_of: 'code')
   end
