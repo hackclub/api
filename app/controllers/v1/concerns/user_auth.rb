@@ -25,7 +25,7 @@ module UserAuth
     @user = User.find_by(auth_token: auth_token)
 
     if @user
-      unless @user.auth_token_generation > (Time.current - 1.day)
+      unless @user.auth_token_generation > (Time.current - 3.days)
         return render_error('auth token expired', 401)
       end
 
