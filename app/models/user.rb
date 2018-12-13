@@ -28,6 +28,10 @@ class User < ApplicationRecord
            class_name: 'NewClub',
            foreign_key: 'owner_id',
            inverse_of: :owner
+  
+  has_many :challenge_posts,
+           foreign_key: 'creator_id',
+           inverse_of: :creator
 
   after_initialize :default_values
   before_validation :downcase_email
