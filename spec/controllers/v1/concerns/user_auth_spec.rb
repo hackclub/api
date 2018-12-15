@@ -64,7 +64,7 @@ RSpec.describe UserAuth, type: :controller do
   end
 
   it 'errors when auth token is older than 3 days' do
-    user.auth_token_generation -= 3.day
+    user.auth_token_generation -= 3.days
     user.save
 
     request.headers['Authorization'] = "Bearer #{user.auth_token}"
