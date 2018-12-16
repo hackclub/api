@@ -113,6 +113,13 @@ class User < ApplicationRecord
     end
   end
 
+  def enable_totp!
+    self.auth_type = 'totp'
+    self.totp_key = ROTP::Base32.random_base32
+
+    return self.totp_key
+  end
+
   def make_admin!
     self.admin_at = Time.current
   end

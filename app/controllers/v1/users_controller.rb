@@ -15,12 +15,29 @@ module V1
       end
     end
 
+    def enable_totp
+      authenticate_user
+      key = current_user.enable_totp!
+      current_user.save
+      return render_success(key: key)
+    end
+
     def auth
       user = User.find_or_initialize_by(email: params[:email].downcase)
 
-      user.generate_login_code!
-
       if user.save
+        if user.auth_type == 'totp'
+          render_success(
+            id: user.id,
+            email: user.email,
+            status: 'totp code ready'
+          )
+          return
+        end
+
+        user.generate_login_code!
+        user.save
+
         ApplicantMailer.login_code(user).deliver_later
 
         render_success(
@@ -38,7 +55,9 @@ module V1
       login_code = params[:login_code]
 
       return render_not_found unless user
-
+      
+      # two sep blocks, thought it would look cleaner
+      
       if !login_code.nil? &&
          user.login_code == login_code &&
          user.login_code_generation > (Time.current - 15.minutes)
@@ -46,6 +65,16 @@ module V1
         user.generate_auth_token!
         user.login_code = nil
         user.login_code_generation = nil
+        user.save
+
+        return render_success(auth_token: user.auth_token)
+      end
+
+      if !login_code.nil? && 
+         !user.totp_key.nil? && 
+         ROTP::TOTP.new(user.totp_key).verify(login_code, drift_behind: 15)
+
+        user.generate_auth_token!
         user.save
 
         return render_success(auth_token: user.auth_token)

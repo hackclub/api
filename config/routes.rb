@@ -75,6 +75,7 @@ Rails.application.routes.draw do
         get 'current'
       end
 
+      post 'enable_totp'
       post 'exchange_login_code'
       post 'new_leader', to: 'users/new_leaders#create'
 
