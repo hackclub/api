@@ -19,7 +19,7 @@ module V1
       authenticate_user
       key = current_user.enable_totp!
       current_user.save
-      return render_success(key: key)
+      render_success(key: key)
     end
 
     def auth
