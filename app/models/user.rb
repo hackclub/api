@@ -32,7 +32,7 @@ class User < ApplicationRecord
   has_many :challenge_posts,
            foreign_key: 'creator_id',
            inverse_of: :creator
-  
+
   has_many :workshop_project_clicks
 
   after_initialize :default_values
