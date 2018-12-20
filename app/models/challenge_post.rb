@@ -17,6 +17,8 @@ class ChallengePost < ApplicationRecord
 
   after_initialize :default_values
 
+  after_commit :notify_creator, on: :create
+
   def default_values
     return if persisted?
 
@@ -49,5 +51,12 @@ class ChallengePost < ApplicationRecord
     recent_creation_bonus = [6 - hours_since_creation, 0].max
 
     (upvote_count + recent_creation_bonus) / (hours_since_creation + 2)**gravity
+  end
+
+  def notify_creator
+    ChallengePostMailer
+      .with(post: self)
+      .notify_creator
+      .deliver_later
   end
 end
