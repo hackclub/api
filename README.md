@@ -1,4 +1,4 @@
-<p align="center"><img alt="Monolith icon" src="https://i.imgur.com/J9seIVR.png"></a>
+<p align="center"><img alt="Monolith icon" src="https://i.imgur.com/GmQ9E9B.png"></a>
 <h1 align="center">API</h1>
 <p align="center"><i>The backend powering https://hackclub.com. Illustrated above.</i></p>
 <p align="center">

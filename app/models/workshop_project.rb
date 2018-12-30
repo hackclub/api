@@ -3,6 +3,7 @@
 class WorkshopProject < ApplicationRecord
   belongs_to :user
   has_one :screenshot, as: :attachable, class_name: 'WorkshopProjectScreenshot'
+  has_many :workshop_project_clicks
 
   validates :workshop_slug, :code_url, :live_url, presence: true
   validates :code_url, :live_url, url: true
@@ -22,6 +23,10 @@ class WorkshopProject < ApplicationRecord
     )
 
     self.screenshot = screenshot
+  end
+
+  def click_count
+    workshop_project_clicks.size
   end
 
   private

@@ -33,6 +33,8 @@ class User < ApplicationRecord
            foreign_key: 'creator_id',
            inverse_of: :creator
 
+  has_many :workshop_project_clicks
+
   after_initialize :default_values
   before_validation :downcase_email
   before_create :set_username_if_unset
