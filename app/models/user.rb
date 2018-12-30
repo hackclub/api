@@ -119,8 +119,9 @@ class User < ApplicationRecord
   end
 
   def disable_totp!
-    self.auth_type = 'auth_code'
+    self.auth_type = nil
     self.totp_key = nil
+  end
 
   def make_admin!
     self.admin_at = Time.current

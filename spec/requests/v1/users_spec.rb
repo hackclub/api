@@ -118,12 +118,31 @@ RSpec.describe 'V1::Users', type: :request do
       a
     end
 
+    let(:totp_user) do
+      a = create(:user)
+      a.enable_totp!
+      a.generate_login_code!
+      a.save
+
+      a
+    end
+
     it 'returns auth token with valid login code' do
       post "/v1/users/#{user.id}/exchange_login_code",
            params: { login_code: user.login_code }
 
       expect(response.status).to eq(200)
 
+      expect(json).to include('auth_token')
+    end
+
+    it 'returns auth token with valid totp code while TOTP enabled' do
+      totp_code = ROTP::TOTP.new(totp_user.totp_key).now
+
+      post "/v1/users/#{totp_user.id}/exchange_login_code",
+           params: { login_code: totp_code }
+
+      expect(response.status).to eq(200)
       expect(json).to include('auth_token')
     end
 
@@ -141,6 +160,14 @@ RSpec.describe 'V1::Users', type: :request do
       expect(response.status).to eq(401)
       expect(json['errors']).to include('login_code')
     end
+
+    it 'returns error with invalid login code while TOTP enabled' do
+      post "/v1/users/#{totp_user.id}/exchange_login_code",
+           params: { login_code: '000111' }
+
+      expect(response.status).to eq(401)
+      expect(json['errors']).to include('login_code')  
+    end    
 
     it 'fails when valid login code is used twice' do
       # 1st time..
@@ -184,6 +211,14 @@ RSpec.describe 'V1::Users', type: :request do
 
       expect(response.status).to eq(404)
       expect(json).to include('error' => 'not found')
+    end
+
+    it 'does not allow a normal login code for users with TOTP enabled' do
+      post "/v1/users/#{totp_user.id}/exchange_login_code",
+           params: { login_code: totp_user.login_code }
+
+      expect(response.status).to eq(401)
+      expect(json['errors']).to include('login_code')      
     end
   end
 

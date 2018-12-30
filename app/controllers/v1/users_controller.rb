@@ -56,31 +56,34 @@ module V1
 
       return render_not_found unless user
       
-      # two sep blocks, thought it would look cleaner
-      
-      if !login_code.nil? &&
-         user.login_code == login_code &&
-         user.login_code_generation > (Time.current - 15.minutes)
+      if !login_code.nil?
+        if user.auth_type == 'totp'
+          if ROTP::TOTP.new(user.totp_key).verify(login_code, drift_behind: 15)
+            user.generate_auth_token!
+            user.save
+            return render_success(auth_token: user.auth_token)
+          else 
+            return render_field_error(:login_code, 'invalid', 401)
+          end
+        end
 
-        user.generate_auth_token!
-        user.login_code = nil
-        user.login_code_generation = nil
-        user.save
+        if user.login_code == login_code &&
+           user.login_code_generation > (Time.current - 15.minutes)
+          
+          user.generate_auth_token!
+          user.login_code = nil
+          user.login_code_generation = nil
+          user.save
 
-        return render_success(auth_token: user.auth_token)
+          return render_success(auth_token: user.auth_token)
+        end
+
+        render_field_error(:login_code, 'invalid', 401)
+
+      else
+        render_field_error(:login_code, 'invalid', 401)
       end
 
-      if !login_code.nil? && 
-         !user.totp_key.nil? && 
-         ROTP::TOTP.new(user.totp_key).verify(login_code, drift_behind: 15)
-
-        user.generate_auth_token!
-        user.save
-
-        return render_success(auth_token: user.auth_token)
-      end
-
-      render_field_error(:login_code, 'invalid', 401)
     end
 
     def current

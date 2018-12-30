@@ -17,6 +17,8 @@ RSpec.describe User, type: :model do
   it { should have_db_column :email_on_new_challenge_posts }
   it { should have_db_column :email_on_new_challenge_post_comments }
   it { should have_db_column :new_leader_id }
+  it { should have_db_column :totp_key }
+  it { should have_db_column :auth_type }
 
   it { should have_db_index(:username).unique(true) }
 
@@ -186,6 +188,20 @@ RSpec.describe User, type: :model do
     subject.login_code = '123456'
 
     expect(subject.pretty_login_code).to eq('123-456')
+  end
+
+  example ':enable_totp!' do
+    subject.enable_totp!
+
+    expect(subject.totp_key.class).to be(String)
+    expect(subject.auth_type).to eq('totp')
+  end
+
+  example ':disable_totp!' do
+    subject.disable_totp!
+
+    expect(subject.totp_key).to eq(nil)
+    expect(subject.auth_type).to eq(nil)
   end
 
   example ':generate_auth_token!' do
