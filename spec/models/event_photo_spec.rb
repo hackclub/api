@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe EventPhoto, type: :model do
+  include Rails.application.routes.url_helpers
+
   subject { build(:event_photo) }
 
   it 'inherits from Attachment' do
@@ -33,12 +35,16 @@ RSpec.describe EventPhoto, type: :model do
   describe '#preview' do
     it 'successfully renders a variant for jpegs' do
       expect(subject.file.content_type).to eq('image/jpeg') # from factory
-      expect(subject.preview.processed.service_url).to_not be(nil)
+      expect(
+        rails_representation_path(subject.preview.processed)
+      ).to_not be(nil)
     end
 
     it 'successfully renders a variant for pngs' do
       attach_file(subject.file, test_files.join('event_logo.png'))
-      expect(subject.preview.processed.service_url).to_not be(nil)
+      expect(
+        rails_representation_path(subject.preview.processed)
+      ).to_not be(nil)
     end
   end
 end

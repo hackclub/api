@@ -3,15 +3,15 @@
 FactoryBot.define do
   # only required fields
   factory :challenge_post do
-    name 'My 90s Website'
-    url 'https://example.com'
+    name { 'My 90s Website' }
+    url { 'https://example.com' }
 
     association :creator, factory: :user
     association :challenge
 
     factory :challenge_post_with_upvotes do
       transient do
-        upvote_count 3
+        upvote_count { 3 }
       end
 
       after(:create) do |post, evaluator|

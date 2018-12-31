@@ -2,9 +2,9 @@
 
 FactoryBot.define do
   factory :workshop_project_click do
-    user :user
-    workshop_project :workshop_project
-    type_of :type_of
+    user { :user }
+    workshop_project { :workshop_project }
+    type_of { :type_of }
     ip_address { Faker::Internet.ip_v1_address }
   end
 end
