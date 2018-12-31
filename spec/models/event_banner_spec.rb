@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe EventBanner, type: :model do
+  include Rails.application.routes.url_helpers
+
   subject { build(:event_banner) }
 
   it 'inherits from Attachment' do
@@ -31,6 +33,8 @@ RSpec.describe EventBanner, type: :model do
     expect(transformations[:resize]).to eq('500x')
 
     # successfully processes
-    expect(subject.file_to_render.processed.service_url).to_not be(nil)
+    expect(
+      rails_representation_path(subject.file_to_render.processed)
+    ).to_not be(nil)
   end
 end
