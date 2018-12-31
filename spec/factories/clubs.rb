@@ -13,7 +13,7 @@ FactoryBot.define do
 
     factory :club_with_leaders do
       transient do
-        leader_count 2
+        leader_count { 2 }
       end
 
       after(:create) do |club, evaluator|

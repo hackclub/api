@@ -6,7 +6,7 @@ FactoryBot.define do
     # relationships.
     factory :completed_new_club_application do
       transient do
-        profile_count 3
+        profile_count { 3 }
       end
 
       # high school
