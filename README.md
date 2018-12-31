@@ -10,7 +10,7 @@
   </a>
 </p>
 
-testing github checks
+testing removal of github checks - not a fan
 
 ## Development Setup
 
