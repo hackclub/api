@@ -18,7 +18,7 @@ class User < ApplicationRecord
 
   validate :sms_with_phone_number
 
-  enum auth_type: [ :email, :sms ]
+  enum auth_type: %i[email sms]
 
   has_many :leader_profiles
   has_many :new_club_applications, through: :leader_profiles
@@ -120,7 +120,7 @@ class User < ApplicationRecord
   end
 
   def e164_phone_number
-    self.sms? ? Phonelib.parse(self.phone_number).e164 : nil
+    sms? ? Phonelib.parse(phone_number).e164 : nil
   end
 
   def generate_auth_token!

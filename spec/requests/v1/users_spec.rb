@@ -370,7 +370,7 @@ RSpec.describe 'V1::Users', type: :request do
               expect(response.status).to eq(200)
 
               expect(json).to include(
-                  'auth_type' => 'sms'
+                'auth_type' => 'sms'
               )
             end
           end

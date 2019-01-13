@@ -10,11 +10,11 @@ module TwilioClient
 
     def send_login_code(user)
       TWILIO.messages.create(
-          from: FROM_NUMBER,
-          to: user.e164_phone_number,
-          body: "Hi! Someone (hopefully you!) requested a login code for Hack Club.\nYour login code is #{user.pretty_login_code}. It will expire in 15 minutes."
-        )
+        from: FROM_NUMBER,
+        to: user.e164_phone_number,
+        body: "Your Hack Club login code is #{user.pretty_login_code}.\n
+        It will expire in 15 minutes."
+      )
     end
-
   end
 end
