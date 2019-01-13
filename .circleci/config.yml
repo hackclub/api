@@ -65,6 +65,9 @@ jobs:
           SCREENSHOTLAYER_API_KEY: fake_api_key
 
           MLH_LHD_API_KEY: fake_api_key
+
+          TWILIO_ACCOUNT_SID: fake_account_sid
+          TWILIO_AUTH_TOKEN: fake_auth_token
     
     # Service container image available at `host: localhost`
     
