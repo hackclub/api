@@ -341,6 +341,54 @@ RSpec.describe 'V1::Users', type: :request do
           )
         end
 
+        context 'with a phone number' do
+          let(:authed_user) { user }
+          let(:params) do
+            {
+              username: 'newusername',
+              phone_number: '+12025550147'
+            }
+          end
+
+          it 'updates appropriate fields' do
+            expect(response.status).to eq(200)
+
+            expect(json).to include(
+              'phone_number' => '+12025550147'
+            )
+          end
+
+          context 'setting auth_type to sms' do
+            let(:params) do
+              {
+                phone_number: '+12025550147',
+                auth_type: 'sms'
+              }
+            end
+
+            it 'updates appropriate fields' do
+              expect(response.status).to eq(200)
+
+              expect(json).to include(
+                  'auth_type' => 'sms'
+              )
+            end
+          end
+        end
+
+        context 'has no phone number and enables sms' do
+          let(:params) do
+            {
+              auth_type: 'sms'
+            }
+          end
+
+          it 'gracefully fails' do
+            expect(response.status).to eq(422)
+            expect(json['errors']).to include('auth_type')
+          end
+        end
+
         context 'with invalid params' do
           let(:params) do
             {

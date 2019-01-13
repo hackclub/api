@@ -14,6 +14,12 @@ class User < ApplicationRecord
 
   validate :username_cannot_be_unset
 
+  validates :phone_number, phone: { allow_blank: true }
+
+  validate :sms_with_phone_number
+
+  enum auth_type: [ :email, :sms ]
+
   has_many :leader_profiles
   has_many :new_club_applications, through: :leader_profiles
 
@@ -48,6 +54,13 @@ class User < ApplicationRecord
     errors.add(:username, 'cannot unset username')
   end
 
+  def sms_with_phone_number
+    return unless sms?
+    return if phone_number.present?
+
+    errors.add(:auth_type, 'cannot be sms without user having a phone number')
+  end
+
   def default_values
     return if persisted?
 
@@ -57,6 +70,7 @@ class User < ApplicationRecord
 
     self.email_on_new_challenges ||= false
     self.email_on_new_challenge_posts ||= false
+    self.auth_type = 'email'
   end
 
   def downcase_email
@@ -103,6 +117,10 @@ class User < ApplicationRecord
   # "123456" -> "123-456"
   def pretty_login_code
     login_code&.scan(/.../)&.join('-')
+  end
+
+  def e164_phone_number
+    self.sms? ? Phonelib.parse(self.phone_number).e164 : nil
   end
 
   def generate_auth_token!

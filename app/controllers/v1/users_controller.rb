@@ -21,7 +21,11 @@ module V1
       user.generate_login_code!
 
       if user.save
-        ApplicantMailer.login_code(user).deliver_later
+        if user.sms?
+          TwilioClient.send_login_code(user)
+        elsif user.email?
+          ApplicantMailer.login_code(user).deliver_later
+        end
 
         render_success(
           id: user.id,
@@ -81,6 +85,8 @@ module V1
     def user_params
       params.permit(
         :username,
+        :phone_number,
+        :auth_type,
         :email_on_new_challenges,
         :email_on_new_challenge_posts,
         :email_on_new_challenge_post_comments
