@@ -21,9 +21,8 @@ module V1
       user.generate_login_code!
 
       if user.save
-        if user.sms?
-          TwilioClient.send_login_code(user)
-        elsif user.email?
+        if user.sms? && TwilioClient.send_login_code(user)
+        else
           ApplicantMailer.login_code(user).deliver_later
         end
 
