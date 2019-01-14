@@ -9,16 +9,14 @@ module TwilioClient
     TWILIO = Twilio::REST::Client.new(ACCOUNT_SID, AUTH_TOKEN)
 
     def send_login_code(user)
-      begin
-        TWILIO.messages.create(
-          from: FROM_NUMBER,
-          to: user.e164_phone_number,
-          body: "Your Hack Club login code is #{user.pretty_login_code}.\n
-          It will expire in 15 minutes."
-        )
-      rescue Twilio::REST::TwilioError => e
-        return false
-      end
+      TWILIO.messages.create(
+        from: FROM_NUMBER,
+        to: user.e164_phone_number,
+        body: "Your Hack Club login code is #{user.pretty_login_code}.\n
+        It will expire in 15 minutes."
+      )
+    rescue Twilio::REST::TwilioError
+      return false
     end
   end
 end
