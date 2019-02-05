@@ -4,8 +4,8 @@ module TwilioClient
   class << self
     ACCOUNT_SID = Rails.application.secrets.twilio_account_sid
     AUTH_TOKEN = Rails.application.secrets.twilio_auth_token
-    FROM_NUMBER = '+14158532126'
-
+    FROM_NUMBER = Rails.application.secrets.twilio_phone_number
+    
     TWILIO = Twilio::REST::Client.new(ACCOUNT_SID, AUTH_TOKEN)
 
     def send_login_code(user)

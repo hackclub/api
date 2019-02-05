@@ -68,6 +68,7 @@ jobs:
 
           TWILIO_ACCOUNT_SID: fake_account_sid
           TWILIO_AUTH_TOKEN: fake_auth_token
+          TWILIO_PHONE_NUMBER: +14158532126
     
     # Service container image available at `host: localhost`
     
