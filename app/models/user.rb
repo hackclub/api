@@ -115,6 +115,12 @@ class User < ApplicationRecord
     end
   end
 
+  def generate_or_keep_auth_token
+    if self.auth_token_generation > (Time.current - 3.days)
+      self.generate_auth_token!
+    end
+  end
+
   def make_admin!
     self.admin_at = Time.current
   end

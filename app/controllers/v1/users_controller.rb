@@ -43,7 +43,7 @@ module V1
          user.login_code == login_code &&
          user.login_code_generation > (Time.current - 15.minutes)
 
-        user.generate_auth_token!
+        user.generate_or_keep_auth_token
         user.login_code = nil
         user.login_code_generation = nil
         user.save
