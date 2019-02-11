@@ -35,11 +35,11 @@ class ApplicantMailer < ApplicationMailer
       @profiles_w_fields[p] = profile_fields(p)
     end
 
-    id = application.id
+    @id = application.id
     school = application.high_school_name
 
     mail(to: 'Hack Club Team <team@hackclub.com>',
-         subject: "Application Submitted (##{id}, #{school})")
+         subject: "Application Submitted (##{@id}, #{school})")
   end
 
   private
