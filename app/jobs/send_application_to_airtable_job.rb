@@ -4,11 +4,13 @@ class SendApplicationToAirtableJob < ApplicationJob
   queue_as :default
 
   def perform(new_club_application)
-    club_record = Airtable::Record.new("High School Name": new_club_application.high_school_name)
+    club_record = Airtable::Record.new("High School Name":
+      new_club_application.high_school_name)
 
     table('Clubs').create club_record
 
-    poc = new_club_application.leader_profiles.find_by(user_id: new_club_application.point_of_contact_id)
+    poc = new_club_application.leader_profiles.find_by(user_id:
+      new_club_application.point_of_contact_id)
     leader_record = Airtable::Record.new(
       "Full Name": poc.leader_name,
       "Email": poc.leader_email,
@@ -20,7 +22,7 @@ class SendApplicationToAirtableJob < ApplicationJob
     note_record = Airtable::Record.new(
       "Type": ['Application submitted', 'Note'],
       "Club": [club_record.id],
-      "Date": Date.today.to_s,
+      "Date": Time.zone.today.to_s,
       "Notes": 'Application submitted (and added to Airtable by API)'
     )
 
