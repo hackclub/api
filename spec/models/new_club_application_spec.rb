@@ -315,7 +315,7 @@ RSpec.describe NewClubApplication, type: :model do
     end
 
     it 'sends confirmation emails to applicants and staff' do
-      VCR.use_cassette("airtable") do
+      VCR.use_cassette('airtable') do
         perform_enqueued_jobs { subject.submit! }
       end
 
