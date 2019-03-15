@@ -1,0 +1,151 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.airtable.com/v0/ENV-airtable_base/Clubs
+    body:
+      encoding: UTF-8
+      string: '{"fields":{"High School Name":"Samuelview High School"}}'
+    headers:
+      Authorization:
+      - Bearer ENV-airtable_key
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - authorization,content-length,content-type,user-agent,x-airtable-application-id,x-airtable-user-agent,x-api-version,x-requested-with
+      Access-Control-Allow-Methods:
+      - DELETE,GET,OPTIONS,PATCH,POST,PUT
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 15 Mar 2019 08:19:52 GMT
+      Etag:
+      - W/"9a-HEaiZrWyM3ZkkGWf8TxKNMStfBE"
+      Server:
+      - Tengine
+      Set-Cookie:
+      - brw=brwUrIiPcY9xHNrq8; path=/; expires=Sun, 15 Mar 2020 08:19:51 GMT; domain=.airtable.com;
+        httponly
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Vary:
+      - Accept-Encoding
+      Content-Length:
+      - '154'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"id":"rec4zKpyq6gMDJzhy","fields":{"High School Name":"Samuelview
+        High School","Name":"Samuelview High School"},"createdTime":"2019-03-15T08:19:52.114Z"}'
+    http_version: 
+  recorded_at: Fri, 15 Mar 2019 08:19:52 GMT
+- request:
+    method: post
+    uri: https://api.airtable.com/v0/ENV-airtable_base/Leaders
+    body:
+      encoding: UTF-8
+      string: '{"fields":{"Full Name":"Refugio Beatty","Email":"walterbosco@kemmer.co","Clubs":["rec4zKpyq6gMDJzhy"]}}'
+    headers:
+      Authorization:
+      - Bearer ENV-airtable_key
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - authorization,content-length,content-type,user-agent,x-airtable-application-id,x-airtable-user-agent,x-api-version,x-requested-with
+      Access-Control-Allow-Methods:
+      - DELETE,GET,OPTIONS,PATCH,POST,PUT
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 15 Mar 2019 08:19:52 GMT
+      Etag:
+      - W/"a9-XsNUBULYolMMffeYlrPwU7mLD14"
+      Server:
+      - Tengine
+      Set-Cookie:
+      - brw=brw3qL7RzgqLUMC04; path=/; expires=Sun, 15 Mar 2020 08:19:52 GMT; domain=.airtable.com;
+        httponly
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Vary:
+      - Accept-Encoding
+      Content-Length:
+      - '169'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"id":"recqC6ytrbuBteWg1","fields":{"Full Name":"Refugio Beatty","Email":"walterbosco@kemmer.co","Clubs":["rec4zKpyq6gMDJzhy"]},"createdTime":"2019-03-15T08:19:52.623Z"}'
+    http_version: 
+  recorded_at: Fri, 15 Mar 2019 08:19:52 GMT
+- request:
+    method: post
+    uri: https://api.airtable.com/v0/ENV-airtable_base/History
+    body:
+      encoding: UTF-8
+      string: '{"fields":{"Type":["Application submitted","Note"],"Club":["rec4zKpyq6gMDJzhy"],"Date":"2019-03-15","Notes":"Application
+        submitted (and added to Airtable by API)"}}'
+    headers:
+      Authorization:
+      - Bearer ENV-airtable_key
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - authorization,content-length,content-type,user-agent,x-airtable-application-id,x-airtable-user-agent,x-api-version,x-requested-with
+      Access-Control-Allow-Methods:
+      - DELETE,GET,OPTIONS,PATCH,POST,PUT
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 15 Mar 2019 08:19:53 GMT
+      Etag:
+      - W/"162-VjTUV69yLgfWVRugIJSramHWS/k"
+      Server:
+      - Tengine
+      Set-Cookie:
+      - brw=brwpnScYY1nDv8S7I; path=/; expires=Sun, 15 Mar 2020 08:19:53 GMT; domain=.airtable.com;
+        httponly
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Vary:
+      - Accept-Encoding
+      Content-Length:
+      - '354'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJpZCI6InJlY3pSdVV2Tnd1VHBrNFR6IiwiZmllbGRzIjp7IlR5cGUiOlsi
+        Tm90ZSIsIkFwcGxpY2F0aW9uIHN1Ym1pdHRlZCJdLCJOYW1lIjoiTm90ZSwg
+        QXBwbGljYXRpb24gc3VibWl0dGVk4oCTIEFwcGxpY2F0aW9uIHN1Ym1pdHRl
+        ZCAoYW5kIGFkZGVkIHRvIEFpcnRhYmxlIGJ5IEFQSSkiLCJDbHViIjpbInJl
+        YzR6S3B5cTZnTURKemh5Il0sIkxlYWRlciI6WyJyZWNxQzZ5dHJidUJ0ZVdn
+        MSJdLCJEYXRlIjoiMjAxOS0wMy0xNSIsIk5vdGVzIjoiQXBwbGljYXRpb24g
+        c3VibWl0dGVkIChhbmQgYWRkZWQgdG8gQWlydGFibGUgYnkgQVBJKSJ9LCJj
+        cmVhdGVkVGltZSI6IjIwMTktMDMtMTVUMDg6MTk6NTMuMTI5WiJ9
+    http_version: 
+  recorded_at: Fri, 15 Mar 2019 08:19:53 GMT
+recorded_with: VCR 3.0.3
