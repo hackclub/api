@@ -13,7 +13,6 @@ Rails.application.routes.draw do
 
     resources :clubs, only: %i[index show]
     resources :athul_clubs, only: [:create]
-    resources :tech_domain_redemptions, only: [:create]
     resources :slack_invites, only: [:create]
     resources :donations, only: [:create]
     resources :workshop_feedbacks, only: [:create]

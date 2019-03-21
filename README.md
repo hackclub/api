@@ -74,9 +74,6 @@ SLACK_ADMIN_PASSWORD
 # team)
 DEFAULT_SLACK_TEAM_ID
 
-# Secret code required when redeeming .tech domains
-TECH_DOMAIN_REDEMPTION_SECRET_CODE
-
 # The email of who to assign Streak tasks to
 DEFAULT_STREAK_TASK_ASSIGNEE
 
