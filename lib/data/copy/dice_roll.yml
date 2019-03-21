@@ -1,7 +1,0 @@
-roll_1: Rolling a dice with <%= side_count %> sides...
-roll_2: ..
-roll_3: .
-roll_4: It came up <%= result %>!
-errors:
-  bad_side_count:
-    You must give me a whole number for the side count! Try 42 instead.

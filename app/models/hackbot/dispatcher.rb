@@ -8,13 +8,9 @@ module Hackbot
       Hackbot::Interactions::CheckIn,
       Hackbot::Interactions::Delete,
       Hackbot::Interactions::DeleteJoins,
-      Hackbot::Interactions::DiceRoll,
       Hackbot::Interactions::Gifs,
       Hackbot::Interactions::Help,
-      Hackbot::Interactions::Lookup,
       Hackbot::Interactions::Notify,
-      Hackbot::Interactions::Sql,
-      Hackbot::Interactions::Stats,
       Hackbot::Interactions::UpdateWorkshops
     ].freeze
 
