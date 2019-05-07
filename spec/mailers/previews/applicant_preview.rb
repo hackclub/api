@@ -22,4 +22,11 @@ class ApplicantPreview < ActionMailer::Preview
 
     ApplicantMailer.application_submission_staff(application)
   end
+
+  def application_submission_json
+    application = FactoryBot.create(:completed_new_club_application)
+    application.submit!
+
+    ApplicantMailer.application_submission_json(application)
+  end
 end
