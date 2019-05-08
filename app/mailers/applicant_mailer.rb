@@ -44,7 +44,7 @@ class ApplicantMailer < ApplicationMailer
 
   def application_submission_json(application)
     application_fields = application_fields(application)
-    profiles_w_fields = application.leader_profiles.map{ |p| profile_fields p }
+    profiles_w_fields = application.leader_profiles.map { |p| profile_fields p }
 
     @json = application_fields
     @json['leader_profiles'] = profiles_w_fields
