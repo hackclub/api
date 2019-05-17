@@ -319,8 +319,8 @@ RSpec.describe NewClubApplication, type: :model do
         perform_enqueued_jobs { subject.submit! }
       end
 
-      # three emails to applicants and one email to staff
-      expect(ApplicantMailer.deliveries.length).to eq(3 + 1)
+      # three emails to applicants and two to staff (regular & JSON)
+      expect(ApplicantMailer.deliveries.length).to eq(3 + 2)
     end
   end
 

@@ -117,6 +117,8 @@ class NewClubApplication < ApplicationRecord
         # Send to Zapier
         SendApplicationToAirtableJob.perform_later(self)
 
+        ApplicantMailer.application_submission_json(self).deliver_later
+
         true
       else
         false

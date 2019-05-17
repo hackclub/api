@@ -42,6 +42,17 @@ class ApplicantMailer < ApplicationMailer
          subject: "Application Submitted (##{@id}, #{school})")
   end
 
+  def application_submission_json(application)
+    @attributes = application.attributes
+    @attributes['leader_profiles'] =
+      application.leader_profiles.map(&:attributes)
+    @id = application.id
+    school = application.high_school_name
+
+    mail(to: 'Hack Club Team <team@hackclub.com>',
+         subject: "Application JSON notification (##{@id}, #{school})")
+  end
+
   private
 
   def application_fields(application)
