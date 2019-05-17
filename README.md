@@ -126,11 +126,11 @@ SIDEKIQ_HTTP_PASSWORD
 
     $ docker-compose build
     $ docker-compose run web bundle
-    $ docker-compose run web rails db:create db:setup
+    $ docker-compose run web bundle exec rails db:create db:setup
 
 Run tests to ensure everything is working as expected:
 
-    $ docker-compose run web rails spec
+    $ docker-compose run web bundle exec rails spec
 
 ### Setting up the integrated Slack bot
 

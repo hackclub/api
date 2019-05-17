@@ -74,4 +74,4 @@ end
 gem 'gruff'
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
-ruby '2.3.1'
+ruby '2.6.3'
