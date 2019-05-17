@@ -10,7 +10,6 @@ module V1
 
         ClubApplicationMailer.application_confirmation(application).deliver
         ClubApplicationMailer.admin_notification(application).deliver
-        ClubApplicationMailer.json_notification(application).deliver
       else
         render_field_errors(application.errors)
       end

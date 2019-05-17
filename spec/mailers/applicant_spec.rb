@@ -84,4 +84,59 @@ RSpec.describe ApplicantMailer, type: :mailer do
       expect(mail).to have_body_text(profile.skills_system_hacked)
     end
   end
+
+  describe 'application_submission_staff' do
+    let(:application) { create(:completed_new_club_application) }
+    let(:user) { application.users.first }
+
+    before { application.submit! }
+
+    let(:mail) do
+      ApplicantMailer.application_submission_staff(application)
+    end
+
+    it 'is sent to the staff' do
+      expect(mail).to deliver_to('Hack Club Team <team@hackclub.com>')
+    end
+
+    it 'includes fields from the application' do
+      expect(mail).to have_body_text(application.progress_general)
+    end
+
+    it 'includes fields from all leader profiles' do
+      application.leader_profiles.each do |profile|
+        expect(mail).to have_body_text(profile.skills_system_hacked)
+      end
+    end
+  end
+
+  describe 'application_submission_json' do
+    let(:application) { create(:completed_new_club_application) }
+    let(:user) { application.users.first }
+
+    before { application.submit! }
+
+    let(:mail) do
+      ApplicantMailer.application_submission_json(application)
+    end
+
+    it 'is sent to the staff' do
+      expect(mail).to deliver_to('Hack Club Team <team@hackclub.com>')
+    end
+
+    it 'correctly formats the application JSON' do
+      result = JSON.parse(mail.body.to_s)['high_school_name']
+      expectation = application.high_school_name
+
+      expect(result).to eq(expectation)
+    end
+
+    it 'includes all leader profiles' do
+      leader_profiles = JSON.parse(mail.body.to_s)['leader_profiles']
+      result = leader_profiles.map { |l| l['leader_name'] }
+      expectation = application.leader_profiles.map(&:leader_name)
+
+      expect(result).to eq(expectation)
+    end
+  end
 end

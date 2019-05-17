@@ -43,12 +43,9 @@ class ApplicantMailer < ApplicationMailer
   end
 
   def application_submission_json(application)
-    application_fields = application_fields(application)
-    profiles_w_fields = application.leader_profiles.map { |p| profile_fields p }
-
-    @json = application_fields
-    @json['leader_profiles'] = profiles_w_fields
-
+    @attributes = application.attributes
+    @attributes['leader_profiles'] =
+      application.leader_profiles.map(&:attributes)
     @id = application.id
     school = application.high_school_name
 
