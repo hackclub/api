@@ -113,10 +113,6 @@ class NewClubApplication < ApplicationRecord
         end
 
         ApplicantMailer.application_submission_staff(self).deliver_later
-
-        # Send to Zapier
-        SendApplicationToAirtableJob.perform_later(self)
-
         ApplicantMailer.application_submission_json(self).deliver_later
 
         true

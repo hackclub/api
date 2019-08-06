@@ -315,9 +315,7 @@ RSpec.describe NewClubApplication, type: :model do
     end
 
     it 'sends confirmation emails to applicants and staff' do
-      VCR.use_cassette('airtable') do
-        perform_enqueued_jobs { subject.submit! }
-      end
+      perform_enqueued_jobs { subject.submit! }
 
       # three emails to applicants and two to staff (regular & JSON)
       expect(ApplicantMailer.deliveries.length).to eq(3 + 2)

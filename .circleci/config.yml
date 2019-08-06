@@ -65,9 +65,6 @@ jobs:
           SCREENSHOTLAYER_API_KEY: fake_api_key
 
           MLH_LHD_API_KEY: fake_api_key
-
-          AIRTABLE_KEY: ENV-airtable_key
-          AIRTABLE_BASE: ENV-airtable_base
     
     # Service container image available at `host: localhost`
     
