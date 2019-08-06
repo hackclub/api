@@ -35,9 +35,6 @@ gem 'terminal-table', '~> 1.7'
 gem 'timezone', '~> 1.0'
 gem 'wkhtmltopdf-binary', '~> 0.12.3'
 
-# Reason we're importing from GitHub: https://github.com/Airtable/airtable-ruby/issues/14#issuecomment-281893486
-gem 'airtable', github: 'Airtable/airtable-ruby'
-
 gem 'rails_autoscale_agent', '~> 0.3.1'
 
 group :development, :test do
