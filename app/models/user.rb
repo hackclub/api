@@ -116,7 +116,11 @@ class User < ApplicationRecord
   end
 
   def generate_or_keep_auth_token
-    generate_auth_token! if self.auth_token_generation > (Time.current - 3.days)
+    if auth_token_generation.nil?
+      generate_auth_token!
+    elsif auth_token_generation > (Time.current - 3.days)
+      generate_auth_token!
+    end
   end
 
   def make_admin!
