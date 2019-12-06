@@ -8,7 +8,7 @@ gem 'bootsnap', '~> 1.3'
 gem 'rails', '~> 5.2.0.rc1'
 
 gem 'pg', '~> 0.18.4'
-gem 'puma', '~> 3.0'
+gem 'puma', '~> 3.12'
 
 gem 'active_model_serializers', '~> 0.10.2'
 gem 'analytics-ruby', require: 'segment'
