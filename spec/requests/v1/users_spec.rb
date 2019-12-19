@@ -69,7 +69,7 @@ RSpec.describe 'V1::Users', type: :request do
       # creates user object w/ generated login code
       user = User.last
       expect(user.email).to eq('foo@bar.com')
-      expect(user.login_code).to match(/\d{6}/)
+      expect(user.login_code).to match(/\d{6}/) # TODO
 
       # email queued to be sent
       expect(ApplicantMailer.deliveries.length).to be(1)
@@ -88,6 +88,7 @@ RSpec.describe 'V1::Users', type: :request do
       expect(response.status).to eq(200)
 
       # returns existing object
+      expect(json['id']).to eq(user.id)
       expect(json['status']).to eq('login code sent')
 
       # generates new login code
