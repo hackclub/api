@@ -88,7 +88,7 @@ RSpec.describe 'V1::Events', type: :request do
 
         # also returns private events
         expect(json.length).to eq(6)
-        expect(json.first).to include('public' => false)
+        expect(json.find { |e| e['public'] == false}).to_not be_nil
       end
     end
   end
