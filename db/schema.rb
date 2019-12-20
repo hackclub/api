@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_19_235853) do
+ActiveRecord::Schema.define(version: 2019_12_20_064914) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -625,8 +625,6 @@ ActiveRecord::Schema.define(version: 2019_12_19_235853) do
 
   create_table "users", id: :serial, force: :cascade do |t|
     t.text "email"
-    t.text "login_code"
-    t.datetime "login_code_generation"
     t.text "auth_token"
     t.datetime "auth_token_generation"
     t.datetime "created_at", null: false
