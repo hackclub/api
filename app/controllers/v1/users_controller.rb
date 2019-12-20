@@ -18,40 +18,46 @@ module V1
     def auth
       user = User.find_or_initialize_by(email: params[:email].downcase)
 
-      user.generate_login_code!
+      code = user.login_codes.new(
+        ip_address: request.ip,
+        user_agent: request.user_agent
+      )
 
-      if user.save
-        ApplicantMailer.login_code(user).deliver_later
+      if user.save && code.save
+        ApplicantMailer.login_code(code).deliver_later
 
         render_success(
           id: user.id,
           email: user.email,
           status: 'login code sent'
         )
-      else
-        render_field_errors(user.errors)
+      elsif !user.valid?
+        render_field_errors user.errors
+      elsif !code.valid?
+        render_field_errors code.errors
       end
     end
 
     def exchange_login_code
+      err = -> { render_field_error(:login_code, 'invalid', 401) }
+
       user = User.find_by(id: params[:user_id])
       login_code = params[:login_code]
 
       return render_not_found unless user
+      return err.call if login_code.nil?
 
-      if !login_code.nil? &&
-         user.login_code == login_code &&
-         user.login_code_generation > (Time.current - 15.minutes)
+      found_code = user.login_codes.active.find_by(code: login_code)
 
-        user.generate_auth_token!
-        user.login_code = nil
-        user.login_code_generation = nil
-        user.save
+      return err.call unless found_code
+      return err.call unless found_code.created_at > (Time.current - 15.minutes)
 
-        return render_success(auth_token: user.auth_token)
-      end
+      user.generate_auth_token!
+      found_code.used_at = Time.current
 
-      render_field_error(:login_code, 'invalid', 401)
+      found_code.save! && user.save!
+
+      render_success(auth_token: user.auth_token)
     end
 
     def current

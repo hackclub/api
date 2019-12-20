@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_06_064203) do
+ActiveRecord::Schema.define(version: 2019_12_19_235853) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -437,6 +437,17 @@ ActiveRecord::Schema.define(version: 2018_12_06_064203) do
     t.index ["streak_key"], name: "index_letters_on_streak_key"
   end
 
+  create_table "login_codes", force: :cascade do |t|
+    t.bigint "user_id"
+    t.text "code"
+    t.inet "ip_address"
+    t.text "user_agent"
+    t.datetime "used_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_login_codes_on_user_id"
+  end
+
   create_table "net_promoter_score_surveys", id: :serial, force: :cascade do |t|
     t.integer "score"
     t.text "could_improve"
@@ -705,6 +716,7 @@ ActiveRecord::Schema.define(version: 2018_12_06_064203) do
   add_foreign_key "leadership_position_invites", "users", column: "sender_id"
   add_foreign_key "leadership_positions", "new_clubs"
   add_foreign_key "leadership_positions", "new_leaders"
+  add_foreign_key "login_codes", "users"
   add_foreign_key "net_promoter_score_surveys", "leaders"
   add_foreign_key "new_club_applications", "new_clubs"
   add_foreign_key "new_club_applications", "users", column: "owner_id"

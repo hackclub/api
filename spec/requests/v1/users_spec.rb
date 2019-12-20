@@ -69,7 +69,7 @@ RSpec.describe 'V1::Users', type: :request do
       # creates user object w/ generated login code
       user = User.last
       expect(user.email).to eq('foo@bar.com')
-      expect(user.login_code).to match(/\d{6}/) # TODO
+      expect(user.login_codes.last.code).to match(/\d{6}/)
 
       # email queued to be sent
       expect(ApplicantMailer.deliveries.length).to be(1)
@@ -80,6 +80,8 @@ RSpec.describe 'V1::Users', type: :request do
       user = create(:user)
       user.generate_login_code!
       user.save
+
+      login_code_count = LoginCode.count
 
       perform_enqueued_jobs do
         post '/v1/users/auth', params: { email: user.email }
@@ -92,7 +94,7 @@ RSpec.describe 'V1::Users', type: :request do
       expect(json['status']).to eq('login code sent')
 
       # generates new login code
-      expect(user.login_code).to_not eq(user.reload.login_code)
+      expect(LoginCode.count).to eq(login_code_count + 1)
 
       # queued email
       expect(ApplicantMailer.deliveries.length).to be(1)
@@ -108,20 +110,27 @@ RSpec.describe 'V1::Users', type: :request do
       # returns success
       expect(json['status']).to eq('login code sent')
     end
+
+    it 'stores ip address and user agent in login code' do
+      expect(LoginCode.last).to be_nil
+
+      post '/v1/users/auth',
+           headers: { 'User-Agent': 'foo' },
+           params: { email: 'foo@bar.com' }
+
+      expect(response.status).to eq(200)
+      expect(LoginCode.last.ip_address).to_not be_nil
+      expect(LoginCode.last.user_agent).to_not be_nil
+    end
   end
 
   describe 'POST /v1/users/:id/exchange_login_code' do
-    let(:user) do
-      a = create(:user)
-      a.generate_login_code!
-      a.save
-
-      a
-    end
+    let(:user) { create(:user) }
+    let(:login_code) { user.login_codes.create }
 
     it 'returns auth token with valid login code' do
       post "/v1/users/#{user.id}/exchange_login_code",
-           params: { login_code: user.login_code }
+           params: { login_code: login_code.code }
 
       expect(response.status).to eq(200)
 
@@ -146,22 +155,22 @@ RSpec.describe 'V1::Users', type: :request do
     it 'fails when valid login code is used twice' do
       # 1st time..
       post "/v1/users/#{user.id}/exchange_login_code",
-           params: { login_code: user.login_code }
+           params: { login_code: login_code.code }
 
       # 2nd time...
       post "/v1/users/#{user.id}/exchange_login_code",
-           params: { login_code: user.login_code }
+           params: { login_code: login_code.code }
 
       expect(response.status).to eq(401)
       expect(json['errors']).to include('login_code')
     end
 
     it 'does not allow login codes older than 15 minutes' do
-      user.login_code_generation -= 15.minutes
-      user.save
+      login_code.created_at -= 15.minutes
+      login_code.save
 
       post "/v1/users/#{user.id}/exchange_login_code",
-           params: { login_code: user.login_code }
+           params: { login_code: login_code.code }
 
       expect(response.status).to eq(401)
       expect(json['errors']).to include('login_code')
@@ -169,11 +178,10 @@ RSpec.describe 'V1::Users', type: :request do
 
     it 'does not allow login codes for other users' do
       other_user = create(:user)
-      other_user.generate_login_code!
-      other_user.save
+      other_code = other_user.login_codes.create
 
       post "/v1/users/#{user.id}/exchange_login_code",
-           params: { login_code: other_user.login_code }
+           params: { login_code: other_code.code }
 
       expect(response.status).to eq(401)
       expect(json['errors']).to include('login_code')
@@ -181,7 +189,7 @@ RSpec.describe 'V1::Users', type: :request do
 
     it '404s when user id does not exist' do
       post "/v1/users/#{user.id + 1}/exchange_login_code",
-           params: { login_code: user.login_code }
+           params: { login_code: login_code.code }
 
       expect(response.status).to eq(404)
       expect(json).to include('error' => 'not found')

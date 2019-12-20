@@ -81,6 +81,8 @@ RSpec.describe User, type: :model do
     expect(subject.valid?).to eq(false)
   end
 
+  it { should have_many(:login_codes) }
+
   it { should belong_to(:new_leader) }
   it { should have_many(:leadership_position_invites) }
   it { should have_many(:leader_profiles) }
@@ -180,12 +182,6 @@ RSpec.describe User, type: :model do
 
     # changes every time
     expect { subject.generate_login_code! }.to change { subject.login_code }
-  end
-
-  example ':pretty_login_code' do
-    subject.login_code = '123456'
-
-    expect(subject.pretty_login_code).to eq('123-456')
   end
 
   example ':generate_auth_token!' do
