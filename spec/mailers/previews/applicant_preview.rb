@@ -5,7 +5,7 @@ class ApplicantPreview < ActionMailer::Preview
   def login_code
     applicant = FactoryBot.create(:user_authed)
 
-    ApplicantMailer.login_code(applicant)
+    ApplicantMailer.login_code(applicant.login_codes.last)
   end
 
   def application_submission

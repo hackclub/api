@@ -76,10 +76,7 @@ RSpec.describe 'V1::Users', type: :request do
     end
 
     it 'does not create object but sends login code with existing email' do
-      # init user
       user = create(:user)
-      user.generate_login_code!
-      user.save
 
       login_code_count = LoginCode.count
 
