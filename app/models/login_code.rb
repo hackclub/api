@@ -6,7 +6,6 @@ class LoginCode < ApplicationRecord
   belongs_to :user
 
   validates :user, :code, presence: true
-  validates :code, uniqueness: true
 
   after_initialize :generate_code
 
