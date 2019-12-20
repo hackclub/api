@@ -4,15 +4,10 @@ require 'rails_helper'
 
 RSpec.describe ApplicantMailer, type: :mailer do
   describe 'login_code' do
-    let(:user) do
-      user = create(:user)
-      user.generate_login_code!
-      user.save
+    let(:user) { create(:user) }
+    let(:login_code) { user.login_codes.create! }
 
-      user
-    end
-
-    let(:mail) { ApplicantMailer.login_code(user) }
+    let(:mail) { ApplicantMailer.login_code(login_code) }
 
     it 'is from team@hackclub.com' do
       expect(mail).to deliver_from('Hack Club Team <team@hackclub.com>')
@@ -23,7 +18,7 @@ RSpec.describe ApplicantMailer, type: :mailer do
     end
 
     it 'contains the given prettified login code' do
-      expect(mail).to have_body_text(user.pretty_login_code)
+      expect(mail).to have_body_text(login_code.pretty)
     end
   end
 

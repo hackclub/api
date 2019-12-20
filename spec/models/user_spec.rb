@@ -7,8 +7,6 @@ RSpec.describe User, type: :model do
 
   it { should have_db_column :email }
   it { should have_db_column :username }
-  it { should have_db_column :login_code }
-  it { should have_db_column :login_code_generation }
   it { should have_db_column :auth_token }
   it { should have_db_column :auth_token_generation }
   it { should have_db_column :admin_at }
@@ -26,7 +24,6 @@ RSpec.describe User, type: :model do
   # had to write a custom validation for uniqueness of emails, at bottom of
   # this file
   it { should validate_uniqueness_of :username }
-  it { should validate_uniqueness_of :login_code }
   it { should validate_uniqueness_of :auth_token }
 
   it 'should not allow boolean values to be nil' do
@@ -80,6 +77,8 @@ RSpec.describe User, type: :model do
     subject.username = nil
     expect(subject.valid?).to eq(false)
   end
+
+  it { should have_many(:login_codes) }
 
   it { should belong_to(:new_leader) }
   it { should have_many(:leadership_position_invites) }
@@ -163,29 +162,6 @@ RSpec.describe User, type: :model do
         expect(subject.shadow_banned?).to eq(false)
       end
     end
-  end
-
-  example ':generate_login_code!' do
-    subject.login_code = nil
-    subject.login_code_generation = nil
-
-    subject.generate_login_code!
-
-    # generates correctly
-    expect(subject.login_code.class).to be(String)
-    expect(subject.login_code).to match(/\d{6}/)
-    expect(
-      subject.login_code_generation
-    ).to be_within(1.second).of(Time.current)
-
-    # changes every time
-    expect { subject.generate_login_code! }.to change { subject.login_code }
-  end
-
-  example ':pretty_login_code' do
-    subject.login_code = '123456'
-
-    expect(subject.pretty_login_code).to eq('123-456')
   end
 
   example ':generate_auth_token!' do

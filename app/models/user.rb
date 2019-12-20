@@ -5,7 +5,6 @@ class User < ApplicationRecord
   validates :username,
             uniqueness: { if: -> { username.present? } },
             format: { with: /\A[a-z0-9]+\z/, unless: -> { username.nil? } }
-  validates :login_code, uniqueness: { if: -> { login_code.present? } }
   validates :auth_token, uniqueness: { if: -> { auth_token.present? } }
   validates :email_on_new_challenges,
             :email_on_new_challenge_posts,
@@ -13,6 +12,8 @@ class User < ApplicationRecord
             inclusion: { in: [true, false] }
 
   validate :username_cannot_be_unset
+
+  has_many :login_codes
 
   has_many :leader_profiles
   has_many :new_club_applications, through: :leader_profiles
@@ -86,23 +87,6 @@ class User < ApplicationRecord
     return if matches.empty?
 
     shadow_ban!
-  end
-
-  def generate_login_code!
-    loop do
-      self.login_code = SecureRandom.random_number(999_999).to_s
-      self.login_code = login_code.ljust(6, '0') # left pad w/ zeros
-
-      self.login_code_generation = Time.current
-
-      # repeat until code is unique
-      break unless User.find_by(login_code: login_code)
-    end
-  end
-
-  # "123456" -> "123-456"
-  def pretty_login_code
-    login_code&.scan(/.../)&.join('-')
   end
 
   def generate_auth_token!

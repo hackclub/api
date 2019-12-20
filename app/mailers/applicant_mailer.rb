@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 class ApplicantMailer < ApplicationMailer
-  def login_code(user)
-    @login_code = user.pretty_login_code
+  def login_code(login_code)
+    user = login_code.user
+
+    @login_code = login_code.pretty
 
     mail(to: user.email, subject: "Hack Club Login Code: #{@login_code}")
   end
