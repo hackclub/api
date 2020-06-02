@@ -1,6 +1,6 @@
 <p align="center"><img alt="Monolith icon" src="https://i.imgur.com/GmQ9E9B.png"></a>
 <h1 align="center">API</h1>
-<p align="center"><i>The backend powering https://hackclub.com. Illustrated above.</i></p>
+<p align="center"><i>The backend powering https://hackclub.com. Illustrated above by <a href="https://gh.maxwofford.com">@maxwofford</a>.</i></p>
 <p align="center">
   <a href="https://circleci.com/gh/hackclub/api">
     <img alt="CircleCI" src="https://img.shields.io/circleci/project/github/hackclub/monolith.svg">
