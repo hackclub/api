@@ -336,7 +336,7 @@ GEM
       hashdiff
     websocket-driver (0.7.0)
       websocket-extensions (>= 0.1.0)
-    websocket-extensions (0.1.3)
+    websocket-extensions (0.1.5)
     wkhtmltopdf-binary (0.12.4)
 
 PLATFORMS
