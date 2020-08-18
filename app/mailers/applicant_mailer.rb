@@ -8,7 +8,7 @@ class ApplicantMailer < ApplicationMailer
 
     mail(to: user.email,
          subject: "Hack Club Login Code: #{@login_code}",
-         from: 'Hack Club Logins <logins@hackclub.com>',
+         from: 'Hack Club <login@hackclub.com>',
          reply_to: 'Hack Club Team <team@hackclub.com>')
   end
 
