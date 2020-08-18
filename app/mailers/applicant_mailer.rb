@@ -6,7 +6,10 @@ class ApplicantMailer < ApplicationMailer
 
     @login_code = login_code.pretty
 
-    mail(to: user.email, subject: "Hack Club Login Code: #{@login_code}")
+    mail(to: user.email,
+         subject: "Hack Club Login Code: #{@login_code}",
+         from: 'Hack Club <login@hackclub.com>',
+         reply_to: 'Hack Club Team <team@hackclub.com>')
   end
 
   def added_to_application(application, user, adder)
