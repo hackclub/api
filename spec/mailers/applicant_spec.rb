@@ -10,7 +10,7 @@ RSpec.describe ApplicantMailer, type: :mailer do
     let(:mail) { ApplicantMailer.login_code(login_code) }
 
     it 'is from logins@hackclub.com' do
-      expect(mail).to deliver_from('Hack Club Logins <logins@hackclub.com>')
+      expect(mail).to deliver_from('Hack Club <login@hackclub.com>')
     end
 
     it 'is sent to the user' do
