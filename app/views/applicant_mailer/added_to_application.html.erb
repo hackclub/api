@@ -1,14 +1,14 @@
-<p>Hi,</p>
+<p>Hey there!</p>
 <p>
-You've been added to an application to start a
-<a href="https://hackclub.com">Hack Club</a>
+You’ve been added to an application to start a
+<a href="https://hackclub.com/">Hack Club</a>
 <%= "at #{@high_school}" if @high_school.present? %>
 by <%= mail_to @adder_email %>.
 </p>
 <p>
-Please log in at
+You can log in at
 <%= link_to 'https://apply.hackclub.com',
   "https://apply.hackclub.com/?email=#{@user_email}" %>
-to view the application and make edits.
+to see the application so far & fill out your profile.
 </p>
-<p>- Hack Club</p>
+<p>—Hack Club</p>
