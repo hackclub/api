@@ -267,18 +267,6 @@ RSpec.describe NewClubApplication, type: :model do
                             new_club_application: subject)
     end
 
-    it 'fails when missing required fields' do
-      subject.update_attributes(progress_general: nil)
-      res = subject.submit!
-
-      # failed to submit
-      expect(res).to eq(false)
-      expect(subject.submitted_at).to be_nil
-
-      # ensure validation errors are present
-      expect(subject.errors[:progress_general]).to include "can't be blank"
-    end
-
     it 'fails when leader profiles are not complete' do
       profile.update_attributes(leader_name: nil)
       res = subject.submit!
