@@ -1,19 +1,23 @@
-<p>Hello,</p>
+<p>Hey there!</p>
 
 <p>
-Your application to start a Hack Club at <%= @application.high_school_name %>
+Your application to start a <%= link_to 'Hack Club', 'https://hackclub.com/' %> at <%= @application.high_school_name %>
 has been submitted for review.
 </p>
 
 <p>
-There are 4 Steps to joining Hack Club:
+There are 4 steps to joining Hack Club:
 <ol>  
-  <li><b>Apply</b> <i>&lt;--(you are here)</i></li>
-  <li>Join Slack</li>
+  <li>Apply <i>(you did this already!)</i></li>
+  <li><b><%= link_to 'Join Slack', 'https://hackclub.com/slack/' %></b> <i>&lt;&mdash; (you are here)</i></li>
   <li>Onboarding Call</li>
   <li>First Meeting!</li>
 </ol>
-We'll send you instructions for Step 2 (joining Slack) if we decide to accept your club.
+</p>
+
+<p>
+If you haven’t yet, <%= link_to 'join our Slack!', 'https://hackclub.com/slack/' %> It’s a Discord-like chatroom, active 24/7, of 10k+ Hack Clubbers around the world.
+If your application gets accepted, you’ll be invited to the private channel just for club leaders.
 </p>
 
 <p>

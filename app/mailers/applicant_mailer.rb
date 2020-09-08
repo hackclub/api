@@ -43,7 +43,7 @@ class ApplicantMailer < ApplicationMailer
     @id = application.id
     school = application.high_school_name
 
-    mail(to: 'Hack Club Team <team@hackclub.com>',
+    mail(to: 'Applications <applications@hackclub.com>',
          subject: "Application Submitted (##{@id}, #{school})")
   end
 
@@ -54,7 +54,7 @@ class ApplicantMailer < ApplicationMailer
     @id = application.id
     school = application.high_school_name
 
-    mail(to: 'Hack Club Team <team@hackclub.com>',
+    mail(to: 'JSON <applications+json@hackclub.com>',
          subject: "Application JSON notification (##{@id}, #{school})")
   end
 
@@ -69,17 +69,6 @@ class ApplicantMailer < ApplicationMailer
 
       'How long have you known your other club leaders and how did you meet?':
       application.leaders_team_origin_story,
-
-      'How far along are you in starting your club?':
-      application.progress_general,
-
-      'Have you already polled for interest at your school? Are students '\
-      "interested? If you've already had meetings, how many people came?" =>
-      application.progress_student_interest,
-
-      'Have you begun meeting yet? We encourage you to not begin meeting '\
-      'until we accept you.' =>
-      application.progress_meeting_yet,
 
       'Why did you decide to start a Hack Club? Have you ran anything like a '\
       'Hack Club before? Why do you think the club is going to work?' =>
@@ -123,8 +112,6 @@ class ApplicantMailer < ApplicationMailer
       'Mailing address': profile.leader_address,
       'Personal website': profile.presence_personal_website,
       'GitHub URL': profile.presence_github_url,
-      'LinkedIn URL': profile.presence_linkedin_url,
-      'Facebook URL': profile.presence_facebook_url,
       'Twitter URL': profile.presence_twitter_url,
 
       'Please tell us about the time you most successfully hacked some '\
