@@ -13,8 +13,8 @@ class ClubApplicationMailer < ApplicationMailer
   def admin_notification(application)
     @application = application
 
-    to = Mail::Address.new 'team@hackclub.com'
-    to.display_name = 'Hack Club Team'
+    to = Mail::Address.new 'applications@hackclub.com'
+    to.display_name = 'Hack Club Applications'
 
     subject = "Hack Club Application (#{@application.full_name}, "\
       "#{@application.high_school}, #{@application.id})"
