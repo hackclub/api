@@ -70,7 +70,7 @@ RSpec.describe ApplicantMailer, type: :mailer do
     end
 
     it 'includes fields from the application' do
-      expect(mail).to have_body_text(application.progress_general)
+      expect(mail).to have_body_text(application.idea_why)
     end
 
     it "includes fields from the user's leader profile" do
@@ -91,11 +91,11 @@ RSpec.describe ApplicantMailer, type: :mailer do
     end
 
     it 'is sent to the staff' do
-      expect(mail).to deliver_to('Hack Club Team <team@hackclub.com>')
+      expect(mail).to deliver_to('Hack Club Team <applications@hackclub.com>')
     end
 
     it 'includes fields from the application' do
-      expect(mail).to have_body_text(application.progress_general)
+      expect(mail).to have_body_text(application.idea_why)
     end
 
     it 'includes fields from all leader profiles' do
@@ -116,7 +116,7 @@ RSpec.describe ApplicantMailer, type: :mailer do
     end
 
     it 'is sent to the staff' do
-      expect(mail).to deliver_to('Hack Club Team <team@hackclub.com>')
+      expect(mail).to deliver_to('Hack Club Team <applications+json@hackclub.com>')
     end
 
     it 'correctly formats the application JSON' do
