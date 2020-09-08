@@ -91,7 +91,7 @@ RSpec.describe ApplicantMailer, type: :mailer do
     end
 
     it 'is sent to the staff' do
-      expect(mail).to deliver_to('Hack Club Team <applications@hackclub.com>')
+      expect(mail).to deliver_to('Applications <applications@hackclub.com>')
     end
 
     it 'includes fields from the application' do
@@ -116,7 +116,7 @@ RSpec.describe ApplicantMailer, type: :mailer do
     end
 
     it 'is sent to the staff' do
-      expect(mail).to deliver_to('Hack Club Team <applications+json@hackclub.com>')
+      expect(mail).to deliver_to('JSON <applications+json@hackclub.com>')
     end
 
     it 'correctly formats the application JSON' do
