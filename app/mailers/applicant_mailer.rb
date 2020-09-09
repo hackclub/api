@@ -43,7 +43,8 @@ class ApplicantMailer < ApplicationMailer
     @id = application.id
     school = application.high_school_name
 
-    mail(to: 'Applications <applications@hackclub.com>',
+    mail(from: 'Applications <applications+submitted@hackclub.com>',
+         to: 'Applications <applications@hackclub.com>',
          subject: "Application Submitted (##{@id}, #{school})")
   end
 
@@ -54,7 +55,8 @@ class ApplicantMailer < ApplicationMailer
     @id = application.id
     school = application.high_school_name
 
-    mail(to: 'JSON <applications+json@hackclub.com>',
+    mail(from: 'Applications JSON <applications+json@hackclub.com>',
+         to: 'Applications JSON <applications+json@hackclub.com>',
          subject: "Application JSON notification (##{@id}, #{school})")
   end
 
