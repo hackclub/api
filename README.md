@@ -173,3 +173,4 @@ Refer to https://devcenter.heroku.com/articles/buildpacks for instructions on co
 ### Profiling
 
 We use [Skylight](https://www.skylight.io) to profile the performance of our backend in production. To use it, you must set `SKYLIGHT_AUTHENTICATION` in the environment to the value that Skylight gives you.
+
