@@ -40,6 +40,7 @@ gem 'wkhtmltopdf-binary', '~> 0.12.3'
 gem 'rails_autoscale_agent', '~> 0.3.1'
 
 group :development, :test do
+  gem 'byebug'
   gem 'listen', '~> 3.0.5'
 
   gem 'spring'
