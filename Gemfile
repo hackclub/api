@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
+ruby '2.6.6'
+
 # You *must* specify versions for each dependency (this is a Hack Club
 # convention, not an actual technical requirement)
 source 'https://rubygems.org'
 
 gem 'bootsnap', '~> 1.3'
-gem 'rails', '~> 5.2.0.rc1'
+gem 'rails', '5.2.5'
 
 gem 'pg', '~> 0.18.4'
 gem 'puma', '~> 3.12'
@@ -71,4 +73,3 @@ end
 gem 'gruff'
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
-ruby '2.3.1'
