@@ -112,7 +112,7 @@ GEM
       multipart-post (>= 1.2, < 3)
     ffi (1.9.25)
     formatador (0.2.5)
-    geocoder (1.5.0)
+    geocoder (1.6.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     gruff (0.7.0)
@@ -360,7 +360,7 @@ DEPENDENCIES
   email_spec (~> 2.1, >= 2.1.1)
   factory_bot_rails (~> 4.7, >= 4.7.0)
   faker (~> 1.6)
-  geocoder (~> 1.4)
+  geocoder (~> 1.6)
   gruff
   guard-rspec (~> 4.7)
   listen (~> 3.0.5)
