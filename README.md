@@ -48,7 +48,27 @@ Run the application
 bin/rails s
 ```
 
-## Development Setup
+Browse to [localhost:3000](http://localhost:3000)
+
+## Alternative with Docker
+
+Copy .env file
+
+```bash
+cp .env.docker.example .env.docker
+```
+
+Run Docker
+
+```bash
+docker-compose build
+docker-compose run web bundle install
+#docker-compose run web yarn install --check-files
+docker-compose run web bundle exec rails db:create db:migrate
+docker-compose run --service-ports web bundle exec rails s -b 0.0.0.0 -p 3000
+```
+
+## Development Setup (DEPRECATED)
 
 ### Environment Variables
 
