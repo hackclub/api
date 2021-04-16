@@ -30,6 +30,12 @@ Run bundler
 bundle install
 ```
 
+Copy .env.example to .env
+
+```
+cp .env.example .env
+```
+
 Create and migrate database
 
 ```bash
@@ -41,9 +47,6 @@ Run the application
 ```bash
 bin/rails s
 ```
-
-
-
 
 ## Development Setup
 
