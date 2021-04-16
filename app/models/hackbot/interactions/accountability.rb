@@ -11,7 +11,7 @@ module Hackbot
       DESCRIPTION = 'find out how far behind the team is in responding to '\
                     'applications'
 
-      PIPELINE_KEY = Rails.application.secrets.streak_club_applications_pipeline_key # rubocop:disable Metrics/LineLength
+      PIPELINE_KEY = Rails.application.secrets.streak_club_applications_pipeline_key
 
       NEEDS_REVIEW_STAGE_KEY = '5001'
       ACCEPTED_STAGE_KEY = '5016'
