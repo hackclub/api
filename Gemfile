@@ -40,7 +40,7 @@ gem 'wkhtmltopdf-binary', '~> 0.12.3'
 gem 'rails_autoscale_agent', '~> 0.3.1'
 
 group :development, :test do
-  gem 'byebug'
+  gem 'dotenv-rails', require: 'dotenv/rails-now'
   gem 'listen', '~> 3.0.5'
 
   gem 'spring'
@@ -49,7 +49,6 @@ group :development, :test do
 
   gem 'byebug', platform: :mri
   gem 'database_cleaner', '~> 1.5', '>= 1.5.3'
-  gem 'dotenv-rails', '~> 2.1', '>= 2.1.1'
   gem 'email_spec', '~> 2.1', '>= 2.1.1'
   gem 'factory_bot_rails', '~> 4.7', '>= 4.7.0'
   gem 'rspec-rails', '~> 3.5', '>= 3.5.2'

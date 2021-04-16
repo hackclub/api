@@ -356,7 +356,7 @@ DEPENDENCIES
   codacy-coverage (~> 1.1, >= 1.1.8)
   concurrent-ruby
   database_cleaner (~> 1.5, >= 1.5.3)
-  dotenv-rails (~> 2.1, >= 2.1.1)
+  dotenv-rails
   email_spec (~> 2.1, >= 2.1.1)
   factory_bot_rails (~> 4.7, >= 4.7.0)
   faker (~> 1.6)
