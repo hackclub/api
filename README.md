@@ -10,6 +10,41 @@
   </a>
 </p>
 
+## Getting Started
+
+Install [rbenv](https://github.com/rbenv/rbenv)
+
+```bash
+brew install rbenv
+```
+
+Install [bundler](https://bundler.io/)
+
+```bash
+gem install bundler -v 1.17.3
+```
+
+Run bundler
+
+```bash
+bundle install
+```
+
+Create and migrate database
+
+```bash
+bundle exec rake db:drop db:create db:migrate
+```
+
+Run the application
+
+```bash
+bin/rails s
+```
+
+
+
+
 ## Development Setup
 
 ### Environment Variables

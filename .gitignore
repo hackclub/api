@@ -21,7 +21,9 @@
 .byebug_history
 
 # Ignore development .env file
-.env
+.env*
+!.env.docker.example
+!.env.example
 
 # Ignore test coverage reports from SimpleCov
 /coverage
