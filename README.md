@@ -64,7 +64,7 @@ Run Docker
 docker-compose build
 docker-compose run web bundle install
 #docker-compose run web yarn install --check-files
-docker-compose run web bundle exec rails db:create db:migrate
+docker-compose run web bundle exec rails db:drop db:create db:migrate
 docker-compose run --service-ports web bundle exec rails s -b 0.0.0.0 -p 3000
 ```
 
