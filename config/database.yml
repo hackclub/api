@@ -1,15 +1,9 @@
-pool_config: &pool_config
-  # For details on connection pooling, see rails configuration guide
-  # http://guides.rubyonrails.org/configuring.html#database-pooling
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-
+# config/database.yml
 default: &default
-  <<: *pool_config
   adapter: postgresql
   encoding: unicode
-  username: postgres
-  password:
-  host: db
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  url: <%= ENV['DATABASE_URL'] %>
 
 development:
   <<: *default
@@ -20,4 +14,5 @@ test:
   database: app_test
 
 production:
-  <<: *pool_config
+  <<: *default
+  database: app_production

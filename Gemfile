@@ -14,7 +14,7 @@ gem 'puma', '~> 3.12'
 
 gem 'active_model_serializers', '~> 0.10.2'
 gem 'analytics-ruby', require: 'segment'
-gem 'aws-sdk-s3', '~> 1.8', '>= 1.8.2'
+gem 'aws-sdk-s3'
 gem 'bugsnag', '~> 6.7', '>= 6.7.3'
 gem 'chronic', '~> 0.10.2'
 gem 'concurrent-ruby', require: 'concurrent'
@@ -55,7 +55,7 @@ group :development, :test do
   gem 'vcr', '~> 3.0'
   gem 'webmock', '~> 2.1'
 
-  gem 'shoulda-matchers', '~> 3.1'
+  gem 'shoulda-matchers'
 
   # Use Guard for a great test workflow
   gem 'guard-rspec', '~> 4.7', require: false

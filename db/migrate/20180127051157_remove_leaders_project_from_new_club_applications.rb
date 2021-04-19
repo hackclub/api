@@ -8,12 +8,11 @@ class RemoveLeadersProjectFromNewClubApplications < ActiveRecord::Migration[5.1]
     'possible.'
 
   def up
-    NewClubApplications.find_each do |app|
-      if app.leaders_interesting_project
-        app.legacy_fields ||= {}
-        app.legacy_fields[QUESTION] = app.leaders_interesting_project
-        app.save
-      end
+    NewClubApplications.all.each do |app|
+      next unless app.leaders_interesting_project
+      app.legacy_fields ||= {}
+      app.legacy_fields[QUESTION] = app.leaders_interesting_project
+      app.save!
     end
 
     remove_column :new_club_applications, :leaders_interesting_project
