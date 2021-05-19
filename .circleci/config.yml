@@ -111,6 +111,10 @@ jobs:
                   --format RspecJunitFormatter \
                   --out /tmp/test-results/rspec/results.xml
 
+      - run:
+          name: migrate
+          command: rails db:migrate
+
       # Save artifacts
       - store_test_results:
           path: /tmp/test-results
