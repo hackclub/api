@@ -95,7 +95,7 @@ jobs:
           paths:
             - vendor/bundle
 
-      - migrate:
+      - run:
           name: Database Migration
           command: bundle exec rake db:migrate
 
