@@ -334,7 +334,6 @@ ActiveRecord::Schema.define(version: 2019_12_20_064914) do
     t.text "leader_name"
     t.text "leader_email"
     t.integer "leader_year_in_school"
-    t.integer "leader_graduation_year"
     t.integer "leader_gender"
     t.integer "leader_ethnicity"
     t.text "leader_phone_number"
