@@ -95,6 +95,10 @@ jobs:
           paths:
             - vendor/bundle
 
+      - migrate:
+          name: Database Migration
+          command: bundle exec rake db:migrate
+
       - run:
           name: Database Setup
           command: bundle exec rake db:setup
