@@ -63,9 +63,9 @@ module V1
     # Allows admins to create users and authenticate on their behalf.
     # Used by Hack Club Bank for pre-created organization users
     def auth_on_behalf
-      user = User.find_or_initialize_by(email: params[:email].downcase)
-      authorize user
+      return render_access_denied unless current_user.admin?
 
+      user = User.find_or_initialize_by(email: params[:email].downcase)
       user.generate_auth_token!
       user.save!
 
