@@ -60,6 +60,18 @@ module V1
       render_success(auth_token: user.auth_token)
     end
 
+    # Allows admins to create users and authenticate on their behalf.
+    # Used by Hack Club Bank for pre-created organization users
+    def auth_on_behalf
+      user = User.find_or_initialize_by(email: params[:email].downcase)
+      authorize user
+
+      user.generate_auth_token!
+      user.save!
+
+      render_success(auth_token: user.auth_token)
+    end
+
     def current
       render_success current_user
     end

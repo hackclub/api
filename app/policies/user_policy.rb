@@ -8,4 +8,8 @@ class UserPolicy < ApplicationPolicy
   def update?
     record == user
   end
+
+  def auth_on_behalf?
+    user.admin?
+  end
 end
