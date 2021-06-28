@@ -2,7 +2,7 @@
 
 module V1
   class UsersController < ApiController
-    USER_AUTH = { only: %i[index current show update] }.freeze
+    USER_AUTH = { only: %i[index current show update auth_on_behalf] }.freeze
     include UserAuth
 
     def index
