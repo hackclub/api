@@ -78,6 +78,7 @@ Rails.application.routes.draw do
     resources :users, only: %i[index show update] do
       collection do
         post 'auth'
+        post 'auth_on_behalf'
         get 'current'
       end
 
