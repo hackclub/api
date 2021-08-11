@@ -32,7 +32,7 @@ class NewClubApplication < ApplicationRecord
     private_school charter_school
     makerspace
     online
-    other
+    other_venue
   ]
 
   enum rejected_reason: %i[
