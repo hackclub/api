@@ -29,6 +29,8 @@ class NewClub < ApplicationRecord
     public_school
     private_school
     charter_school
+    makerspace
+    online
     other
   ]
 

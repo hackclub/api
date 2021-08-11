@@ -30,6 +30,9 @@ class NewClubApplication < ApplicationRecord
   enum high_school_type: %i[
     public_school
     private_school charter_school
+    makerspace
+    online
+    other
   ]
 
   enum rejected_reason: %i[
