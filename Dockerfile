@@ -26,5 +26,3 @@ RUN bundle install
 #RUN yarn install --check-files
 
 ADD . /usr/src/app
-
-CMD ["bin/rails", "server"]
