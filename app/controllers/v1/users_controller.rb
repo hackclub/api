@@ -38,6 +38,34 @@ module V1
       end
     end
 
+    def phone_auth
+      user = User.find_by(phone: params[:phone])
+
+      if user.nil?
+        render_field_errors ["User not found"]
+        return
+      end
+
+      code = user.login_codes.new(
+        ip_address: request.ip,
+        user_agent: request.user_agent
+      )
+
+      if user.save && code.save
+        SMSLoginCodeService.new(code).call
+
+        render_success(
+          id: user.id,
+          phone: user.phone,
+          status: 'login code sent'
+        )
+      elsif !user.valid?
+        render_field_errors user.errors
+      elsif !code.valid?
+        render_field_errors code.errors
+      end
+    end
+
     def exchange_login_code
       err = -> { render_field_error(:login_code, 'invalid', 401) }
 

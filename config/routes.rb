@@ -78,6 +78,7 @@ Rails.application.routes.draw do
     resources :users, only: %i[index show update] do
       collection do
         post 'auth'
+        post 'phone_auth'
         get 'current'
       end
 

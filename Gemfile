@@ -35,6 +35,7 @@ gem 'skylight', '~> 2.0', '>= 2.0.1'
 gem 'stripe', '~> 3.0'
 gem 'terminal-table', '~> 1.7'
 gem 'timezone', '~> 1.0'
+gem 'twilio-ruby', '~> 5.58'
 gem 'wkhtmltopdf-binary', '~> 0.12.3'
 
 gem 'rails_autoscale_agent', '~> 0.3.1'
