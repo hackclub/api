@@ -6,6 +6,7 @@ class UserSerializer < ActiveModel::Serializer
   attribute :created_at, if: :logged_in?
   attribute :updated_at, if: :logged_in?
   attribute :email, if: :logged_in?
+  attribute :phone, if: :logged_in?
   attribute :admin_at, if: :logged_in?
   attribute :email_on_new_challenges, if: :logged_in?
   attribute :email_on_new_challenge_posts, if: :logged_in?
