@@ -2,6 +2,7 @@
 
 class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true, email: true
+  validates :phone, format: { with: /\d{10,11}/, message: "Invalid phone number" }
   validates :username,
             uniqueness: { if: -> { username.present? } },
             format: { with: /\A[a-z0-9]+\z/, unless: -> { username.nil? } }

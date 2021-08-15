@@ -1,4 +1,4 @@
-version: '2'
+version: "2"
 services:
   db:
     image: "postgres:11.4"
@@ -11,19 +11,12 @@ services:
     command: bash -c 'rm /usr/src/app/tmp/pids/server.pid; bundle exec rails s -p 3000 -b "0.0.0.0"'
     volumes:
       - ./:/usr/src/app
-    volumes_from:
-      - dependencies
+      - /bundle
+      - /node_modules
     ports:
-      - ${PORT}:3000
+      - 3000:3000
     depends_on:
       - db
       - redis
     environment:
       REDIS_URL: redis://redis:6379
-  dependencies:
-    # You may need to run `docker-compose build web` before this works.
-    image: alpine
-    command: echo "I'm a little data volume short and stdout"
-    volumes:
-      - /bundle
-      - /node_modules

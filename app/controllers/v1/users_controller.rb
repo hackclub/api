@@ -87,6 +87,7 @@ module V1
     def user_params
       params.permit(
         :username,
+        :phone,
         :email_on_new_challenges,
         :email_on_new_challenge_posts,
         :email_on_new_challenge_post_comments
