@@ -30,3 +30,6 @@
 
 # Ignore local files from development w/ ActiveStorage
 /storage
+
+# Ignore database exports from Heroku
+*.dump
