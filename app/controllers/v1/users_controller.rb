@@ -39,7 +39,7 @@ module V1
     end
 
     def phone_auth
-      user = User.find_by(phone: params[:phone])
+      user = User.find_by(phone: params[:phone]) unless params[:phone].nil?
 
       if user.nil?
         render_field_errors ["User not found"]
