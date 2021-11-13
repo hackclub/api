@@ -33,3 +33,6 @@
 
 # Ignore database exports from Heroku
 *.dump
+
+# Intellij
+.idea

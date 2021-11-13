@@ -78,10 +78,12 @@ Rails.application.routes.draw do
     resources :users, only: %i[index show update] do
       collection do
         post 'auth'
+        post 'sms_auth'
         get 'current'
       end
 
       post 'exchange_login_code'
+      post 'sms_exchange_login_code'
       post 'new_leader', to: 'users/new_leaders#create'
 
       resources :new_club_applications, only: %i[index create]
