@@ -7,6 +7,8 @@ class TwilioVerificationService
     Rails.application.secrets.twilio_account_sid,
     Rails.application.secrets.twilio_api_key
   )
+
+  # This isn't private/sensitive so it's okay to keep here
   VERIFY_SERVICE_ID = 'VAa06a66dad4c1ca3c199a46334ff11945'
 
   def send_verification_request(phone_number)
