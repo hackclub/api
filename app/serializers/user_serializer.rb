@@ -10,6 +10,7 @@ class UserSerializer < ActiveModel::Serializer
   attribute :email_on_new_challenges, if: :logged_in?
   attribute :email_on_new_challenge_posts, if: :logged_in?
   attribute :email_on_new_challenge_post_comments, if: :logged_in?
+  attribute :phone_number, if: :logged_in?
 
   belongs_to :new_leader, if: :logged_in?
   has_many :leadership_position_invites, if: :logged_in?

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_20_064914) do
+ActiveRecord::Schema.define(version: 2021_11_16_060739) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -635,6 +635,7 @@ ActiveRecord::Schema.define(version: 2019_12_20_064914) do
     t.boolean "email_on_new_challenge_post_comments"
     t.bigint "new_leader_id"
     t.datetime "shadow_banned_at"
+    t.text "phone_number"
     t.index ["auth_token"], name: "index_users_on_auth_token"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["new_leader_id"], name: "index_users_on_new_leader_id"
