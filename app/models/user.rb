@@ -11,11 +11,6 @@ class User < ApplicationRecord
             :email_on_new_challenge_post_comments,
             inclusion: { in: [true, false] }
 
-  validates :phone_number, format: {
-    with: /\A\+[1-9]\d{1,14}\z/, message: 'must be a valid E.164 phone number',
-    unless: -> { phone_number.nil? }
-  }
-
   validate :username_cannot_be_unset
 
   has_many :login_codes

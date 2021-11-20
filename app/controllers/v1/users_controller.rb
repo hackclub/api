@@ -60,36 +60,6 @@ module V1
       render_success(auth_token: user.auth_token)
     end
 
-    def sms_auth
-      user = User.find_by(email: params[:email].downcase)
-      return render_not_found unless user
-      return render_field_error(:phone_number, 'no phone number provided') unless user.phone_number
-
-      ::TwilioVerificationService.new.send_verification_request(user.phone_number)
-      render_success(
-        id: user.id,
-        email: user.email,
-        status: 'login code sent'
-      )
-    end
-
-    def sms_exchange_login_code
-      err = -> { render_field_error(:login_code, 'invalid', 401) }
-
-      user = User.find(params[:user_id])
-      login_code = params[:login_code]
-
-      return render_not_found unless user
-      return err.call if login_code.nil?
-
-      return err.call unless ::TwilioVerificationService.new.check_verification_token(user.phone_number, login_code)
-
-      user.generate_auth_token!
-      user.save!
-
-      render_success(auth_token: user.auth_token)
-    end
-
     def current
       render_success current_user
     end
@@ -119,8 +89,7 @@ module V1
         :username,
         :email_on_new_challenges,
         :email_on_new_challenge_posts,
-        :email_on_new_challenge_post_comments,
-        :phone_number
+        :email_on_new_challenge_post_comments
       )
     end
   end

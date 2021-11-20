@@ -72,5 +72,3 @@ end
 
 gem 'gruff'
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
-
-gem "twilio-ruby", "~> 5.61"
