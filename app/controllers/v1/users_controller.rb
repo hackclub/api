@@ -65,12 +65,18 @@ module V1
       return render_not_found unless user
       return render_field_error(:phone_number, 'no phone number provided') unless user.phone_number
 
-      ::TwilioVerificationService.new.send_verification_request(user.phone_number)
-      render_success(
-        id: user.id,
-        email: user.email,
-        status: 'login code sent'
-      )
+      begin
+        ::TwilioVerificationService.new.send_verification_request(user.phone_number)
+        render_success(
+          id: user.id,
+          email: user.email,
+          status: 'login code sent'
+        )
+      rescue Twilio::REST::RestError => e
+        return render_error('invalid phone number', 400) if e.code == 60_200
+        return render_error('too many attempts', 429) if e.code == 60_203
+        raise e
+      end
     end
 
     def sms_exchange_login_code
@@ -82,7 +88,12 @@ module V1
       return render_not_found unless user
       return err.call if login_code.nil?
 
-      return err.call unless ::TwilioVerificationService.new.check_verification_token(user.phone_number, login_code)
+      begin
+        return err.call unless ::TwilioVerificationService.new.check_verification_token(user.phone_number, login_code)
+      rescue Twilio::REST::RestError => e
+        return render_error('invalid code, please request another one', 400) if e.code == 20_404
+        raise e
+      end
 
       user.generate_auth_token!
       user.save!
