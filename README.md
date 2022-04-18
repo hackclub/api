@@ -1,3 +1,5 @@
+> _⚠️ GitHub & Heroku have turned off their integration while investigating a [breach](https://github.blog/2022-04-15-security-alert-stolen-oauth-user-tokens/), so changes will not automatically deploy after pushing to `main`. If you have access to do so, please [push your changes to the `main` branch of the Heroku git remote](https://devcenter.heroku.com/articles/git) once your PR is merged. Otherwise, please mention it in the PR and assign [@garyhtou](https://github.com/garyhtou) or [@maxwofford](https://github.com/maxwofford) for review._
+
 <p align="center"><img alt="Monolith icon" src="https://i.imgur.com/GmQ9E9B.png"></a>
 <h1 align="center">API</h1>
 <p align="center"><i>The backend powering https://hackclub.com. Illustrated above by <a href="https://gh.maxwofford.com">@maxwofford</a>.</i></p>
