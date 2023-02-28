@@ -1,3 +1,7 @@
+**:warning: This repo is deprecated**
+
+_Looking for public data from Hack Club? See [AirBridge](https://airbridge.hackclub.com) or [Hack Club Bank API](https://bank.hackclub.com/docs/api/v3)_
+
 <p align="center"><img alt="Monolith icon" src="https://i.imgur.com/GmQ9E9B.png"></a>
 <h1 align="center">API</h1>
 <p align="center"><i>The backend powering https://hackclub.com. Illustrated above by <a href="https://gh.maxwofford.com">@maxwofford</a>.</i></p>
